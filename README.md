@@ -2,6 +2,19 @@
 
 **Live: https://sigman78.github.io/dtla-voxel/**
 
+[![City Hall and Grand Park, Civic Center](docs/img/hero-civic.jpg)](https://sigman78.github.io/dtla-voxel/?view=civic&hour=10.5)
+
+| | |
+|---|---|
+| [![Bunker Hill at golden hour](docs/img/bunker-hill.jpg)](https://sigman78.github.io/dtla-voxel/?view=bunkerhill&hour=15.8) | [![The skyline at sunset, from the east](docs/img/skyline-sunset.jpg)](https://sigman78.github.io/dtla-voxel/?cam=4052,647,2285,2007,196,744&hour=16.4) |
+| Bunker Hill at golden hour | The skyline at sunset, from the east |
+| [![Broadway and Pershing Square](docs/img/broadway.jpg)](https://sigman78.github.io/dtla-voxel/?view=historic&hour=13) | [![Bunker Hill at night](docs/img/night.jpg)](https://sigman78.github.io/dtla-voxel/?view=bunkerhill&hour=19.5) |
+| Broadway and Pershing Square | Bunker Hill at night |
+| [![The Sixth Street Viaduct over the LA River](docs/img/sixth-street-viaduct.jpg)](https://sigman78.github.io/dtla-voxel/?cam=1706,332,4025,2272,24,3397&hour=16.3) | [![LA Live and Crypto.com Arena](docs/img/la-live.jpg)](https://sigman78.github.io/dtla-voxel/?view=lalive&hour=16.3) |
+| The Sixth Street Viaduct over the LA River | LA Live and Crypto.com Arena |
+
+Click a picture to open that view in the live viewer.
+
 A 4.2 × 3.6 km diorama of downtown Los Angeles at 1 m voxels, with a southern-California palette:
 sun-bleached stucco, Beaux-Arts terracotta, teal glass towers, cool white roofs, palms, jacarandas, golden dry
 grass, and an amber haze at golden hour. The grid is rotated 52° so it lines up with the DTLA street grid, which
@@ -65,6 +78,50 @@ sh scripts/build_data.sh   # downloads (cached), then rasterise + voxelise: ~7 m
   the map edge. The channel is the flat bed plus its walls; the water is a ~14 m low-flow strip widened by NAIP wet
   pixels, not a measured water line.
 - **Buildings finished after the 2023 flight** use their OSM height where it's tagged.
+
+## Roadmap
+
+Ideas, roughly in order. None of these are started yet.
+
+**Life on the streets**
+- [ ] **Traffic**: cars on the street grid and the 110 / 101 / 10 freeways, with headlight and taillight streams after dark.
+- [ ] **Metro**: trains on the A/E lines and the Union Station approach tracks, and buses on the main avenues.
+- [ ] **People** on Broadway, in Grand Park and at LA Live on event nights.
+
+**Windows and facades**
+- [ ] **Realistic windows**: floor height and window rhythm from `building:levels` and building type, so curtain-wall towers, punched-window lofts and warehouses each look different.
+- [ ] **Lit windows by use**: offices empty out after 7 pm, residential lofts fill up, hotels stay half lit (from OSM building use and POIs).
+- [ ] **Shop fronts and signs**: ground-floor retail bands along Broadway, Spring and 7th, plus the historic theatre marquees.
+- [ ] **Rooftop helipads**: the red "H" pads on 1970s–2000s towers (required by the LA fire code until 2014).
+
+**Landmark facades**, hand-tuned beyond what 1 m LiDAR shows:
+- [ ] City Hall's stepped tower and pyramid top.
+- [ ] Disney Hall's curved steel sails, with their glare at golden hour.
+- [ ] The Broad's honeycomb veil.
+- [ ] Union Station's mission tower and tile roofs.
+- [ ] The crowns of Wilshire Grand and U.S. Bank Tower.
+- [ ] Angels Flight's two orange cars.
+- [ ] The Bradbury Building and Grand Central Market signage.
+- [ ] **Sixth Street Viaduct**: full arches down to the deck, and the suspension cables.
+
+**Light and weather**
+- [ ] **Marine layer**: a "May Gray / June Gloom" low-cloud mode.
+- [ ] **Smoggy-gold haze** in summer, and clear blue days after rain.
+- [ ] **Seasons**: jacarandas in bloom in May, and green lawns in winter against dry summer gold.
+- [ ] **Glass reflections**: towers mirroring the sky and each other.
+- [ ] **Water**: a moving surface in the LA River's low-flow channel.
+- [ ] **Palms swaying** in Santa Ana winds.
+- [ ] **Backdrop**: the San Gabriel Mountains and the Hollywood Hills as distant silhouettes, from the DEM.
+
+**Coverage and data**
+- [ ] **A bigger map**: Echo Park and Dodger Stadium, Boyle Heights across the river, and Exposition Park.
+- [ ] **Better tree and pole sorting**: a classifier on LiDAR return shape plus NAIP, so rail-yard masts stop reading as trees.
+- [ ] **Fresher data**: re-fetch OSM, and pick up newer NAIP and LiDAR when they're published.
+
+**Viewer**
+- [ ] **Tile retries**: retry a tile after a failed fetch (right now a CDN hiccup leaves a hole until reload).
+- [ ] **Guided tour**: a flight between the landmarks that shows their facts.
+- [ ] **Phone performance**: lighter shadows and a lower level of detail on small screens.
 
 ## License
 
