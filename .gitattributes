@@ -1,0 +1,6 @@
+* text=auto eol=lf
+*.sh text eol=lf
+web/public/data/tiles/** binary
+*.bin binary
+*.npy binary
+*.tif binary
