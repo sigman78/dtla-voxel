@@ -10,8 +10,6 @@
 | Bunker Hill at golden hour | The skyline at sunset, from the east |
 | [![Broadway and Pershing Square](docs/img/broadway.jpg)](https://sigman78.github.io/dtla-voxel/?view=historic&hour=13) | [![Bunker Hill at night](docs/img/night.jpg)](https://sigman78.github.io/dtla-voxel/?view=bunkerhill&hour=19.5) |
 | Broadway and Pershing Square | Bunker Hill at night |
-| [![The Sixth Street Viaduct over the LA River](docs/img/sixth-street-viaduct.jpg)](https://sigman78.github.io/dtla-voxel/?cam=1706,332,4025,2272,24,3397&hour=16.3) | [![LA Live and Crypto.com Arena](docs/img/la-live.jpg)](https://sigman78.github.io/dtla-voxel/?view=lalive&hour=16.3) |
-| The Sixth Street Viaduct over the LA River | LA Live and Crypto.com Arena |
 
 Click a picture to open that view in the live viewer.
 
