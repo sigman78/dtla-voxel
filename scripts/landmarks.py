@@ -6,9 +6,9 @@ TOWER, MUSEUM, PLACE = 9000, 3500, 1800
 
 LANDMARKS = [
     # Bunker Hill & Financial District skyline
-    dict(name="Wilshire Grand Center", kind="tower", height=335, year=2017, by="AC Martin", far=TOWER,
+    dict(name="Wilshire Grand Center", landmark_key="wilshire", kind="tower", height=335, year=2017, by="AC Martin", far=TOWER,
          lat=34.0499, lon=-118.2603),
-    dict(name="U.S. Bank Tower", kind="tower", height=310, year=1989, by="Pei Cobb Freed", far=TOWER,
+    dict(name="U.S. Bank Tower", landmark_key="us_bank", kind="tower", height=310, year=1989, by="Pei Cobb Freed", far=TOWER,
          osm=["US Bank Tower", "Library Tower"], lat=34.0511, lon=-118.2543),
     dict(name="Aon Center", kind="tower", height=262, year=1974, far=TOWER, lat=34.0503, lon=-118.2569),
     dict(name="Two California Plaza", kind="tower", height=229, year=1992, far=TOWER, lat=34.0527, lon=-118.2508),
@@ -19,9 +19,9 @@ LANDMARKS = [
     dict(name="Wells Fargo Center", kind="tower", height=220, year=1983, far=TOWER, osm=["Wells Fargo Center North Tower"],
          lat=34.0521, lon=-118.2538),
     # Grand Avenue culture
-    dict(name="Walt Disney Concert Hall", kind="concert hall", year=2003, by="Frank Gehry", far=TOWER,
+    dict(name="Walt Disney Concert Hall", landmark_key="disney", kind="concert hall", year=2003, by="Frank Gehry", far=TOWER,
          lat=34.0553, lon=-118.2498),
-    dict(name="The Broad", kind="museum", year=2015, by="Diller Scofidio + Renfro", far=MUSEUM, lat=34.0544, lon=-118.2502),
+    dict(name="The Broad", landmark_key="broad", kind="museum", year=2015, by="Diller Scofidio + Renfro", far=MUSEUM, lat=34.0544, lon=-118.2502),
     dict(name="MOCA Grand Avenue", kind="museum", year=1986, by="Arata Isozaki", far=MUSEUM,
          osm=["Museum of Contemporary Art", "The Museum of Contemporary Art"], lat=34.0533, lon=-118.2506),
     dict(name="The Grand LA", kind="towers", year=2022, by="Frank Gehry", far=MUSEUM, osm=["The Grand"],
@@ -32,7 +32,7 @@ LANDMARKS = [
          osm=["Central Library"], lat=34.0505, lon=-118.2551),
     dict(name="Angels Flight", kind="funicular", year=1901, far=PLACE, lat=34.0514, lon=-118.2502),
     # Civic Center
-    dict(name="Los Angeles City Hall", kind="city hall", height=138, year=1928, far=TOWER, osm=["City Hall"],
+    dict(name="Los Angeles City Hall", landmark_key="city_hall", kind="city hall", height=138, year=1928, far=TOWER, osm=["City Hall"],
          lat=34.0537, lon=-118.2427),
     dict(name="Grand Park", kind="park", year=2012, far=MUSEUM, lat=34.0560, lon=-118.2460),
     # Historic Core
@@ -41,7 +41,7 @@ LANDMARKS = [
     dict(name="Pershing Square", kind="square", far=MUSEUM, lat=34.0485, lon=-118.2533),
     dict(name="Broadway Theater District", kind="district", far=MUSEUM, lat=34.0458, lon=-118.2540),
     # East side
-    dict(name="Union Station", kind="station", year=1939, far=TOWER, osm=["Los Angeles Union Station"],
+    dict(name="Union Station", landmark_key="union_station", kind="station", year=1939, far=TOWER, osm=["Los Angeles Union Station"],
          lat=34.0562, lon=-118.2365),
     dict(name="Olvera Street", kind="historic street", far=PLACE, lat=34.0574, lon=-118.2378),
     dict(name="Little Tokyo", kind="district", far=MUSEUM, lat=34.0500, lon=-118.2400),

@@ -294,10 +294,13 @@ def main():
     views = make_views(g)
     meta = dict(W=W, D=D, H=H, base=base, theta_deg=GRID_DEG, crs="EPSG:32611", center=list(CENTER_LATLON),
                 tiles=dict(N=N, levels=levels, bytes=total), palette=[list(e) for e in pal.entries], lamps=lamps,
-                labels=labels, views=views,
+                labels=labels, views=views, landmarkStyles=Lr["landmarkStyles"],
+                landmarkDiagnostics=Lr["landmarkDiagnostics"],
                 sources=dict(osm="OpenStreetMap contributors (ODbL), fetched via Overpass",
                              lidar="USGS 3DEP CA_LosAngeles_1_B23 (2023) point cloud and 1 m DEM",
                              ortho="USDA NAIP 2022, 0.6 m"))
+    from obstruction_lights import enrich_metadata
+    enrich_metadata(meta, osm=Lr["osm"])
     (WEB_DATA / "meta.json").write_text(json.dumps(meta, ensure_ascii=False), encoding="utf-8")
     log(f"palette entries: {len(pal.entries)}; meta.json written; total tiles {total / 2**20:.1f} MB")
 
@@ -309,7 +312,19 @@ def main():
 def make_labels(Lr, g):
     """Landmarks from landmarks.py, positioned on their OSM feature when one carries the name."""
     from shapely.geometry import Point
+    from shapely.ops import unary_union
+    from rasterio.features import rasterize
+    from affine import Affine
     osm = Lr["osm"]
+    area_by_identity = {(typ, oid): geom for oid, typ, _, geom in osm.areas}
+    landmark_geometries = {}
+    for diagnostic in Lr.get("landmarkDiagnostics", []):
+        if diagnostic.get("status") != "applied":
+            continue
+        geometries = [area_by_identity[tuple(identity)] for identity in diagnostic.get("identities", [])
+                      if tuple(identity) in area_by_identity]
+        if geometries:
+            landmark_geometries[diagnostic["key"]] = unary_union(geometries)
     named = {}  # name -> every OSM feature carrying it
     for oid, typ, t, geom in osm.areas:
         for key in ("name", "name:en", "alt_name", "official_name"):
@@ -327,7 +342,9 @@ def make_labels(Lr, g):
         # the feature with the name nearest the reference point, if within 250 m (names repeat: a bank branch,
         # a bus stop, a bridge whose centre lies off the map)
         cands = [g_ for n in [lm["name"]] + lm.get("osm", []) for g_ in named.get(n.lower(), []) if not g_.is_empty]
-        geom = min(cands, key=lambda g_: g_.distance(ref), default=None)
+        geom = landmark_geometries.get(lm.get("landmark_key"))
+        if geom is None:
+            geom = min(cands, key=lambda g_: g_.distance(ref), default=None)
         if geom is not None and geom.distance(ref) < 250:
             p = geom if geom.geom_type == "Point" else geom.intersection(ref.buffer(250)).representative_point()
             x, y = p.x, p.y
@@ -344,8 +361,14 @@ def make_labels(Lr, g):
             c0, c1 = max(int(b0[0]), 0), min(int(b0[2]) + 1, W)
         else:
             r0, r1, c0, c1 = max(r - 15, 0), min(r + 16, D), max(c - 15, 0), min(c + 16, W)
-        z = int((g[r0:r1, c0:c1] + np.where(bm[r0:r1, c0:c1], topi[r0:r1, c0:c1], 0)).max()) + 6
-        e = {k: v for k, v in lm.items() if k not in ("lat", "lon", "osm")}
+        heights = g[r0:r1, c0:c1] + np.where(bm[r0:r1, c0:c1], topi[r0:r1, c0:c1], 0)
+        if lm.get("landmark_key") in landmark_geometries and geom is not None and 0 < geom.area < 40000:
+            footprint = rasterize([(geom, 1)], out_shape=heights.shape,
+                                  transform=Affine.translation(c0, r0), dtype="uint8").astype(bool)
+            z = int(heights[footprint].max() if footprint.any() else g[r, c]) + 6
+        else:
+            z = int(heights.max()) + 6
+        e = {k: v for k, v in lm.items() if k not in ("lat", "lon", "osm", "landmark_key")}
         e.update(x=c, y=r, z=z, g=int(g[r, c]), R=round(R, 1))
         out.append(e)
     log(f"labels: {len(out)} of {len(LANDMARKS)}")

@@ -9,6 +9,9 @@ import re
 (M_SOLID, M_WALL, M_GLASS, M_LEAF, M_WATER, M_LAMP, M_METAL, _M7, M_GRASS, M_MARK, M_SOIL, M_CAR, M_ROOF,
  M_CONCRETE, _M14, M_BRONZE, M_SIGN, _M17, M_SIGNBAND, M_RIBBON, M_CLASSIC, M_WINDOW, M_STUCCO) = range(23)
 
+# Append-only material contract; allocate their palette colours only in late overrides.
+(M_CITY_HALL, M_BROAD, M_DISNEY, M_MISSION, M_US_BANK, M_WILSHIRE) = range(23, 29)
+
 
 def hex_rgb(h):
     h = h.lstrip("#")

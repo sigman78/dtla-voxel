@@ -530,8 +530,15 @@ def build():
         if 0 <= r_ < D and 0 <= c_ < W and any(p in name for p in palm_genera) and chm[r_, c_] < 3 and not bmask[r_, c_]:
             palms.append((r_, c_, int(parse_len(t.get("height")) or 14), stable_hash(oid) % 4))
 
+    # Allocate landmark colours last, preserving every existing generic palette index.
+    from landmark_overrides import apply_landmark_overrides
+    landmark_info = apply_landmark_overrides(osm.areas, bmask, g, topi, basewall, roofc, measured_top=nd_max)
+    for diagnostic in landmark_info["diagnostics"]:
+        log("landmark:", diagnostic)
+
     # ground under crowns keeps its class; under trees on paving, a darker tree-pit
     return dict(base=base, g=g, gcol=gcol, bmask=bmask, topi=topi, boti=boti, basewall=basewall, roofc=roofc,
+                landmarkStyles=landmark_info["styles"], landmarkDiagnostics=landmark_info["diagnostics"],
                 canopy=canopy, canopy_top=np.where(canopy, np.round(nd_b), 0).astype(np.int32),
                 deck=deck, deck_top=deck_top, nd_b=nd_b, crown_top=crown_top, crown_bot=crown_bot, leafc=leafc,
                 rib=rib, rib_top=np.where(rib, np.round(nd_b), 0).astype(np.int32), trunks=trunks, palms=palms, bridge_lines=bridge_lines, lamp_lines=lamp_lines, osm=osm, blds=blds, med=med, dtm=dtm)

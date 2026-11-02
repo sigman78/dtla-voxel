@@ -7,6 +7,7 @@ import { Daylight } from './daylight';
 import { Hud } from './hud';
 import { Labels } from './labels';
 import { Nav } from './nav';
+import { ObstructionLights } from './obstructionLights';
 import { makePost } from './post';
 import type { SearchItem } from './search';
 import { TileStreamer } from './stream';
@@ -38,6 +39,7 @@ const tiltShift = qs.get('tilt') !== '0' && (innerWidth >= 600 || qs.get('tilt')
 let labels: Labels | null = null, hud: Hud | null = null;
 let world: TileStreamer['world'] | null = null, streamer: TileStreamer | null = null;
 let city: Awaited<ReturnType<typeof installCity>> | null = null;
+let obstructionLights: ObstructionLights | null = null;
 let uniforms: ReturnType<typeof makeUniforms> | null = null, views: Record<string, View> = {};
 let fly: ((now: number) => void) | null = null;
 let barRect: DOMRect | null = null;
@@ -221,7 +223,9 @@ async function boot() {
   setDay(md?.length === 2 ? dayOfYear(new Date(new Date().getFullYear(), md[0] - 1, md[1])) : TODAY);
   setHour(qs.get('hour') ? +qs.get('hour')! : timesOf(daylight.day)['golden hour']);
 
-  city = await installCity({ streamer, uniforms, meta, scene, focus: () => controls.target, camera, caption: new Caption(), level: pickLevel(meta) });
+  const level = pickLevel(meta);
+  city = await installCity({ streamer, uniforms, meta, scene, focus: () => controls.target, camera, caption: new Caption(), level });
+  obstructionLights = new ObstructionLights(scene, meta, level);
   labels = new Labels(meta.labels ?? [], onLabel);
   labels.gate = city.gate;
   hud = new Hud(renderer.domElement);
@@ -248,6 +252,7 @@ renderer.setAnimationLoop((now) => {
   daylight.sky.mesh.position.copy(camera.position);
   streamer?.update(camera);
   daylight.fitShadow(controls.target, camera, viewDist, map);
+  if (city) obstructionLights?.update((now - t0) / 1000, daylight.night, renderer.getPixelRatio(), city.gate);
   post.composer.render();
   barRect ??= bar.rect;
   labels?.update(camera, world, barRect, hud?.rects ?? []);

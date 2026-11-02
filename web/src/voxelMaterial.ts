@@ -4,7 +4,8 @@ import { dataTexture } from './util';
 
 // material ids, as in the data pipeline's palette (meta.palette[i][3]); 7, 14 and 17 are unused
 export const MAT = { SOLID: 0, WALL: 1, GLASS: 2, LEAF: 3, WATER: 4, LAMP: 5, METAL: 6, GRASS: 8, MARK: 9, SOIL: 10, CAR: 11,
-  ROOF: 12, CONCRETE: 13, BRONZE: 15, SIGN: 16, SIGNBAND: 18, RIBBON: 19, CLASSIC: 20, WINDOW: 21, STUCCO: 22 } as const;
+  ROOF: 12, CONCRETE: 13, BRONZE: 15, SIGN: 16, SIGNBAND: 18, RIBBON: 19, CLASSIC: 20, WINDOW: 21, STUCCO: 22,
+  CITY_HALL: 23, BROAD: 24, DISNEY: 25, MISSION: 26, US_BANK: 27, WILSHIRE: 28 } as const;
 
 type U<T> = { value: T };
 export interface VoxelUniforms {
@@ -17,10 +18,28 @@ export interface VoxelUniforms {
   uHorizon: U<THREE.Color>;
   uLit: U<number>;
   uAlbedo: U<number>;
+  uLandmarkFrames: U<THREE.Vector4[]>;
+  uLandmarkCrownBases: U<number[]>;
+  uLandmarkSpireBases: U<number[]>;
 }
 
 export function makeUniforms(meta: Meta): VoxelUniforms {
+  const frames = Array.from({ length: 6 }, () => new THREE.Vector4());
+  const crownBases = Array<number>(6).fill(1e6);
+  const spireBases = Array<number>(6).fill(1e6);
+  for (const style of meta.landmarkStyles ?? []) {
+    const index = style.material - MAT.CITY_HALL;
+    if (Number.isInteger(index) && index >= 0 && index < frames.length
+      && style.origin.every(Number.isFinite) && Number.isFinite(style.angle)) {
+      frames[index].set(...style.origin, style.angle);
+      if (style.crownBase !== undefined && Number.isFinite(style.crownBase)) crownBases[index] = style.crownBase;
+      if (style.spireBase !== undefined && Number.isFinite(style.spireBase)) spireBases[index] = style.spireBase;
+    }
+  }
   return {
+    uLandmarkFrames: { value: frames },
+    uLandmarkCrownBases: { value: crownBases },
+    uLandmarkSpireBases: { value: spireBases },
     uPalette: { value: makePaletteTexture(meta.palette) },
     uLampMap: { value: makeLampTexture(meta) },
     uSize: { value: new THREE.Vector2(meta.W, meta.D) },
@@ -73,10 +92,21 @@ const NORMAL_FROM_IDX = `
 const FRAG_PARS = `
   uniform sampler2D uPalette; uniform sampler2D uLampMap;
   uniform vec2 uSize; uniform float uNight; uniform float uTime; uniform vec3 uHorizon; uniform float uLit; uniform float uAlbedo;
-  varying vec3 vVox; varying vec3 vN; varying float vAO; varying float vGz; flat varying int vPal;
+  uniform vec4 uLandmarkFrames[6];
+  uniform float uLandmarkCrownBases[6];
+  uniform float uLandmarkSpireBases[6];
+  varying vec3 vVox; varying vec3 vN; varying vec3 vFacadeN; varying float vAO; varying float vGz; flat varying int vPal;
   float hash13(vec3 p) { p = fract(p * 0.1031); p += dot(p, p.zyx + 31.32); return fract((p.x + p.y) * p.z); }
   float hash12(vec2 p) { vec3 p3 = fract(vec3(p.xyx) * 0.1031); p3 += dot(p3, p3.yzx + 33.33); return fract((p3.x + p3.y) * p3.z); }
   vec3 gEmissive; float gRough; float gMetal;
+  // Analytic coverage of a repeated rectangle; fade to its area average when subpixel.
+  float facadeBox(vec2 p, vec2 period, vec2 lo, vec2 hi) {
+    vec2 fw = max(fwidth(p), vec2(0.0001));
+    vec2 q = mod(p, period);
+    vec2 coverage = smoothstep(lo - fw, lo + fw, q) * (1.0 - smoothstep(hi - fw, hi + fw, q));
+    float average = (hi.x - lo.x) * (hi.y - lo.y) / (period.x * period.y);
+    return mix(coverage.x * coverage.y, average, smoothstep(0.3, 1.0, max(fw.x / period.x, fw.y / period.y)));
+  }
   // A room (a window or a run of windows) at night: lit for about uLit of them, more or fewer by block, each always
   // the same (a fixed hash per room); warm 2700-3000 K lamps, a share cool of office LEDs
   vec3 roomLight(vec3 cell, vec2 room, float cool) {
@@ -117,6 +147,94 @@ const SURFACE = `
         } else {
           gEmissive = roomLight(cell, room, 0.15) * uNight;
         }
+      }
+    }
+  } else if (m >= ${MAT.CITY_HALL} && m <= ${MAT.WILSHIRE}) {
+    vec4 frame = uLandmarkFrames[m - ${MAT.CITY_HALL}];
+    vec2 axis = vec2(cos(frame.w), sin(frame.w));
+    vec2 crossAxis = vec2(-axis.y, axis.x);
+    vec2 delta = vVox.xz - frame.xz;
+    vec2 local = vec2(dot(delta, axis), dot(delta, crossAxis));
+    // Select the tangent of the building's own facade, including voxel stair-step faces.
+    bool acrossFace = abs(dot(vFacadeN.xz, axis)) > abs(dot(vFacadeN.xz, crossAxis));
+    float along = acrossFace ? local.y : local.x;
+    float depth = acrossFace ? local.x : local.y;
+    // A facade side stays constant across the normal-coordinate jitter of voxel steps.
+    float side = (acrossFace ? 1.0 : 2.0) * (depth < 0.0 ? -1.0 : 1.0);
+    float up = vVox.y - frame.y;
+    vec2 p = vec2(along, up);
+    vec2 room = vec2(floor(along / 3.6) + side * 137.31, floor(up / 4.0));
+    float opening = 0.0;
+    vec3 glazing = vec3(0.055, 0.075, 0.09);
+    col = base * (0.985 + 0.03 * h);
+    if (m == ${MAT.WILSHIRE} && up >= uLandmarkSpireBases[m - ${MAT.CITY_HALL}]) {
+      // The measured mast is metal on every face, without curtain-wall rooms.
+      col = vec3(0.28, 0.31, 0.33) * (0.985 + 0.03 * h);
+      gRough = 0.5; gMetal = 0.45;
+    } else if (m == ${MAT.DISNEY}) {
+      // Unperforated stainless steel sails. Quiet panel joints preserve the massing.
+      gRough = 0.38; gMetal = 0.72;
+      if (vert) {
+        float panel = facadeBox(p, vec2(3.0, 5.0), vec2(0.025), vec2(2.975, 4.975));
+        col *= mix(0.87, 1.0, panel);
+      }
+    } else if (vert) {
+      if (m == ${MAT.CITY_HALL}) {
+        // Punched windows retain broad stone piers and solid floor spandrels.
+        opening = facadeBox(p, vec2(3.6, 4.2), vec2(1.12, 0.95), vec2(2.48, 3.65));
+        opening *= 1.0 - step(uLandmarkCrownBases[m - ${MAT.CITY_HALL}], up);
+        float pier = facadeBox(p, vec2(3.6, 4.2), vec2(0.10, 0.0), vec2(0.38, 4.2));
+        pier *= 1.0 - step(uLandmarkCrownBases[m - ${MAT.CITY_HALL}], up);
+        col *= 1.0 - 0.065 * pier;
+        room.y = floor(up / 4.2);
+        gRough = 0.9;
+      } else if (m == ${MAT.BROAD}) {
+        // Staggered, elongated hexagonal recesses in an ivory concrete veil.
+        vec2 q = vec2(mod(p.x + mod(floor(p.y / 3.6), 2.0) * 2.1, 4.2) - 2.1, mod(p.y, 3.6) - 1.8);
+        float edge = max(abs(q.x) / 1.65, (0.55 * abs(q.x) + abs(q.y)) / 1.5);
+        float aa = max(fwidth(edge), 0.001);
+        float fade = smoothstep(0.5, 1.5, max(fwidth(p.x), fwidth(p.y)));
+        opening = mix(1.0 - smoothstep(0.78 - aa, 0.78 + aa, edge), 0.34, fade);
+        float reveal = (1.0 - smoothstep(0.98 - aa, 0.98 + aa, edge)) * (1.0 - fade);
+        col *= 1.0 - 0.22 * reveal;
+        glazing = vec3(0.045, 0.052, 0.055);
+        gRough = 0.94;
+      } else if (m == ${MAT.MISSION}) {
+        // Restrained tall openings with a round arch; stucco stays dominant.
+        vec2 q = mod(p, vec2(6.0, 7.0));
+        vec2 fw = max(fwidth(p), vec2(0.001));
+        float archTop = 4.35 + sqrt(max(0.0, 1.1 * 1.1 - (q.x - 3.0) * (q.x - 3.0)));
+        opening = facadeBox(p, vec2(6.0, 7.0), vec2(1.9, 1.0), vec2(4.1, 5.45));
+        opening *= 1.0 - smoothstep(archTop - fw.y, archTop + fw.y, q.y);
+        float fade = smoothstep(0.5, 1.6, max(fw.x, fw.y));
+        opening = mix(opening, 0.22, fade);
+        room = vec2(floor(along / 6.0) + side * 137.31, floor(up / 7.0));
+        glazing = vec3(0.065, 0.052, 0.037);
+        gRough = 0.96;
+      } else if (m == ${MAT.US_BANK}) {
+        opening = facadeBox(p, vec2(2.8, 4.0), vec2(0.45, 0.32), vec2(2.35, 3.82));
+        glazing = mix(base * 0.30, vec3(0.10, 0.16, 0.19), 0.7);
+        room.x = floor(along / 2.8) + side * 137.31;
+        gRough = 0.72;
+      } else {
+        // Fine blue-grey curtain wall mullions, with darker floor spandrels.
+        opening = facadeBox(p, vec2(1.55, 4.1), vec2(0.055, 0.32), vec2(1.495, 4.00));
+        glazing = mix(base * 0.65, vec3(0.08, 0.15, 0.21), 0.5);
+        col = base * 0.65;
+        room = vec2(floor(along / 4.65) + side * 137.31, floor(up / 4.1));
+        gRough = 0.5;
+      }
+      col = mix(col, glazing, opening);
+      gRough = mix(gRough, m == ${MAT.BROAD} ? 0.65 : 0.20, opening);
+      gMetal = opening * (m == ${MAT.BROAD} ? 0.08 : 0.38);
+      if (m == ${MAT.BROAD}) {
+        // Continuous in-grade uplighting softly washes the veil; recesses stay subdued.
+        float wash = 0.14 + 0.46 * exp(-max(up, 0.0) / 30.0);
+        gEmissive = (col * vec3(1.0, 0.95, 0.85) * wash
+          + vec3(0.065, 0.061, 0.052) * opening) * uNight;
+      } else {
+        float strength = m == ${MAT.MISSION} ? 0.4 : 0.65;
+        gEmissive = roomLight(frame.xyz, room, m >= ${MAT.US_BANK} ? 0.6 : 0.15) * opening * uNight * strength;
       }
     }
   } else if (m == ${MAT.STUCCO}) {
@@ -225,7 +343,7 @@ export function makeVoxelMaterial(uniforms: VoxelUniforms) {
     shader.vertexShader = shader.vertexShader
       .replace('#include <common>', `#include <common>
         attribute vec4 vattr; attribute float vpal;
-        varying vec3 vVox; varying vec3 vN; varying float vAO; varying float vGz; flat varying int vPal;
+        varying vec3 vVox; varying vec3 vN; varying vec3 vFacadeN; varying float vAO; varying float vGz; flat varying int vPal;
         ${NORMAL_FROM_IDX}`)
       // vattr.x = face axis (0-5) + 8 x the wall's direction in plan (mesher.worker.ts): a staircase wall is lit as its plane
       .replace('#include <beginnormal_vertex>', `float nAx = mod(vattr.x, 8.0), nAng = floor(vattr.x / 8.0 + 0.01);
@@ -234,7 +352,7 @@ export function makeVoxelMaterial(uniforms: VoxelUniforms) {
       .replace('#include <shadowmap_vertex>', THREE.ShaderChunk.shadowmap_vertex.replace(
         'directionalLightShadows[ i ].shadowNormalBias', '(directionalLightShadows[ i ].shadowNormalBias * (nAng > 0.5 ? 3.0 : 1.0))'))
       .replace('#include <begin_vertex>', `#include <begin_vertex>
-        vVox = position; vN = normalFromIdx(nAx); vAO = vattr.y / 3.0; vGz = vattr.z; vPal = int(vpal + 0.5);`);
+        vVox = position; vN = normalFromIdx(nAx); vFacadeN = objectNormal; vAO = vattr.y / 3.0; vGz = vattr.z; vPal = int(vpal + 0.5);`);
     shader.fragmentShader = shader.fragmentShader
       .replace('#include <common>', `#include <common>\n${FRAG_PARS}`)
       .replace('#include <color_fragment>', SURFACE)

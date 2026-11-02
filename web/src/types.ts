@@ -44,6 +44,9 @@ export interface Meta {
   center?: [number, number];
   tiles: { N: number; levels: TileLevel[]; bytes?: number };
   palette: [number, number, number, number][];
+  // Facade frames in voxel coordinates: x, height, z; angle is radians in plan.
+  landmarkStyles?: { key: string; material: number; origin: Vec3Tuple; angle: number; crownBase?: number; spireBase?: number }[];
+  obstructionLights?: { building: string; osmType: string; osmId: number; position: Vec3Tuple; kind: 'beacon' | 'steady'; phase: number }[];
   lamps: [number, number, number][];
   labels: Label[];
   views: Record<string, View>;

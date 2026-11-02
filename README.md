@@ -63,12 +63,15 @@ sh scripts/build_data.sh   # downloads (cached), then rasterise + voxelise: ~7 m
 | `voxelize.py` | 3D fill in 128-row bands, so the full volume is never in memory; writes tiles, `terrain.bin` and `meta.json` |
 | `palette.py` | The SoCal palette and material ids |
 | `landmarks.py` | Labels, with facts |
+| `landmark_overrides.py`, `landmark_catalog.py` | Bounded building identities, facade materials and local roof refinements |
+| `obstruction_lights.py` | Roof/spire warning-light positions from exported tiles; metadata-only refresh supported |
 | `tiles.py` | Tile format, unchanged from warsaw-vibe-voxel |
 
 ## Known limits
 
 - **Wall colours** come from OSM where tagged, otherwise from a palette picked by building type and height.
-  Windows are procedural, not real.
+  Six landmarks have dedicated facade treatments; windows and veil recesses are procedural, not surveyed.
+  See [landmark facade notes](docs/landmark-facades.md) for identities, references and remaining geometry limits.
 - **Glass towers lean in NAIP**, so their roofs use a default grey instead of the photo colour.
 - **Some rail-yard light masts** still read as small trees.
 - **The 6th Street Viaduct's arches** are drawn as their top 3 m only, so they float slightly. Its cables aren't drawn.
@@ -79,7 +82,7 @@ sh scripts/build_data.sh   # downloads (cached), then rasterise + voxelise: ~7 m
 
 ## Roadmap
 
-Ideas, roughly in order. None of these are started yet.
+Follow-up work. Landmark facades are the current priority, with traffic next.
 
 **Life on the streets**
 - [ ] **Traffic**: cars on the street grid and the 110 / 101 / 10 freeways, with headlight and taillight streams after dark.
@@ -87,17 +90,23 @@ Ideas, roughly in order. None of these are started yet.
 - [ ] **People** on Broadway, in Grand Park and at LA Live on event nights.
 
 **Windows and facades**
+- [ ] **Building color normalization**: preserve the character of the current generic palette, reduce overly saturated orange, and shift known buildings toward documented real facade colors. Use targeted building overrides rather than a wholesale palette replacement.
 - [ ] **Realistic windows**: floor height and window rhythm from `building:levels` and building type, so curtain-wall towers, punched-window lofts and warehouses each look different.
 - [ ] **Lit windows by use**: offices empty out after 7 pm, residential lofts fill up, hotels stay half lit (from OSM building use and POIs).
 - [ ] **Shop fronts and signs**: ground-floor retail bands along Broadway, Spring and 7th, plus the historic theatre marquees.
 - [ ] **Rooftop helipads**: the red "H" pads on 1970s–2000s towers (required by the LA fire code until 2014).
 
 **Landmark facades**, hand-tuned beyond what 1 m LiDAR shows:
-- [ ] City Hall's stepped tower and pyramid top.
-- [ ] Disney Hall's curved steel sails, with their glare at golden hour.
-- [ ] The Broad's honeycomb veil.
-- [ ] Union Station's mission tower and tile roofs.
-- [ ] The crowns of Wilshire Grand and U.S. Bank Tower.
+- [x] First facade pass: City Hall stone/windows and solid crown, The Broad's shaded veil pattern,
+  Disney Hall steel, Union Station stucco/arches, and distinct glazing on both towers.
+- [x] Building-local facade frames and exact footprint anchors for landmark labels.
+- [x] The Broad's soft veil lighting and a window-free Wilshire Grand spire.
+- [x] Model-derived red warning lights on 18 towers, including Wilshire Grand's tip beacon.
+- [ ] Further City Hall geometry detail beyond the measured setbacks and pyramid (local plateau noise cleaned).
+- [ ] Disney Hall's curved shell geometry beyond the measured voxel surfaces (curved roof profiles now bypass generic flat-roof cleanup).
+- [ ] The Broad's lifted corners and physical veil depth beyond the surface pattern.
+- [ ] Union Station's clock faces, arcades and refined tile-roof geometry.
+- [ ] Detailed crowns of Wilshire Grand and U.S. Bank Tower.
 - [ ] Angels Flight's two orange cars.
 - [ ] The Bradbury Building and Grand Central Market signage.
 - [ ] **Sixth Street Viaduct**: full arches down to the deck, and the suspension cables.
