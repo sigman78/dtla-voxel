@@ -108,6 +108,8 @@ def fill_band(Lr, r0, r1, H, sprites):
     sl = lambda k: Lr[k][a:b]
     g, gcol = sl("g"), sl("gcol")
     bm, topi, boti, wall, roof = sl("bmask"), sl("topi"), sl("boti"), sl("basewall"), sl("roofc")
+    equipment_bottom = sl("roofEquipmentBottom") if "roofEquipmentBottom" in Lr else None
+    equipment_material = sl("roofEquipmentMaterial") if "roofEquipmentMaterial" in Lr else None
     model_volumes = Lr.get("landmarkVolumes")
     if model_volumes is not None:
         bm = bm & ~model_volumes.replacement_mask[a:b]
@@ -133,6 +135,9 @@ def fill_band(Lr, r0, r1, H, sprites):
         sl_[z == g - 1] = gcol[z == g - 1]
         m = bm & (z >= zb) & (z < zt)
         sl_[m] = wall[m]
+        if equipment_bottom is not None:
+            m = bm & (equipment_bottom > 0) & (z >= equipment_bottom) & (z < zt)
+            sl_[m] = equipment_material[m]
         m = bm & (z == zt - 1)
         sl_[m] = roof[m]
         m = can & (z == g + cant - 1)
@@ -168,6 +173,26 @@ def write_tile(path, win, gw, extra=b""):
     return len(runs)
 
 
+def downsample_road_surface(volume, scale, ground, mask, underlay, paint, far_paint):
+    """Resolve crosswalks softly at 2 m, omit subpixel paint at 4/8 m.
+
+    Substitute only the actual painted ground cells while sampling. Restoring
+    them keeps the full-detail export and all unrelated materials authoritative.
+    """
+    r, c = np.nonzero(mask)
+    z = ground[r, c] - 1
+    valid = (z >= 0) & (z < volume.shape[0])
+    z, r, c = z[valid], r[valid], c[valid]
+    painted = volume[z, r, c] == paint
+    z, r, c = z[painted], r[painted], c[painted]
+    original = volume[z, r, c].copy()
+    volume[z, r, c] = far_paint if scale == 2 else underlay[r, c]
+    try:
+        return downsample(volume, scale)
+    finally:
+        volume[z, r, c] = original
+
+
 def tile_window(vs, gs, r0, c0, Hs):
     """(Hs, N+2, N+2) window of a (Hs, rows, cols) array whose row 0 is global row r0, at column c0 (may be -1)."""
     Ds, Ws = vs.shape[1], vs.shape[2]
@@ -186,6 +211,13 @@ def main():
     Lr = build()
     from landmark_volumes import prepare_landmark_volumes
     Lr["landmarkVolumes"] = prepare_landmark_volumes(Lr)
+    from road_markings import finalize_crosswalk_paint
+    finalize_crosswalk_paint(Lr)
+    log("road markings:", Lr["roadMarkingDiagnostics"])
+    from roof_pilot import apply_roof_pilot
+    apply_roof_pilot(Lr)
+    for diagnostic in Lr.get("roofDiagnostics", []):
+        log("roof pilot:", diagnostic)
     for diagnostic in Lr["landmarkVolumes"].diagnostics:
         log("landmark volume:", diagnostic)
     log(f"layers built in {time.time() - t0:.0f}s")
@@ -242,7 +274,10 @@ def main():
         for lst, arr in zip(thin, (tz[k], tr[k] - 1 + ty * N, tc[k], tv[k])):
             lst.append(arr)
         for s in (2, 4, 8):
-            coarse[s][:, ty * N // s: ty * N // s + -(-nrows // s)] = downsample(core, s)
+            rows = np.s_[ty * N:ty * N + nrows]
+            coarse[s][:, ty * N // s: ty * N // s + -(-nrows // s)] = downsample_road_surface(
+                core, s, g[rows], Lr["crosswalkMask"][rows], Lr["crosswalkUnderlay"][rows],
+                Lr["crosswalkPalette"], Lr["crosswalkFarPalette"])
         nz = core != 0
         zi = H - 1 - np.argmax(nz[::-1], axis=0)
         top_rgb[ty * N: ty * N + nrows] = np.take_along_axis(core, zi[None], 0)[0]
@@ -297,6 +332,8 @@ def main():
     h = np.round(ndimage.uniform_filter(gg, 4)[::4, ::4] * 10).astype(np.uint16)
     pal_rgb = np.array([e[:3] for e in pal.entries], np.uint8)
     gc = Lr["gcol"].copy()
+    # The terrain fallback cannot resolve crosswalk bars; keep the underlying road.
+    gc[Lr["crosswalkMask"]] = Lr["crosswalkUnderlay"][Lr["crosswalkMask"]]
     gc[is_grass[gc]] = C["bare"]
     tc_ = np.ascontiguousarray(pal_rgb[gc[1::2, 1::2]])
     with gzip.GzipFile(WEB_DATA / "terrain.bin", "wb", compresslevel=9, mtime=0) as fh:
@@ -311,6 +348,8 @@ def main():
                 labels=labels, views=views, landmarkStyles=Lr["landmarkStyles"],
                 landmarkDiagnostics=Lr["landmarkDiagnostics"],
                 facadeDiagnostics=Lr.get("facadeDiagnostics", []),
+                roadMarkingDiagnostics=Lr["roadMarkingDiagnostics"],
+                roofDiagnostics=Lr.get("roofDiagnostics", []),
                 landmarkVolumeDiagnostics=Lr["landmarkVolumes"].diagnostics,
                 landmarkVolumeLod8FallbackCells=model_lod8_added,
                 sources=dict(osm="OpenStreetMap contributors (ODbL), fetched via Overpass",

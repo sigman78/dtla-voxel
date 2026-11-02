@@ -46,6 +46,10 @@ This LiDAR survey only classifies ground and bridges, so the other classes are i
 - **Palms** are small isolated crowns on tall bare trunks.
   - They get a voxel trunk, a skirt of dead fronds and a star of fronds.
 - **Street lamps** are placed every 36 m along road kerbs (OSM maps almost none in DTLA).
+- **Crosswalks** follow mapped crossing paths and marking styles, with resolved bars or two border lines.
+  Explicitly unmarked, ambiguous and grade-separated crossings stay unpainted; signals alone do not imply stripes.
+  Paint is subdued at 2 m detail and omitted at 4/8 m and in the terrain fallback, where bars would become blotches.
+  Yellow centerlines stop inside connected surface-road junctions; approach lines remain, without invented yellow boxes.
 
 Downloads are cached outside the project, in `C:\data\dtla-voxel-cache` (override with `DTLA_CACHE`), because
 D: is nearly full. The cache takes about 2.5 GB; the web data in `web/public/data` takes about 19 MB.
@@ -60,6 +64,8 @@ sh scripts/build_data.sh   # downloads (cached), then rasterise + voxelise: ~7 m
 | `fetch_lidar.py`, `fetch_dem.py`, `fetch_naip.py`, `fetch_osm.py` | Downloads, reading only the area needed |
 | `prep_lidar.py` | Point cloud to 0.5 m / 1 m rasters |
 | `layers.py` | 2D fusion: ground, buildings, roofs, vegetation, palms, decks |
+| `road_markings.py` | Road-oriented crosswalks, marking-tag checks and connected-junction yellow-line gaps |
+| `roof_cleanup.py`, `roof_pilot.py` | Ten-building roof pilot: absolute-elevation decks, conservative equipment candidates and bounded audit output |
 | `voxelize.py` | 3D fill in 128-row bands, so the full volume is never in memory; writes tiles, `terrain.bin` and `meta.json` |
 | `palette.py` | The SoCal palette and material ids |
 | `landmarks.py` | Labels, with facts |
@@ -81,6 +87,14 @@ sh scripts/build_data.sh   # downloads (cached), then rasterise + voxelise: ~7 m
   the map edge. The channel is the flat bed plus its walls; the water is a ~14 m low-flow strip widened by NAIP wet
   pixels, not a measured water line.
 - **Buildings finished after the 2023 flight** use their OSM height where it's tagged.
+- **Roof cleanup is a bounded pilot**, enabled for ten identities in `scripts/roof_pilot.py`.
+  It fits connected absolute-elevation plateaus, rejects supported slopes above 1.2% and curved patches,
+  limits measured-surface leveling to 0.35 m and corrections to the previous voxel top to 3 m.
+  Compact elevated objects receive a matte neutral material only above their supporting deck;
+  their exact function is unverified. Custom landmark roofs, gardens and neighboring footprints are protected.
+  `DTLA_ROOF_PILOT=0` disables the pass when rebuilding. Per-building height/class masks and JSON diagnostics
+  are written to `$DTLA_CACHE/roof-pilot-review` (default `C:\data\dtla-voxel-cache\roof-pilot-review`);
+  `DTLA_ROOF_AUDIT=0` suppresses these review artifacts. Helipads and imagery-derived roof colors remain future work.
 
 ## Roadmap
 
@@ -98,6 +112,8 @@ Follow-up work. Landmark facades are the current priority, with traffic next.
 - [ ] **Lit windows by use**: offices empty out after 7 pm, residential lofts fill up, hotels stay half lit (from OSM building use and POIs).
 - [ ] **Shop fronts and signs**: ground-floor retail bands along Broadway, Spring and 7th, plus the historic theatre marquees.
 - [ ] **Rooftop helipads**: the red "H" pads on 1970s–2000s towers (required by the LA fire code until 2014).
+- [x] **Roof cleanup pilot**: ten named buildings, starting with Kenneth Hahn Hall of Administration; fit supported flat decks in absolute elevation, preserve separate tiers and uncertain slopes, and give compact raised equipment candidates a neutral material.
+- [ ] **Roof cleanup expansion**: review pilot results before city-wide use; add evidence-backed equipment identities, roof material colors, communications structures and helipad markings.
 
 **Landmark facades**, hand-tuned beyond what 1 m LiDAR shows:
 - [x] First facade pass: City Hall stone/windows and solid crown, The Broad's shaded veil pattern,

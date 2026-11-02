@@ -218,6 +218,7 @@ def build():
              "living_street", "busway"}
     foot, roads, rails, bridge_lines, lamp_lines = [], [], [], [], []
     marks = []
+    crossing_roads = []
     for oid, t, line in osm.lines:
         hw = t.get("highway")
         if t.get("railway") in ("rail", "light_rail", "tram", "subway", "narrow_gauge") and not tunnelish(t):
@@ -245,6 +246,7 @@ def build():
             lamp_lines.append((line, w / 2))
         if base_hw in ROADS:
             roads.append((poly, C[SURF.get(t.get("surface"), "fwy" if base_hw in ("motorway", "trunk") else "asphalt")]))
+            crossing_roads.append((oid, t, line, w))
             if base_hw in ("primary", "secondary", "tertiary", "motorway", "trunk") and (lanes or 0) >= 2:
                 marks.append((line, t.get("oneway") == "yes"))
         elif hw == "cycleway":
@@ -256,6 +258,8 @@ def build():
     burn(road_mask, [(s, 1) for s, _ in roads])
     burn(gcol, roads)
     # centre lines: LA's double yellow on two-way arterials, white dashes on one-ways and freeways
+    from road_markings import build_crosswalk_mask, junction_interiors
+    junctions = junction_interiors(crossing_roads)
     mk = []
     for line, oneway in marks:
         if oneway:
@@ -263,20 +267,13 @@ def build():
                 seg = line.interpolate(k), line.interpolate(min(k + 4, line.length))
                 mk.append((seg[0].buffer(0.45).union(seg[1].buffer(0.45)).convex_hull, C["mark"]))
         else:
-            mk.append((line.buffer(0.5, cap_style="flat"), C["mark_y"]))
+            yellow = line.buffer(0.5, cap_style="flat").difference(junctions)
+            if not yellow.is_empty:
+                mk.append((yellow, C["mark_y"]))
     burn(gcol, mk)
-    # zebra crossings: LA "continental" crosswalks, white bars across the road
-    zebra = []
-    for oid, t, pt in osm.nodes:
-        if t.get("highway") == "crossing" and t.get("crossing") in ("marked", "zebra", "uncontrolled", "traffic_signals") \
-                or t.get("crossing:markings") in ("zebra", "ladder", "yes"):
-            zebra.append(pt)
-    zmask = np.zeros((D, W), np.uint16)
-    burn(zmask, [(p.buffer(3.2), 1) for p in zebra])
-    rr, cc = np.nonzero((zmask > 0) & (road_mask > 0))
-    stripes = ((rr + cc) // 1) % 3 == 0
-    gcol[rr[stripes], cc[stripes]] = C["mark"]
-    log(f"roads {len(roads)}, footways {len(foot)}, crossings {len(zebra)}")
+    crossing_mask, crossing_diagnostics = build_crosswalk_mask(osm.lines, osm.nodes, crossing_roads, road_mask)
+    crossing_diagnostics["junctionInteriorArea"] = round(junctions.area, 1)
+    log(f"roads {len(roads)}, footways {len(foot)}, crossings {crossing_diagnostics}")
 
     # rail: ballast bed + dark rails
     rbed = np.zeros((D, W), np.uint16)
@@ -540,11 +537,18 @@ def build():
     facade_diagnostics = apply_facade_colors(osm.areas, bmask, basewall, roofc)
     for diagnostic in facade_diagnostics:
         log("facade colour:", diagnostic)
+    # Paint allocation/application waits until authored model materials are prepared.
+    crossing_underlay = gcol.copy()
 
     # ground under crowns keeps its class; under trees on paving, a darker tree-pit
     return dict(base=base, g=g, gcol=gcol, bmask=bmask, topi=topi, boti=boti, basewall=basewall, roofc=roofc,
                 landmarkStyles=landmark_info["styles"], landmarkDiagnostics=landmark_info["diagnostics"],
                 facadeDiagnostics=facade_diagnostics,
+                roofMeasuredAbsolute=nd_b + dtm,
+                roofBuildingId=bld_id,
+                roadMarkingDiagnostics=crossing_diagnostics,
+                crosswalkMask=crossing_mask, crosswalkUnderlay=crossing_underlay,
+                roadPaletteIds=sorted({colour for _, colour in roads}),
                 canopy=canopy, canopy_top=np.where(canopy, np.round(nd_b), 0).astype(np.int32),
                 deck=deck, deck_top=deck_top, nd_b=nd_b, crown_top=crown_top, crown_bot=crown_bot, leafc=leafc,
                 rib=rib, rib_top=np.where(rib, np.round(nd_b), 0).astype(np.int32), trunks=trunks, palms=palms, bridge_lines=bridge_lines, lamp_lines=lamp_lines, osm=osm, blds=blds, med=med, dtm=dtm)
