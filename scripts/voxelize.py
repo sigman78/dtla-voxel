@@ -108,6 +108,9 @@ def fill_band(Lr, r0, r1, H, sprites):
     sl = lambda k: Lr[k][a:b]
     g, gcol = sl("g"), sl("gcol")
     bm, topi, boti, wall, roof = sl("bmask"), sl("topi"), sl("boti"), sl("basewall"), sl("roofc")
+    model_volumes = Lr.get("landmarkVolumes")
+    if model_volumes is not None:
+        bm = bm & ~model_volumes.replacement_mask[a:b]
     dk, dtop = sl("deck"), sl("deck_top")
     ct, cb, leaf = sl("crown_top"), sl("crown_bot"), sl("leafc")
     can, cant = sl("canopy"), sl("canopy_top")
@@ -153,6 +156,8 @@ def fill_band(Lr, r0, r1, H, sprites):
     ok = (s[:, 2] >= 0) & (s[:, 2] < H)
     s = s[ok]
     vol[s[:, 2], s[:, 0] - r0, s[:, 1]] = s[:, 3]
+    if model_volumes is not None:
+        model_volumes.stamp(vol, r0)
     return vol
 
 
@@ -179,6 +184,10 @@ def tile_window(vs, gs, r0, c0, Hs):
 def main():
     t0 = time.time()
     Lr = build()
+    from landmark_volumes import prepare_landmark_volumes
+    Lr["landmarkVolumes"] = prepare_landmark_volumes(Lr)
+    for diagnostic in Lr["landmarkVolumes"].diagnostics:
+        log("landmark volume:", diagnostic)
     log(f"layers built in {time.time() - t0:.0f}s")
     g = Lr["g"]
     base = Lr["base"]
@@ -197,7 +206,8 @@ def main():
     log(f"sprites: {len(trunk_v)} trunk, {len(palm_v)} palm, {len(pier_v)} pier voxels, {len(lamps)} street lamps")
 
     H = int(max((g + Lr["topi"]).max(), Lr["deck_top"].max() + 1, (g + Lr["crown_top"]).max(),
-                (g + np.round(Lr["nd_b"])).max() if Lr["deck"].any() else 0, sprites[:, 2].max() + 1)) + 4
+                (g + np.round(Lr["nd_b"])).max() if Lr["deck"].any() else 0, sprites[:, 2].max() + 1,
+                Lr["landmarkVolumes"].max_height)) + 4
     H = min(H, 450)
     log(f"volume height H={H}")
 
@@ -251,6 +261,10 @@ def main():
         del band, core
     log(f"tiles level 1: {nx1}x{ny1}, {stats['runs']} runs, {stats['bytes'] / 2**20:.1f} MB + foliage {stats['fbytes'] / 2**20:.1f} MB")
 
+    # Level 8 has no 1 m detail stream: retain only empty cells touched by authored shells.
+    model_lod8_added = Lr["landmarkVolumes"].preserve_coarse_silhouette(coarse[8], 8)
+    log(f"landmark shell silhouette: {model_lod8_added} otherwise empty level-8 cells retained")
+
     tz, tr, tc, tv = (np.concatenate(x) for x in thin)
     levels = [dict(s=1, nx=nx1, ny=ny1)]
     total = stats["bytes"]
@@ -296,6 +310,9 @@ def main():
                 tiles=dict(N=N, levels=levels, bytes=total), palette=[list(e) for e in pal.entries], lamps=lamps,
                 labels=labels, views=views, landmarkStyles=Lr["landmarkStyles"],
                 landmarkDiagnostics=Lr["landmarkDiagnostics"],
+                facadeDiagnostics=Lr.get("facadeDiagnostics", []),
+                landmarkVolumeDiagnostics=Lr["landmarkVolumes"].diagnostics,
+                landmarkVolumeLod8FallbackCells=model_lod8_added,
                 sources=dict(osm="OpenStreetMap contributors (ODbL), fetched via Overpass",
                              lidar="USGS 3DEP CA_LosAngeles_1_B23 (2023) point cloud and 1 m DEM",
                              ortho="USDA NAIP 2022, 0.6 m"))

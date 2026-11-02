@@ -247,3 +247,137 @@ are hidden during daylight and enabled at night after their tiles load. A close
 spire capture and a phone-sized 4 m night view were also inspected. Artifacts:
 `C:\data\dtla-voxel-cache\shots\landmark-corrections-final` and
 `C:\data\dtla-voxel-cache\shots\landmark-night-corrections`.
+
+## Facade color roster
+
+The [checked roster](facade-color-roster.html) covers 53 recognizable buildings,
+including the 18 tallest modeled towers. Its [JSON](facade-color-roster.json) is
+the authoritative evidence record and runtime input: 36 source-supported entries
+apply, while 17 provisional records remain inert. The original
+[palette proposal](facade-color-proposal.html) is retained as the earlier design
+study; the roster supersedes its implementation recommendations.
+
+`scripts/facade_colors.py` runs after landmark assignment. Exact OSM type/ID,
+centroid bounds and footprint-area bounds must all match. No name-only lookup or
+global palette replacement is used. Colors append to the palette; existing
+indices, ground, foliage and ordinary roofs retain their definitions. An explicit
+`roofColor` keeps City Hall, Broad and Disney shared cladding consistent while
+preserving planted roofs. Material IDs 23–28 always survive the color pass.
+
+“Verified” means the material evidence and cached footprint were checked. Hex
+values remain coordinated artistic interpretations, not measured physical
+albedos. Photo samples in the earlier study are uncontrolled sRGB observations.
+Distinctive finishes remain distinctive: Eastern Columbia turquoise, Figueroa
+coral granite, Wells Fargo red granite, Biltmore brick, and the cathedral's sandy
+architectural concrete. Aon's explicit dark override bypasses the generic OSM
+parser's lightness floor without changing every dark building in the map.
+
+Renderer material names describe shader behavior. Windowed opaque facades use
+`wall`; mixed office facades use the existing `ribbon` treatment, with opaque
+cladding and separate glazed floor bands/nighttime room emission. The plain
+`classic` shader has no windows and is appropriate for the cathedral's dominant
+solid field, not an office tower. The six custom landmark shaders are preserved.
+Exact glazing proportions, bronze tint in window panes, multicolor stone zones,
+decorative trim and Gas Company Tower's distinct crown remain approximations.
+
+After changing the roster, run the Python regression tests and the full exporter,
+then `python scripts/facade_roster_report.py` to refresh the source-linked report
+with `meta.facadeDiagnostics`. An unmatched or rejected entry is reported rather
+than silently recoloring a neighboring building. Export still uses the cached
+OSM/LiDAR data under `C:\data\dtla-voxel-cache`.
+
+`web/tools/landmark-shots.mjs` accepts `SHOT_ROSTER`, a JSON array of fixed camera
+subjects (`key`, `name`, `x`, `y`, `g`, `z`, `distance`), to compare buildings
+without viewer labels. Color review cameras and screenshots live in that cache,
+under `color-review-cameras.json` and `shots/colors-before` / `shots/colors-after`.
+
+Final color-pass validation: all 36 exact footprints pass selection guards and
+have no pairwise overlaps. All 16 Python regression tests and the production
+build pass. The regenerated data changes 79 level-1, 36 level-2, 17 level-4 and
+8 level-8 tiles. Comparing decoded occupied intervals and detail positions against
+the prior committed data confirms identical geometry at every level. All terrain,
+foliage, prior palette entries, label frames and obstruction-light positions remain
+unchanged. The source-linked report's filters were checked on desktop and mobile.
+
+Visual review exposed aliasing in the legacy opaque-wall window shader and floor
+bands stepping with per-column ground heights. Window coverage now uses continuous
+antialiased coordinates, and upper wall/ribbon floor patterns use world height so
+they stay level across sloping terrain. Shops remain aligned to local ground.
+Ribbon cladding is matte; only glazing is reflective. These are generic facade
+approximations, not surveyed floor elevations or bespoke window arrangements.
+
+The final `shots/colors-final` capture set contains 72 day/night views with no
+browser errors and checks all 73 warning markers' daytime/nighttime enablement.
+Representative historic and tower views were visually inspected. Some narrow
+buildings, notably Fine Arts, are partly obscured by taller neighbors in the
+automated views; screenshot completion is not a claim of complete visual coverage
+of every elevation. Geometry and exact footprint checks cover all applied entries.
+
+## Broad veil and Disney mesh revision
+
+The Broad's former hexagonal perforations did not match the facade. The revised
+material uses dense slanted openings, narrow dark throats and broad scooped white
+reveals, checked against [Arup's close-up](https://www.arup.com/projects/the-broad-los-angeles/)
+and [the architect's photographs](https://www.gensler.com/projects/the-broad).
+Module spacing is a photo estimate, not a fabrication dimension. Its front oculus
+warps the surrounding pattern into a shaded depression around glazing; this is
+a surface approximation, not a geometric cutout. Lifted entrance corners and
+the actual roof clerestories still require geometry work.
+
+At night, the concrete receives a soft neutral wash and subdued light comes
+through the upper gallery zone. This follows the
+[lighting designer's reference](https://www.tillotsondesign.com/museums/the-broad),
+rather than treating the veil as an office-window grid. The museum's
+[veil description](https://www.thebroad.org/tour-stops/veil) and
+[oculus fabricator](https://www.kreysler.com/projects/all/architecture/broad-museum)
+also informed the surface treatment. Reference images remain in the external
+cache; third-party photographs are not included in the repository.
+
+Disney Hall now uses an actual authored mesh rather than another height-field
+refinement: [Disney Concert Hall 3D Model by Russell.Zazueta.Rivera](https://doi.org/10.5281/zenodo.10382043),
+under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The raw 60 MB GLB
+lives under `C:\data\dtla-voxel-cache\disney-model`. The small derived voxel asset,
+license, checksum, material mapping, registration matrix and limitations are
+committed under `scripts/assets/disney-shell.*`. The viewer credits the author.
+
+`scripts/disney_model.py` bakes graph transforms, keeps exterior shells, modeled
+glazing and relevant slabs, omits seating/site geometry, and voxelizes triangle
+surfaces at 1 m. It does not fill columns downward. The transform uses uniform
+scale and a positive 3D determinant, preserving handedness; registration checks
+the central roof and roadside high sails against cached LiDAR and NAIP. The
+source is an academic reconstruction, not surveyed as-built geometry. Its fit
+has roughly 3.4 m median roof-envelope residual and 2.8 m high-sail residual.
+
+`scripts/landmark_volumes.py` replaces only the guarded main-hall region. The
+clear mask intersects the exact footprint with the accepted model's convex hull
+plus 2 m; gardens, neighboring buildings and unmodeled peripheral structures
+remain intact. Physical ground and a 2 m footprint buffer constrain insertion.
+Of 34,762 source shell cells, 31,078 are accepted; 3,684 outboard cells are clipped.
+The accepted model has 29,322 steel, 748 glass and 1,008 opaque cells. Its gaps and
+overhangs remain separate occupied intervals in the existing tile format.
+
+The existing 2/4 m thin-detail export preserves small surfaces; at 8 m, a scoped
+fallback retains only empty coarse cells actually touched by authored voxels,
+so distant shells do not vanish under the ordinary occupancy threshold. This
+never overwrites an existing occupied city cell. Coarse voxels naturally thicken
+thin surfaces; they are not a new smooth mesh drawn over the map.
+
+Disney's new material 29 applies warm continuous interior light only to glazing
+identified by the source model. Steel stays opaque with restrained architectural
+illumination. The lighting approach follows the
+[original lighting designer](https://lobsintl.com/project/walt-disney-concert-hall/).
+It is a visual interpretation of reference photographs, not a photometric fixture
+simulation. Raw research and placement previews live in the external cache.
+
+Validation of this revision: 24 Python tests and the production build pass.
+Only three 1 m tiles, two 2 m tiles, one 4 m tile and one 8 m tile differ from the
+color-normalized baseline; all changed 1 m columns are inside Disney's guarded
+region. Terrain, foliage, existing palette entries, label frames and warning-light
+positions are byte/value-identical. The far-detail fallback retains 292 otherwise
+empty coarse shell cells. Multi-view daylight, sunset and night browser captures
+report no errors; final night review increased the steel wash and warmed the
+authored glazing. The final photographs-to-render review still shows 1 m stair
+steps and some clipped peripheral sail edges, both recorded limitations of this
+stylized registered model. Artifacts: `shots/museum-model-final`,
+`shots/museum-night-final` (supersedes earlier night captures), and
+`shots/museum-lod8-final` under the external cache.

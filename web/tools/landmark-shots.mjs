@@ -20,6 +20,9 @@ const landmarks = [
   ['us-bank', 'U.S. Bank Tower', 710],
   ['wilshire', 'Wilshire Grand Center', 760],
 ];
+// A color audit can supply bounded roster footprints, including buildings without labels.
+const roster = process.env.SHOT_ROSTER
+  ? JSON.parse(fs.readFileSync(process.env.SHOT_ROSTER, 'utf8')) : null;
 function executable() {
   if (process.env.CHROME) return process.env.CHROME;
   const root = path.join(os.homedir(), 'AppData/Local/ms-playwright');
@@ -42,11 +45,12 @@ try {
   page.on('response', r => { if (r.status() >= 400) errors.push(`${r.status()} ${r.url()}`); });
   await page.goto(`${base}?view=civic&date=11-02&hour=10.5&ui=0&tilt=0&lod=${lod}`);
   await page.waitForFunction(() => window.__city?.complete === true, null, { timeout: 300000, polling: 500 });
-  for (const [key, name, distance] of landmarks) {
-    const label = meta.labels.find(l => l.name === name);
+  const subjects = roster ? roster.map(r => [r.key, r.name, r.distance]) : landmarks;
+  for (const [key, name, distance] of subjects) {
+    const label = roster ? roster.find(r => r.key === key) : meta.labels.find(l => l.name === name);
     if (!label) throw new Error(`Missing landmark label: ${name}`);
     for (const hour of hours.split(',').map(Number)) {
-      const fixed = reference.find(s => s.key === key)?.camera;
+      const fixed = reference.find(s => s.key === key)?.camera || label.camera;
       const camera = await page.evaluate(({ label, distance, hour, fixed }) => {
         const { camera, controls, setHour } = window.__three;
         const ground = label.g ?? 20;

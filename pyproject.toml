@@ -11,4 +11,5 @@ dependencies = [
     "laspy[lazrs]>=2.5",
     "pillow>=11",
     "requests>=2.32",
+    "trimesh>=5.2.0",
 ]

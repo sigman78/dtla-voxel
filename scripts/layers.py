@@ -535,10 +535,16 @@ def build():
     landmark_info = apply_landmark_overrides(osm.areas, bmask, g, topi, basewall, roofc, measured_top=nd_max)
     for diagnostic in landmark_info["diagnostics"]:
         log("landmark:", diagnostic)
+    # Verified facade colours append after pattern assignment; geometry and ordinary roofs stay authoritative.
+    from facade_colors import apply_facade_colors
+    facade_diagnostics = apply_facade_colors(osm.areas, bmask, basewall, roofc)
+    for diagnostic in facade_diagnostics:
+        log("facade colour:", diagnostic)
 
     # ground under crowns keeps its class; under trees on paving, a darker tree-pit
     return dict(base=base, g=g, gcol=gcol, bmask=bmask, topi=topi, boti=boti, basewall=basewall, roofc=roofc,
                 landmarkStyles=landmark_info["styles"], landmarkDiagnostics=landmark_info["diagnostics"],
+                facadeDiagnostics=facade_diagnostics,
                 canopy=canopy, canopy_top=np.where(canopy, np.round(nd_b), 0).astype(np.int32),
                 deck=deck, deck_top=deck_top, nd_b=nd_b, crown_top=crown_top, crown_bot=crown_bot, leafc=leafc,
                 rib=rib, rib_top=np.where(rib, np.round(nd_b), 0).astype(np.int32), trunks=trunks, palms=palms, bridge_lines=bridge_lines, lamp_lines=lamp_lines, osm=osm, blds=blds, med=med, dtm=dtm)

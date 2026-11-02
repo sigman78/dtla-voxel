@@ -5,7 +5,7 @@ import { dataTexture } from './util';
 // material ids, as in the data pipeline's palette (meta.palette[i][3]); 7, 14 and 17 are unused
 export const MAT = { SOLID: 0, WALL: 1, GLASS: 2, LEAF: 3, WATER: 4, LAMP: 5, METAL: 6, GRASS: 8, MARK: 9, SOIL: 10, CAR: 11,
   ROOF: 12, CONCRETE: 13, BRONZE: 15, SIGN: 16, SIGNBAND: 18, RIBBON: 19, CLASSIC: 20, WINDOW: 21, STUCCO: 22,
-  CITY_HALL: 23, BROAD: 24, DISNEY: 25, MISSION: 26, US_BANK: 27, WILSHIRE: 28 } as const;
+  CITY_HALL: 23, BROAD: 24, DISNEY: 25, MISSION: 26, US_BANK: 27, WILSHIRE: 28, DISNEY_GLASS: 29 } as const;
 
 type U<T> = { value: T };
 export interface VoxelUniforms {
@@ -131,13 +131,27 @@ const SURFACE = `
   gEmissive = vec3(0.); gRough = 0.88; gMetal = 0.0;
   vec3 col = base * (0.97 + 0.06 * h);
   bool shopLvl = lvl > 0.5 && lvl < 3.5;
-  if (m == ${MAT.WALL} || m == ${MAT.CONCRETE}) {
+  if (m == ${MAT.WALL}) {
     if (vert) {
-      float fl = mod(lvl, 3.0);
+      // Continuous coverage avoids binary floor/modulo edges breaking into pixel speckles.
+      float along = abs(vN.x) > 0.5 ? vVox.z : vVox.x;
+      float up = vVox.y - gz;
+      float fy = max(fwidth(up), 0.0001);
+      float shop = smoothstep(1.0 - fy, 1.0 + fy, up) * (1.0 - smoothstep(4.0 - fy, 4.0 + fy, up));
+      float upperWin = facadeBox(vec2(along + 0.5, vVox.y - 0.5), vec2(2.0, 3.0), vec2(0.5), vec2(1.5, 2.5));
+      float shopWin = facadeBox(vec2(along - 0.5, 1.5), vec2(5.0, 3.0), vec2(0.5, 0.0), vec2(4.5, 3.0));
+      float win = mix(upperWin, shopWin, shop);
+      vec3 glass = mix(base * 0.42, vec3(0.10, 0.13, 0.17), 0.55) + 0.025 * h;
+      col = mix(col, glass, win);
+      gRough = mix(gRough, 0.12, win); gMetal = 0.6 * win;
+      vec2 room = vec2(floor(along / 4.0) + wpos * 17.31 + vN.x * 3.1, floor(vVox.y / 3.0) + vN.z * 5.7);
+      vec3 shopLight = hash12(vec2(floor(along / 6.0), wpos * 3.7)) < 0.8 ? vec3(1.0, 0.78, 0.52) * 1.5 : vec3(0.0);
+      gEmissive = mix(roomLight(cell, room, 0.15), shopLight, shop) * win * uNight;
+    }
+  } else if (m == ${MAT.CONCRETE}) {
+    if (vert) {
       bool shop = lvl < 4.0 && lvl >= 1.0;
-      bool win = m == ${MAT.WALL} ? (fl > 0.5 && mod(u, 2.0) < 0.5) : false;
-      if (m == ${MAT.CONCRETE}) win = shop && mod(u, 4.0) > 0.5;
-      if (shop && m == ${MAT.WALL}) win = mod(u, 5.0) > 0.5 && lvl > 0.5;
+      bool win = shop && mod(u, 4.0) > 0.5;
       if (win) {
         col = mix(base * 0.42, vec3(0.10, 0.13, 0.17), 0.55) + 0.025 * h;
         gRough = 0.12; gMetal = 0.6;
@@ -165,6 +179,7 @@ const SURFACE = `
     vec2 p = vec2(along, up);
     vec2 room = vec2(floor(along / 3.6) + side * 137.31, floor(up / 4.0));
     float opening = 0.0;
+    float broadEye = 0.0;
     vec3 glazing = vec3(0.055, 0.075, 0.09);
     col = base * (0.985 + 0.03 * h);
     if (m == ${MAT.WILSHIRE} && up >= uLandmarkSpireBases[m - ${MAT.CITY_HALL}]) {
@@ -178,6 +193,12 @@ const SURFACE = `
         float panel = facadeBox(p, vec2(3.0, 5.0), vec2(0.025), vec2(2.975, 4.975));
         col *= mix(0.87, 1.0, panel);
       }
+      // LA Phil's night exterior shows grey steel catching soft white architectural
+      // light, with warmer spill at its foot; the sails themselves remain opaque.
+      float litFace = 0.65 + 0.35 * max(0.0, dot(normalize(vFacadeN), normalize(vec3(-0.4, 0.7, 0.6))));
+      float steelWash = (0.12 + 0.22 * exp(-max(up, 0.0) / 38.0)) * litFace;
+      gEmissive = base * (vec3(0.9, 0.94, 1.0) * steelWash
+        + vec3(1.0, 0.77, 0.53) * 0.07 * exp(-max(up, 0.0) / 12.0)) * uNight;
     } else if (vert) {
       if (m == ${MAT.CITY_HALL}) {
         // Punched windows retain broad stone piers and solid floor spandrels.
@@ -189,15 +210,35 @@ const SURFACE = `
         room.y = floor(up / 4.2);
         gRough = 0.9;
       } else if (m == ${MAT.BROAD}) {
-        // Staggered, elongated hexagonal recesses in an ivory concrete veil.
-        vec2 q = vec2(mod(p.x + mod(floor(p.y / 3.6), 2.0) * 2.1, 4.2) - 2.1, mod(p.y, 3.6) - 1.8);
-        float edge = max(abs(q.x) / 1.65, (0.55 * abs(q.x) + abs(q.y)) / 1.5);
-        float aa = max(fwidth(edge), 0.001);
-        float fade = smoothstep(0.5, 1.5, max(fwidth(p.x), fwidth(p.y)));
-        opening = mix(1.0 - smoothstep(0.78 - aa, 0.78 + aa, edge), 0.34, fade);
-        float reveal = (1.0 - smoothstep(0.98 - aa, 0.98 + aa, edge)) * (1.0 - fade);
-        col *= 1.0 - 0.22 * reveal;
-        glazing = vec3(0.045, 0.052, 0.055);
+        // Arup's close-up: diagonal scooped GFRC lips with a dark upper throat,
+        // rather than flat hexagonal holes. Module scale is estimated from the
+        // architect's front elevation photograph, not fabrication measurements.
+        float veilAlong = acrossFace ? -p.x : p.x;
+        // Photo-guided Grand Avenue oculus: a depressed, stretched veil around
+        // glazing, not an empty circular hole. Dimensions are approximate.
+        float front = acrossFace && depth > 0.0 ? 1.0 : 0.0;
+        vec2 eye = vec2((veilAlong + 4.8) / 5.8, (up - 11.5) / 4.5);
+        eye.y += 0.10 * eye.x;
+        float eyeRadius = length(eye);
+        float depression = (1.0 - smoothstep(0.35, 1.35, eyeRadius)) * front;
+        vec2 warped = vec2(veilAlong, up) + eye * vec2(1.4, 1.1) * depression;
+        vec2 lattice = vec2(warped.x / 1.55 - 1.5 * warped.y / 1.45, warped.y / 1.45);
+        vec2 q = fract(lattice) - 0.5;
+        float scoopEdge = pow(q.x / 0.30, 2.0) + pow(q.y / 0.49, 2.0);
+        float throatEdge = pow(q.x / 0.14, 2.0) + pow((q.y - 0.05) / 0.37, 2.0);
+        float scoopAA = max(fwidth(scoopEdge), 0.001), throatAA = max(fwidth(throatEdge), 0.001);
+        float fade = smoothstep(0.3, 0.85, max(fwidth(lattice.x), fwidth(lattice.y)));
+        float scoop = (1.0 - smoothstep(1.0 - scoopAA, 1.0 + scoopAA, scoopEdge)) * (1.0 - fade);
+        opening = mix(1.0 - smoothstep(1.0 - throatAA, 1.0 + throatAA, throatEdge), 0.16, fade);
+        float bowlShade = mix(0.08, 0.48, smoothstep(-0.3, 0.35, q.x));
+        col *= mix(1.0 - scoop * bowlShade, 0.94, fade);
+        col *= 1.0 - depression * (0.32 + 0.28 * smoothstep(-0.4, 0.6, eye.y));
+        float eyeAA = max(fwidth(eyeRadius), 0.012);
+        broadEye = (1.0 - smoothstep(0.53 - eyeAA, 0.53 + eyeAA, eyeRadius)) * front;
+        // A narrow mullion survives across the recessed glazing.
+        float mullion = 1.0 - smoothstep(0.03, 0.075, abs(eye.x + 0.09 * eye.y));
+        opening = mix(opening, 0.98 - 0.12 * mullion, broadEye);
+        glazing = vec3(0.075, 0.085, 0.088);
         gRough = 0.94;
       } else if (m == ${MAT.MISSION}) {
         // Restrained tall openings with a round arch; stucco stays dominant.
@@ -228,10 +269,13 @@ const SURFACE = `
       gRough = mix(gRough, m == ${MAT.BROAD} ? 0.65 : 0.20, opening);
       gMetal = opening * (m == ${MAT.BROAD} ? 0.08 : 0.38);
       if (m == ${MAT.BROAD}) {
-        // Continuous in-grade uplighting softly washes the veil; recesses stay subdued.
-        float wash = 0.14 + 0.46 * exp(-max(up, 0.0) / 30.0);
-        gEmissive = (col * vec3(1.0, 0.95, 0.85) * wash
-          + vec3(0.065, 0.061, 0.052) * opening) * uNight;
+        // Tillotson's photograph has a softly white floodlit veil and a continuous
+        // gallery-lit zone behind it, with most deep throats remaining dark.
+        float wash = 0.22 + 0.50 * exp(-max(up, 0.0) / 26.0);
+        float gallery = smoothstep(11.0, 14.0, up) * (1.0 - smoothstep(20.0, 23.0, up));
+        gEmissive = (col * vec3(1.0, 0.98, 0.93) * wash
+          + vec3(0.92, 0.95, 1.0) * (0.018 + 0.15 * gallery) * opening) * uNight;
+        gEmissive += vec3(1.0, 0.91, 0.77) * broadEye * 0.09 * uNight;
       } else {
         float strength = m == ${MAT.MISSION} ? 0.4 : 0.65;
         gEmissive = roomLight(frame.xyz, room, m >= ${MAT.US_BANK} ? 0.6 : 0.15) * opening * uNight * strength;
@@ -260,6 +304,11 @@ const SURFACE = `
       vec3 light = ground ? (hash12(room + 1.7) < 0.7 ? vec3(1.0, 0.76, 0.5) * 1.3 : vec3(0.0)) : roomLight(cell, room, 0.1);
       gEmissive = light * win * (1.0 - 0.5 * min(reveal, 1.0)) * uNight;
     }
+  } else if (m == ${MAT.DISNEY_GLASS}) {
+    // Authored glazing geometry defines these openings; no invented office grid.
+    col = base * (0.72 + 0.04 * h);
+    gRough = 0.16; gMetal = 0.22;
+    gEmissive = vec3(1.0, 0.68, 0.36) * 0.8 * uNight;
   } else if (m == ${MAT.GLASS}) {
     if (vert) {
       if (mod(lvl, 4.0) < 0.5) { col = base * 0.55 + 0.04; gRough = 0.5; }
@@ -275,11 +324,16 @@ const SURFACE = `
     gRough = 0.8;
     if (vert && lvl < 7.5) col *= mod(lvl, 2.0) < 1.0 ? 0.9 : 1.0;
   } else if (m == ${MAT.RIBBON}) {
-    if (vert && mod(lvl, 4.0) > 1.5) {
-      col = mix(base * 0.4, vec3(0.12, 0.16, 0.2), 0.6) + 0.02 * h; gRough = 0.08; gMetal = 0.55;
-      vec2 zone = vec2(floor(u / 12.0) + wpos * 13.7 + vN.x * 2.3, floor(lvl / 4.0) + vN.z * 4.1);
-      gEmissive = roomLight(cell, zone, 0.5) * uNight;
-    } else { gRough = 0.4; gMetal = 0.3; }
+    // World-height floors remain level across sloping terrain beneath one tower.
+    gRough = 0.75; gMetal = 0.0;
+    if (vert) {
+      float win = facadeBox(vec2(1.0, vVox.y - 0.8), vec2(2.0, 4.0), vec2(0.0, 0.8), vec2(2.0, 3.2));
+      vec3 glass = mix(base * 0.4, vec3(0.12, 0.16, 0.2), 0.6) + 0.02 * h;
+      col = mix(col, glass, win);
+      gRough = mix(gRough, 0.08, win); gMetal = 0.55 * win;
+      vec2 zone = vec2(floor(u / 12.0) + wpos * 13.7 + vN.x * 2.3, floor(vVox.y / 4.0) + vN.z * 4.1);
+      gEmissive = roomLight(cell, zone, 0.5) * win * uNight;
+    }
   } else if (m == ${MAT.WINDOW}) {
     gRough = 0.15; gMetal = 0.35;
     col *= 0.6;

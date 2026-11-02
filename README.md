@@ -70,6 +70,8 @@ sh scripts/build_data.sh   # downloads (cached), then rasterise + voxelise: ~7 m
 ## Known limits
 
 - **Wall colours** come from OSM where tagged, otherwise from a palette picked by building type and height.
+  A [source-linked roster](docs/facade-color-roster.html) reviews 53 recognizable buildings;
+  36 verified, footprint-bounded corrections take precedence over generic colours.
   Six landmarks have dedicated facade treatments; windows and veil recesses are procedural, not surveyed.
   See [landmark facade notes](docs/landmark-facades.md) for identities, references and remaining geometry limits.
 - **Glass towers lean in NAIP**, so their roofs use a default grey instead of the photo colour.
@@ -90,7 +92,8 @@ Follow-up work. Landmark facades are the current priority, with traffic next.
 - [ ] **People** on Broadway, in Grand Park and at LA Live on event nights.
 
 **Windows and facades**
-- [ ] **Building color normalization**: preserve the character of the current generic palette, reduce overly saturated orange, and shift known buildings toward documented real facade colors. Use targeted building overrides rather than a wholesale palette replacement.
+- [x] **Building color normalization, first pass**: 36 source-supported facade corrections, including muted rose granite, pale stone, turquoise terra-cotta and dark bronze; preserve the generic palette and lighting mood.
+- [ ] **Color roster follow-up**: resolve the 17 provisional entries and add material zoning, contrasting trim and building-specific glazing proportions. The [checked roster](docs/facade-color-roster.html) records evidence and limitations.
 - [ ] **Realistic windows**: floor height and window rhythm from `building:levels` and building type, so curtain-wall towers, punched-window lofts and warehouses each look different.
 - [ ] **Lit windows by use**: offices empty out after 7 pm, residential lofts fill up, hotels stay half lit (from OSM building use and POIs).
 - [ ] **Shop fronts and signs**: ground-floor retail bands along Broadway, Spring and 7th, plus the historic theatre marquees.
@@ -103,7 +106,8 @@ Follow-up work. Landmark facades are the current priority, with traffic next.
 - [x] The Broad's soft veil lighting and a window-free Wilshire Grand spire.
 - [x] Model-derived red warning lights on 18 towers, including Wilshire Grand's tip beacon.
 - [ ] Further City Hall geometry detail beyond the measured setbacks and pyramid (local plateau noise cleaned).
-- [ ] Disney Hall's curved shell geometry beyond the measured voxel surfaces (curved roof profiles now bypass generic flat-roof cleanup).
+- [x] Disney Hall's authored 3D shells voxelized with real gaps, overhangs and separately lit glazing; registered against cached LiDAR and aerial imagery.
+- [ ] Further Disney Hall as-built refinement beyond the licensed academic model, especially clipped peripheral sails and landscape interfaces.
 - [ ] The Broad's lifted corners and physical veil depth beyond the surface pattern.
 - [ ] Union Station's clock faces, arcades and refined tile-roof geometry.
 - [ ] Detailed crowns of Wilshire Grand and U.S. Bank Tower.
@@ -133,4 +137,8 @@ Follow-up work. Landmark facades are the current priority, with traffic next.
 ## License
 
 Code: MIT (`LICENSE`). Generated data in `web/public/data` derives from OpenStreetMap (ODbL, © OpenStreetMap contributors)
-and from USGS and USDA public-domain data.
+and from USGS and USDA public-domain data. The Disney Hall shell derivative uses
+[Russell.Zazueta.Rivera's model](https://doi.org/10.5281/zenodo.10382043), licensed
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). It has been registered,
+filtered and voxelized; source attribution and the reproducible transform are in
+[the model manifest](scripts/assets/disney-shell.json).

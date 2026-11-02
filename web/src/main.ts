@@ -48,7 +48,8 @@ let roam = 1500; // how far the camera may stray beyond the map's edge
 nav.cancelFly = () => { fly = null; };
 new ResizeObserver(() => { barRect = null; }).observe(bar.el);
 el('div', '', `<div>Viewer adapted from <a href="https://github.com/stared/warsaw-vibe-voxel" target="_blank" rel="noopener">warsaw-vibe-voxel</a> by Piotr Migdał (MIT)</div>
-  <div>Map data <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a></div>`).id = 'credits';
+  <div>Map data <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a></div>
+  <div>Disney Hall model: <a href="https://doi.org/10.5281/zenodo.10382043" target="_blank" rel="noopener">Russell.Zazueta.Rivera</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a></div>`).id = 'credits';
 if (qs.get('ui') === '0') document.body.classList.add('noui');
 addEventListener('resize', onResize);
 addEventListener('keydown', (e) => {

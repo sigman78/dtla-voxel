@@ -1,0 +1,2654 @@
+{
+  "version": 1,
+  "date": "2026-11-02",
+  "scope": "Recognizable skyline, historic, civic and cultural buildings inside the DTLA export",
+  "colorMeaning": "Art-directed material-family adaptations, not calibrated albedo measurements. Verified means source-supported material and exact cached footprint.",
+  "entries": [
+    {
+      "key": "bradbury",
+      "name": "Bradbury Building",
+      "identities": [
+        [
+          "way",
+          427942768
+        ]
+      ],
+      "identity": {
+        "type": "way",
+        "id": 427942768
+      },
+      "anchor": [
+        2305.95,
+        1239.71
+      ],
+      "area": 2105.1,
+      "maxDistance": 35,
+      "minArea": 1684,
+      "maxArea": 2526,
+      "color": "#a18168",
+      "material": "wall",
+      "sourceURL": "https://spectracompany.com/project/bradbury-building/",
+      "sources": [
+        "https://spectracompany.com/project/bradbury-building/"
+      ],
+      "evidence": "Restoration contractor documents carved sandstone exterior and sandstone/masonry restoration; project scope includes brick. Muted sandstone/brick brown preserves the actual warm material instead of flattening it to cream.",
+      "confidence": "high",
+      "status": "verified",
+      "colorInterpretation": "Aesthetic adaptation of documented material family; not measured as-built albedo or exact paint match.",
+      "accentColor": "#b6a28b",
+      "beforeColor": "#e8e0c8",
+      "beforeMaterial": 20,
+      "notes": " Windowed opaque-wall shader; material name describes renderer behavior, not architectural cladding."
+    },
+    {
+      "key": "eastern_columbia",
+      "name": "Eastern Columbia Building",
+      "identities": [
+        [
+          "way",
+          427942790
+        ]
+      ],
+      "identity": {
+        "type": "way",
+        "id": 427942790
+      },
+      "anchor": [
+        1152.19,
+        1150.25
+      ],
+      "area": 1673.1,
+      "maxDistance": 35,
+      "minArea": 1338,
+      "maxArea": 2008,
+      "color": "#579b97",
+      "material": "wall",
+      "sourceURL": "https://www.sgh.com/project/eastern-columbia-building/",
+      "sources": [
+        "https://www.sgh.com/project/eastern-columbia-building/"
+      ],
+      "evidence": "Restoration engineer identifies turquoise terra-cotta and gold-leaf exterior. A recognized turquoise exception should survive broad orange-neutralization. Search extract verified; direct tool fetch returned403.",
+      "confidence": "high",
+      "status": "verified",
+      "colorInterpretation": "Aesthetic adaptation of documented material family; not measured as-built albedo or exact paint match.",
+      "accentColor": "#bba05c",
+      "limitations": "Gold ornament needs local accents; do not coat entire building in gold.",
+      "beforeColor": "#e8e0d0",
+      "beforeMaterial": 22,
+      "notes": " Windowed opaque-wall shader; material name describes renderer behavior, not architectural cladding."
+    },
+    {
+      "key": "biltmore_hotel",
+      "name": "Millennium Biltmore Hotel",
+      "identities": [
+        [
+          "relation",
+          6366155
+        ]
+      ],
+      "identity": {
+        "type": "relation",
+        "id": 6366155
+      },
+      "anchor": [
+        1869.37,
+        885.41
+      ],
+      "area": 8021.0,
+      "maxDistance": 35,
+      "minArea": 6417,
+      "maxArea": 9625,
+      "color": "#9b7e70",
+      "material": "wall",
+      "sourceURL": "https://www.lapl.org/news-stories/articles/host-coast-100-years-los-angeles-biltmore",
+      "sources": [
+        "https://www.lapl.org/news-stories/articles/host-coast-100-years-los-angeles-biltmore",
+        "https://planning.lacity.gov/odocument/a5151e47-83da-41b7-ae95-dda56667848b/Beaux_Arts_Classicism_Neoclassicism_and_Italian_Rennaissance%2520Revival_1895-1940.pdf"
+      ],
+      "evidence": "LAPL centennial article quotes1921 project announcement specifying brick exterior with terra-cotta tile finishes. City SurveyLA describes stone base, brick shaft and quoins.",
+      "confidence": "high material; medium hue",
+      "status": "verified",
+      "colorInterpretation": "Aesthetic adaptation of documented material family; not measured as-built albedo or exact paint match.",
+      "limitations": "Historic hotel relation only; exclude adjacent Biltmore Tower way428021753.",
+      "beforeColor": "#dcc49c",
+      "beforeMaterial": 20,
+      "notes": "Single field color cannot reproduce pale stone base/quoins. Exact modern color is not calibrated; exclude Biltmore Tower way428021753. Windowed opaque-wall shader; material name describes renderer behavior, not architectural cladding."
+    },
+    {
+      "key": "central_library",
+      "name": "Los Angeles Public Library",
+      "identities": [
+        [
+          "way",
+          428021732
+        ]
+      ],
+      "identity": {
+        "type": "way",
+        "id": 428021732
+      },
+      "anchor": [
+        1883.15,
+        730.07
+      ],
+      "area": 9141.0,
+      "maxDistance": 35,
+      "minArea": 7313,
+      "maxArea": 10969,
+      "color": "#d4ccba",
+      "material": "wall",
+      "sourceURL": "https://kaptivecp.com/project/limestone-and-ceramic-tile-restoration-for-los-angeles-central-library/",
+      "sources": [
+        "https://kaptivecp.com/project/limestone-and-ceramic-tile-restoration-for-los-angeles-central-library/"
+      ],
+      "evidence": "Restoration contractor documents limestone entry/caps and ceramic tile pyramid roof. Pale warm neutral is appropriate for stone; roof must retain its multicolor glazed tiles.",
+      "confidence": "high",
+      "status": "verified",
+      "colorInterpretation": "Aesthetic adaptation of documented material family; not measured as-built albedo or exact paint match.",
+      "roofPolicy": "preserve",
+      "limitations": "Source confirms limestone elements, not that every face of the large OSM footprint is solid limestone.",
+      "beforeColor": "#f0d8cc",
+      "beforeMaterial": 22,
+      "notes": " Windowed opaque-wall shader; material name describes renderer behavior, not architectural cladding."
+    },
+    {
+      "key": "cathedral",
+      "name": "Cathedral of Our Lady of the Angels",
+      "identities": [
+        [
+          "way",
+          39550465
+        ]
+      ],
+      "identity": {
+        "type": "way",
+        "id": 39550465
+      },
+      "anchor": [
+        3100.27,
+        901.49
+      ],
+      "area": 5705.5,
+      "maxDistance": 35,
+      "minArea": 4564,
+      "maxArea": 6847,
+      "color": "#c7ae8d",
+      "material": "classic",
+      "sourceURL": "https://olacathedral.org/overview",
+      "sources": [
+        "https://olacathedral.org/overview"
+      ],
+      "evidence": "Official cathedral describes architectural concrete recalling sun-baked adobe mission walls. Keep restrained sandy concrete, not neon orange.",
+      "confidence": "high",
+      "status": "verified",
+      "colorInterpretation": "Aesthetic adaptation of documented material family; not measured as-built albedo or exact paint match.",
+      "beforeColor": "#d4e0e0",
+      "beforeMaterial": 22,
+      "notes": "Predominantly solid architectural concrete; avoid generic office windows. Dedicated openings remain follow-up."
+    },
+    {
+      "key": "bonaventure",
+      "name": "Westin Bonaventure",
+      "identities": [
+        [
+          "way",
+          33528271
+        ]
+      ],
+      "identity": {
+        "type": "way",
+        "id": 33528271
+      },
+      "anchor": [
+        2055.6,
+        503.73
+      ],
+      "area": 8085.7,
+      "maxDistance": 35,
+      "minArea": 6469,
+      "maxArea": 9703,
+      "color": "#788581",
+      "material": "glass",
+      "sourceURL": "https://portmanarchitects.com/project/the-westin-bonaventure/",
+      "sources": [
+        "https://portmanarchitects.com/project/the-westin-bonaventure/"
+      ],
+      "evidence": "Architect describes five glass-clad cylindrical towers. OSM material=mirror and colour#585647. Proposed subdued grey-blue acknowledges reflection without presenting bronze/olive pixel color as intrinsic paint.",
+      "confidence": "high",
+      "status": "verified",
+      "colorInterpretation": "Aesthetic adaptation of documented material family; not measured as-built albedo or exact paint match.",
+      "osmColour": "#585647",
+      "notes": "Neutral cool reflective glass compromise; reflections vary strongly with view and light.",
+      "beforeColor": "#605c4c",
+      "beforeMaterial": 2
+    },
+    {
+      "key": "fine_arts",
+      "name": "Fine Arts Building",
+      "identities": [
+        [
+          "way",
+          428021754
+        ]
+      ],
+      "identity": {
+        "type": "way",
+        "id": 428021754
+      },
+      "anchor": [
+        1562.48,
+        516.88
+      ],
+      "area": 903.7,
+      "maxDistance": 35,
+      "minArea": 723,
+      "maxArea": 1084,
+      "color": "#b7a18a",
+      "material": "wall",
+      "sourceURL": "https://spectracompany.com/project/fine-arts-building/",
+      "sources": [
+        "https://spectracompany.com/project/fine-arts-building/"
+      ],
+      "evidence": "Restoration contractor documents terra-cotta, bronze sculpture and fountain restoration. Proposed warm neutral is an artistic terra-cotta-family interpretation; exact current facade hue was not sampled.",
+      "confidence": "medium",
+      "status": "verified",
+      "colorInterpretation": "Aesthetic adaptation of documented material family; not measured as-built albedo or exact paint match.",
+      "accentColor": "#83735f",
+      "beforeColor": "#94b4b8",
+      "beforeMaterial": 2,
+      "notes": " Windowed opaque-wall shader; material name describes renderer behavior, not architectural cladding."
+    },
+    {
+      "key": "tower_theatre",
+      "name": "Tower Theatre",
+      "identities": [
+        [
+          "way",
+          427942910
+        ]
+      ],
+      "identity": {
+        "type": "way",
+        "id": 427942910
+      },
+      "anchor": [
+        1309.59,
+        1226.57
+      ],
+      "area": 646.8,
+      "maxDistance": 35,
+      "minArea": 517,
+      "maxArea": 776,
+      "color": "#d5cebf",
+      "material": "wall",
+      "sourceURL": "https://www.apple.com/newsroom/2021/06/apple-tower-theatre-opens-thursday-in-downtown-los-angeles/",
+      "sources": [
+        "https://www.apple.com/newsroom/2021/06/apple-tower-theatre-opens-thursday-in-downtown-los-angeles/"
+      ],
+      "evidence": "Apple documents cleaned terra-cotta exterior and restored tower; Shawmut independently states exterior glazed terra-cotta restoration. Use pale neutral ceramic, retain sign colors separately.",
+      "confidence": "high",
+      "status": "verified",
+      "colorInterpretation": "Aesthetic adaptation of documented material family; not measured as-built albedo or exact paint match.",
+      "additionalSources": [
+        "https://www.shawmut.com/project/apple-tower-theatre"
+      ],
+      "beforeColor": "#d4e0e0",
+      "beforeMaterial": 22,
+      "notes": " Windowed opaque-wall shader; material name describes renderer behavior, not architectural cladding."
+    },
+    {
+      "key": "palace_theatre",
+      "name": "Downtown Palace Theatre",
+      "identities": [
+        [
+          "way",
+          428017955
+        ]
+      ],
+      "identity": {
+        "type": "way",
+        "id": 428017955
+      },
+      "anchor": [
+        1626.55,
+        1228.58
+      ],
+      "area": 1711.6,
+      "maxDistance": 35,
+      "minArea": 1369,
+      "maxArea": 2054,
+      "color": "#cdbfa9",
+      "material": "wall",
+      "sourceURL": "https://www.historictheatrephotos.com/Resources/Theatre-Photos/Palace-Los-Angeles/Documents/Architect-and-Engineer-Vol26-No2-Orpheum-Extract.pdf",
+      "sources": [
+        "https://www.historictheatrephotos.com/Resources/Theatre-Photos/Palace-Los-Angeles/Documents/Architect-and-Engineer-Vol26-No2-Orpheum-Extract.pdf"
+      ],
+      "evidence": "Contemporaneous1911 architecture account describes the original Orpheum (now Palace) semiglazed multicolor terra-cotta facade. Pale base is only its field; colored ornament must remain.",
+      "confidence": "medium",
+      "status": "verified",
+      "colorInterpretation": "Aesthetic adaptation of documented material family; not measured as-built albedo or exact paint match.",
+      "limitations": "Do not confuse1911 Palace with1926 Orpheum way427942907. One color cannot reproduce polychrome details.",
+      "beforeColor": "#e8d8b8",
+      "beforeMaterial": 20,
+      "notes": " Windowed opaque-wall shader; material name describes renderer behavior, not architectural cladding."
+    },
+    {
+      "key": "orpheum",
+      "name": "The Orpheum Lofts",
+      "identities": [
+        [
+          "way",
+          427942907
+        ]
+      ],
+      "identity": {
+        "type": "way",
+        "id": 427942907
+      },
+      "anchor": [
+        1185.09,
+        1225.12
+      ],
+      "area": 1899.5,
+      "maxDistance": 35,
+      "minArea": 1520,
+      "maxArea": 2279,
+      "color": "#bdbbb2",
+      "material": "wall",
+      "sourceURL": "https://www.laconservancy.org/learn/historic-places/orpheum-theatre-and-loft-building/",
+      "sources": [
+        "https://www.laconservancy.org/learn/historic-places/orpheum-theatre-and-loft-building/"
+      ],
+      "evidence": "Preservation organization explicitly describes gray terra-cotta facade. Cached building named The Orpheum Lofts includes the theatre/loft block.",
+      "confidence": "high",
+      "status": "verified",
+      "colorInterpretation": "Aesthetic adaptation of documented material family; not measured as-built albedo or exact paint match.",
+      "sourceKind": "preservation organization",
+      "beforeColor": "#e8b8a0",
+      "beforeMaterial": 22,
+      "notes": " Windowed opaque-wall shader; material name describes renderer behavior, not architectural cladding."
+    },
+    {
+      "key": "united_artists",
+      "name": "United Artists Theater Building",
+      "identities": [
+        [
+          "way",
+          428128014
+        ]
+      ],
+      "identity": {
+        "type": "way",
+        "id": 428128014
+      },
+      "anchor": [
+        1030.71,
+        1149.98
+      ],
+      "area": 2019.1,
+      "maxDistance": 35,
+      "minArea": 1615,
+      "maxArea": 2423,
+      "color": "#d0c7b8",
+      "material": "wall",
+      "sourceURL": "https://historictheatrephotos.com/Resources/Theatre-Photos/United-Artists-Los-Angeles/Documents/192901-United-Artists-Los-Angeles-Pacific-Coast-Architect.pdf",
+      "sources": [
+        "https://historictheatrephotos.com/Resources/Theatre-Photos/United-Artists-Los-Angeles/Documents/192901-United-Artists-Los-Angeles-Pacific-Coast-Architect.pdf"
+      ],
+      "evidence": "Contemporaneous1929 LA architecture account documents terra-cotta embellishments; proposed light neutral field is art direction, not an exact restoration sample.",
+      "confidence": "medium",
+      "status": "verified",
+      "colorInterpretation": "Aesthetic adaptation of documented material family; not measured as-built albedo or exact paint match.",
+      "beforeColor": "#dcc49c",
+      "beforeMaterial": 20,
+      "notes": " Windowed opaque-wall shader; material name describes renderer behavior, not architectural cladding."
+    },
+    {
+      "key": "los_angeles_theatre",
+      "name": "Los Angeles Theatre",
+      "identities": [
+        [
+          "way",
+          427942889
+        ]
+      ],
+      "identity": {
+        "type": "way",
+        "id": 427942889
+      },
+      "anchor": [
+        1677.58,
+        1140.0
+      ],
+      "area": 2909.7,
+      "maxDistance": 35,
+      "minArea": 2328,
+      "maxArea": 3492,
+      "color": "#d4c8b5",
+      "material": "classic",
+      "sourceURL": "https://evergreene.com/projects/los-angeles-theatre/",
+      "sources": [
+        "https://evergreene.com/projects/los-angeles-theatre/"
+      ],
+      "evidence": "Restoration contractor confirms theatre and multiple historic finishes, but inspected description concerns interior and does not establish current exterior field hue. Exterior cream recommendation pending.",
+      "confidence": "low",
+      "status": "provisional",
+      "colorInterpretation": "Aesthetic adaptation of documented material family; not measured as-built albedo or exact paint match.",
+      "beforeColor": "#d8ccb0",
+      "beforeMaterial": 20
+    },
+    {
+      "key": "arcade_theatre",
+      "name": "Arcade Theatre",
+      "identities": [
+        [
+          "way",
+          427942767
+        ]
+      ],
+      "identity": {
+        "type": "way",
+        "id": 427942767
+      },
+      "anchor": [
+        1820.29,
+        1231.98
+      ],
+      "area": 902.0,
+      "maxDistance": 35,
+      "minArea": 722,
+      "maxArea": 1082,
+      "color": "#beaf98",
+      "material": "classic",
+      "sourceURL": "https://www.openstreetmap.org/way/427942767",
+      "sources": [
+        "https://www.openstreetmap.org/way/427942767"
+      ],
+      "evidence": "OSM identity and footprint verified. Material and current field hue not verified; warm neutral is a placeholder pending documentary/daylight review.",
+      "confidence": "low",
+      "status": "provisional",
+      "colorInterpretation": "Aesthetic adaptation of documented material family; not measured as-built albedo or exact paint match.",
+      "beforeColor": "#d8c4e0",
+      "beforeMaterial": 22
+    },
+    {
+      "key": "cameo_theatre",
+      "name": "Cameo Theatre",
+      "identities": [
+        [
+          "way",
+          427942876
+        ]
+      ],
+      "identity": {
+        "type": "way",
+        "id": 427942876
+      },
+      "anchor": [
+        1838.52,
+        1230.32
+      ],
+      "area": 889.4,
+      "maxDistance": 35,
+      "minArea": 712,
+      "maxArea": 1067,
+      "color": "#c5bba9",
+      "material": "classic",
+      "sourceURL": "https://www.openstreetmap.org/way/427942876",
+      "sources": [
+        "https://www.openstreetmap.org/way/427942876"
+      ],
+      "evidence": "OSM historic theatre identity/geometry verified; exterior finish/color not yet source-confirmed.",
+      "confidence": "low",
+      "status": "provisional",
+      "colorInterpretation": "Aesthetic adaptation of documented material family; not measured as-built albedo or exact paint match.",
+      "beforeColor": "#d8c4e0",
+      "beforeMaterial": 22
+    },
+    {
+      "key": "roxie_theatre",
+      "name": "Roxie Theatre",
+      "identities": [
+        [
+          "way",
+          427942901
+        ]
+      ],
+      "identity": {
+        "type": "way",
+        "id": 427942901
+      },
+      "anchor": [
+        1859.77,
+        1228.92
+      ],
+      "area": 964.4,
+      "maxDistance": 35,
+      "minArea": 772,
+      "maxArea": 1157,
+      "color": "#c5bead",
+      "material": "classic",
+      "sourceURL": "https://www.openstreetmap.org/way/427942901",
+      "sources": [
+        "https://www.openstreetmap.org/way/427942901"
+      ],
+      "evidence": "OSM identity/footprint verified; current exterior treatment and signs require review before override.",
+      "confidence": "low",
+      "status": "provisional",
+      "colorInterpretation": "Aesthetic adaptation of documented material family; not measured as-built albedo or exact paint match.",
+      "beforeColor": "#f4e0c8",
+      "beforeMaterial": 22
+    },
+    {
+      "key": "alexandria_hotel",
+      "name": "Alexandria Hotel",
+      "identities": [
+        [
+          "way",
+          427942969
+        ]
+      ],
+      "identity": {
+        "type": "way",
+        "id": 427942969
+      },
+      "anchor": [
+        1902.01,
+        1282.92
+      ],
+      "area": 1680.2,
+      "maxDistance": 35,
+      "minArea": 1344,
+      "maxArea": 2016,
+      "color": "#b4a18a",
+      "material": "classic",
+      "sourceURL": "https://www.openstreetmap.org/way/427942969",
+      "sources": [
+        "https://www.openstreetmap.org/way/427942969"
+      ],
+      "evidence": "OSM identity/footprint verified; proposed buff neutral is provisional pending facade material evidence.",
+      "confidence": "low",
+      "status": "provisional",
+      "colorInterpretation": "Aesthetic adaptation of documented material family; not measured as-built albedo or exact paint match.",
+      "beforeColor": "#f0d8cc",
+      "beforeMaterial": 22
+    },
+    {
+      "key": "hall_justice",
+      "name": "Los Angeles County Hall of Justice",
+      "identities": [
+        [
+          "relation",
+          6333146
+        ]
+      ],
+      "identity": {
+        "type": "relation",
+        "id": 6333146
+      },
+      "anchor": [
+        3048.86,
+        1256.1
+      ],
+      "area": 3669.3,
+      "maxDistance": 35,
+      "minArea": 2935,
+      "maxArea": 4403,
+      "color": "#d2d1c8",
+      "material": "wall",
+      "sourceURL": "https://www.wje.com/assets/pdfs/projects/Los_Angeles_County_Hall_of_Justice.pdf",
+      "sources": [
+        "https://www.wje.com/assets/pdfs/projects/Los_Angeles_County_Hall_of_Justice.pdf"
+      ],
+      "evidence": "Envelope restoration engineer documents granite and ornamental terra-cotta facades and copper roofing. Pale neutral stone family corroborated by LAPL official photo record describing white granite.",
+      "confidence": "high",
+      "status": "verified",
+      "colorInterpretation": "Aesthetic adaptation of documented material family; not measured as-built albedo or exact paint match.",
+      "roofPolicy": "preserve",
+      "additionalSources": [
+        "https://tessa2.lapl.org/digital/collection/photos/id/3297/"
+      ],
+      "beforeColor": "#94b4b8",
+      "beforeMaterial": 2,
+      "notes": " Windowed opaque-wall shader; material name describes renderer behavior, not architectural cladding."
+    },
+    {
+      "key": "hall_records",
+      "name": "Los Angeles County Hall of Records",
+      "identities": [
+        [
+          "way",
+          1307601688
+        ]
+      ],
+      "identity": {
+        "type": "way",
+        "id": 1307601688
+      },
+      "anchor": [
+        2958.68,
+        1140.3
+      ],
+      "area": 5190.1,
+      "maxDistance": 35,
+      "minArea": 4152,
+      "maxArea": 6228,
+      "color": "#bbc0b8",
+      "material": "wall",
+      "sourceURL": "https://www.laconservancy.org/learn/historic-places/los-angeles-county-hall-of-records/",
+      "sources": [
+        "https://www.laconservancy.org/learn/historic-places/los-angeles-county-hall-of-records/"
+      ],
+      "evidence": "Preservation record identifies aluminum louvers, ceramic screen, glass-tile/granite mosaic. Proposed cool neutral emphasizes louvers rather than orange sandstone; exact field hue unsampled.",
+      "confidence": "medium",
+      "status": "verified",
+      "colorInterpretation": "Aesthetic adaptation of documented material family; not measured as-built albedo or exact paint match.",
+      "sourceKind": "preservation organization",
+      "limitations": "Do not apply interior marble claim to entire exterior; decorative screen and mosaic require separate zoning.",
+      "beforeColor": "#e8d8b8",
+      "beforeMaterial": 20
+    },
+    {
+      "key": "caltrans",
+      "name": "CalTrans District 7 Headquarters",
+      "identities": [
+        [
+          "way",
+          425993506
+        ]
+      ],
+      "identity": {
+        "type": "way",
+        "id": 425993506
+      },
+      "anchor": [
+        2608.62,
+        1521.68
+      ],
+      "area": 10775.2,
+      "maxDistance": 35,
+      "minArea": 8620,
+      "maxArea": 12930,
+      "color": "#969f9e",
+      "material": "wall",
+      "sourceURL": "https://www.usmodernist.org/AIALAX/AIALAX-2006-01-02.pdf",
+      "sources": [
+        "https://www.usmodernist.org/AIALAX/AIALAX-2006-01-02.pdf"
+      ],
+      "evidence": "Contemporary AIA Los Angeles award report identifies perforated aluminum mechanical facade skin over glazing. Low-chroma cool grey; underlying glass and scrim should remain distinct.",
+      "confidence": "high",
+      "status": "verified",
+      "colorInterpretation": "Aesthetic adaptation of documented material family; not measured as-built albedo or exact paint match.",
+      "limitations": "Plain wall material cannot reproduce moving/perforated panel transparency.",
+      "beforeColor": "#70948c",
+      "beforeMaterial": 2
+    },
+    {
+      "key": "janm",
+      "name": "Japanese American National Museum",
+      "identities": [
+        [
+          "relation",
+          6363655
+        ]
+      ],
+      "identity": {
+        "type": "relation",
+        "id": 6363655
+      },
+      "anchor": [
+        2747.05,
+        1979.25
+      ],
+      "area": 4747.7,
+      "maxDistance": 35,
+      "minArea": 3798,
+      "maxArea": 5697,
+      "color": "#baa990",
+      "material": "preserve",
+      "sourceURL": "https://www.janm.org/about/campus",
+      "sources": [
+        "https://www.janm.org/about/campus"
+      ],
+      "evidence": "Official museum gives yellow Italian granite wall, red Indian sandstone wall, tinted glass and perforated stainless steel. Material evidence is verified, but a uniform whole-footprint yellow override would be misleading.",
+      "confidence": "high",
+      "status": "provisional",
+      "colorInterpretation": "Aesthetic adaptation of documented material family; not measured as-built albedo or exact paint match.",
+      "accentColor": "#a77562",
+      "limitations": "Requires directional wall/material zoning before normalization; recommendation preserve, not whole-building yellow.",
+      "beforeColor": "#ecccac",
+      "beforeMaterial": 22
+    },
+    {
+      "key": "pico_house",
+      "name": "Pico House",
+      "identities": [
+        [
+          "relation",
+          12292681
+        ]
+      ],
+      "identity": {
+        "type": "relation",
+        "id": 12292681
+      },
+      "anchor": [
+        3274.44,
+        1483.8
+      ],
+      "area": 908.3,
+      "maxDistance": 35,
+      "minArea": 727,
+      "maxArea": 1090,
+      "color": "#b9b5a5",
+      "material": "stucco",
+      "sourceURL": "https://elpueblo.lacity.gov/history-el-pueblo",
+      "sources": [
+        "https://elpueblo.lacity.gov/history-el-pueblo",
+        "https://planning.lacity.gov/odocument/f492ac7e-4b42-4ab2-95dd-2e27b2336138/Hotels_1870-1980_0.pdf",
+        "https://www.latimes.com/archives/la-xpm-2000-apr-21-me-21980-story.html"
+      ],
+      "evidence": "Official city history documents Main/Plaza facades stuccoed to resemble blue granite historically. Current hue not confirmed; keep proposed neutral provisional rather than repainting blue based only on original intent.",
+      "confidence": "medium",
+      "status": "provisional",
+      "colorInterpretation": "Aesthetic adaptation of documented material family; not measured as-built albedo or exact paint match.",
+      "beforeColor": "#e8b8a0",
+      "beforeMaterial": 22,
+      "followupEvidence": {
+        "key": "pico_house",
+        "identity": {
+          "type": "relation",
+          "id": 12292681
+        },
+        "statusRecommendation": "provisional",
+        "color": "#b9b5a5",
+        "material": "stucco",
+        "confidence": "high historic material; low current applied color",
+        "sources": [
+          "https://elpueblo.lacity.gov/history-el-pueblo",
+          "https://planning.lacity.gov/odocument/f492ac7e-4b42-4ab2-95dd-2e27b2336138/Hotels_1870-1980_0.pdf",
+          "https://www.latimes.com/archives/la-xpm-2000-apr-21-me-21980-story.html"
+        ],
+        "evidence": "Official City history and SurveyLA describe masonry stuccoed/painted to resemble lightblue granite.2000contemporary renovation news reports new gray/maroon colors; historic intent therefore does not establish current blue paint.",
+        "recommendedAction": "Preserve until a recent clear city-hosted exterior image can establish current gray/maroon appearance. Avoid assuming adjacent yellow MercedTheatre is PicoHouse."
+      },
+      "notes": "  "
+    },
+    {
+      "key": "homer_laughlin",
+      "name": "Homer Laughlin Building",
+      "identities": [
+        [
+          "way",
+          904226185
+        ]
+      ],
+      "identity": {
+        "type": "way",
+        "id": 904226185
+      },
+      "anchor": [
+        2271.5,
+        1157.6
+      ],
+      "area": 1932.2,
+      "maxDistance": 35,
+      "minArea": 1546,
+      "maxArea": 2319,
+      "color": "#c7bba6",
+      "material": "classic",
+      "sourceURL": "https://www.openstreetmap.org/way/904226185",
+      "sources": [
+        "https://www.openstreetmap.org/way/904226185"
+      ],
+      "evidence": "Grand Central Market host building identity/footprint verified as Homer Laughlin Building; exterior finish and current hue require further primary evidence.",
+      "confidence": "low",
+      "status": "provisional",
+      "colorInterpretation": "Aesthetic adaptation of documented material family; not measured as-built albedo or exact paint match.",
+      "displayName": "Homer Laughlin Building / Grand Central Market",
+      "beforeColor": "#a45844",
+      "beforeMaterial": 20
+    },
+    {
+      "key": "james_oviatt",
+      "name": "James Oviatt Building",
+      "identities": [
+        [
+          "way",
+          428021729
+        ]
+      ],
+      "identity": {
+        "type": "way",
+        "id": 428021729
+      },
+      "anchor": [
+        1675.11,
+        905.43
+      ],
+      "area": 841.5,
+      "maxDistance": 35,
+      "minArea": 673,
+      "maxArea": 1010,
+      "color": "#c1b39d",
+      "material": "classic",
+      "sourceURL": "https://www.openstreetmap.org/way/428021729",
+      "sources": [
+        "https://www.openstreetmap.org/way/428021729",
+        "https://nhm.org/sites/default/files/2023-02/GC%201323%20Historic%20Sites%20Surveys%20Finding%20Aid.pdf",
+        "https://www.usmodernist.org/AIALAX/AIALAX-1980-12.pdf",
+        "https://dome.mit.edu/entities/picture/94dc19e6-8837-4014-aed1-fe3f951b5f02"
+      ],
+      "evidence": "Identity/geometry verified; do not infer exterior color from famously colored interior glass. Exterior palette pending source/photo review.",
+      "confidence": "low",
+      "status": "provisional",
+      "colorInterpretation": "Aesthetic adaptation of documented material family; not measured as-built albedo or exact paint match.",
+      "beforeColor": "#749ca8",
+      "beforeMaterial": 2,
+      "followupEvidence": {
+        "key": "james_oviatt",
+        "identity": {
+          "type": "way",
+          "id": 428021729
+        },
+        "statusRecommendation": "provisional",
+        "color": "#c1b39d",
+        "material": "classic",
+        "confidence": "medium historic material; low current full-facade hue",
+        "sources": [
+          "https://nhm.org/sites/default/files/2023-02/GC%201323%20Historic%20Sites%20Surveys%20Finding%20Aid.pdf",
+          "https://www.usmodernist.org/AIALAX/AIALAX-1980-12.pdf",
+          "https://dome.mit.edu/entities/picture/94dc19e6-8837-4014-aed1-fe3f951b5f02"
+        ],
+        "evidence": "NHM Historic Sites Surveys finding aid, file266 at617SouthOlive, describes steel structure faced with marble.1980AIALA restoration account confirms Romanesque exterior and rich Lalique/interior materials but not current entire-facade finish/hue. MIT primary photo archive has1993window detail.",
+        "reason": "Do not promote to verified whole-footprint marble without checking actual facade distribution. Search extract blue-green-gold from LAPL clipping compilation belongs to another landmark context and must not be assigned to Oviatt.",
+        "recommendedAction": "Hold pending facade image/nomination review."
+      },
+      "notes": " Do not promote to verified whole-footprint marble without checking actual facade distribution. Search extract blue-green-gold from LAPL clipping compilation belongs to another landmark context and must not be assigned to Oviatt. "
+    },
+    {
+      "key": "edison",
+      "name": "Edison Building",
+      "identities": [
+        [
+          "way",
+          427532191
+        ]
+      ],
+      "identity": {
+        "type": "way",
+        "id": 427532191
+      },
+      "anchor": [
+        1983.56,
+        778.1
+      ],
+      "area": 3001.1,
+      "maxDistance": 35,
+      "minArea": 2401,
+      "maxArea": 3601,
+      "color": "#c8c1af",
+      "material": "wall",
+      "sourceURL": "https://static.library.ucla.edu/oralhistory/text/submasters/21198-zz0008z7px-4-submaster.html",
+      "sources": [
+        "https://static.library.ucla.edu/oralhistory/text/submasters/21198-zz0008z7px-4-submaster.html",
+        "https://waterandpower.org/Museum2/Edison_Building.html"
+      ],
+      "evidence": "Architect George Allison oral history expressly states the Edison Building has no brick and is faced with limestone, terra-cotta and granite.",
+      "confidence": "high material; medium hue",
+      "status": "verified",
+      "colorInterpretation": "Aesthetic adaptation of documented material family; not measured as-built albedo or exact paint match.",
+      "beforeColor": "#d8ccb0",
+      "beforeMaterial": 20,
+      "notes": "Proposed hex is aesthetic adaptation, not calibrated stone/albedo measurement. Windowed opaque-wall shader; material name describes renderer behavior, not architectural cladding."
+    },
+    {
+      "key": "mayan",
+      "name": "Mayan Music Venue",
+      "identities": [
+        [
+          "way",
+          428128068
+        ]
+      ],
+      "identity": {
+        "type": "way",
+        "id": 428128068
+      },
+      "anchor": [
+        791.97,
+        1093.32
+      ],
+      "area": 1172.5,
+      "maxDistance": 35,
+      "minArea": 938,
+      "maxArea": 1407,
+      "color": "#af9278",
+      "material": "classic",
+      "sourceURL": "https://www.openstreetmap.org/way/428128068",
+      "sources": [
+        "https://www.openstreetmap.org/way/428128068",
+        "https://losangelestheatres.blogspot.com/2018/04/mayan-theatre.html",
+        "https://historictheatrephotos.com/Theatre/Mayan-Los-Angeles.aspx",
+        "https://www.latimes.com/archives/la-xpm-1991-01-24-vw-978-story.html"
+      ],
+      "evidence": "OSM Mayan Music Venue identity verified. Decorative exterior material and current field colors pending reference review.",
+      "confidence": "low",
+      "status": "provisional",
+      "colorInterpretation": "Aesthetic adaptation of documented material family; not measured as-built albedo or exact paint match.",
+      "beforeColor": "#e4c8a4",
+      "beforeMaterial": 22,
+      "followupEvidence": {
+        "key": "mayan",
+        "identity": {
+          "type": "way",
+          "id": 428128068
+        },
+        "statusRecommendation": "provisional",
+        "color": "#af9278",
+        "material": "classic",
+        "confidence": "medium cast ornament attribution; low current colour",
+        "sources": [
+          "https://losangelestheatres.blogspot.com/2018/04/mayan-theatre.html",
+          "https://historictheatrephotos.com/Theatre/Mayan-Los-Angeles.aspx",
+          "https://www.latimes.com/archives/la-xpm-1991-01-24-vw-978-story.html"
+        ],
+        "evidence": "Theatre historian reproduces1927newspaper construction description as reinforced-concrete structure and architectural drawings from MorganWallsClements archive. Secondary1991LATimes describes cast-stone walls. These establish construction/ornament clues, not calibrated present exterior finish.",
+        "recommendedAction": "Keep provisional. Do not infer facade color from Mayan Revival houses elsewhere or Denver Mayan theatre."
+      },
+      "notes": "  "
+    },
+    {
+      "key": "belasco",
+      "name": "The Belasco",
+      "identities": [
+        [
+          "way",
+          428128241
+        ]
+      ],
+      "identity": {
+        "type": "way",
+        "id": 428128241
+      },
+      "anchor": [
+        760.98,
+        1093.54
+      ],
+      "area": 1266.4,
+      "maxDistance": 35,
+      "minArea": 1013,
+      "maxArea": 1520,
+      "color": "#c1af96",
+      "material": "classic",
+      "sourceURL": "https://www.openstreetmap.org/way/428128241",
+      "sources": [
+        "https://www.openstreetmap.org/way/428128241"
+      ],
+      "evidence": "OSM The Belasco identity verified; proposed buff field remains provisional, including ornament and signs.",
+      "confidence": "low",
+      "status": "provisional",
+      "colorInterpretation": "Aesthetic adaptation of documented material family; not measured as-built albedo or exact paint match.",
+      "beforeColor": "#e0e4d4",
+      "beforeMaterial": 22
+    },
+    {
+      "key": "city_hall",
+      "name": "Los Angeles City Hall",
+      "identities": [
+        [
+          "relation",
+          6333145
+        ]
+      ],
+      "identity": {
+        "type": "relation",
+        "id": 6333145
+      },
+      "anchor": [
+        2869.71,
+        1403.02
+      ],
+      "area": 8746.1,
+      "maxDistance": 35,
+      "minArea": 6997,
+      "maxArea": 10495,
+      "color": "#dcd7ca",
+      "material": "preserve",
+      "sourceURL": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca1200/ca1261/data/ca1261data.pdf",
+      "sources": [
+        "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca1200/ca1261/data/ca1261data.pdf"
+      ],
+      "evidence": "HABS documents cream terra-cotta; existing dedicated facade material should be preserved while adjusting its base color.",
+      "confidence": "high",
+      "status": "verified",
+      "colorInterpretation": "Aesthetic adaptation of documented material family; not measured as-built albedo or exact paint match.",
+      "roofColor": "#dcd7ca",
+      "beforeColor": "#e0d8c8",
+      "beforeMaterial": 23
+    },
+    {
+      "key": "broad",
+      "name": "The Broad Museum",
+      "identities": [
+        [
+          "way",
+          427532197
+        ]
+      ],
+      "identity": {
+        "type": "way",
+        "id": 427532197
+      },
+      "anchor": [
+        2499.59,
+        775.57
+      ],
+      "area": 3466.1,
+      "maxDistance": 35,
+      "minArea": 2773,
+      "maxArea": 4159,
+      "color": "#e8e6dd",
+      "material": "preserve",
+      "sourceURL": "https://www.thebroad.org/tour-stops/veil",
+      "sources": [
+        "https://www.thebroad.org/tour-stops/veil"
+      ],
+      "evidence": "Official museum documents GFRC veil. Preserve dedicated perforation-style shading and existing continuous wash; neutral ivory base.",
+      "confidence": "high",
+      "status": "verified",
+      "colorInterpretation": "Aesthetic adaptation of documented material family; not measured as-built albedo or exact paint match.",
+      "roofColor": "#e8e6dd",
+      "beforeColor": "#f0e8e0",
+      "beforeMaterial": 24
+    },
+    {
+      "key": "disney",
+      "name": "Walt Disney Concert Hall",
+      "identities": [
+        [
+          "relation",
+          6333150
+        ]
+      ],
+      "identity": {
+        "type": "relation",
+        "id": 6333150
+      },
+      "anchor": [
+        2618.48,
+        759.75
+      ],
+      "area": 11202.4,
+      "maxDistance": 35,
+      "minArea": 8962,
+      "maxArea": 13443,
+      "color": "#c5cbcc",
+      "material": "preserve",
+      "sourceURL": "https://www.permasteelisagroup.com/historic-project/walt-disney-concert-hall/",
+      "sources": [
+        "https://www.permasteelisagroup.com/historic-project/walt-disney-concert-hall/"
+      ],
+      "evidence": "Facade contractor documents stainless-steel shell. Keep neutral silver base and dedicated metallic shader; sky reflection not blue paint.",
+      "confidence": "high",
+      "status": "verified",
+      "colorInterpretation": "Aesthetic adaptation of documented material family; not measured as-built albedo or exact paint match.",
+      "roofColor": "#c5cbcc",
+      "beforeColor": "#c8d0d0",
+      "beforeMaterial": 25
+    },
+    {
+      "key": "union_station",
+      "name": "Union Station",
+      "identities": [
+        [
+          "relation",
+          1483140
+        ]
+      ],
+      "identity": {
+        "type": "relation",
+        "id": 1483140
+      },
+      "anchor": [
+        3469.77,
+        1753.15
+      ],
+      "area": 16245.3,
+      "maxDistance": 35,
+      "minArea": 12996,
+      "maxArea": 19494,
+      "color": "#ddd4bf",
+      "material": "preserve",
+      "sourceURL": "https://npgallery.nps.gov/GetAsset/c72efa93-90ca-40ba-9ca6-ae3d3515cf37/",
+      "sources": [
+        "https://npgallery.nps.gov/GetAsset/c72efa93-90ca-40ba-9ca6-ae3d3515cf37/"
+      ],
+      "evidence": "National Register description identifies cream walls, reddish-brown tile roofs and terra-cotta dado. Historic terminal only, preserving dedicated arches and separate roof material.",
+      "confidence": "high",
+      "status": "verified",
+      "colorInterpretation": "Aesthetic adaptation of documented material family; not measured as-built albedo or exact paint match.",
+      "roofPolicy": "preserve",
+      "roofColorRecommendation": "#a17661",
+      "beforeColor": "#e8e0c8",
+      "beforeMaterial": 26
+    },
+    {
+      "key": "aon",
+      "name": "Aon Center",
+      "status": "verified",
+      "identity": {
+        "type": "way",
+        "id": 428021714
+      },
+      "identities": [
+        [
+          "way",
+          428021714
+        ]
+      ],
+      "anchor": [
+        1680.8312,
+        657.0722
+      ],
+      "area": 1804.6005,
+      "maxDistance": 40,
+      "minArea": 1299.3,
+      "maxArea": 2309.9,
+      "color": "#45484a",
+      "material": "glass",
+      "sources": [
+        "https://mcaia.com/portfolio/aon-center/"
+      ],
+      "sourceURL": "https://mcaia.com/portfolio/aon-center/",
+      "evidence": "Aluminum-framed curtain wall with solar-bronze glazing; aluminum corner panels. Source is architect performing facade investigation. OSM #11181E correctly signals a dark tower. Preserve near-charcoal bronze family; avoid orange bronze and avoid lifting glazing to pale grey merely because reflections are bright.",
+      "confidence": "high",
+      "recommendationType": "Art-directed shared-palette interpretation of supported material/color family; hex is not measured physical albedo",
+      "osmTags": {
+        "addr:city": "Los Angeles",
+        "building": "commercial",
+        "building:colour": "#11181E",
+        "building:levels": "67",
+        "building:material": "glass",
+        "ele": "347.7",
+        "height": "262.8",
+        "lacounty:ain": "5144005400",
+        "lacounty:bld_id": "483789840364",
+        "name": "Aon Center",
+        "roof:material": "concrete",
+        "roof:shape": "flat",
+        "start_date": "1973",
+        "wikidata": "Q607743"
+      },
+      "heightClass": "model>=180m",
+      "notes": "",
+      "currentExportPalette": [
+        {
+          "index": 114,
+          "rgb": [
+            64,
+            84,
+            104
+          ],
+          "hex": "#405468",
+          "material": 2,
+          "hue": 210.0,
+          "hlsSaturation": 0.2381,
+          "voxelCount": 469889,
+          "columnRunCount": 1798,
+          "estimatedExposedVerticalArea": 47510,
+          "buildingVoxelCount": 469889
+        }
+      ],
+      "glazingSuggestedhex": "#464b4b",
+      "beforeColor": "#405468",
+      "beforeMaterial": 2
+    },
+    {
+      "key": "two_california",
+      "name": "Two California Plaza",
+      "status": "provisional",
+      "identity": {
+        "type": "way",
+        "id": 48847807
+      },
+      "identities": [
+        [
+          "way",
+          48847807
+        ]
+      ],
+      "anchor": [
+        2174.7663,
+        900.2414
+      ],
+      "area": 2799.7381,
+      "maxDistance": 40,
+      "minArea": 2015.8,
+      "maxArea": 3583.7,
+      "color": "#5f7073",
+      "material": "glass",
+      "sources": [
+        "https://www.openstreetmap.org/way/48847807",
+        "https://www.arthurerickson.com/commercial-buildings/california-plaza/1/",
+        "https://www.cca.qc.ca/en/archives/108951/arthur-erickson-fonds/397577/architectural-projects/417597/california-plaza-phase-2a"
+      ],
+      "sourceURL": "https://www.openstreetmap.org/way/48847807",
+      "evidence": "OSM building:material=glass. OSM has two colours #41423D;#DBCDB3. A single muddy average loses dark glazing and pale trim contrast. Proposed charcoal blue-grey glazing with light neutral trim; exact as-built finish not established.",
+      "confidence": "medium",
+      "recommendationType": "Art-directed shared-palette interpretation of supported material/color family; hex is not measured physical albedo",
+      "osmTags": {
+        "addr:city": "Los Angeles",
+        "building": "yes",
+        "building:colour": "#41423D;#DBCDB3",
+        "building:levels": "52",
+        "building:material": "glass",
+        "building:part": "yes",
+        "height": "228.5",
+        "name": "Two California Plaza",
+        "roof:material": "concrete",
+        "roof:shape": "flat",
+        "start_date": "1992",
+        "wikidata": "Q2319313"
+      },
+      "heightClass": "model>=180m",
+      "notes": "Identity and two-color OSM tag verified; exact as-built finish not established by architect text. Provisional color should not silently become a verified override. Architect original archive contains Benson Industries glazing shop drawings, ARCH260932/ARCH260933 (1989–1990). Catalog establishes glazing system evidence but does not establish a specific blue/grey tint; color remains provisional.",
+      "currentExportPalette": [
+        {
+          "index": 109,
+          "rgb": [
+            88,
+            88,
+            80
+          ],
+          "hex": "#585850",
+          "material": 2,
+          "hue": 60.0,
+          "hlsSaturation": 0.0476,
+          "voxelCount": 965981,
+          "columnRunCount": 4961,
+          "estimatedExposedVerticalArea": 101373,
+          "buildingVoxelCount": 587286
+        }
+      ],
+      "trimSuggestedhex": "#c4c1b5",
+      "beforeColor": "#585850",
+      "beforeMaterial": 2
+    },
+    {
+      "key": "gas",
+      "name": "Gas Company Tower",
+      "status": "verified",
+      "identity": {
+        "type": "way",
+        "id": 427532192
+      },
+      "identities": [
+        [
+          "way",
+          427532192
+        ]
+      ],
+      "anchor": [
+        1974.2086,
+        881.3869
+      ],
+      "area": 4425.9743,
+      "maxDistance": 40,
+      "minArea": 3186.7,
+      "maxArea": 5665.2,
+      "color": "#929d9e",
+      "material": "ribbon",
+      "sources": [
+        "https://www.som.com/news/aia-25-year-award-los-angeles/",
+        "https://www.som.com/projects/gas-company-tower/"
+      ],
+      "sourceURL": "https://www.som.com/news/aia-25-year-award-los-angeles/",
+      "evidence": "Blue-grey granite shaft and elliptical blue-glass crown. Architect explicitly describes blue-gray granite, not green paint. Cool blue-grey body and slightly bluer crown; keep saturation restrained.",
+      "confidence": "high",
+      "recommendationType": "Art-directed shared-palette interpretation of supported material/color family; hex is not measured physical albedo",
+      "osmTags": {
+        "addr:city": "Los Angeles",
+        "building": "yes",
+        "building:levels": "52",
+        "ele": "316.1",
+        "height": "228",
+        "lacounty:ain": "5149029013",
+        "name": "Gas Company Tower",
+        "start_date": "1991",
+        "wikidata": "Q2424258"
+      },
+      "heightClass": "model>=180m",
+      "notes": " Renderer uses opaque cladding with separate generic glazed floor bands; exact building-specific window proportions and crown zoning remain approximate.",
+      "currentExportPalette": [
+        {
+          "index": 67,
+          "rgb": [
+            172,
+            184,
+            188
+          ],
+          "hex": "#acb8bc",
+          "material": 2,
+          "hue": 195.0,
+          "hlsSaturation": 0.1067,
+          "voxelCount": 2047874,
+          "columnRunCount": 27912,
+          "estimatedExposedVerticalArea": 235574,
+          "buildingVoxelCount": 632645
+        }
+      ],
+      "crownSuggestedhex": "#6f8996",
+      "beforeColor": "#acb8bc",
+      "beforeMaterial": 2
+    },
+    {
+      "key": "bank_of_america",
+      "name": "Bank of America Plaza",
+      "status": "verified",
+      "identity": {
+        "type": "way",
+        "id": 449567378
+      },
+      "identities": [
+        [
+          "way",
+          449567378
+        ]
+      ],
+      "anchor": [
+        2275.6539,
+        635.306
+      ],
+      "area": 2909.525,
+      "maxDistance": 40,
+      "minArea": 2094.9,
+      "maxArea": 3724.2,
+      "color": "#c9c7bb",
+      "material": "wall",
+      "sources": [
+        "https://www.acmartin.com/portfolio/333-south-hope-street"
+      ],
+      "sourceURL": "https://www.acmartin.com/portfolio/333-south-hope-street",
+      "evidence": "Light granite structure. Architect identifies light granite; official daylight photograph shows pale vertical piers with dark glazing. Red/brown body would be a material mismatch.",
+      "confidence": "high",
+      "recommendationType": "Art-directed shared-palette interpretation of supported material/color family; hex is not measured physical albedo",
+      "osmTags": {
+        "addr:city": "Los Angeles",
+        "addr:housenumber": "333",
+        "addr:state": "CA",
+        "addr:street": "South Hope Street",
+        "amenity": "bank",
+        "brand": "Bank of America",
+        "brand:wikidata": "Q487907",
+        "building": "commercial",
+        "building:levels": "55",
+        "ele": "322.5",
+        "height": "205.7",
+        "lacounty:ain": "5151014031",
+        "lacounty:bld_id": "2014092961370000",
+        "name": "Bank of America",
+        "start_date": "1974",
+        "website": "https://locators.bankofamerica.com/ca/losangeles/financial-centers-los-angeles-15673.html",
+        "wikidata": "Q806671",
+        "wikipedia": "en:Bank of America Plaza (Los Angeles)"
+      },
+      "heightClass": "model>=180m",
+      "notes": " Windowed opaque-wall shader; material name describes renderer behavior, not architectural cladding.",
+      "currentExportPalette": [
+        {
+          "index": 103,
+          "rgb": [
+            116,
+            156,
+            168
+          ],
+          "hex": "#749ca8",
+          "material": 2,
+          "hue": 193.8,
+          "hlsSaturation": 0.2301,
+          "voxelCount": 2408923,
+          "columnRunCount": 28904,
+          "estimatedExposedVerticalArea": 259331,
+          "buildingVoxelCount": 594884
+        }
+      ],
+      "glazingSuggestedhex": "#3d494e",
+      "beforeColor": "#749ca8",
+      "beforeMaterial": 2
+    },
+    {
+      "key": "777",
+      "name": "777 Tower",
+      "status": "verified",
+      "identity": {
+        "type": "way",
+        "id": 428021711
+      },
+      "identities": [
+        [
+          "way",
+          428021711
+        ]
+      ],
+      "anchor": [
+        1365.4496,
+        382.4933
+      ],
+      "area": 2374.277,
+      "maxDistance": 40,
+      "minArea": 1709.5,
+      "maxArea": 3039.1,
+      "color": "#d7d8d1",
+      "material": "wall",
+      "sources": [
+        "https://www.laconservancy.org/learn/historic-places/777-tower/"
+      ],
+      "sourceURL": "https://www.laconservancy.org/learn/historic-places/777-tower/",
+      "evidence": "Off-white steel and glass. Off-white metal skin with sculpted mullions. Preserve light neutral metal; avoid cream-orange sandstone appearance.",
+      "confidence": "high",
+      "recommendationType": "Art-directed shared-palette interpretation of supported material/color family; hex is not measured physical albedo",
+      "osmTags": {
+        "building": "commercial",
+        "building:levels": "55",
+        "ele": "299.6",
+        "height": "219.4",
+        "lacounty:ain": "5144009047",
+        "lacounty:bld_id": "482490840118",
+        "name": "777 Tower",
+        "start_date": "1991",
+        "wikidata": "Q1937376",
+        "wikipedia": "en:777 Tower"
+      },
+      "heightClass": "model>=180m",
+      "notes": "",
+      "currentExportPalette": [
+        {
+          "index": 103,
+          "rgb": [
+            116,
+            156,
+            168
+          ],
+          "hex": "#749ca8",
+          "material": 2,
+          "hue": 193.8,
+          "hlsSaturation": 0.2301,
+          "voxelCount": 2408923,
+          "columnRunCount": 28904,
+          "estimatedExposedVerticalArea": 259331,
+          "buildingVoxelCount": 449588
+        }
+      ],
+      "glazingSuggestedhex": "#778b91",
+      "beforeColor": "#749ca8",
+      "beforeMaterial": 2
+    },
+    {
+      "key": "wells_fargo",
+      "name": "Wells Fargo Tower (north)",
+      "status": "verified",
+      "identity": {
+        "type": "way",
+        "id": 427532202
+      },
+      "identities": [
+        [
+          "way",
+          427532202
+        ]
+      ],
+      "anchor": [
+        2294.1106,
+        784.2367
+      ],
+      "area": 2511.5667,
+      "maxDistance": 40,
+      "minArea": 1808.3,
+      "maxArea": 3214.8,
+      "color": "#a68f83",
+      "material": "ribbon",
+      "sources": [
+        "https://www.som.com/?post_type=project",
+        "https://www.usmodernist.org/AR/AR-1983-02.pdf",
+        "https://www.laconservancy.org/learn/historic-places/wells-fargo-center/"
+      ],
+      "sourceURL": "https://www.som.com/?post_type=project",
+      "evidence": "SOM project index identifies both towers as Taivassalo red granite. Original 1983 Blaesing Granite advertisement in Architectural Record identifies the Crocker Towers stone as Taivassalo granite from Finland. Warm reddish stone identity is supported; preserve it while reducing orange chroma. Current OSM #9C5B31 is assigned as uniform glass, losing stone/glass roles.",
+      "confidence": "high",
+      "recommendationType": "Art-directed shared-palette interpretation of supported material/color family; hex is not measured physical albedo",
+      "osmTags": {
+        "alt_name": "Wells Fargo Center North Tower",
+        "building": "commercial",
+        "building:colour": "#9C5B31",
+        "building:levels": "54",
+        "building:material": "glass",
+        "ele": "338.0",
+        "height": "222.4",
+        "lacounty:ain": "5151015012",
+        "lacounty:bld_id": "485357841728",
+        "name": "Wells Fargo Tower",
+        "old_name": "Crocker Center North Tower",
+        "roof:material": "concrete",
+        "roof:shape": "flat",
+        "start_date": "1983",
+        "wikidata": "Q2543729"
+      },
+      "heightClass": "model>=180m",
+      "notes": " Renderer uses opaque cladding with separate generic glazed floor bands; exact building-specific window proportions and crown zoning remain approximate.",
+      "currentExportPalette": [
+        {
+          "index": 111,
+          "rgb": [
+            160,
+            96,
+            56
+          ],
+          "hex": "#a06038",
+          "material": 2,
+          "hue": 23.1,
+          "hlsSaturation": 0.4815,
+          "voxelCount": 999971,
+          "columnRunCount": 4960,
+          "estimatedExposedVerticalArea": 102419,
+          "buildingVoxelCount": 544438
+        }
+      ],
+      "glazingSuggestedhex": "#55575a",
+      "beforeColor": "#a06038",
+      "beforeMaterial": 2
+    },
+    {
+      "key": "us_bank",
+      "name": "U.S. Bank Tower",
+      "status": "verified",
+      "identity": {
+        "type": "way",
+        "id": 23973401
+      },
+      "identities": [
+        [
+          "way",
+          23973401
+        ]
+      ],
+      "anchor": [
+        1986.1994,
+        722.4208
+      ],
+      "area": 2305.7066,
+      "maxDistance": 40,
+      "minArea": 1660.1,
+      "maxArea": 2951.3,
+      "color": "#c9c7bc",
+      "material": "preserve",
+      "sources": [
+        "https://www.pcf-p.com/projects/us-bank-tower-formerly-library-tower/"
+      ],
+      "sourceURL": "https://www.pcf-p.com/projects/us-bank-tower-formerly-library-tower/",
+      "evidence": "Pale exterior piers and glazing, based on architect project photographs. Retain pale neutral stone-like piers with cool darker glazing. Primary project text establishes geometry, not an exact named stone colour; proposed tone is visual adaptation.",
+      "confidence": "medium",
+      "recommendationType": "Art-directed shared-palette interpretation of supported material/color family; hex is not measured physical albedo",
+      "osmTags": {
+        "addr:city": "Los Angeles",
+        "addr:housenumber": "633",
+        "addr:postcode": "90071",
+        "addr:state": "CA",
+        "addr:street": "West Fifth Street",
+        "alt_name": "US Bank Tower",
+        "building": "tower",
+        "building:levels": "73",
+        "building:use": "office",
+        "check_date": "2021-04-21",
+        "ele": "403.6",
+        "gnis:feature_id": "2353775",
+        "height": "309.9",
+        "lacounty:ain": "5151017028;5151017021",
+        "lacounty:bld_id": "484605841062;484546841109",
+        "name": "U.S. Bank Tower",
+        "name:en": "U.S. Bank Tower",
+        "name:ru": "Башня Банка США",
+        "name:uk": "Башта Банку США",
+        "start_date": "1989",
+        "website": "https://www.usbank.com",
+        "wikidata": "Q57900",
+        "wikipedia": "en:U.S. Bank Tower (Los Angeles)"
+      },
+      "heightClass": "model>=180m",
+      "notes": "",
+      "currentExportPalette": [
+        {
+          "index": 285,
+          "rgb": [
+            200,
+            200,
+            188
+          ],
+          "hex": "#c8c8bc",
+          "material": 27,
+          "hue": 60.0,
+          "hlsSaturation": 0.0984,
+          "voxelCount": 599498,
+          "columnRunCount": 2297,
+          "estimatedExposedVerticalArea": 43985,
+          "buildingVoxelCount": 599498
+        }
+      ],
+      "glazingSuggestedhex": "#6f828a",
+      "beforeColor": "#c8c8bc",
+      "beforeMaterial": 27
+    },
+    {
+      "key": "wilshire",
+      "name": "Wilshire Grand Center",
+      "status": "verified",
+      "identity": {
+        "type": "way",
+        "id": 496246723
+      },
+      "identities": [
+        [
+          "way",
+          496246723
+        ]
+      ],
+      "anchor": [
+        1570.4024,
+        342.6017
+      ],
+      "area": 8196.847,
+      "maxDistance": 40,
+      "minArea": 5901.7,
+      "maxArea": 10492.0,
+      "color": "#92a4ab",
+      "material": "preserve",
+      "sources": [
+        "https://www.acmartin.com/portfolio/wilshire-grand-center"
+      ],
+      "sourceURL": "https://www.acmartin.com/portfolio/wilshire-grand-center",
+      "evidence": "Floor-to-ceiling glass; glassy expression. Architect describes glass contrasted with neighboring granite/inset windows. Use a restrained blue-grey, not saturated cyan; reflections and time of day dominate photographed appearance.",
+      "confidence": "high",
+      "recommendationType": "Art-directed shared-palette interpretation of supported material/color family; hex is not measured physical albedo",
+      "osmTags": {
+        "addr:city": "Los Angeles",
+        "addr:housenumber": "900",
+        "addr:postcode": "90017",
+        "addr:state": "CA",
+        "addr:street": "Wilshire Boulevard",
+        "alt_name": "Wilshire Grand Center",
+        "building": "hotel",
+        "building:levels": "73",
+        "height": "335.3",
+        "name": "Wilshire Grand Building",
+        "note": "spire height is 89.916 m bringing total building height to 335.3 m and the actual height of the building to 245 m",
+        "start_date": "2017",
+        "wikidata": "Q2582539",
+        "wikipedia": "en:Wilshire Grand Center"
+      },
+      "heightClass": "model>=180m",
+      "notes": "",
+      "currentExportPalette": [
+        {
+          "index": 286,
+          "rgb": [
+            144,
+            168,
+            180
+          ],
+          "hex": "#90a8b4",
+          "material": 28,
+          "hue": 200.0,
+          "hlsSaturation": 0.1935,
+          "voxelCount": 660066,
+          "columnRunCount": 8143,
+          "estimatedExposedVerticalArea": 76909,
+          "buildingVoxelCount": 660066
+        }
+      ],
+      "glazingSuggestedhex": "#738e9b",
+      "beforeColor": "#90a8b4",
+      "beforeMaterial": 28
+    },
+    {
+      "key": "ritz_lalive",
+      "name": "Ritz-Carlton / JW Marriott at L.A. LIVE",
+      "status": "verified",
+      "identity": {
+        "type": "way",
+        "id": 491696573
+      },
+      "identities": [
+        [
+          "way",
+          491696573
+        ]
+      ],
+      "anchor": [
+        777.7212,
+        216.68
+      ],
+      "area": 5391.1796,
+      "maxDistance": 40,
+      "minArea": 3881.6,
+      "maxArea": 6900.7,
+      "color": "#879da4",
+      "material": "glass",
+      "sources": [
+        "https://www.starqdesign.com/hospitalityfacades/lalive",
+        "https://www.gensler.com/projects/the-ritz-carlton-hotel-residences-and-jw-marriott-at-l-a",
+        "https://www.pac-intl.com/pdf/RitzCarlton_JWMarriott_LALIVE_09_16_2010.pdf"
+      ],
+      "sourceURL": "https://www.starqdesign.com/hospitalityfacades/lalive",
+      "evidence": "Facade designer describes unitized glass mosaic with 14 glass types. PAC primary project brochure names blue, silver and gray glass. Use quiet blue-grey glazing variation rather than one saturated cyan slab.",
+      "confidence": "high",
+      "recommendationType": "Art-directed shared-palette interpretation of supported material/color family; hex is not measured physical albedo",
+      "osmTags": {
+        "addr:housenumber": "900",
+        "addr:street": "West Olympic Boulevard",
+        "building": "hotel",
+        "height": "203.3",
+        "name": "Ritz-Carlton/Marriott Marquis Los Angeles",
+        "wikidata": "Q21619204"
+      },
+      "heightClass": "model>=180m",
+      "notes": "",
+      "currentExportPalette": [
+        {
+          "index": 100,
+          "rgb": [
+            132,
+            172,
+            180
+          ],
+          "hex": "#84acb4",
+          "material": 2,
+          "hue": 190.0,
+          "hlsSaturation": 0.2424,
+          "voxelCount": 1686361,
+          "columnRunCount": 24528,
+          "estimatedExposedVerticalArea": 183442,
+          "buildingVoxelCount": 533116
+        }
+      ],
+      "beforeColor": "#84acb4",
+      "beforeMaterial": 2
+    },
+    {
+      "key": "beaudry",
+      "name": "Beaudry",
+      "status": "provisional",
+      "identity": {
+        "type": "way",
+        "id": 496246728
+      },
+      "identities": [
+        [
+          "way",
+          496246728
+        ]
+      ],
+      "anchor": [
+        1386.569,
+        283.4426
+      ],
+      "area": 4544.7367,
+      "maxDistance": 40,
+      "minArea": 3272.2,
+      "maxArea": 5817.3,
+      "color": "#657170",
+      "material": "glass",
+      "sources": [
+        "https://rent.brookfieldproperties.com/property/beaudry/",
+        "https://www.mka.com/projects/beaudry/"
+      ],
+      "sourceURL": "https://rent.brookfieldproperties.com/property/beaudry/",
+      "evidence": "Owner confirms floor-to-ceiling windows and exterior gallery; structural engineer confirms tower identity/design team. Current cream stucco hash is unsupported. Proposed darker neutral glazing is provisional pending facade-specific finish description or documented photo review.",
+      "confidence": "medium",
+      "recommendationType": "Art-directed shared-palette interpretation of supported material/color family; hex is not measured physical albedo",
+      "osmTags": {
+        "building": "apartments",
+        "building:levels": "64",
+        "height": "211.7",
+        "name": "The Beaudry Apartments",
+        "old_name": "Brookfield Tower",
+        "start_date": "2022",
+        "wikidata": "Q113153161"
+      },
+      "heightClass": "model>=180m",
+      "notes": "",
+      "currentExportPalette": [
+        {
+          "index": 81,
+          "rgb": [
+            240,
+            232,
+            216
+          ],
+          "hex": "#f0e8d8",
+          "material": 22,
+          "hue": 40.0,
+          "hlsSaturation": 0.4444,
+          "voxelCount": 3693629,
+          "columnRunCount": 248952,
+          "estimatedExposedVerticalArea": 498850,
+          "buildingVoxelCount": 347485
+        }
+      ],
+      "beforeColor": "#f0e8d8",
+      "beforeMaterial": 22
+    },
+    {
+      "key": "611_place",
+      "name": "611 Place",
+      "status": "verified",
+      "identity": {
+        "type": "way",
+        "id": 428021708
+      },
+      "identities": [
+        [
+          "way",
+          428021708
+        ]
+      ],
+      "anchor": [
+        1776.269,
+        769.7098
+      ],
+      "area": 4280.9816,
+      "maxDistance": 40,
+      "minArea": 3082.3,
+      "maxArea": 5479.7,
+      "color": "#d1d0c7",
+      "material": "wall",
+      "sources": [
+        "https://downtownla.com/building/611-w-6th-st-611-place",
+        "https://planning.lacity.gov/odocument/2d44c916-ff01-4080-9349-80f05b873590/High-RiseCorporateOfficeBuildings_1945-1975.pdf"
+      ],
+      "sourceURL": "https://downtownla.com/building/611-w-6th-st-611-place",
+      "evidence": "Downtown Center property listing identifies vertical aluminum beams and full-height blank concrete west wall; city historic context confirms cruciform tower and blank west wall. Use pale aluminum/concrete framing with dark glazing; avoid uniform shiny curtain-wall treatment.",
+      "confidence": "medium",
+      "recommendationType": "Art-directed shared-palette interpretation of supported material/color family; hex is not measured physical albedo",
+      "osmTags": {
+        "addr:city": "Los Angeles",
+        "building": "yes",
+        "building:colour": "#F3F5DF",
+        "building:levels": "42",
+        "ele": "273.1",
+        "height": "189",
+        "lacounty:ain": "5151026400",
+        "lacounty:bld_id": "484260840436",
+        "name": "611 Place",
+        "roof:material": "concrete",
+        "roof:shape": "flat",
+        "wikidata": "Q3499247",
+        "wikipedia": "en:611 Place"
+      },
+      "heightClass": "model>=180m",
+      "notes": "",
+      "currentExportPalette": [
+        {
+          "index": 105,
+          "rgb": [
+            244,
+            240,
+            220
+          ],
+          "hex": "#f4f0dc",
+          "material": 1,
+          "hue": 50.0,
+          "hlsSaturation": 0.5217,
+          "voxelCount": 403447,
+          "columnRunCount": 4254,
+          "estimatedExposedVerticalArea": 44278,
+          "buildingVoxelCount": 403447
+        }
+      ],
+      "beforeColor": "#f4f0dc",
+      "beforeMaterial": 1
+    },
+    {
+      "key": "figueroa_wilshire",
+      "name": "Figueroa at Wilshire",
+      "status": "verified",
+      "identity": {
+        "type": "way",
+        "id": 442468344
+      },
+      "identities": [
+        [
+          "way",
+          442468344
+        ]
+      ],
+      "anchor": [
+        1689.9173,
+        383.3405
+      ],
+      "area": 3507.2311,
+      "maxDistance": 40,
+      "minArea": 2525.2,
+      "maxArea": 4489.3,
+      "color": "#b49a8c",
+      "material": "ribbon",
+      "sources": [
+        "https://enclos.com/project/figueroa-at-wilshire/",
+        "https://www.hines.com/properties/figueroa-at-wilshire-los-angeles"
+      ],
+      "sourceURL": "https://enclos.com/project/figueroa-at-wilshire/",
+      "evidence": "Enclosure contractor explicitly identifies coral-colored granite, Brazilian Rose polished granite, bronze panels and tinted glass varying green to gray with sky. Coral/rose hue is legitimate; normalize chroma without removing it. Existing bronze-glass fallback#a09070 is inaccurate as overall cladding.",
+      "confidence": "high",
+      "recommendationType": "Art-directed shared-palette interpretation of supported material/color family; hex is not measured physical albedo",
+      "osmTags": {
+        "addr:housenumber": "601",
+        "addr:street": "South Figueroa Street",
+        "building": "commercial",
+        "building:levels": "53",
+        "height": "219",
+        "name": "Figueroa at Wilshire",
+        "old_name": "Sanwa Bank Plaza",
+        "start_date": "1990",
+        "wikidata": "Q2438968"
+      },
+      "heightClass": "model>=180m",
+      "notes": " Renderer uses opaque cladding with separate generic glazed floor bands; exact building-specific window proportions and crown zoning remain approximate.",
+      "currentExportPalette": [
+        {
+          "index": 85,
+          "rgb": [
+            160,
+            144,
+            112
+          ],
+          "hex": "#a09070",
+          "material": 2,
+          "hue": 40.0,
+          "hlsSaturation": 0.2017,
+          "voxelCount": 3426602,
+          "columnRunCount": 51276,
+          "estimatedExposedVerticalArea": 364991,
+          "buildingVoxelCount": 470824
+        }
+      ],
+      "beforeColor": "#a09070",
+      "beforeMaterial": 2
+    },
+    {
+      "key": "city_national_south",
+      "name": "City National Plaza south / City National Tower",
+      "status": "verified",
+      "identity": {
+        "type": "way",
+        "id": 428021719
+      },
+      "identities": [
+        [
+          "way",
+          428021719
+        ]
+      ],
+      "anchor": [
+        1783.4972,
+        503.2763
+      ],
+      "area": 2608.2438,
+      "maxDistance": 40,
+      "minArea": 1877.9,
+      "maxArea": 3338.6,
+      "color": "#484e48",
+      "material": "ribbon",
+      "sources": [
+        "https://www.acmartin.com/portfolio/505-555-south-flower",
+        "https://media.corporate-ir.net/media_files/nys/cyn/releases/CNB_Plaza_FINAL.pdf"
+      ],
+      "sourceURL": "https://www.acmartin.com/portfolio/505-555-south-flower",
+      "evidence": "Architect describes forest-green polished granite and solar-bronze glazing; original bank press release corroborates forest-green granite. South tower exact 555 South Flower footprint. Current tan-grey glass#605c4c loses green-black stone character.",
+      "confidence": "high",
+      "recommendationType": "Art-directed shared-palette interpretation of supported material/color family; hex is not measured physical albedo",
+      "osmTags": {
+        "addr:city": "Los Angeles",
+        "addr:housenumber": "555",
+        "addr:state": "CA",
+        "addr:street": "South Flower Street",
+        "building": "yes",
+        "building:colour": "#585647",
+        "building:levels": "52",
+        "building:material": "glass",
+        "ele": "299.7",
+        "gnis:feature_id": "1682220",
+        "height": "212.2",
+        "lacounty:ain": "5151023400",
+        "lacounty:bld_id": "483606840976",
+        "name": "City National Tower",
+        "old_name": "City National Bank Building;ARCO Plaza South Tower",
+        "roof:material": "concrete",
+        "roof:shape": "flat",
+        "start_date": "1972",
+        "wikipedia": "en:City National Plaza"
+      },
+      "heightClass": "model>=180m",
+      "notes": " Renderer uses opaque cladding with separate generic glazed floor bands; exact building-specific window proportions and crown zoning remain approximate.",
+      "currentExportPalette": [
+        {
+          "index": 95,
+          "rgb": [
+            96,
+            92,
+            76
+          ],
+          "hex": "#605c4c",
+          "material": 2,
+          "hue": 48.0,
+          "hlsSaturation": 0.1163,
+          "voxelCount": 1557184,
+          "columnRunCount": 13282,
+          "estimatedExposedVerticalArea": 142691,
+          "buildingVoxelCount": 549229
+        }
+      ],
+      "beforeColor": "#605c4c",
+      "beforeMaterial": 2
+    },
+    {
+      "key": "city_national_north",
+      "name": "City National Plaza north / Paul Hastings Tower",
+      "status": "verified",
+      "identity": {
+        "type": "way",
+        "id": 428021736
+      },
+      "identities": [
+        [
+          "way",
+          428021736
+        ]
+      ],
+      "anchor": [
+        1887.1182,
+        504.3698
+      ],
+      "area": 2602.3361,
+      "maxDistance": 40,
+      "minArea": 1873.7,
+      "maxArea": 3331.0,
+      "color": "#484e48",
+      "material": "ribbon",
+      "sources": [
+        "https://www.acmartin.com/portfolio/505-555-south-flower",
+        "https://girouxglass.com/city-national-plaza-gets-facade-lift/"
+      ],
+      "sourceURL": "https://www.acmartin.com/portfolio/505-555-south-flower",
+      "evidence": "Architect identifies same forest-green granite and solar-bronze glazing as south tower. Glazing contractor identifies Paul Hastings North Tower and replacement of bronze glass/granite at 51st/52nd floors with clear low-iron starphire glass in 2016.",
+      "confidence": "high",
+      "recommendationType": "Art-directed shared-palette interpretation of supported material/color family; hex is not measured physical albedo",
+      "osmTags": {
+        "addr:city": "Los Angeles",
+        "addr:housenumber": "515",
+        "addr:postcode": "90071",
+        "addr:state": "CA",
+        "addr:street": "South Flower Street",
+        "addr:unit": "Suite 1020",
+        "amenity": "place_of_worship",
+        "building": "yes",
+        "building:colour": "#585647",
+        "building:levels": "52",
+        "building:material": "glass",
+        "description": "Phoenix Construction & Management provides construction and program management services for healthcare, corporate, financial, and hospitality projects in Los Angeles and nationwide. Contact the team today to discuss your project needs!",
+        "ele": "300.2",
+        "height": "212.7",
+        "lacounty:ain": "5151023400",
+        "lacounty:bld_id": "483835841238",
+        "name": "Phoenix Construction & Management",
+        "old_name": "TCW;ARCO Plaza North Tower",
+        "phone": "+1-310-414-1800",
+        "roof:material": "concrete",
+        "roof:shape": "flat",
+        "website": "https://phoenixcm.net/"
+      },
+      "heightClass": "model>=180m",
+      "notes": "Cached OSM name Phoenix Construction & Management is tenant/POI pollution. Exact515SouthFlower 52-story footprint and old_name ARCO Plaza North Tower identify the north tower. Do not match by polluted name. Top two floors have a documented later glazing treatment; a single material override is only a first-stage palette approximation. Renderer uses opaque cladding with separate generic glazed floor bands; exact building-specific window proportions and crown zoning remain approximate.",
+      "currentExportPalette": [
+        {
+          "index": 95,
+          "rgb": [
+            96,
+            92,
+            76
+          ],
+          "hex": "#605c4c",
+          "material": 2,
+          "hue": 48.0,
+          "hlsSaturation": 0.1163,
+          "voxelCount": 1557184,
+          "columnRunCount": 13282,
+          "estimatedExposedVerticalArea": 142691,
+          "buildingVoxelCount": 548487
+        }
+      ],
+      "beforeColor": "#605c4c",
+      "beforeMaterial": 2
+    },
+    {
+      "key": "one_california",
+      "name": "One California Plaza",
+      "status": "provisional",
+      "identity": {
+        "type": "way",
+        "id": 27475230
+      },
+      "identities": [
+        [
+          "way",
+          27475230
+        ]
+      ],
+      "anchor": [
+        2260.3469,
+        863.6237
+      ],
+      "area": 2548.7494,
+      "maxDistance": 40,
+      "minArea": 1835.1,
+      "maxArea": 3262.4,
+      "color": "#5f7073",
+      "material": "glass",
+      "sources": [
+        "https://www.arthurerickson.com/commercial-buildings/california-plaza/1/",
+        "https://www.openstreetmap.org/way/27475230"
+      ],
+      "sourceURL": "https://www.arthurerickson.com/commercial-buildings/california-plaza/1/",
+      "evidence": "Architect project archive confirms California Plaza project; OSM records glass and two colors#41423D;#DBCDB3. Preserve dark glazing/light trim distinction. Hue/material finish remains provisional because archive text does not specify the finish.",
+      "confidence": "medium",
+      "recommendationType": "Art-directed shared-palette interpretation of supported material/color family; hex is not measured physical albedo",
+      "osmTags": {
+        "addr:city": "Los Angeles",
+        "building": "yes",
+        "building:colour": "#41423D;#DBCDB3",
+        "building:levels": "42",
+        "building:material": "glass",
+        "building:part": "yes",
+        "height": "176.0",
+        "name": "One California Plaza",
+        "roof:material": "concrete",
+        "roof:shape": "flat",
+        "start_date": "1985",
+        "wikidata": "Q2436941"
+      },
+      "heightClass": "model>=180m",
+      "notes": "",
+      "currentExportPalette": [
+        {
+          "index": 109,
+          "rgb": [
+            88,
+            88,
+            80
+          ],
+          "hex": "#585850",
+          "material": 2,
+          "hue": 60.0,
+          "hlsSaturation": 0.0476,
+          "voxelCount": 965981,
+          "columnRunCount": 4961,
+          "estimatedExposedVerticalArea": 101373,
+          "buildingVoxelCount": 378695
+        }
+      ],
+      "beforeColor": "#585850",
+      "beforeMaterial": 2
+    },
+    {
+      "key": "kpmg_south",
+      "name": "Wells Fargo Center south / KPMG Tower",
+      "status": "verified",
+      "identity": {
+        "type": "way",
+        "id": 427532194
+      },
+      "identities": [
+        [
+          "way",
+          427532194
+        ]
+      ],
+      "anchor": [
+        2173.9997,
+        769.5303
+      ],
+      "area": 2475.8975,
+      "maxDistance": 40,
+      "minArea": 1782.6,
+      "maxArea": 3169.1,
+      "color": "#a68f83",
+      "material": "ribbon",
+      "sources": [
+        "https://www.som.com/?post_type=project",
+        "https://www.usmodernist.org/AR/AR-1983-02.pdf",
+        "https://www.laconservancy.org/learn/historic-places/wells-fargo-center/"
+      ],
+      "sourceURL": "https://www.som.com/?post_type=project",
+      "evidence": "SOM identifies both complex towers as Taivassalo red granite; original granite fabricator advertisement corroborates Crocker Towers stone. Exact south tower carries alt_name Wells Fargo Center South Tower. Raw OSM#9C5B31 and glass tag cause uniform orange-brown glass palette111#a06038. Preserve muted reddish granite with darker bronze glazing, not orange glass or generic grey.",
+      "confidence": "high",
+      "recommendationType": "Art-directed shared-palette interpretation of supported material/color family; hex is not measured physical albedo",
+      "osmTags": {
+        "alt_name": "Wells Fargo Center South Tower",
+        "building": "commercial",
+        "building:colour": "#9C5B31",
+        "building:levels": "45",
+        "building:material": "glass",
+        "ele": "302.2",
+        "height": "186.6",
+        "lacounty:ain": "5151015013",
+        "lacounty:bld_id": "485112841424",
+        "name": "KPMG Tower",
+        "old_name": "Crocker Center South Tower",
+        "roof:material": "concrete",
+        "roof:shape": "flat",
+        "start_date": "1983"
+      },
+      "heightClass": "model>=180m",
+      "notes": " Renderer uses opaque cladding with separate generic glazed floor bands; exact building-specific window proportions and crown zoning remain approximate.",
+      "currentExportPalette": [
+        {
+          "index": 111,
+          "rgb": [
+            160,
+            96,
+            56
+          ],
+          "hex": "#a06038",
+          "material": 2,
+          "hue": 23.1,
+          "hlsSaturation": 0.4815,
+          "voxelCount": 999971,
+          "columnRunCount": 4960,
+          "estimatedExposedVerticalArea": 102419,
+          "buildingVoxelCount": 455533
+        }
+      ],
+      "beforeColor": "#a06038",
+      "beforeMaterial": 2
+    },
+    {
+      "key": "444_flower",
+      "name": "444 South Flower / former Citigroup Center",
+      "status": "verified",
+      "identity": {
+        "type": "way",
+        "id": 285886057
+      },
+      "identities": [
+        [
+          "way",
+          285886057
+        ]
+      ],
+      "anchor": [
+        1996.2674,
+        635.5933
+      ],
+      "area": 2253.7356,
+      "maxDistance": 40,
+      "minArea": 1622.7,
+      "maxArea": 2884.8,
+      "color": "#9fa6a1",
+      "material": "glass",
+      "sources": [
+        "https://www.acmartin.com/portfolio/444-south-flower"
+      ],
+      "sourceURL": "https://www.acmartin.com/portfolio/444-south-flower",
+      "evidence": "Original architect explicitly describes mirrored insulating glass and stainless-steel skin. Neutral metallic grey with subdued green-grey reflections fits documented materials better than treating OSM#646A60 as opaque green paint.",
+      "confidence": "high",
+      "recommendationType": "Art-directed shared-palette interpretation of supported material/color family; hex is not measured physical albedo",
+      "osmTags": {
+        "addr:city": "Los Angeles",
+        "addr:housenumber": "787",
+        "addr:postcode": "90071",
+        "addr:state": "CA",
+        "addr:street": "West 5th Street",
+        "building": "office",
+        "building:colour": "#646A60",
+        "building:levels": "48",
+        "building:material": "glass",
+        "ele": "279.7",
+        "height": "179.2",
+        "lacounty:ain": "5151018017",
+        "lacounty:bld_id": "2014092930390000",
+        "name": "Citigroup Center",
+        "roof:material": "concrete",
+        "roof:shape": "flat",
+        "start_date": "1981",
+        "wikidata": "Q3498921",
+        "wikipedia": "en:FourFortyFour South Flower"
+      },
+      "heightClass": "model>=180m",
+      "notes": "",
+      "currentExportPalette": [
+        {
+          "index": 112,
+          "rgb": [
+            108,
+            112,
+            100
+          ],
+          "hex": "#6c7064",
+          "material": 2,
+          "hue": 80.0,
+          "hlsSaturation": 0.0566,
+          "voxelCount": 347324,
+          "columnRunCount": 2244,
+          "estimatedExposedVerticalArea": 30296,
+          "buildingVoxelCount": 347324
+        }
+      ],
+      "beforeColor": "#6c7064",
+      "beforeMaterial": 2
+    },
+    {
+      "key": "metropolis_iii",
+      "name": "Metropolis Residential Tower III / tallest phase-II tower",
+      "status": "provisional",
+      "identity": {
+        "type": "way",
+        "id": 496247686
+      },
+      "identities": [
+        [
+          "way",
+          496247686
+        ]
+      ],
+      "anchor": [
+        1275.313,
+        198.1082
+      ],
+      "area": 1233.5285,
+      "maxDistance": 40,
+      "minArea": 888.1,
+      "maxArea": 1578.9,
+      "color": "#8f9d9d",
+      "material": "glass",
+      "sources": [
+        "https://www.saifulbouquet.com/portfolio/metropolis/",
+        "https://www.azureliteinc.com/projects/metropolis.shtml",
+        "https://metropolislosangeles.com/"
+      ],
+      "sourceURL": "https://www.saifulbouquet.com/portfolio/metropolis/",
+      "evidence": "Structural engineer identifies phase-II42/57-story towers and design team; glazing installer confirms glass/aluminum work at development. These sources do not establish this exact tower exterior finish color. Current peach stucco hash#e8b8a0 is unsupported; proposed muted glazing is provisional.",
+      "confidence": "medium",
+      "recommendationType": "Art-directed shared-palette interpretation of supported material/color family; hex is not measured physical albedo",
+      "osmTags": {
+        "building": "apartments",
+        "building:levels": "54",
+        "height": "197",
+        "name": "Metropolis Residential Tower III"
+      },
+      "heightClass": "model>=180m",
+      "notes": "Tower numbering differs among OSM, structural-engineer R2/R3 and marketing. Exact footprint identity is authoritative.",
+      "currentExportPalette": [
+        {
+          "index": 84,
+          "rgb": [
+            232,
+            184,
+            160
+          ],
+          "hex": "#e8b8a0",
+          "material": 22,
+          "hue": 20.0,
+          "hlsSaturation": 0.6102,
+          "voxelCount": 2999378,
+          "columnRunCount": 183312,
+          "estimatedExposedVerticalArea": 389356,
+          "buildingVoxelCount": 226713
+        }
+      ],
+      "beforeColor": "#e8b8a0",
+      "beforeMaterial": 22
+    },
+    {
+      "key": "400_hope",
+      "name": "400 South Hope / Chase-BNY Mellon",
+      "status": "verified",
+      "identity": {
+        "type": "way",
+        "id": 427532190
+      },
+      "identities": [
+        [
+          "way",
+          427532190
+        ]
+      ],
+      "anchor": [
+        2073.2316,
+        754.7602
+      ],
+      "area": 2609.9754,
+      "maxDistance": 40,
+      "minArea": 1879.2,
+      "maxArea": 3340.8,
+      "color": "#a58a7d",
+      "material": "ribbon",
+      "sources": [
+        "https://www.usmodernist.org/AR/AR-1983-02.pdf",
+        "https://pcad.lib.washington.edu/building/9971/",
+        "https://www.thelocationportal.com/400-south-hope/"
+      ],
+      "sourceURL": "https://www.usmodernist.org/AR/AR-1983-02.pdf",
+      "evidence": "Original Blaesing Granite ad identifies Napoleon Red granite from Sweden at400 South Hope. University architectural archive corroborates Napoleon red granite and alternating ribbons of windows/wall; location representative confirms granite/glass exterior. A reddish granite family is real; current#ac744c orange wall should be muted while preserving warm stone/ribbon contrast.",
+      "confidence": "high",
+      "recommendationType": "Art-directed shared-palette interpretation of supported material/color family; hex is not measured physical albedo",
+      "osmTags": {
+        "addr:city": "Los Angeles",
+        "addr:housenumber": "400",
+        "addr:postcode": "90071",
+        "addr:state": "CA",
+        "addr:street": "South Hope Street",
+        "alt_name": "400 South Hope",
+        "building": "commercial",
+        "building:colour": "#9C5B31",
+        "building:levels": "26",
+        "ele": "228.7",
+        "height": "116.3",
+        "lacounty:ain": "5151017019",
+        "lacounty:bld_id": "2014092932370000",
+        "name": "Chase, BNY Mellon",
+        "start_date": "1983",
+        "website": "http://400southhope.com/home.axis"
+      },
+      "heightClass": "recognizable nearby tower",
+      "notes": "Cached building name Chase, BNY Mellon is a tenant label; address400 South Hope and 26-story footprint identify this building. Not 333 South Hope / Bank of America. Renderer uses opaque cladding with separate generic glazed floor bands; exact building-specific window proportions and crown zoning remain approximate.",
+      "beforeColor": "#ac744c",
+      "beforeMaterial": 1
+    },
+    {
+      "key": "union_bank_plaza",
+      "name": "Union Bank Plaza",
+      "status": "verified",
+      "identity": {
+        "type": "way",
+        "id": 427532199
+      },
+      "identities": [
+        [
+          "way",
+          427532199
+        ]
+      ],
+      "anchor": [
+        2004.2162,
+        368.8973
+      ],
+      "area": 1792.0335,
+      "maxDistance": 40,
+      "minArea": 1290.3,
+      "maxArea": 2293.8,
+      "color": "#c9c8be",
+      "material": "wall",
+      "sources": [
+        "https://www.acmartin.com/portfolio/union-bank-plaza"
+      ],
+      "sourceURL": "https://www.acmartin.com/portfolio/union-bank-plaza",
+      "evidence": "Original architect identifies recessed bronze-colored solar-glass window wall, exterior framing at14ftcenters and horizontal sun-control louvers. Use pale neutral frame plus bronze-grey recessed glazing; preserve their distinction rather than cream paint alone.",
+      "confidence": "high",
+      "recommendationType": "Art-directed shared-palette interpretation of supported material/color family; hex is not measured physical albedo",
+      "osmTags": {
+        "addr:city": "Los Angeles",
+        "building": "commercial",
+        "building:colour": "#F3F3DB",
+        "building:levels": "40",
+        "ele": "256.6",
+        "height": "157",
+        "lacounty:ain": "5151020006",
+        "lacounty:bld_id": "2014092933610000",
+        "name": "Union Bank Plaza",
+        "roof:material": "concrete",
+        "roof:shape": "flat",
+        "start_date": "1968",
+        "wikidata": "Q4004762",
+        "wikipedia": "en:Union Bank Plaza"
+      },
+      "heightClass": "recognizable nearby tower",
+      "notes": "",
+      "beforeColor": "#f4f0d8",
+      "beforeMaterial": 1
+    },
+    {
+      "key": "ey_plaza",
+      "name": "EY Plaza / Ernst & Young Plaza",
+      "status": "verified",
+      "identity": {
+        "type": "way",
+        "id": 428021742
+      },
+      "identities": [
+        [
+          "way",
+          428021742
+        ]
+      ],
+      "anchor": [
+        1474.1415,
+        372.883
+      ],
+      "area": 2293.5983,
+      "maxDistance": 40,
+      "minArea": 1651.4,
+      "maxArea": 2935.8,
+      "color": "#bab0a5",
+      "material": "ribbon",
+      "sources": [
+        "https://www.usgbc.org/projects/ey-plaza",
+        "https://ruthpastine.com/limitless/"
+      ],
+      "sourceURL": "https://www.usgbc.org/projects/ey-plaza",
+      "evidence": "Certification project record describes granite and glass tower. Commissioned building artist independently identifies the granite/glass skyscraper. Warm-grey stone family is a restrained design choice; exact quarry and finish color not established here.",
+      "confidence": "medium",
+      "recommendationType": "Art-directed shared-palette interpretation of supported material/color family; hex is not measured physical albedo",
+      "osmTags": {
+        "building": "yes",
+        "building:levels": "41",
+        "ele": "249.3",
+        "height": "165.7",
+        "lacounty:ain": "5144009090",
+        "lacounty:bld_id": "2014092854710000",
+        "name": "Ernst & Young Plaza",
+        "wikipedia": "en:Ernst & Young Plaza"
+      },
+      "heightClass": "recognizable nearby tower",
+      "notes": " Renderer uses opaque cladding with separate generic glazed floor bands; exact building-specific window proportions and crown zoning remain approximate.",
+      "beforeColor": "#a09070",
+      "beforeMaterial": 2
+    },
+    {
+      "key": "metropolis_i",
+      "name": "Metropolis Residential Tower I",
+      "status": "provisional",
+      "identity": {
+        "type": "way",
+        "id": 496247687
+      },
+      "identities": [
+        [
+          "way",
+          496247687
+        ]
+      ],
+      "anchor": [
+        1145.3927,
+        165.5806
+      ],
+      "area": 1494.9739,
+      "maxDistance": 40,
+      "minArea": 1076.4,
+      "maxArea": 1913.6,
+      "color": "#8f9d9d",
+      "material": "glass",
+      "sources": [
+        "https://metropolislosangeles.com/",
+        "https://www.saifulbouquet.com/portfolio/metropolis/",
+        "https://www.azureliteinc.com/projects/metropolis.shtml"
+      ],
+      "sourceURL": "https://metropolislosangeles.com/",
+      "evidence": "Development owner/engineer/glazing installer establish glass-and-aluminum residential family, but tower-specific finish and OSM/marketing numbering need confirmation. Keep provisional rather than copy tallest tower finish blindly.",
+      "confidence": "medium",
+      "recommendationType": "Art-directed shared-palette interpretation of supported material/color family; hex is not measured physical albedo",
+      "osmTags": {
+        "building": "apartments",
+        "building:levels": "38",
+        "height": "135",
+        "name": "Metropolis Residential Tower I",
+        "start_date": "2016"
+      },
+      "heightClass": "recognizable nearby tower",
+      "notes": "",
+      "beforeColor": "#e4c8a4",
+      "beforeMaterial": 22
+    },
+    {
+      "key": "metropolis_ii",
+      "name": "Metropolis Residential Tower II",
+      "status": "provisional",
+      "identity": {
+        "type": "way",
+        "id": 496247688
+      },
+      "identities": [
+        [
+          "way",
+          496247688
+        ]
+      ],
+      "anchor": [
+        1206.173,
+        235.6021
+      ],
+      "area": 1554.3485,
+      "maxDistance": 40,
+      "minArea": 1119.1,
+      "maxArea": 1989.6,
+      "color": "#8f9d9d",
+      "material": "glass",
+      "sources": [
+        "https://metropolislosangeles.com/",
+        "https://www.saifulbouquet.com/portfolio/metropolis/",
+        "https://www.azureliteinc.com/projects/metropolis.shtml"
+      ],
+      "sourceURL": "https://metropolislosangeles.com/",
+      "evidence": "Development owner/engineer/glazing installer establish glass-and-aluminum residential family, but tower-specific finish and OSM/marketing numbering need confirmation. Keep provisional rather than copy tallest tower finish blindly.",
+      "confidence": "medium",
+      "recommendationType": "Art-directed shared-palette interpretation of supported material/color family; hex is not measured physical albedo",
+      "osmTags": {
+        "building": "apartments",
+        "building:levels": "40",
+        "height": "137",
+        "name": "Metropolis Residential Tower II"
+      },
+      "heightClass": "recognizable nearby tower",
+      "notes": "",
+      "beforeColor": "#e8d49c",
+      "beforeMaterial": 22
+    }
+  ]
+}

@@ -1,0 +1,372 @@
+{
+  "version": 1,
+  "date": "2026-11-02",
+  "purpose": "Reviewable facade palette proposal; not applied to map tiles or shaders",
+  "palettePrinciple": "Keep warm-neutral Southern California light but reduce orange chroma in building bases; separate pale cladding from dark/cool glass instead of flattening everything to beige.",
+  "method": "Primary material descriptions preferred; typed OSM identity retained. Photo pixels are explicitly tagged observational samples under uncontrolled lighting, never physical albedo. Suggested hex values are art-directed adaptations, not sampled exact real-building values.",
+  "buildings": [
+    {
+      "key": "aon",
+      "building": "Aon Center",
+      "typedID": [
+        "way",
+        428021714
+      ],
+      "sourceURL": "https://mcaia.com/portfolio/aon-center/",
+      "sourceKind": "primary",
+      "material": "Aluminum-framed curtain wall with solar-bronze glazing; aluminum corner panels",
+      "observation": "Source is architect performing facade investigation. OSM #11181E correctly signals a dark tower. Preserve near-charcoal bronze family; avoid orange bronze and avoid lifting glazing to pale grey merely because reflections are bright.",
+      "suggestedhex": "#45484a",
+      "suggestionType": "aesthetic adaptation for coordinated stylized palette; not measured physical albedo",
+      "confidence": "high",
+      "osmColour": "#11181E",
+      "glazingSuggestedhex": "#464b4b",
+      "photo": {
+        "imageURL": "https://mcaia.com/wordpressnew/wp-content/uploads/2021/11/IMG_3694.jpg",
+        "localPath": "C:\\data\\dtla-voxel-cache\\color-references\\aon.jpg",
+        "lightingObservation": "daylight; strong sky/cloud reflections; not an intrinsic glazing colour",
+        "inspected": true
+      },
+      "pixelSample": {
+        "method": "Median of original decoded sRGB image pixels in manually selected ROI; no white balance or light correction",
+        "roiXYXY": [
+          200,
+          380,
+          260,
+          440
+        ],
+        "imageSizeWH": [
+          1000,
+          750
+        ],
+        "rgb": [
+          123,
+          128,
+          130
+        ],
+        "hex": "#7b8082",
+        "physicalAlbedo": false,
+        "interpretation": "daylight; strong sky/cloud reflections; not an intrinsic glazing colour"
+      },
+      "currentExportHex": "#405468"
+    },
+    {
+      "key": "two_california",
+      "building": "Two California Plaza",
+      "typedID": [
+        "way",
+        48847807
+      ],
+      "sourceURL": "https://www.openstreetmap.org/way/48847807",
+      "sourceKind": "primary",
+      "material": "OSM building:material=glass",
+      "observation": "OSM has two colours #41423D;#DBCDB3. A single muddy average loses dark glazing and pale trim contrast. Proposed charcoal blue-grey glazing with light neutral trim; exact as-built finish not established.",
+      "suggestedhex": "#5f7073",
+      "suggestionType": "aesthetic adaptation for coordinated stylized palette; not measured physical albedo",
+      "confidence": "medium",
+      "secondarySourceURL": "https://www.arthurerickson.com/commercial-buildings/california-plaza/1/",
+      "osmColour": "#41423D;#DBCDB3",
+      "trimSuggestedhex": "#c4c1b5",
+      "currentExportHex": "#585850"
+    },
+    {
+      "key": "gas",
+      "building": "Gas Company Tower",
+      "typedID": [
+        "way",
+        427532192
+      ],
+      "sourceURL": "https://www.som.com/news/aia-25-year-award-los-angeles/",
+      "sourceKind": "primary",
+      "material": "Blue-grey granite shaft and elliptical blue-glass crown",
+      "observation": "Architect explicitly describes blue-gray granite, not green paint. Cool blue-grey body and slightly bluer crown; keep saturation restrained.",
+      "suggestedhex": "#929d9e",
+      "suggestionType": "aesthetic adaptation for coordinated stylized palette; not measured physical albedo",
+      "confidence": "high",
+      "crownSuggestedhex": "#6f8996",
+      "secondarySourceURL": "https://www.som.com/projects/gas-company-tower/",
+      "currentExportHex": "#acb8bc"
+    },
+    {
+      "key": "bank_of_america",
+      "building": "Bank of America Plaza",
+      "typedID": [
+        "way",
+        449567378
+      ],
+      "sourceURL": "https://www.acmartin.com/portfolio/333-south-hope-street",
+      "sourceKind": "primary",
+      "material": "Light granite structure",
+      "observation": "Architect identifies light granite; official daylight photograph shows pale vertical piers with dark glazing. Red/brown body would be a material mismatch.",
+      "suggestedhex": "#c9c7bb",
+      "suggestionType": "aesthetic adaptation for coordinated stylized palette; not measured physical albedo",
+      "confidence": "high",
+      "glazingSuggestedhex": "#3d494e",
+      "photo": {
+        "imageURL": "https://www.acmartin.com/sites/default/files/Bank-of-America-1.jpg",
+        "localPath": "C:\\data\\dtla-voxel-cache\\color-references\\bank_of_america.jpg",
+        "lightingObservation": "daylight; sunlit upper stone cap is near clipped white, not a midtone albedo",
+        "inspected": true
+      },
+      "pixelSample": {
+        "method": "Median of original decoded sRGB image pixels in manually selected ROI; no white balance or light correction",
+        "roiXYXY": [
+          325,
+          56,
+          365,
+          69
+        ],
+        "imageSizeWH": [
+          868,
+          500
+        ],
+        "rgb": [
+          254,
+          252,
+          239
+        ],
+        "hex": "#fefcef",
+        "physicalAlbedo": false,
+        "interpretation": "daylight; sunlit upper stone cap is near clipped white, not a midtone albedo"
+      },
+      "currentExportHex": "#749ca8"
+    },
+    {
+      "key": "777",
+      "building": "777 Tower",
+      "typedID": [
+        "way",
+        428021711
+      ],
+      "sourceURL": "https://www.laconservancy.org/learn/historic-places/777-tower/",
+      "sourceKind": "preservation organization",
+      "material": "Off-white steel and glass",
+      "observation": "Off-white metal skin with sculpted mullions. Preserve light neutral metal; avoid cream-orange sandstone appearance.",
+      "suggestedhex": "#d7d8d1",
+      "suggestionType": "aesthetic adaptation for coordinated stylized palette; not measured physical albedo",
+      "confidence": "high",
+      "glazingSuggestedhex": "#778b91",
+      "currentExportHex": "#749ca8"
+    },
+    {
+      "key": "wells_fargo",
+      "building": "Wells Fargo Tower (north)",
+      "typedID": [
+        "way",
+        427532202
+      ],
+      "sourceURL": "https://www.laconservancy.org/learn/historic-places/wells-fargo-center/",
+      "sourceKind": "preservation organization",
+      "material": "Light reddish-brown granite; bronze glazing supported by architect oral-history record",
+      "observation": "Warm material is real, but OSM #9C5B31 is saturated orange-brown. Adapt to muted rose/taupe granite, retain warm/cool contrast with glazing.",
+      "suggestedhex": "#a68f83",
+      "suggestionType": "aesthetic adaptation for coordinated stylized palette; not measured physical albedo",
+      "confidence": "high",
+      "osmColour": "#9C5B31",
+      "glazingSuggestedhex": "#55575a",
+      "secondarySourceURL": "https://artic.contentdm.oclc.org/digital/api/collection/caohp/id/28768/download",
+      "currentExportHex": "#a06038"
+    },
+    {
+      "key": "us_bank",
+      "building": "U.S. Bank Tower",
+      "typedID": [
+        "way",
+        23973401
+      ],
+      "sourceURL": "https://www.pcf-p.com/projects/us-bank-tower-formerly-library-tower/",
+      "sourceKind": "primary",
+      "material": "Pale exterior piers and glazing, based on architect project photographs",
+      "observation": "Retain pale neutral stone-like piers with cool darker glazing. Primary project text establishes geometry, not an exact named stone colour; proposed tone is visual adaptation.",
+      "suggestedhex": "#c9c7bc",
+      "suggestionType": "aesthetic adaptation for coordinated stylized palette; not measured physical albedo",
+      "confidence": "medium",
+      "glazingSuggestedhex": "#6f828a",
+      "currentExportHex": "#c8c8bc"
+    },
+    {
+      "key": "wilshire",
+      "building": "Wilshire Grand Center",
+      "typedID": [
+        "way",
+        496246723
+      ],
+      "sourceURL": "https://www.acmartin.com/portfolio/wilshire-grand-center",
+      "sourceKind": "primary",
+      "material": "Floor-to-ceiling glass; glassy expression",
+      "observation": "Architect describes glass contrasted with neighboring granite/inset windows. Use a restrained blue-grey, not saturated cyan; reflections and time of day dominate photographed appearance.",
+      "suggestedhex": "#92a4ab",
+      "suggestionType": "aesthetic adaptation for coordinated stylized palette; not measured physical albedo",
+      "confidence": "high",
+      "glazingSuggestedhex": "#738e9b",
+      "photo": {
+        "imageURL": "https://www.acmartin.com/sites/default/files/WG_2017_0913_A.jpg",
+        "localPath": "C:\\data\\dtla-voxel-cache\\color-references\\wilshire.jpg",
+        "lightingObservation": "twilight city view; useful relative family only, not daytime albedo",
+        "inspected": true
+      },
+      "currentExportHex": "#90a8b4"
+    },
+    {
+      "key": "city_hall",
+      "building": "Los Angeles City Hall",
+      "typedID": [
+        "relation",
+        6333145
+      ],
+      "sourceURL": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca1200/ca1261/data/ca1261data.pdf",
+      "sourceKind": "primary",
+      "material": "Cream terra cotta (HABS record)",
+      "observation": "Keep a pale warm limestone/cream appearance without yellow-orange push. Proposed base neutralizes existing warm scene lighting.",
+      "suggestedhex": "#dcd7ca",
+      "suggestionType": "aesthetic adaptation for coordinated stylized palette; not measured physical albedo",
+      "confidence": "high",
+      "currentExportHex": "#e0d8c8"
+    },
+    {
+      "key": "broad",
+      "building": "The Broad",
+      "typedID": [
+        "way",
+        427532197
+      ],
+      "sourceURL": "https://www.thebroad.org/tour-stops/veil",
+      "sourceKind": "primary",
+      "material": "GFRC lattice veil",
+      "observation": "Official page documents GFRC and depth. Official photo available is evening, not calibrated daylight; recesses and wash make pixel averages darker than material. Keep near-neutral warm white.",
+      "suggestedhex": "#e8e6dd",
+      "suggestionType": "aesthetic adaptation for coordinated stylized palette; not measured physical albedo",
+      "confidence": "high",
+      "photo": {
+        "imageURL": "https://www.thebroad.org/sites/default/files/styles/webp_convert_only/public/03%20-%20Veil.jpg.webp?itok=2_ujT5nE",
+        "localPath": "C:\\data\\dtla-voxel-cache\\color-references\\broad-photo.jpg",
+        "lightingObservation": "evening; mixed illuminated GFRC and shadow recesses, unsuitable daylight base-colour estimate",
+        "inspected": true
+      },
+      "pixelSample": {
+        "method": "Median of original decoded sRGB image pixels in manually selected ROI; no white balance or light correction",
+        "roiXYXY": [
+          360,
+          360,
+          480,
+          456
+        ],
+        "imageSizeWH": [
+          1200,
+          800
+        ],
+        "rgb": [
+          157,
+          157,
+          159
+        ],
+        "hex": "#9d9d9f",
+        "physicalAlbedo": false,
+        "interpretation": "evening; mixed illuminated GFRC and shadow recesses, unsuitable daylight base-colour estimate"
+      },
+      "currentExportHex": "#f0e8e0"
+    },
+    {
+      "key": "disney",
+      "building": "Walt Disney Concert Hall",
+      "typedID": [
+        "relation",
+        6333150
+      ],
+      "sourceURL": "https://www.permasteelisagroup.com/historic-project/walt-disney-concert-hall/",
+      "sourceKind": "primary",
+      "material": "Stainless steel skin",
+      "observation": "Facade contractor photo shows strong blue sky reflections and bright steel. Do not copy blue reflected pixels as base albedo; neutral silver base plus controlled metal response.",
+      "suggestedhex": "#c5cbcc",
+      "suggestionType": "aesthetic adaptation for coordinated stylized palette; not measured physical albedo",
+      "confidence": "high",
+      "photo": {
+        "imageURL": "https://www.permasteelisagroup.com/wp-content/uploads/2025/07/Walt-Disney-Concert-HallHERO.jpg",
+        "localPath": "C:\\data\\dtla-voxel-cache\\color-references\\disney.jpg",
+        "lightingObservation": "daylight; blue reflected sky on steel sail",
+        "inspected": true
+      },
+      "pixelSample": {
+        "method": "Median of original decoded sRGB image pixels in manually selected ROI; no white balance or light correction",
+        "roiXYXY": [
+          518,
+          460,
+          614,
+          538
+        ],
+        "imageSizeWH": [
+          1920,
+          1080
+        ],
+        "rgb": [
+          119,
+          136,
+          162
+        ],
+        "hex": "#7788a2",
+        "physicalAlbedo": false,
+        "interpretation": "daylight; blue reflected sky on steel sail"
+      },
+      "currentExportHex": "#c8d0d0"
+    },
+    {
+      "key": "union_station",
+      "building": "Union Station historic terminal",
+      "typedID": [
+        "relation",
+        1483140
+      ],
+      "sourceURL": "https://npgallery.nps.gov/GetAsset/c72efa93-90ca-40ba-9ca6-ae3d3515cf37/",
+      "sourceKind": "primary",
+      "material": "Cream exterior walls; reddish-brown Mission tile roofs; terra-cotta dado",
+      "observation": "National Register description distinguishes cream stucco walls and red-brown tile. Preserve separate roofs, soften roof orange into dusty brown-red; do not bleach roofs to wall cream.",
+      "suggestedhex": "#ddd4bf",
+      "suggestionType": "aesthetic adaptation for coordinated stylized palette; not measured physical albedo",
+      "confidence": "high",
+      "roofSuggestedhex": "#a17661",
+      "currentExportHex": "#e8e0c8"
+    }
+  ],
+  "roles": [
+    {
+      "name": "Warm stone",
+      "hex": "#d2c8b9"
+    },
+    {
+      "name": "Off-white stucco",
+      "hex": "#e6dfd2"
+    },
+    {
+      "name": "Terracotta",
+      "hex": "#aa7d6b"
+    },
+    {
+      "name": "Dark bronze",
+      "hex": "#827261"
+    },
+    {
+      "name": "Muted teal glass",
+      "hex": "#7f9997"
+    },
+    {
+      "name": "Blue-gray glass",
+      "hex": "#899da8"
+    },
+    {
+      "name": "Satin steel",
+      "hex": "#bfc4c5"
+    },
+    {
+      "name": "Charcoal bronze",
+      "hex": "#45484a"
+    }
+  ],
+  "implementation": [
+    "Resolve verified building identity before material/color tags and generic fallback.",
+    "Separate opaque cladding from glazing for mixed facades; color alone will not fix orange glass response.",
+    "Replace universal dark-color lightness floor with material-specific appearance policy.",
+    "Normalize facade chroma in a perceptual color space before palette quantization; preserve hue and perceptual lightness where feasible.",
+    "Keep existing global lighting, vegetation, roads, and generic palette variety; soften only excessive orange chroma.",
+    "Re-export all LODs and compare identical day, sunset, and night cameras; preserve Broad illumination, Wilshire plain spire, and obstruction lights."
+  ]
+}

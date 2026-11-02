@@ -11,6 +11,7 @@ import re
 
 # Append-only material contract; allocate their palette colours only in late overrides.
 (M_CITY_HALL, M_BROAD, M_DISNEY, M_MISSION, M_US_BANK, M_WILSHIRE) = range(23, 29)
+M_DISNEY_GLASS = 29  # Authored concert-hall glazing; never procedural windows on steel.
 
 
 def hex_rgb(h):

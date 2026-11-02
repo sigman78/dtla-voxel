@@ -1,0 +1,165 @@
+{
+  "version": 1,
+  "key": "disney",
+  "status": "registered-reviewed",
+  "identity": {
+    "type": "relation",
+    "id": 6333150
+  },
+  "voxelSize": 1,
+  "axes": [
+    "gridX",
+    "heightAboveSceneBase",
+    "gridRow"
+  ],
+  "voxelConvention": "Integer local indices denote lower corners of 1m voxel cells; centres are origin+index+0.5",
+  "classLabels": {
+    "1": "satin stainless steel shell and high roofing",
+    "2": "source-modeled light-blue glazing",
+    "3": "low plinth/slabs and interior birch surfaces"
+  },
+  "source": {
+    "title": "Disney Concert Hall 3D Model",
+    "author": "Russell.Zazueta.Rivera",
+    "url": "https://sketchfab.com/3d-models/disney-concert-hall-3d-model-65cfd28f2904457e9b5c4e8cd1c37fc0",
+    "mirrorURL": "https://zenodo.org/records/10382043",
+    "downloadURL": "https://zenodo.org/records/10382043/files/65cfd28f2904457e9b5c4e8cd1c37fc0.glb?download=1",
+    "license": "CC-BY-4.0",
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "md5": "3fb599653948ce5cc920da8f4e090641",
+    "changes": "Graph transforms baked; uniform scale/rotation/translation registered to cached2023LiDAR and2022NAIP; site/seating omitted; triangle surfaces voxelized at1m without downward fill; outer roof slab material adapted to known stainless-steel exterior."
+  },
+  "nativeFrame": "Original Rhino Z-up coordinates recovered by applying nativeFromScene after glTF graph transform.",
+  "nativeFromScene": [
+    [
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      -1,
+      0
+    ],
+    [
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      1
+    ]
+  ],
+  "nativeToGrid": [
+    [
+      0.08905147749758462,
+      0.4207478463590942,
+      0.0,
+      2591.2963663272267
+    ],
+    [
+      0.0,
+      0.0,
+      0.4300685013580031,
+      63.07721012016675
+    ],
+    [
+      0.4207478463590942,
+      -0.08905147749758462,
+      0.0,
+      838.1483743458517
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "registration": {
+    "method": "Uniform physical transform fitted to2m triangle-surface envelope, high-sail roadside locations and cached OSM/NAIP; positive full3D determinant required.",
+    "nativePlanAngleRadians": 1.3622239043193578,
+    "uniformScale": 0.4300685013580031,
+    "nativePlanCentre": [
+      -118.77698183059692,
+      121.25821685791016
+    ],
+    "worldPlanCentre": [
+      2631.7382341988177,
+      777.3749916736754
+    ],
+    "worldGroundDatum": 63.07721012016675,
+    "determinant": 0.07954500375684824,
+    "fit": {
+      "cost": 250.6975004470408,
+      "medianAbsError": 3.401597258836759,
+      "p90AbsError": 30.23318439677649,
+      "outsideCells": 144,
+      "coveredArea": 5316,
+      "targetHighRoofArea": 7016,
+      "targetMedianDistance": 0.0,
+      "sourceCentre": [
+        -118.77698183059692,
+        121.25821685791016
+      ],
+      "parameters": [
+        1.3622239043193578,
+        0.4300685013580031,
+        2631.7382341988177,
+        777.3749916736754,
+        63.07721012016675
+      ],
+      "flip": -1,
+      "highSailsDistance": 2.8284271247461903
+    },
+    "reviewImage": "C:\\data\\dtla-voxel-cache\\disney-model\\registration-positive-determinant.png",
+    "limitations": [
+      "Academic reconstruction, not surveyed as-built geometry.",
+      "Front low sail protrudes beyond exact mapped footprint before runtime guard; report clipped cell counts.",
+      "Peripheral site walls omitted; preserve original unmodeled podiums and planted terraces."
+    ],
+    "reviewDecision": "Use positive determinant78.05degree candidate; rigid authored model fit accepted as an illustrative shell reconstruction, not surveyed geometry.",
+    "guardPreview": {
+      "total": 34762,
+      "outsideTwoMetreFootprintBuffer": 3684,
+      "belowGround": 0,
+      "acceptedBeforeGardenAndNeighbourGuards": 31078
+    }
+  },
+  "runtimeGuards": {
+    "exactOSMIdentity": [
+      "relation",
+      6333150
+    ],
+    "maximumFootprintBuffer": 2,
+    "preserveGardenRoofColumns": true,
+    "preserveOtherBuildingFootprints": true,
+    "clipBelowPhysicalGround": true,
+    "clearRegion": "Convex hull of accepted model plan cells plus2m, intersect exactfootprint and excludegardens/neighbours",
+    "noDownwardFill": true
+  },
+  "origin": [
+    2580,
+    59,
+    726
+  ],
+  "shape": [
+    108,
+    41,
+    101
+  ],
+  "count": 34762,
+  "classCounts": {
+    "1": 32702,
+    "2": 754,
+    "3": 1306
+  },
+  "sourceSHA256": "3afd04a4f8aabc8eeb3d4f7c1e97c2a569f7e67e302f9d27f22e5a11faf41491",
+  "derivedSHA256": "b85da0888d7502bb28696cb087847da3cbb299e4ee1691a273e569b495c34f82"
+}
