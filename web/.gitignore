@@ -1,0 +1,4 @@
+node_modules/
+dist/
+# dev-only Warsaw sample data (junction to the reference clone)
+data-warsaw

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>DTLA in voxels</title>
+  <meta name="description" content="Downtown Los Angeles as a voxel diorama, built from OpenStreetMap: orbit the towers, set the date and the hour, and watch the city light up after a hazy golden hour." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="DTLA in voxels" />
+  <meta property="og:description" content="Downtown Los Angeles as a voxel diorama, built from OpenStreetMap: orbit the towers, set the date and the hour, and watch the city light up after a hazy golden hour." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22%3E%3Crect width=%2216%22 height=%2216%22 fill=%22%23f4c49a%22/%3E%3Crect x=%229%22 y=%221%22 width=%225%22 height=%2215%22 fill=%22%235f7f9c%22/%3E%3Crect x=%223%22 y=%225%22 width=%225%22 height=%2211%22 fill=%22%23d9b48a%22/%3E%3Crect y=%2214%22 width=%2216%22 height=%222%22 fill=%22%23807060%22/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <!-- the loading caption, styled before any script or stylesheet arrives (same look as style.css #loading) -->
+  <style>
+    body { margin: 0; }
+    #loading { position: fixed; inset: 0; background: linear-gradient(#9cc6e0, #f2e2cf 62%, #f3c6a4); z-index: 10; }
+    #loading-text { position: fixed; left: 14px; top: 14px; color: #fff; font: 11px Inter, system-ui, sans-serif; text-shadow: 0 1px 2px rgba(0,0,0,.7), 0 0 2px rgba(0,0,0,.5); }
+  </style>
+</head>
+<body class="loading">
+  <div id="app"></div>
+  <div id="labels"></div>
+  <div id="loading"><div id="loading-text">Loading the map data…</div></div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
