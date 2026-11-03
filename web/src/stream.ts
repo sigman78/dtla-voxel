@@ -24,6 +24,7 @@ export interface TileNode {
   attempts: number;
   meshBytes: number;
   queryBytes: number;
+  voxels: number;
 }
 interface Pooled {
   worker: Worker;
@@ -110,6 +111,7 @@ export class TileStreamer implements ColumnSource {
       attempts: (n?.attempts ?? 0) + 1,
       meshBytes: 0,
       queryBytes: 0,
+      voxels: 0,
     };
     this.nodes.set(key, n);
     this.queue.push(n);
@@ -214,6 +216,7 @@ export class TileStreamer implements ColumnSource {
         this.stats.failed++;
         console.warn(m.error);
       } else {
+        n.voxels = m.voxels;
         if (m.quads) {
           const geo = makeQuadGeometry(m.records, m.bounds, this.packed);
           const mesh = new THREE.Mesh(geo, this.material);

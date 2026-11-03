@@ -84,6 +84,13 @@ for (const sample of samples) {
   const base = level === '1f' ? decodeTile(read('1', file), 128) : null;
   const expected = reference.api.meshTile(128, s, 0, 0, r, r.detail, base);
   const result = meshTile(128, s, 0, 0, c, c.detail, base && compactColumns(base));
+  const occupancy = compactColumns(c);
+  let voxelCount = c.detail.length / 4;
+  for (let y = 1; y <= 128; y++) for (let x = 1; x <= 128; x++) {
+    const column = y * 130 + x;
+    for (let k = occupancy.off[column]; k < occupancy.off[column + 1]; k++) voxelCount += occupancy.runs[k * 2 + 1];
+  }
+  assert.equal(result.voxels, voxelCount, `Occupied voxel estimate: ${level}/${file}`);
   const expanded = expandQuads(result.records);
   assert.equal(result.quads, expected.quads);
   assert.equal(result.records.byteLength, result.quads * 16);

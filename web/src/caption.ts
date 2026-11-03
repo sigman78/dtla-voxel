@@ -9,6 +9,10 @@ export class Caption {
   private finished = false;
   private timer = 0;
 
+  constructor(host: HTMLElement) {
+    host.appendChild(this.box);
+  }
+
   show(stage: string, done: number, total: number) {
     this.finished = false;
     clearTimeout(this.timer);

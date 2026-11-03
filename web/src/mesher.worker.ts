@@ -24,6 +24,7 @@ export type MeshReply =
       records: Uint16Array;
       bounds: number[];
       quads: number;
+      voxels: number;
     }
   | { type: 'error'; id: number; key: string; error: string };
 
@@ -154,6 +155,8 @@ function meshTile(
     SS = S * S,
     { ground } = cols;
   const off = offsetsOf(cols.counts, SS);
+  // Occupied cells at this tile's LOD, excluding its neighbor apron. Detail cells are 1 m.
+  let voxels = detail.length / 4;
   let underTop = 0;
   if (under)
     for (let i = 0; i < under.runs.length; i += 2) underTop = Math.max(underTop, under.runs[i] + under.runs[i + 1]);
@@ -161,13 +164,16 @@ function meshTile(
   const sz = zmax + 2,
     vol = new Uint16Array(SS * sz);
   const fill = (c: RawColumns, o: Uint32Array, value: (v: number) => number) => {
-    for (let i = 0; i < SS; i++)
+    for (let i = 0; i < SS; i++) {
+      const interior = i >= S && i < SS - S && i % S > 0 && i % S < S - 1;
       for (let k = o[i], e = o[i] + c.counts[i]; k < e; k++) {
         const z0 = c.runs[k * 3],
           len = c.runs[k * 3 + 1],
           v = value(c.runs[k * 3 + 2]);
+        if (interior) voxels += len;
         for (let z = z0; z < z0 + len; z++) vol[i + SS * (z + 1)] = v;
       }
+    }
   };
   if (under)
     for (let i = 0; i < SS; i++)
@@ -182,7 +188,7 @@ function meshTile(
   meshFaces(N, s, x0, y0, vol, sz, ground, out);
   if (detail.length) meshDetail(N, s, x0, y0, detail, ground, out);
   const n = out.count;
-  return { records: out.records.slice(0, n * 2), bounds: n ? out.bounds : [0, 0, 0, 0, 0, 0], quads: n / 4 };
+  return { records: out.records.slice(0, n * 2), bounds: n ? out.bounds : [0, 0, 0, 0, 0, 0], quads: n / 4, voxels };
 }
 
 function meshFaces(

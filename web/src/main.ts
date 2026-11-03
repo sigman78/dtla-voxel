@@ -11,6 +11,7 @@ import { ObstructionLights } from './obstructionLights';
 import { makePost } from './post';
 import type { SearchItem } from './search';
 import { TileStreamer } from './stream';
+import { Stats } from './stats';
 import { dateOf, dayOfYear, hourAt, solarNoon } from './sun';
 import type { Facts, Label, Meta, View } from './types';
 import { $, coarsePointer, dataUrl, ease, el, fetchJson } from './util';
@@ -55,6 +56,7 @@ renderer.domElement.addEventListener('webglcontextlost',()=>{
 renderer.domElement.addEventListener('webglcontextrestored',()=>{daylight.restore();});
 const nav = new Nav(camera, controls, renderer.domElement, (v) => flyTo(v));
 const bar = new Bar({ days: DAYS, onDay: (d) => { setDay(d); share(); }, onHour: (h) => { setHour(h); share(); } });
+const stats = new Stats();
 const map = new THREE.Box3();
 const tiltShift = qs.get('tilt') !== '0' && (innerWidth >= 600 || qs.get('tilt') === '1');
 let labels: Labels | null = null, hud: Hud | null = null;
@@ -68,8 +70,7 @@ let roam = 1500; // how far the camera may stray beyond the map's edge
 
 nav.cancelFly = () => { fly = null; };
 new ResizeObserver(() => { barRect = null; }).observe(bar.el);
-el('div', '', `<div>Viewer adapted from <a href="https://github.com/stared/warsaw-vibe-voxel" target="_blank" rel="noopener">warsaw-vibe-voxel</a> by Piotr Migdał (MIT)</div>
-  <div>Map data <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a></div>
+el('div', '', `<div>Map data <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a></div>
   <div>Disney Hall model: <a href="https://doi.org/10.5281/zenodo.10382043" target="_blank" rel="noopener">Russell.Zazueta.Rivera</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a></div>`).id = 'credits';
 if (qs.get('ui') === '0') document.body.classList.add('noui');
 addEventListener('resize', onResize);
@@ -248,7 +249,7 @@ async function boot() {
   const level = pickLevel(meta);
   const minimumLevel = coarsePointer() && Math.min(screen.width, screen.height) < 600
     ? streamer.levels.find(s=>s<=4) ?? 1 : 1;
-  city = await installCity({ streamer, uniforms, meta, scene, focus: () => controls.target, camera, caption: new Caption(), level,
+  city = await installCity({ streamer, uniforms, meta, scene, focus: () => controls.target, camera, caption: new Caption(bar.el), level,
     onCastersChanged: () => daylight.invalidateShadow(),
     light: () => daylight.direction, height: () => renderer.domElement.height, minimumLevel });
   obstructionLights = new ObstructionLights(scene, meta, level || 1);
@@ -283,6 +284,7 @@ renderer.setAnimationLoop((now) => {
   post.composer.render();
   barRect ??= bar.rect;
   labels?.update(camera, world, barRect, hud?.rects ?? []);
+  stats.update(now, streamer, camera);
 });
 
 window.__three = { camera, controls, nav, bar, scene, renderer, flyTo, setHour, setDay, map, daylight, post, frameAll };

@@ -64,7 +64,7 @@ html, body { margin: 0; height: 100%; overflow: hidden; touch-action: none; /* p
 #loading { position: fixed; inset: 0; background: linear-gradient(#9cc6e0, #f2e2cf 62%, #f3c6a4); z-index: 10; }
 #loading-text { position: fixed; left: 14px; top: 14px; color: #fff; font: 11px Inter, system-ui, sans-serif; text-shadow: 0 1px 2px rgba(0,0,0,.7), 0 0 2px rgba(0,0,0,.5); }
 @media (max-width: 600px) { #loading-text { left: 8px; top: 8px; } }
-#loading.hidden { display: none; } /* at once: the caption takes over in the same place */
+#loading.hidden { display: none; }
 .noui #labels { display: none !important; }
 
 /* HUD: a legend, not a control panel -- outlines only, semi-transparent, never in the way of the pointer */
@@ -86,13 +86,21 @@ html, body { margin: 0; height: 100%; overflow: hidden; touch-action: none; /* p
 #hud figcaption { font-size: 10.5px; }
 @media (max-width: 600px) { #hud { left: 8px; bottom: 8px; } }
 .noui #hud { display: none; }
-.caption { position: fixed; left: 14px; top: 14px; z-index: 5; pointer-events: none; display: flex; flex-direction: column; gap: 5px;
-  width: 340px; max-width: calc(100vw - 16px); color: #fff; font: 11px Inter, system-ui, sans-serif; font-variant-numeric: tabular-nums; text-shadow: 0 1px 2px rgba(0,0,0,.7), 0 0 2px rgba(0,0,0,.5); transition: opacity .8s; }
+#bar .caption { margin-top: 12px; pointer-events: none; display: flex; flex-direction: column; gap: 5px;
+  width: 100%; transition: opacity .8s; }
 .caption.off { opacity: 0; }
 .caption .txt { display: flex; justify-content: space-between; white-space: nowrap; }
 .caption .bar { position: relative; height: 2px; border-radius: 1px; background: rgba(255,255,255,.3); box-shadow: 0 0 2px rgba(0,0,0,.6); }
 .caption .bar i { display: block; height: 100%; width: 0; border-radius: 1px; background: #fff; transition: width .3s; }
-@media (max-width: 600px) { .caption { left: 8px; right: 8px; top: 8px; width: auto; max-width: none; } }
 #bar, #labels, #hud { transition: opacity .6s; }
-.loading #bar, .loading #labels, .loading #hud { opacity: 0; pointer-events: none; }
-body:not(.loading) #bar { transition: opacity .12s 1.2s; }
+.loading #labels, .loading #hud { opacity: 0; pointer-events: none; }
+
+.perf-stats { position: fixed; right: 14px; top: 14px; z-index: 6; width: 304px; max-width: calc(100vw - 16px);
+  padding: 12px; border-radius: 8px; background: rgba(16,17,20,.9); color: #e6eef5; pointer-events: none;
+  font: 11px ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+.perf-stats[hidden] { display: none; }
+.perf-title { margin-bottom: 8px; color: #78e4b0; }
+.perf-stats canvas { width: 100%; height: 64px; display: block; }
+.perf-stats pre { margin: 10px 0; font: inherit; line-height: 1.7; white-space: pre-wrap; }
+.perf-note { color: #aab6c3; font-size: 10px; line-height: 1.4; }
+@media (max-width: 600px) { .perf-stats { right: 8px; top: auto; bottom: 74px; } }
