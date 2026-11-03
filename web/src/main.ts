@@ -12,7 +12,7 @@ import { makePost } from './post';
 import type { SearchItem } from './search';
 import { TileStreamer } from './stream';
 import { Stats } from './stats';
-import { dateOf, dayOfYear, hourAt, solarNoon } from './sun';
+import { dateOf, dayOfYear, hourAt, losAngelesDate, SOLAR_YEAR, solarNoon, trueNorthRotation } from './sun';
 import type { Facts, Label, Meta, View } from './types';
 import { $, coarsePointer, dataUrl, ease, el, fetchJson } from './util';
 import { LOD_DEBUG_COLORS, makeUniforms, makeVoxelMaterial } from './voxelMaterial';
@@ -23,7 +23,7 @@ declare global {
 }
 
 const RAD = Math.PI / 180;
-const TODAY = dayOfYear(new Date());
+const TODAY = dayOfYear(losAngelesDate());
 const DAYS = { midsummer: 172, midwinter: 355, today: TODAY };
 
 const qs = new URLSearchParams(location.search);
@@ -248,7 +248,7 @@ async function boot() {
   map.set(new THREE.Vector3(0, 0, 0), new THREE.Vector3(meta.W, meta.H, meta.D));
   daylight.uniforms = uniforms;
   daylight.bloom = post.bloom;
-  daylight.theta = (meta.theta_deg || 0) * RAD;
+  daylight.theta = trueNorthRotation(meta.theta_deg || 0, meta.center, meta.crs);
 
   const overview = frameAll(meta), reach = new THREE.Vector3(...overview.pos).distanceTo(new THREE.Vector3(...overview.target));
   views = { ...meta.views, ...(meta.views?.default ? {} : { default: overview }) };
@@ -261,7 +261,7 @@ async function boot() {
   controls.target.set(...(cam?.length === 6 ? [cam[3], cam[4], cam[5]] as const : v0.target));
 
   const md = qs.get('date')?.split('-').map(Number);
-  setDay(md?.length === 2 ? dayOfYear(new Date(new Date().getFullYear(), md[0] - 1, md[1])) : TODAY);
+  setDay(md?.length === 2 ? dayOfYear(new Date(SOLAR_YEAR, md[0] - 1, md[1])) : TODAY);
   setHour(qs.get('hour') ? +qs.get('hour')! : timesOf(daylight.day)['golden hour']);
 
   const level = pickLevel(meta);

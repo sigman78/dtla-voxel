@@ -1,5 +1,5 @@
 import { PlaceSearch } from './search';
-import { dateOf } from './sun';
+import { dateOf, daysInYear } from './sun';
 import { $, el } from './util';
 
 const hhmm = (h: number) => { const m = Math.round(h * 60) % 1440, H = Math.floor(m / 60); return `${(H + 11) % 12 + 1}:${String(m % 60).padStart(2, '0')} ${H < 12 ? 'am' : 'pm'}`; };
@@ -55,7 +55,7 @@ export class Bar {
   constructor({ days, onDay, onHour }: { days: Record<string, number>; onDay: (d: number) => void; onHour: (h: number) => void }) {
     this.el.id = 'bar';
     this.search = new PlaceSearch(this.el, 'Search DTLA…');
-    this.date = new Slider(this.el, { min: 1, max: 365, step: 1, marks: days, near: 3, show: dayMonth, onInput: onDay });
+    this.date = new Slider(this.el, { min: 1, max: daysInYear(), step: 1, marks: days, near: 3, show: dayMonth, onInput: onDay });
     this.time = new Slider(this.el, { min: 0, max: 24 - 1 / 60, step: 1 / 60, marks: {}, near: 1 / 3, show: hhmm, onInput: onHour });
   }
 

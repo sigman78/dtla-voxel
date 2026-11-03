@@ -61,7 +61,7 @@ export class Daylight {
     this.invalidateShadow();
   }
 
-  // the grid is turned (meta.theta_deg): compass bearings turn by theta in the scene
+  // True-north rotation includes the map's grid rotation and meridian convergence.
   set theta(t: number) { this.northTheta = t; this.apply(this.hour); }
 
   // a compass bearing (0 north, clockwise) and elevation as a direction in the scene
@@ -75,7 +75,8 @@ export class Daylight {
     const { el, az } = sunAt(this.day, hour), elDeg = el * 180 / Math.PI;
     const night = this.night = 1 - smooth(-7, 1, elDeg), day = 1 - night;
     const deep = smooth(-9, -17, elDeg), golden = 1 - smooth(8, 34, elDeg);
-    const dir = elDeg > -2 ? this.skyDir(az, Math.max(el, 2.5 * Math.PI / 180)) : new THREE.Vector3(0.45, 0.75, 0.5).normalize(); // the moon, high in the SE
+    const trueSun = this.skyDir(az, el);
+    const dir = elDeg > -2 ? trueSun : new THREE.Vector3(0.45, 0.75, 0.5).normalize(); // artistic night fill, not a calculated moon
     const sun = this.sun, hemi = this.hemi;
     const T = beam(elDeg), lumT = T[0] * 0.2126 + T[1] * 0.7152 + T[2] * 0.0722, sinEl = Math.max(0, Math.sin(el));
     const sky = Math.max(0.22 * sinEl * (1 - lumT), 0.025 * smooth(-7, 2, elDeg)), sunH = lumT * sinEl;
@@ -89,7 +90,7 @@ export class Daylight {
       .lerp(new THREE.Color(0x4a447e).lerp(new THREE.Color(0x3e3648), deep), night);
     hemi.groundColor.copy(sun.color).multiplyScalar(0.42).lerp(new THREE.Color(0x4e3a2a), night);
     hemi.intensity = lerp(0.14 * skyRel, lerp(0.95, 0.5, deep), night);
-    this.sky.set({ elDeg, sunDir: dir, trueSun: this.skyDir(az, el), golden, night, deep });
+    this.sky.set({ elDeg, sunDir: trueSun, trueSun, golden, night, deep });
     this.lightDir.copy(dir);
     this.shadowKey = '';
     if (this.uniforms) {
@@ -99,7 +100,7 @@ export class Daylight {
     }
     if (this.bloom) this.bloom.intensity = lerp(0.18, 0.95, night);
     this.scene.fog = new THREE.Fog(this.sky.horizon.clone(), 2400, 9000);
-    const key = (elDeg / 0.6).toFixed(0);
+    const key = `${(elDeg / 0.6).toFixed(0)},${(az * 180 / Math.PI / 0.6).toFixed(0)},${this.northTheta}`;
     if (key !== this.envKey) {
       this.env?.dispose();
       this.env = this.pmrem.fromScene(this.sky.envScene(), 0, 1, 10000);
