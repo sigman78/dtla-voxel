@@ -37,13 +37,13 @@ const post = makePost(renderer, scene, camera);
 const uploadScene = new THREE.Scene();
 const uploadMaterial = new THREE.MeshBasicMaterial({colorWrite:false,depthWrite:false});
 function prepareTile(mesh:THREE.Mesh) {
-  const material=mesh.material, range={...mesh.geometry.drawRange}, autoClear=renderer.autoClear, shadows=renderer.shadowMap.enabled;
+  const material=mesh.material, start=mesh.geometry.drawRange.start, count=mesh.geometry.drawRange.count, autoClear=renderer.autoClear, shadows=renderer.shadowMap.enabled;
   mesh.geometry.setDrawRange(0,0);mesh.material=uploadMaterial;mesh.visible=true;mesh.frustumCulled=false;
   renderer.autoClear=false;renderer.shadowMap.enabled=false;uploadScene.add(mesh);
   try { renderer.render(uploadScene,camera); }
   finally {
     uploadScene.remove(mesh);mesh.material=material;mesh.visible=false;mesh.frustumCulled=true;
-    mesh.geometry.setDrawRange(range.start,range.count);renderer.autoClear=autoClear;renderer.shadowMap.enabled=shadows;
+    mesh.geometry.setDrawRange(start,count);renderer.autoClear=autoClear;renderer.shadowMap.enabled=shadows;
   }
 }
 const daylight = new Daylight(renderer, scene);
@@ -58,6 +58,7 @@ const nav = new Nav(camera, controls, renderer.domElement, (v) => flyTo(v));
 const bar = new Bar({ days: DAYS, onDay: (d) => { setDay(d); share(); }, onHour: (h) => { setHour(h); share(); } });
 const stats = new Stats();
 const map = new THREE.Box3();
+const selectionLight = new THREE.Vector3();
 const tiltShift = qs.get('tilt') !== '0' && (innerWidth >= 600 || qs.get('tilt') === '1');
 let labels: Labels | null = null, hud: Hud | null = null;
 let world: TileStreamer['world'] | null = null, streamer: TileStreamer | null = null;
@@ -70,9 +71,11 @@ let roam = 1500; // how far the camera may stray beyond the map's edge
 let debugLod = false;
 let lodMaterials: Map<number, THREE.Material> | null = null;
 let lodFoliageMaterial: THREE.Material | null = null;
+let renderDirty = true;
 const lodLegend = el('aside', 'lod-legend', `<b>Tile LOD · F4 to hide</b>${LOD_DEBUG_COLORS.map(([s, color]) => `<span><i style="background:${color}"></i>${s} m</span>`).join('')}`);
 lodLegend.hidden = true;
 function applyDebugLod() {
+  renderDirty = true;
   if (!streamer || !uniforms) return;
   if (debugLod) lodMaterials ??= new Map(LOD_DEBUG_COLORS.map(([s, color]) => [s, makeVoxelMaterial(uniforms!, streamer!.packed, color)]));
   if (debugLod) lodFoliageMaterial ??= makeVoxelMaterial(uniforms, streamer.packed, LOD_DEBUG_COLORS[0][1]);
@@ -133,6 +136,7 @@ function tamePinch(dom: HTMLElement) {
 }
 
 function onResize() {
+  renderDirty = true;
   camera.aspect = innerWidth / innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(innerWidth, innerHeight);
@@ -141,6 +145,7 @@ function onResize() {
 }
 
 function setHour(h: number) {
+  renderDirty = true;
   daylight.apply(h);
   bar.setHour(h);
 }
@@ -233,7 +238,7 @@ function keepInside() {
   if (map.isEmpty() || nav.turning) return;
   const t = controls.target, p = camera.position, m = 60, M = roam;
   const cx = THREE.MathUtils.clamp(t.x, map.min.x + m, map.max.x - m), cz = THREE.MathUtils.clamp(t.z, map.min.z + m, map.max.z - m);
-  if (cx !== t.x || cz !== t.z) { const d = new THREE.Vector3(cx - t.x, 0, cz - t.z); t.add(d); p.add(d); }
+  if (cx !== t.x || cz !== t.z) { p.x += cx - t.x; p.z += cz - t.z; t.x = cx; t.z = cz; }
   p.x = THREE.MathUtils.clamp(p.x, map.min.x - M, map.max.x + M);
   p.z = THREE.MathUtils.clamp(p.z, map.min.z - M, map.max.z + M);
 }
@@ -269,7 +274,7 @@ async function boot() {
     ? streamer.levels.find(s=>s<=4) ?? 1 : 1;
   city = await installCity({ streamer, uniforms, meta, scene, focus: () => controls.target, camera, caption: new Caption(bar.el), level,
     onCastersChanged: () => daylight.invalidateShadow(),
-    light: () => daylight.direction, height: () => renderer.domElement.height, minimumLevel });
+    light: () => daylight.copyDirection(selectionLight), height: () => renderer.domElement.height, minimumLevel });
   obstructionLights = new ObstructionLights(scene, meta, level || 1);
   labels = new Labels(meta.labels ?? [], onLabel);
   labels.gate = city.gate;
@@ -282,27 +287,53 @@ async function boot() {
 
 let lastT = performance.now();
 const t0 = lastT;
+const drawnWorld = new THREE.Matrix4(), drawnProjection = new THREE.Matrix4(), drawnTarget = new THREE.Vector3();
+const animationFrustum = new THREE.Frustum(), animationMatrix = new THREE.Matrix4();
+let drawnVisibility = -1, animatedWater = false;
+// Brief settling allowance for initial post-processing resources and camera damping.
+let settleFrames = 8;
+renderer.domElement.addEventListener('webglcontextrestored', () => { renderDirty = true; settleFrames = 8; });
+const continuous = qs.get('continuous') === '1'; // Diagnostic comparison path.
 renderer.setAnimationLoop((now) => {
   fly?.(now);
   const dt = Math.min(0.1, (now - lastT) / 1000);
   lastT = now;
   nav.update(dt);
   controls.update(); nav.clamp(); keepInside();
-  const above = camera.position.y - (world ? world.groundAt(camera.position.x, camera.position.z) : 18) + 3;
-  const viewDist = camera.position.distanceTo(controls.target);
-  post.setHeight(above, tiltShift, viewDist);
-  daylight.setFogFrom(viewDist);
-  if (uniforms) uniforms.uTime.value = (performance.now() - t0) / 1000;
   if (city?.complete) document.body.classList.remove('loading');
-  daylight.sky.mesh.position.copy(camera.position);
   streamer?.flush(2*1024*1024,prepareTile);
   streamer?.update(camera);
-  daylight.fitShadow(controls.target, camera, viewDist, map);
-  if (city) obstructionLights?.update((now - t0) / 1000, daylight.night, renderer.getPixelRatio(), city.gate, city.levelAt);
-  post.composer.render();
+  camera.updateMatrixWorld();
+  const visibility = city?.visibilityVersion ?? 0;
+  const changed = renderDirty || visibility !== drawnVisibility
+    || !drawnWorld.equals(camera.matrixWorld) || !drawnProjection.equals(camera.projectionMatrix) || !drawnTarget.equals(controls.target);
+  if (changed) {
+    animationFrustum.setFromProjectionMatrix(animationMatrix.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse));
+    animatedWater = false;
+    if (streamer?.group.visible) for (const node of streamer.nodes.values()) {
+      if (node.waterBounds && node.mesh?.visible && animationFrustum.intersectsBox(node.waterBounds)) { animatedWater = true; break; }
+    }
+    settleFrames = 8;
+  }
+  // Nighttime beacons remain continuous. Water bounds conservatively enclose emitted faces.
+  const rendered = continuous || changed || !city?.complete || animatedWater || daylight.night > 0.001 || settleFrames > 0 || daylight.shadowDirty;
+  if (rendered) {
+    const above = camera.position.y - (world ? world.groundAt(camera.position.x, camera.position.z) : 18) + 3;
+    const viewDist = camera.position.distanceTo(controls.target);
+    post.setHeight(above, tiltShift, viewDist);
+    daylight.setFogFrom(viewDist);
+    if (uniforms) uniforms.uTime.value = (now - t0) / 1000;
+    daylight.sky.mesh.position.copy(camera.position);
+    daylight.fitShadow(controls.target, camera, viewDist, map);
+    if (city) obstructionLights?.update((now - t0) / 1000, daylight.night, renderer.getPixelRatio(), city.gate, city.levelAt);
+    post.composer.render();
+    drawnWorld.copy(camera.matrixWorld); drawnProjection.copy(camera.projectionMatrix); drawnTarget.copy(controls.target);
+    drawnVisibility = visibility; renderDirty = false;
+    if (settleFrames > 0) settleFrames--;
+  }
   barRect ??= bar.rect;
-  labels?.update(camera, world, barRect, hud?.rects ?? []);
-  stats.update(now, streamer, camera);
+  labels?.update(camera, world, barRect, hud?.rects ?? [], (streamer?.revision ?? 0) + (city?.visibilityVersion ?? 0));
+  stats.update(now, streamer, camera, rendered);
 });
 
 window.__three = { camera, controls, nav, bar, scene, renderer, flyTo, setHour, setDay, map, daylight, post, frameAll };

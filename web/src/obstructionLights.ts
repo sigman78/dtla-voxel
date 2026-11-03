@@ -65,20 +65,22 @@ export class ObstructionLights {
     if (levelAt) {
       const positions = this.points.geometry.getAttribute('position');
       let changed = false;
-      this.lights.forEach((light,i)=>{
+      for (let i = 0; i < this.lights.length; i++) {
+        const light = this.lights[i];
         const [x,y,z]=light.position, scale=levelAt(x,z)||1, top=Math.ceil(y/scale)*scale+0.35;
         if(Math.abs(positions.getY(i)-top)>0.0001){positions.setY(i,top);changed=true;}
-      });
+      }
       if(changed){positions.needsUpdate=true;this.points.geometry.computeBoundingSphere();}
     }
     this.uniforms.uNight.value = night;
     this.uniforms.uTime.value = seconds;
     this.uniforms.uPixelRatio.value = pixelRatio;
     let changed = false;
-    this.lights.forEach((light, i) => {
+    for (let i = 0; i < this.lights.length; i++) {
+      const light = this.lights[i];
       const value = gate(light.position[0], light.position[2]) ? 1 : 0;
       if (this.visibility.getX(i) !== value) { this.visibility.setX(i, value); changed = true; }
-    });
+    }
     if (changed) this.visibility.needsUpdate = true;
   }
 }

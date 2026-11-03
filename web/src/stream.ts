@@ -4,6 +4,7 @@ import type { MeshRequest, MeshReply } from './mesher.worker';
 import { dataUrl } from './util';
 import { World, type ColumnSource } from './world';
 import { geometryBytes, makeQuadDepthMaterial, makeQuadGeometry } from './quadGeometry';
+import { MAT } from './voxelMaterial';
 
 export interface TileNode {
   key: string;
@@ -25,6 +26,7 @@ export interface TileNode {
   meshBytes: number;
   queryBytes: number;
   voxels: number;
+  waterBounds?: THREE.Box3;
 }
 interface Pooled {
   worker: Worker;
@@ -49,6 +51,9 @@ export class TileStreamer implements ColumnSource {
   private foliageMaterial: THREE.Material | null = null;
   private debugFoliageMaterial: THREE.Material | null = null;
   private nextId = 1;
+  private readonly trimCandidates: TileNode[] = [];
+  private readonly tileKeys: Record<number, string[]> = {};
+  private readonly foliageKeys: string[] = [];
   private readonly maxWorkers = Math.min(Math.max(1, (navigator.hardwareConcurrency || 4) - 2), 4);
   private readonly pool: Pooled[] = [];
   private replies: MeshReply[] = [];
@@ -67,6 +72,7 @@ export class TileStreamer implements ColumnSource {
     this.N = meta.tiles.N;
     this.levels = meta.tiles.levels.map((l) => l.s).sort((a, b) => b - a);
     this.dims = Object.fromEntries(meta.tiles.levels.map((l) => [l.s, l]));
+    for (const d of meta.tiles.levels) this.tileKeys[d.s] = [];
     scene.add(this.group);
     this.world = new World(this, meta);
   }
@@ -97,7 +103,16 @@ export class TileStreamer implements ColumnSource {
     }
   }
   key(s: number, tx: number, ty: number) {
+    const d = this.dims[s];
+    if (d && tx >= 0 && ty >= 0 && tx < d.nx && ty < d.ny)
+      return this.tileKeys[s][ty * d.nx + tx] ??= `${s}/${tx}_${ty}`;
     return `${s}/${tx}_${ty}`;
+  }
+  foliageKey(tx: number, ty: number) {
+    const d = this.dims[1];
+    if (d && tx >= 0 && ty >= 0 && tx < d.nx && ty < d.ny)
+      return this.foliageKeys[ty * d.nx + tx] ??= `f/${tx}_${ty}`;
+    return `f/${tx}_${ty}`;
   }
   bounds(s: number, tx: number, ty: number) {
     const L = this.N * s;
@@ -107,7 +122,7 @@ export class TileStreamer implements ColumnSource {
     return this.enqueue(this.key(s, tx, ty), s, tx, ty, false, prio);
   }
   requestFoliage(tx: number, ty: number, prio: number) {
-    return this.enqueue(`f/${tx}_${ty}`, 1, tx, ty, true, prio);
+    return this.enqueue(this.foliageKey(tx, ty), 1, tx, ty, true, prio);
   }
   private enqueue(key: string, s: number, tx: number, ty: number, foliage: boolean, prio: number) {
     let n = this.nodes.get(key);
@@ -149,11 +164,13 @@ export class TileStreamer implements ColumnSource {
   }
   retire() {
     const now = performance.now();
-    for (const p of [...this.pool])
+    for (let i=0;i<this.pool.length;) {
+      const p=this.pool[i];
       if (!p.busy && now - p.idle > 4000 && this.pool.length > 1) {
         p.worker.terminate();
-        this.pool.splice(this.pool.indexOf(p), 1);
-      }
+        this.pool.splice(i, 1);
+      } else i++;
+    }
   }
   private spawn() {
     const worker = new Worker(new URL('./mesher.worker.ts', import.meta.url), { type: 'module' });
@@ -243,10 +260,23 @@ export class TileStreamer implements ColumnSource {
         console.warn(m.error);
       } else {
         n.voxels = m.voxels;
+        // Inspect emitted faces once, before records are released. Only water uses time.
+        n.waterBounds = undefined;
+        for (let i = 0; i < m.records.length; i += 8) {
+          const r = m.records;
+          if (this.meta.palette[r[i + 5]]?.[3] !== MAT.WATER) continue;
+          const box = n.waterBounds ??= new THREE.Box3(), axis = (r[i + 6] & 7) >> 1;
+          const x = r[i], y = r[i + 1], z = r[i + 2], w = r[i + 3], h = r[i + 4];
+          box.min.x = Math.min(box.min.x, x); box.min.y = Math.min(box.min.y, y); box.min.z = Math.min(box.min.z, z);
+          box.max.x = Math.max(box.max.x, x + (axis === 0 ? 0 : axis === 1 ? h : w));
+          box.max.y = Math.max(box.max.y, y + (axis === 0 ? h : axis === 1 ? w : 0));
+          box.max.z = Math.max(box.max.z, z + (axis === 0 ? w : axis === 1 ? 0 : h));
+        }
         if (m.quads) {
           const geo = makeQuadGeometry(m.records, m.bounds, this.packed);
           const mesh = new THREE.Mesh(geo, this.materialFor(n));
           mesh.position.set(n.tx * this.N * n.s, 0, n.ty * this.N * n.s);
+          n.waterBounds?.translate(mesh.position);
           mesh.updateMatrix();
           mesh.matrixAutoUpdate = false;
           mesh.visible = false;
@@ -277,12 +307,17 @@ export class TileStreamer implements ColumnSource {
   trim(keep: Set<string>, maxBytes = 256 * 1024 * 1024, graceMs = 2000) {
     const now = performance.now();
     let bytes = this.memory.total;
-    for (const n of [...this.nodes.values()].sort((a, b) => a.touched - b.touched)) {
-      if (keep.has(n.key)) continue;
+    const candidates = this.trimCandidates;
+    candidates.length = 0;
+    for (const n of this.nodes.values()) if (!keep.has(n.key) && !n.mesh?.visible) candidates.push(n);
+    candidates.sort((a, b) => a.touched - b.touched);
+    for (const n of candidates) {
       if (n.state === 'ready' && bytes <= maxBytes && now - n.touched < graceMs) continue;
       if (n.mesh?.visible) continue;
       this.nodes.delete(n.key);
-      this.queue = this.queue.filter((j) => j !== n);
+      let write = 0;
+      for (const job of this.queue) if (job !== n) this.queue[write++] = job;
+      this.queue.length = write;
       const p = this.pool.find((p) => p.busy === n.id);
       if (p) {
         p.worker.postMessage({ cancel: n.id });
@@ -299,8 +334,14 @@ export class TileStreamer implements ColumnSource {
       this.revision++;
     }
     // Do not let already-completed obsolete results hold large buffers until a later frame.
-    this.replies = this.replies.filter((m) => this.nodes.get(m.key)?.id === m.id);
-    this.replyBytes = this.replies.reduce((sum, m) => sum + this.bytesOf(m), 0);
+    candidates.length = 0; // Do not retain evicted tile data through scratch storage.
+    let write = 0;
+    this.replyBytes = 0;
+    for (const reply of this.replies) if (this.nodes.get(reply.key)?.id === reply.id) {
+      this.replies[write++] = reply;
+      this.replyBytes += this.bytesOf(reply);
+    }
+    this.replies.length = write;
   }
   get memory() {
     let geometry = 0,

@@ -4,7 +4,7 @@ import type { TileStreamer } from './stream';
 import type { Meta } from './types';
 import { dataTexture, dataUrl, fetchGzip } from './util';
 import { makeVoxelMaterial, type VoxelUniforms } from './voxelMaterial';
-import { selectTiles, type SelectedTile, type Selection } from './tileSelection';
+import { createTileSelector, type SelectedTile, type Selection } from './tileSelection';
 
 const T = 128;
 export async function installCity({
@@ -59,11 +59,21 @@ export async function installCity({
     lastLight = new THREE.Vector3(),
     pressure = 1;
   const cost = (key: string, s: number) => {
-    const n = S.nodes.get(key),
-      f = s === 1 ? S.nodes.get(key.replace('1/', 'f/')) : null;
-    return n?.state === 'ready' ? n.meshBytes + n.queryBytes + (s === 1 ? (f?.meshBytes ?? 80000) : 0) : 350000;
+    const n = S.nodes.get(key);
+    if (n?.state !== 'ready') return 350000;
+    const f = s === 1 ? S.nodes.get(S.foliageKey(n.tx,n.ty)) : null;
+    return n.meshBytes + n.queryBytes + (s === 1 ? (f?.meshBytes ?? 80000) : 0);
   };
   const desired = new Set<string>();
+  const select = level ? null : createTileSelector(meta, minimumLevel, (s,tx,ty)=>S.key(s,tx,ty));
+  const keep = new Set<string>();
+  let nextActive = new Set<string>();
+  let visibilityVersion = 0;
+  // One byte per finest-grid cell for label/light gating, avoiding key strings every frame.
+  const rootScale = S.levels[0], cellSize = S.N * S.levels[S.levels.length - 1];
+  const levelWidth = S.dims[rootScale].nx * rootScale * S.N / cellSize;
+  const levelHeight = S.dims[rootScale].ny * rootScale * S.N / cellSize;
+  const activeLevels = new Uint8Array(levelWidth * levelHeight);
   const fixed = () => {
     const d = S.dims[level],
       roots: SelectedTile[] = [];
@@ -73,14 +83,25 @@ export async function installCity({
     return { roots, leaves: roots, split: new Set<string>(), estimatedBytes: 0 };
   };
   const ready = (n: SelectedTile) =>
-    S.nodes.get(n.key)?.state === 'ready' && (n.s !== 1 || S.nodes.get(`f/${n.tx}_${n.ty}`)?.state === 'ready');
+    S.nodes.get(n.key)?.state === 'ready' && (n.s !== 1 || S.nodes.get(S.foliageKey(n.tx,n.ty))?.state === 'ready');
   const covered = (n: SelectedTile): boolean => (n.children.length ? n.children.every(covered) || ready(n) : ready(n));
   const choose = (n: SelectedTile, out: Set<string>) => {
     if (n.children.length && n.children.every(covered)) for (const c of n.children) choose(c, out);
     else if (ready(n)) {
       out.add(n.key);
-      if (n.s === 1) out.add(`f/${n.tx}_${n.ty}`);
+      if (n.s === 1) out.add(S.foliageKey(n.tx,n.ty));
     }
+  };
+  const mark = (n: SelectedTile) => {
+    desired.add(n.key);
+    if (n.s === 1) desired.add(S.foliageKey(n.tx,n.ty));
+    for (const child of n.children) mark(child);
+  };
+  const request = (n: SelectedTile, depth: number, f: THREE.Vector3) => {
+    const L = n.s * S.N, dist = Math.hypot((n.tx + 0.5) * L - f.x, (n.ty + 0.5) * L - f.z);
+    S.request(n.s, n.tx, n.ty, 1e6 - depth * 1e5 - dist, true);
+    if (n.s === 1 && S.nodes.get(n.key)?.state === 'ready') S.requestFoliage(n.tx, n.ty, 1e6 - depth * 1e5 - dist + 1);
+    for (const child of n.children) request(child, depth + 1, f);
   };
   S.update = () => {
     const now = performance.now();
@@ -96,45 +117,35 @@ export async function installCity({
       h !== lastHeight ||
       direction.distanceToSquared(lastLight) > 1e-8;
     const budget = (minimumLevel > 1 ? 96 : 192) * 1024 * 1024;
-    if (!level && S.memory.total > budget) pressure = Math.min(4, pressure * 1.15);
-    if (!selection || changed || (!level && S.memory.total > budget)) {
-      selection = level ? fixed() : selectTiles(meta, camera, h / pressure, direction, previous, cost,
-        minimumLevel > 1 ? 192 : 384, (minimumLevel > 1 ? 64 : 128) * 1024 * 1024, minimumLevel);
+    const overBudget = !level && S.memory.total > budget;
+    if (overBudget) pressure = Math.min(4, pressure * 1.15);
+    if (!selection || changed || overBudget) {
+      selection = level ? fixed() : select!(camera, h / pressure, direction, previous, cost,
+        minimumLevel > 1 ? 192 : 384, (minimumLevel > 1 ? 64 : 128) * 1024 * 1024);
       previous = selection.split;
       view.copy(camera.matrixWorld);
       projection.copy(camera.projectionMatrix);
       lastHeight = h;
       lastLight.copy(direction);
       desired.clear();
-      const mark = (n: SelectedTile) => {
-        desired.add(n.key);
-        if (n.s === 1) desired.add(`f/${n.tx}_${n.ty}`);
-        n.children.forEach(mark);
-      };
-      selection.roots.forEach(mark);
+      for (const root of selection.roots) mark(root);
       lastRevision = -1;
     }
     // Failed desired requests are retried with the streamer's bounded backoff.
-    const retry = [...desired].some((k) => {
+    let retry = false;
+    for (const k of desired) {
       const n = S.nodes.get(k);
-      return n?.state === 'failed' && now >= n.retryAt;
-    });
+      if (n?.state === 'failed' && now >= n.retryAt) { retry = true; break; }
+    }
     if (lastRevision === S.revision && !changed && !retry && complete) {
       if (!level) S.trim(desired);
       return;
     }
     const f = focus();
-    const request = (n: SelectedTile, depth: number) => {
-      const L = n.s * S.N,
-        dist = Math.hypot((n.tx + 0.5) * L - f.x, (n.ty + 0.5) * L - f.z);
-      S.request(n.s, n.tx, n.ty, 1e6 - depth * 1e5 - dist, true);
-      if (n.s === 1 && S.nodes.get(n.key)?.state === 'ready')
-        S.requestFoliage(n.tx, n.ty, 1e6 - depth * 1e5 - dist + 1);
-      n.children.forEach((c) => request(c, depth + 1));
-    };
-    selection.roots.forEach((n) => request(n, 0));
-    const next = new Set<string>();
-    selection.roots.forEach((n) => choose(n, next));
+    for (const root of selection.roots) request(root, 0, f);
+    const next = nextActive;
+    next.clear();
+    for (const root of selection.roots) choose(root, next);
     let visibilityChanged = false;
     for (const n of S.nodes.values())
       if (n.mesh) {
@@ -144,26 +155,38 @@ export async function installCity({
           visibilityChanged = true;
         }
       }
+    nextActive = active;
     active = next;
-    if (visibilityChanged) onCastersChanged();
+    activeLevels.fill(0);
+    for (const key of active) {
+      const n = S.nodes.get(key)!;
+      if (n.foliage) continue;
+      const span = n.s * S.N / cellSize, x0 = n.tx * span, y0 = n.ty * span;
+      for (let y = y0; y < y0 + span; y++) activeLevels.fill(n.s, y * levelWidth + x0, y * levelWidth + x0 + span);
+    }
+    if (visibilityChanged) { visibilityVersion++; onCastersChanged(); }
     if (!terrainGone) {
-      terrain?.dropUnder((tx, ty) =>
-        [...active].some((key) => {
+      terrain?.dropUnder((tx, ty) => {
+        for (const key of active) {
           const n = S.nodes.get(key)!;
-          return !n.foliage && tx >= n.tx * n.s && tx < (n.tx + 1) * n.s && ty >= n.ty * n.s && ty < (n.ty + 1) * n.s;
-        }),
-      );
+          if (!n.foliage && tx >= n.tx * n.s && tx < (n.tx + 1) * n.s && ty >= n.ty * n.s && ty < (n.ty + 1) * n.s) return true;
+        }
+        return false;
+      });
       if (selection.roots.every(covered)) {
         terrain?.dispose();
         terrainGone = true;
       }
     }
     complete = selection.leaves.every(ready);
-    const done = selection.leaves.filter(ready).length;
+    let done = 0;
+    for (const leaf of selection.leaves) if (ready(leaf)) done++;
     if (complete) caption.finish('Current view', selection.leaves.length);
     else caption.show('City', done, selection.leaves.length);
     if (!level) {
-      const keep = new Set([...desired, ...active]);
+      keep.clear();
+      for (const key of desired) keep.add(key);
+      for (const key of active) keep.add(key);
       S.trim(keep, budget);
     }
     S.pump();
@@ -171,13 +194,11 @@ export async function installCity({
   };
   S.update(camera);
   const levelAt = (x: number, z: number) => {
-    for (const s of S.levels) {
-      const L = s * S.N;
-      if (active.has(S.key(s, Math.floor(x / L), Math.floor(z / L)))) return s;
-    }
-    return 0;
+    const tx = Math.floor(x / cellSize), ty = Math.floor(z / cellSize);
+    return tx >= 0 && ty >= 0 && tx < levelWidth && ty < levelHeight ? activeLevels[ty * levelWidth + tx] : 0;
   };
   return {
+    get visibilityVersion() { return visibilityVersion; },
     gate: (x: number, z: number) => levelAt(x, z) > 0,
     levelAt,
     get complete() {

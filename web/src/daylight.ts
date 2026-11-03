@@ -14,6 +14,7 @@ export function litShare(hour: number, night: number) {
 }
 
 export class Daylight {
+  get shadowDirty() { return this.sun.shadow.needsUpdate; }
   hour = 0;
   exposure = 1.15;
   day = 306;
@@ -27,9 +28,16 @@ export class Daylight {
   private readonly lightDir = new THREE.Vector3(0, 1, 0);
   private env: THREE.WebGLRenderTarget | null = null;
   private envKey = '';
-  private shadowKey = '';
+  private shadowX = NaN;
+  private shadowZ = NaN;
+  private shadowRadius = NaN;
   private readonly shadowView = new THREE.Matrix4();
   private readonly shadowProjection = new THREE.Matrix4();
+  private readonly shadowCenter = new THREE.Vector3();
+  private readonly shadowUp = new THREE.Vector3(0, 1, 0);
+  private readonly shadowInverse = new THREE.Matrix4();
+  private readonly shadowCorner = new THREE.Vector3();
+  private readonly shadowBounds = new THREE.Box3();
   private northTheta = 0;
   private sunY = 1;
 
@@ -48,6 +56,7 @@ export class Daylight {
   // Both gates must be opened: the renderer skips the shadow pass while the scene is unchanged.
   invalidateShadow() { this.renderer.shadowMap.needsUpdate = this.sun.shadow.needsUpdate = true; }
   get direction() { return this.lightDir.clone(); }
+  copyDirection(target: THREE.Vector3) { return target.copy(this.lightDir); }
   contextLost() {
     // Dispose old-context listeners/handles while the context is lost, not after restoration.
     this.pmrem.dispose();
@@ -92,7 +101,7 @@ export class Daylight {
     hemi.intensity = lerp(0.14 * skyRel, lerp(0.95, 0.5, deep), night);
     this.sky.set({ elDeg, sunDir: trueSun, trueSun, golden, night, deep });
     this.lightDir.copy(dir);
-    this.shadowKey = '';
+    this.shadowRadius = NaN; // Light-direction changes invalidate the numeric fit cache.
     if (this.uniforms) {
       this.uniforms.uNight.value = night;
       this.uniforms.uLit.value = litShare(hour, night);
@@ -133,18 +142,22 @@ export class Daylight {
     const dist = viewDist + Math.max(0, camera.position.y - (map.min.y + 80));
     const R = clamp(dist * 1.15, 300, Math.max(map.max.x, map.max.z) * 0.75), texel = (2 * R) / sun.shadow.mapSize.x;
     const L = this.lightDir;
-    const key = `${Math.round(f.x / (texel * 8))},${Math.round(f.z / (texel * 8))},${R.toFixed(0)},${L.x.toFixed(4)},${L.y.toFixed(4)}`;
-    if (key === this.shadowKey) return;
-    this.shadowKey = key;
-    const c = new THREE.Vector3(f.x, 0, f.z);
+    const sx = Math.round(f.x / (texel * 8)), sz = Math.round(f.z / (texel * 8)), radius = Math.round(R);
+    if (sx === this.shadowX && sz === this.shadowZ && radius === this.shadowRadius) return;
+    this.shadowX = sx; this.shadowZ = sz; this.shadowRadius = radius;
+    const c = this.shadowCenter.set(f.x, 0, f.z);
     sun.target.position.copy(c);
     sun.position.copy(c).addScaledVector(L, 2500);
     sun.updateMatrixWorld(); sun.target.updateMatrixWorld();
-    const inv = new THREE.Matrix4().lookAt(sun.position, c, new THREE.Vector3(0, 1, 0)).invert(), pts = [];
-    for (const x of [f.x - R, f.x + R]) for (const z of [f.z - R, f.z + R]) for (const y of [0, map.max.y]) pts.push(new THREE.Vector3(x, y, z).sub(sun.position).applyMatrix4(inv));
-    const b = new THREE.Box3().setFromPoints(pts), snap = (v: number) => Math.floor(v / texel) * texel, cam = sun.shadow.camera;
-    cam.left = snap(b.min.x); cam.right = cam.left + Math.ceil((b.max.x - b.min.x) / texel) * texel;
-    cam.bottom = snap(b.min.y); cam.top = cam.bottom + Math.ceil((b.max.y - b.min.y) / texel) * texel;
+    const inv = this.shadowInverse.lookAt(sun.position, c, this.shadowUp).invert();
+    const b = this.shadowBounds.makeEmpty(), corner = this.shadowCorner;
+    for (let ix = -1; ix <= 1; ix += 2) for (let iz = -1; iz <= 1; iz += 2) for (let iy = 0; iy <= 1; iy++) {
+      corner.set(f.x + ix * R, iy * map.max.y, f.z + iz * R).sub(sun.position).applyMatrix4(inv);
+      b.expandByPoint(corner);
+    }
+    const cam = sun.shadow.camera;
+    cam.left = Math.floor(b.min.x / texel) * texel; cam.right = cam.left + Math.ceil((b.max.x - b.min.x) / texel) * texel;
+    cam.bottom = Math.floor(b.min.y / texel) * texel; cam.top = cam.bottom + Math.ceil((b.max.y - b.min.y) / texel) * texel;
     cam.near = Math.max(1, -b.max.z - 700); // towers outside the square still cast into it
     cam.far = -b.min.z + 10;
     cam.updateProjectionMatrix();

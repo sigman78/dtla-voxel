@@ -44,7 +44,7 @@ post.composer.render = function (...args) {
   return result;
 };` });
   });
-  await page.goto(`${process.env.URL || 'http://127.0.0.1:5175/'}?view=civic&date=11-02&hour=13&lod=1`);
+  await page.goto(`${process.env.URL || 'http://127.0.0.1:5175/'}?view=civic&date=11-02&hour=13&lod=${process.env.LOD ?? 1}`);
   await page.waitForFunction(() => window.__city?.complete, null, { timeout: 300000 });
   await page.waitForTimeout(1500);
   report.loading = await page.evaluate(() => ({ ...window.__shadowCheck }));
