@@ -28,7 +28,7 @@ const transform={name:'delivery-experiment',enforce:'pre',transform(code,id){
   if(id.endsWith('/src/mesher.worker.ts'))return worker+code
     .replace("if ('cancel' in e.data)","if(e.data.type==='delivery-bytes')return; if ('cancel' in e.data)")
     .replace('fetchGzip(url: string, signal: AbortSignal)','fetchGzip(url: string, signal: AbortSignal, delivery?: string)')
-    .replace('const res = await fetch(url, { signal });',"const res = delivery==='batch' ? new Response(await deliveryRead(url,signal)) : await fetch(url, {signal});")
+    .replace(/const res = await (?:fetch\(url, \{ signal \}\)|fetchAsset\(url, signal\));/,"const res = delivery==='batch' ? new Response(await deliveryRead(url,signal)) : await fetch(url, {signal});")
     .replaceAll('fetchGzip(m.url, controller.signal)','fetchGzip(m.url, controller.signal, m.delivery)')
     .replaceAll('fetchGzip(m.under, controller.signal)','fetchGzip(m.under, controller.signal, m.delivery)');
 }};

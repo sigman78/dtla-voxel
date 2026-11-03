@@ -5,3 +5,4 @@ web/node_modules/
 web/dist/
 # Local profiling captures and validation screenshots/reports.
 /artifacts/profiling/
+/web/.cloudflare/

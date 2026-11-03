@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
+    "build:cf": "npm run build && node tools/cloudflare-output.mjs",
+    "deploy:cf": "npm run build:cf && cf deploy --prebuilt",
     "preview": "vite preview",
     "check": "tsc --noEmit",
     "shot": "node tools/shot.mjs"

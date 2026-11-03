@@ -35,6 +35,8 @@ export interface TileLevel {
 }
 
 export interface Meta {
+  // Build-generated content hashes; absent for development and alternate raw datasets.
+  assets?: Record<string, string>;
   W: number;
   D: number;
   H: number;

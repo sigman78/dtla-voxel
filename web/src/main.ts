@@ -14,7 +14,7 @@ import { TileStreamer } from './stream';
 import { Stats } from './stats';
 import { dateOf, dayOfYear, hourAt, losAngelesDate, SOLAR_YEAR, solarNoon, trueNorthRotation } from './sun';
 import type { Facts, Label, Meta, View } from './types';
-import { $, coarsePointer, dataUrl, ease, el, fetchJson } from './util';
+import { $, coarsePointer, dataUrl, ease, el, fetchJson, setDataAssets } from './util';
 import { LOD_DEBUG_COLORS, makeUniforms, makeVoxelMaterial } from './voxelMaterial';
 import './style.css';
 
@@ -245,6 +245,7 @@ function keepInside() {
 
 async function boot() {
   const meta = await fetchJson<Meta>(dataUrl('meta.json'));
+  setDataAssets(meta.assets);
   uniforms = makeUniforms(meta);
   const packed = qs.get('geometry') !== 'expanded';
   streamer = new TileStreamer(meta, makeVoxelMaterial(uniforms, packed), scene, packed);

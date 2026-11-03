@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { fetchAsset } from './assetCache';
 
 export const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 export const clamp = (x: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, x));
@@ -11,16 +12,21 @@ export const esc = (s: unknown) => String(s).replace(/[&<>"']/g, (c) => `&#${c.c
 // Warsaw sample, served in dev from web/data-warsaw by vite.config.js)
 const dataParam = new URLSearchParams(location.search).get('data');
 export const DATA = dataParam && /^[\w-]+$/.test(dataParam) ? dataParam : 'data';
-export const dataUrl = (path: string) => new URL(`${DATA}/${path}`, location.href).href;
+let dataAssets: Record<string, string> | undefined;
+export function setDataAssets(assets?: Record<string, string>) { dataAssets = assets; }
+export const dataUrl = (path: string) => {
+  const hash = dataAssets?.[path];
+  return new URL(`${DATA}/${hash ? `immutable/${hash}.bin` : path}`, location.href).href;
+};
 
 export async function fetchGzip(url: string): Promise<ArrayBuffer> {
-  const res = await fetch(url);
+  const res = await fetchAsset(url);
   if (!res.ok || !res.body) throw new Error(`${res.status} ${url}`);
   return new Response(res.body.pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
 }
 
 export async function fetchJson<T>(url: string): Promise<T> {
-  const res = await fetch(url);
+  const res = await fetch(url, { cache: 'no-cache' });
   if (!res.ok) throw new Error(`${res.status} ${url}`);
   return res.json() as Promise<T>;
 }

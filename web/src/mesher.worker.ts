@@ -3,6 +3,7 @@
 // A tile is N x N cells of s metres plus a 1-cell apron.
 
 import { decodeTile as decode, compactColumns, type Columns, type RawColumns, type QueryColumns } from './tileData';
+import { fetchAsset } from './assetCache';
 export type { Columns, RawColumns } from './tileData';
 
 export interface MeshRequest {
@@ -32,7 +33,7 @@ const post = (msg: MeshReply, transfer: Transferable[] = []) =>
   (self as unknown as { postMessage(m: MeshReply, t: Transferable[]): void }).postMessage(msg, transfer);
 const controllers = new Map<number, AbortController>();
 async function fetchGzip(url: string, signal: AbortSignal) {
-  const res = await fetch(url, { signal });
+  const res = await fetchAsset(url, signal);
   if (!res.ok || !res.body) throw new Error(`${res.status} ${url}`);
   return new Response(res.body.pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
 }
