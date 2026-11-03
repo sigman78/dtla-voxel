@@ -53,6 +53,8 @@ they are ignored by Git and are not required to build or run the viewer. Keep du
 This LiDAR survey only classifies ground and bridges, so the other classes are inferred:
 - **Buildings** are OSM footprints, with their heights and roof shapes taken from the LiDAR.
 - **Trees** are above-ground LiDAR where NDVI is green or the beam passed through (multiple returns).
+  - Connected-crown evidence recovers dense, dark interiors that otherwise become solid unmapped structures near buildings.
+  - Supported elevated wall attachments keep their measured vertical bounds and a matte material, without invented trunks or windows.
   - Glass-facade echoes are filtered out.
 - **Palms** are small isolated crowns on tall bare trunks.
   - They get a voxel trunk, a skirt of dead fronds and a star of fronds.
@@ -93,6 +95,10 @@ sh scripts/build_data.sh   # downloads (cached), then rasterise + voxelise: ~7 m
   See [landmark facade notes](docs/landmark-facades.md) for identities, references and remaining geometry limits.
 - **Glass towers lean in NAIP**, so their roofs use a default grey instead of the photo colour.
 - **Some rail-yard light masts** still read as small trees.
+- **Vegetation/building boundaries** now use connected shape and rim evidence, with the Flower Street garage trees as a
+  [regression case](docs/vegetation-classification.html). Mapped footprints and tagged structural features are protected;
+  ambiguous overlapping crowns and unseen awnings/flags remain unresolved. `DTLA_VEGETATION_CLEANUP=0` disables the pass
+  when rebuilding. Evidence diagnostics are written to `$DTLA_CACHE/vegetation-review`.
 - **The 6th Street Viaduct's arches** are drawn as their top 3 m only, so they float slightly. Its cables aren't drawn.
 - **The LA River** is built from the OSM centreline and the terrain, because the riverbank outline is cut open at
   the map edge. The channel is the flat bed plus its walls; the water is a ~14 m low-flow strip widened by NAIP wet

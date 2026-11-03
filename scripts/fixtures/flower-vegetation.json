@@ -1,0 +1,18 @@
+{
+  "case": "Dense street-tree crowns east of the Flower Street parking garage",
+  "userReportedAddress": "839 Flower St",
+  "mappedAddress": "833 South Flower Street, Los Angeles",
+  "garageOsmWay": 428021744,
+  "addressReference": "https://downtownla.com/building/833-s-flower-parking",
+  "baselineRevision": "c043114",
+  "gridBounds": [1190, 490, 1300, 580],
+  "axes": "arrays indexed [row, column], bounds [column0, row0, column1, row1] in the 1 m rotated project grid",
+  "sources": {
+    "top,mean,low,count,passthru": "USGS 3DEP CA_LosAngeles_1_B23 (2023), cached lidar.npz and dtm.npy; heights in metres above local DEM",
+    "ndvi": "USDA NAIP 2022 red and near-infrared bands, averaged to the project grid",
+    "building": "Rasterized cached OpenStreetMap building footprints; nonzero means mapped building",
+    "published": "Baseline 1 m solid-tile height above ground, excluding the separately exported foliage"
+  },
+  "expected": "Four disconnected solid objects of 79, 56, 64 and 52 cells are dense crown interiors; at least 90% of each receives whole-crown support. Mapped building cells remain excluded.",
+  "provenance": "USGS/USDA public-domain data; OpenStreetMap contributors ODbL. This crop is for regression testing, not a surveyed tree-species or architectural-feature identification."
+}

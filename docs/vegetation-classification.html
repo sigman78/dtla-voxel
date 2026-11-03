@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vegetation beside buildings — classifier review</title>
+<style>
+  :root { color-scheme: light dark; font:16px/1.55 system-ui,sans-serif; }
+  body { max-width:1200px; margin:40px auto; padding:0 24px 60px; }
+  h1 { line-height:1.15; } h2 { margin-top:2em; }
+  .pair { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  figure { margin:0; } img { max-width:100%; height:auto; } figcaption { padding:8px 0; }
+  table { border-collapse:collapse; width:100%; font-variant-numeric:tabular-nums; }
+  td,th { padding:8px 12px; border-bottom:1px solid #8886; text-align:left; }
+  pre { background:#8882; padding:16px; overflow:auto; }
+  a { color:light-dark(#1755ad,#8ab9ff); } .muted { opacity:.75; }
+  @media(max-width:700px) { .pair { grid-template-columns:1fr; } }
+</style>
+<h1>Vegetation beside buildings</h1>
+<p class="muted">November 2, 2026 · <code>feat/voxel-classification</code> · initial data baseline <code>c043114</code></p>
+<p>Dense tree crowns can look solid to LiDAR at their centre while returning multiple echoes around their edges. The previous classifier voted separately for each 1 m cell. Spectrally dark, dense interiors failed that vote and became unmapped buildings, filled all the way to the ground.</p>
+
+<h2>Flower Street regression case</h2>
+<p>The user identified large trees on the east side of the garage as small voxel towers. The cached footprint is OSM way 428021744, listed as <a href="https://downtownla.com/building/833-s-flower-parking">833 S Flower Street</a> (reported as 839 in the issue). The four erroneous solid components occupy 79, 56, 64 and 52 square metres. Their median measured heights are about 10–11 m; their interiors have negative vegetation-index values and mostly single returns.</p>
+<div class="pair">
+<figure><a href="img/vegetation-flower-before.png"><img src="img/vegetation-flower-before.png" alt="Before: four rounded street-tree crowns rendered as small solid windowed buildings"></a><figcaption>Before: the dense interiors are solid structures; some foliage survives around their edges.</figcaption></figure>
+<figure><a href="img/vegetation-flower-after.png"><img src="img/vegetation-flower-after.png" alt="After: the Flower Street objects are foliage crowns rather than solid buildings"></a><figcaption>After: whole-crown evidence restores vegetation, with air below the crowns.</figcaption></figure>
+</div>
+<p id="validation-summary">All four false solid objects are gone from the exported base tiles: 0 remaining solid cells in each. Foliage covers 79/79, 56/56, 63/64 and 47/52 of their original cells. Mapped building heights in this crop, terrain, palette, labels, obstruction lights and the roof/road/landmark diagnostics are unchanged. All 63 pipeline tests and the frontend production build pass.</p>
+
+<h2>Classification changes</h2>
+<ol>
+<li><strong>Recognize connected crowns before structure filling.</strong> A morphological opening separates broad crowns from narrow facade strips. The classifier checks a porous rim, a raised centre, departure from a fitted plane, proximity to mapped buildings, and spectral evidence or separation from the wall. Crown support can recover dark, solid-looking interiors.</li>
+<li><strong>Keep strong wall connections structural.</strong> A broad connection along a wall rejects a crown interpretation, including a wide domed awning with misleading green and multiple-return evidence. Mapped building footprints, mapped roof canopies, and tagged billboards/flagpoles are excluded from the new reclassification.</li>
+<li><strong>Preserve supported wall attachments as measured surfaces.</strong> Within 2.5 m of a footprint, non-green cells that previously received a vegetation vote can become a structural surface when at least four returns support an elevated bottom and a vertical span of at most 8 m. The surface uses measured vertical bounds and a matte material, with no synthetic trunk, windows, or filled column beneath it.</li>
+<li><strong>Retain existing bridge safeguards.</strong> Whole-crown support does not bypass the rejection of likely bridge hardware. Flat kiosks, sloping roofs, sparse observations and explicitly protected features are covered by regression tests.</li>
+</ol>
+<p id="classification-summary">Across the export, crown evidence recovers 47,887 previously missed vegetation-vote cells; 25,338 cells receive the elevated-attachment treatment. The per-component evidence audit is written to <code>DTLA_CACHE/vegetation-review/classification.json</code>; aggregate counts are also included in <code>meta.json</code>.</p>
+
+<h2>Scope and limits</h2>
+<p>This is an evidence-based heuristic, not a surveyed identification of every tree, billboard, awning or flag. It uses the existing 2023 LiDAR and 2022 NAIP inputs. It does not cut into mapped building footprints to recover ambiguous overlapping crowns, reconstruct unseen flags, or assign equipment identities. Thin features without a supported elevated underside retain the previous treatment. Procedural foliage/structure colours can change when segmentation changes.</p>
+<p>The Flower Street case has direct input and exported-voxel checks. Awning, flag, kiosk and sloping-roof safeguards also have synthetic tests; these do not establish ground truth for every historic facade in Los Angeles.</p>
+<p>Procedural streetlight placement avoids structures and crowns. The updated masks remove 86 previous lamp positions and introduce 8 positions across the scene; these are generated placements, not changes to surveyed lamps.</p>
+
+<h2>Reproduce</h2>
+<pre><code># PowerShell, from the repository root
+$env:PYTHONPATH='scripts'
+uv run python -m unittest discover -s scripts -p 'test_*.py'
+
+# Rebuild all levels using cached source data
+uv run python scripts/voxelize.py
+
+# Inspect the Flower Street crop (use --data to inspect a saved baseline)
+uv run python scripts/audit_vegetation.py
+
+# Compare against the saved pre-change export
+uv run python scripts/validate_vegetation.py --baseline C:/data/dtla-voxel-cache/vegetation-baseline</code></pre>
+<p><code>DTLA_VEGETATION_CLEANUP=0</code> disables this pass when rebuilding; <code>1</code> is the default. The regression fixture contains the relevant raw raster crop and original solid heights, so unit tests do not require the full survey cache. The complete export comparison does require a saved baseline.</p>
+<p><a href="../scripts/vegetation.py">Classifier</a> · <a href="../scripts/test_vegetation.py">Regression tests</a> · <a href="../scripts/fixtures/flower-vegetation.json">Fixture provenance</a> · Export validation (local generated report) · Source-object measurements (local generated report)</p>
+</html>

@@ -10,6 +10,8 @@ The LA County 2023 survey classifies only ground and bridge decks, so:
   decks      = bridge-classified points (freeway overpasses, viaducts) with air underneath
 """
 import math
+import json
+import os
 
 import numpy as np
 import rasterio
@@ -373,7 +375,34 @@ def build():
     # unmapped structures: tall, not green, not deck, not near a mapped footprint
     near_bld = ndimage.binary_dilation(bld_id > 0, iterations=2)
     veg_vote = (ndvi > 0.05) | (passthru > 0.3)  # the beam passes through foliage, not roofs
-    struct = (~near_bld) & (~deck) & (nd_b > 3.0) & ~veg_vote & ~river
+    from vegetation import classify_edges
+    protected = np.zeros((D, W), np.uint16)
+    protected_shapes = [(geom, 1) for _, _, geom in canopies]
+    for _, _, tags, geom in osm.areas:
+        if tags.get('advertising') not in (None, 'no') or tags.get('man_made') in ('flagpole', 'billboard'):
+            protected_shapes.append((geom.buffer(1), 1))
+    for _, tags, geom in osm.lines + osm.nodes:
+        if tags.get('advertising') not in (None, 'no') or tags.get('man_made') in ('flagpole', 'billboard'):
+            protected_shapes.append((geom.buffer(1.5), 1))
+    burn(protected, protected_shapes)
+    cleanup_enabled = os.environ.get('DTLA_VEGETATION_CLEANUP', '1') != '0'
+    if cleanup_enabled:
+        supported_trees, attachments, vegetation_diagnostics = classify_edges(
+            nd_max, nd_mean, ndvi, passthru, L['n1'], L['low1']-dtm, bld_id > 0,
+            excluded=deck | river, protected=protected > 0)
+    else:
+        supported_trees = np.zeros((D, W), bool)
+        attachments = np.zeros((D, W), bool)
+        vegetation_diagnostics = dict(crowns=[], supportedCells=0, attachmentCells=0)
+    vegetation_diagnostics['enabled'] = cleanup_enabled
+    vegetation_diagnostics['rescuedVoteCells'] = int((supported_trees & ~veg_vote).sum())
+    attachment_top = np.zeros((D, W), np.int32)
+    attachment_bot = np.zeros((D, W), np.int32)
+    if attachments.any():
+        attachment_top[attachments] = np.floor(nd_max[attachments]).astype(np.int32)+1
+        attachment_bot[attachments] = np.floor((L['low1']-dtm)[attachments]).astype(np.int32)
+    veg_vote |= supported_trees
+    struct = (~near_bld) & (~deck) & (nd_b > 3.0) & ~veg_vote & ~river & ~attachments
     struct = ndimage.binary_opening(struct, iterations=1)
     lab, n = ndimage.label(struct)
     sizes = ndimage.sum(struct, lab, np.arange(n + 1))
@@ -444,8 +473,8 @@ def build():
     roofc[green_roof] = C["garden_roof"]
 
     # ------------------------------------------------ vegetation: canopy segments, palms
-    veg = (~bmask) & (~deck) & (~canopy) & (nd_mean > 2.0) & veg_vote & ~river
-    veg &= ~(ndimage.binary_dilation(bmask & (topi > 6), iterations=1) & (nd_mean > 6))  # facade halos
+    veg = (~bmask) & (~deck) & (~canopy) & (nd_mean > 2.0) & veg_vote & ~river & ~attachments
+    veg &= ~(ndimage.binary_dilation(bmask & (topi > 6), iterations=1) & (nd_mean > 6) & ~supported_trees)
     veg = ndimage.binary_opening(veg, iterations=1) | (veg & (nd_max > 8))
     chm = np.where(veg, np.minimum(nd_max, 35), 0).astype(np.float32)
     peaks = (chm == ndimage.maximum_filter(chm, 5)) & (chm > 3)
@@ -480,6 +509,10 @@ def build():
     # light-pole heads and bridge hardware over lawns: small and solid (foliage lets the beam through)
     ptm = ndimage.mean(passthru, seg, ids)
     junk |= (ids > 0) & (area <= 8) & (ptm < 0.3)
+    # Whole-crown evidence can rescue spectrally dark interiors that the
+    # old per-cell vote incorrectly filled as solid structures.
+    supported_fraction = ndimage.mean(supported_trees, seg, ids)
+    junk &= ~(supported_fraction >= .5)
     near_br = (ndimage.distance_transform_edt(~deck) <= 10) | (bridge_area > 0)
     junk |= (ids > 0) & ndimage.maximum(near_br, seg, ids).astype(bool) & (ndv < 0.15)
     seg = np.where(junk[seg], 0, seg)
@@ -537,11 +570,20 @@ def build():
     facade_diagnostics = apply_facade_colors(osm.areas, bmask, basewall, roofc)
     for diagnostic in facade_diagnostics:
         log("facade colour:", diagnostic)
+    attachment_material = np.zeros((D, W), np.uint16)
+    # A matte structural surface, without invented windows or a guessed feature identity.
+    attachment_material[attachments] = C['roof_default']
+    audit_dir = CACHE/'vegetation-review'
+    audit_dir.mkdir(parents=True, exist_ok=True)
+    (audit_dir/'classification.json').write_text(json.dumps(vegetation_diagnostics, indent=2), encoding='utf-8')
+    log('vegetation edge cleanup:', {k:v for k,v in vegetation_diagnostics.items() if k != 'crowns'})
     # Paint allocation/application waits until authored model materials are prepared.
     crossing_underlay = gcol.copy()
 
     # ground under crowns keeps its class; under trees on paving, a darker tree-pit
     return dict(base=base, g=g, gcol=gcol, bmask=bmask, topi=topi, boti=boti, basewall=basewall, roofc=roofc,
+                vegetationDiagnostics={k:v for k,v in vegetation_diagnostics.items() if k != 'crowns'},
+                attachment_top=attachment_top, attachment_bot=attachment_bot, attachment_material=attachment_material,
                 landmarkStyles=landmark_info["styles"], landmarkDiagnostics=landmark_info["diagnostics"],
                 facadeDiagnostics=facade_diagnostics,
                 roofMeasuredAbsolute=nd_b + dtm,

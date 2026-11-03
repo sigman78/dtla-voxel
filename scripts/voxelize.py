@@ -116,6 +116,9 @@ def fill_band(Lr, r0, r1, H, sprites):
     dk, dtop = sl("deck"), sl("deck_top")
     ct, cb, leaf = sl("crown_top"), sl("crown_bot"), sl("leafc")
     can, cant = sl("canopy"), sl("canopy_top")
+    attached_top = sl('attachment_top') if 'attachment_top' in Lr else None
+    attached_bot = sl('attachment_bot') if 'attachment_bot' in Lr else None
+    attached_material = sl('attachment_material') if 'attachment_material' in Lr else None
     nd_b = sl("nd_b")
     rib, ribt = sl("rib"), sl("rib_top")
     view = vol[:, o:o + (b - a)]
@@ -154,6 +157,16 @@ def fill_band(Lr, r0, r1, H, sprites):
         sl_[m] = C["viaduct"]
         m = (ct > 0) & (z >= g + cb) & (z < g + ct)
         sl_[m] = leaf[m]
+    # Sparse, shallow wall surfaces: avoid scanning the whole band at every height.
+    if attached_top is not None:
+        ar, ac = np.nonzero(attached_top > 0)
+        if len(ar):
+            bottom = g[ar, ac] + attached_bot[ar, ac]
+            thickness = attached_top[ar, ac] - attached_bot[ar, ac]
+            for dz in range(int(thickness.max())):
+                z = bottom + dz
+                active = (dz < thickness) & (z >= 0) & (z < H)
+                view[z[active], ar[active], ac[active]] = attached_material[ar[active], ac[active]]
     # sprites (trunks, palms, piers) inside these rows
     rows = sprites[:, 0]
     k = (rows >= a) & (rows < b)
@@ -239,7 +252,7 @@ def main():
 
     H = int(max((g + Lr["topi"]).max(), Lr["deck_top"].max() + 1, (g + Lr["crown_top"]).max(),
                 (g + np.round(Lr["nd_b"])).max() if Lr["deck"].any() else 0, sprites[:, 2].max() + 1,
-                Lr["landmarkVolumes"].max_height)) + 4
+                Lr["landmarkVolumes"].max_height, (g + Lr['attachment_top']).max())) + 4
     H = min(H, 450)
     log(f"volume height H={H}")
 
@@ -348,6 +361,7 @@ def main():
                 labels=labels, views=views, landmarkStyles=Lr["landmarkStyles"],
                 landmarkDiagnostics=Lr["landmarkDiagnostics"],
                 facadeDiagnostics=Lr.get("facadeDiagnostics", []),
+                vegetationDiagnostics=Lr.get('vegetationDiagnostics', {}),
                 roadMarkingDiagnostics=Lr["roadMarkingDiagnostics"],
                 roofDiagnostics=Lr.get("roofDiagnostics", []),
                 landmarkVolumeDiagnostics=Lr["landmarkVolumes"].diagnostics,
