@@ -15,10 +15,23 @@
   a { color: light-dark(#1755ad,#8ab9ff); } code { font-size: .9em; }
 </style>
 <h1>DTLA rendering profile</h1>
-<p class="muted">November 2, 2026 · <code>feat/rendering-optimization</code> · viewer revision <code>91e7a53</code></p>
-<p class="lead"><strong>Shadow-map redraws are the clearest optimization target.</strong> Reusing a settled shadow map reduced stationary frame time by about one third in Civic Center and Bunker Hill. The wide overview is slower still. No viewer optimizations were implemented in this profiling pass.</p>
+<p class="muted">November 2, 2026 · <code>feat/rendering-optimization</code> · initial baseline revision <code>91e7a53</code></p>
+<p class="lead"><strong>Shadow-map redraws are the clearest optimization target.</strong> The initial profile below found substantial savings from reusing settled shadow maps. This PR now implements that reuse, with invalidation for camera/projection changes, light fitting and newly visible building or foliage meshes.</p>
 
-<h2>Stationary frame times</h2>
+<h2>Implemented shadow optimization</h2>
+<p>The renderer skips shadow-map draws on unchanged frames. <code>Daylight.invalidateShadow()</code> opens both the renderer and light update gates. Camera position/orientation and projection changes invalidate even when the snapped light bounds stay the same; time/date changes invalidate through the light fit. City loading invalidates once per batch of newly visible meshes, including foliage, which does not update the retained-column version counter.</p>
+<p id="implemented-results">Paired implementation measurements average two six-second samples in reverse orders on the same hardware and viewport as the original profile. <code>baseline</code> now means the optimized viewer; <code>always-shadows</code> restores automatic redraws for comparison. Historical files retain their original meanings.</p>
+<div class="table"><table>
+<thead><tr><th>View</th><th>Always redraw, ms</th><th>Cached, ms</th><th>Reduction</th><th>Draw calls before → after</th></tr></thead>
+<tbody>
+<tr><td>Civic Center</td><td>9.02</td><td>6.89</td><td>24%</td><td>1,575 → 266</td></tr>
+<tr><td>Bunker Hill</td><td>12.96</td><td>8.64</td><td>33%</td><td>2,068 → 524</td></tr>
+<tr><td>Wide overview</td><td>23.10</td><td>18.58</td><td>20%</td><td>3,789 → 1,892</td></tr>
+</tbody></table></div>
+<p>CPU composer submission fell from 5.35 to 2.60 ms, 6.42 to 3.43 ms, and 10.38 to 7.23 ms respectively. All optimized stationary samples recorded zero shadow draws. Civic Center's two optimized frame-time samples varied from 6.06 to 7.72 ms; the table retains both rather than selecting the faster run. The overview remains above a 16.7 ms frame budget.</p>
+<p>The browser integration check observes building and foliage loading batches, checks that each refreshes shadows before rendering, and verifies zero shadow draws on settled frames. It compares cached and forced-redraw images after pan, zoom, orbit, hour/date changes, night lighting and resize, including the first transition frame and scene rendering without postprocessing. Image tolerance is a mean channel difference below 0.2/255, with at least 99.9% of channels within 8/255; localized raster differences can occur. Future moving shadow casters must call the same invalidation method.</p>
+
+<h2>Original stationary baseline experiments</h2>
 <p>Mean milliseconds per frame; lower is better. Each cell averages two six-second samples, with variant order reversed in the second round. These are headless frame intervals, not a guarantee of displayed FPS.</p>
 <div class="table"><table>
 <thead><tr><th>Runtime experiment</th><th>Civic Center</th><th>Bunker Hill</th></tr></thead>
@@ -67,7 +80,7 @@
 
 <h2>Recommended implementation order</h2>
 <ol>
-<li><strong>Invalidate shadows when required.</strong> Keep the existing map for settled frames. Update it when the fitted light projection changes, sun direction changes, or tiles/casters become visible. Frozen shadows in this experiment are an upper-bound diagnostic, not a safe implementation for camera motion or tile loading.</li>
+<li><strong>Shadow invalidation is implemented.</strong> The original frozen-shadow experiment was an upper-bound diagnostic; the implementation preserves refreshes during camera motion and tile loading.</li>
 <li><strong>Investigate view-dependent geometry and retention.</strong> The overview remains geometry-heavy, and all 1 m tiles stay resident. Measure distant detail reductions and buffer retention before choosing a larger streaming redesign.</li>
 <li><strong>Let stationary labels settle, then stop repeating work.</strong> Invalidate on camera/viewport changes, tile data, fonts, selected pins and UI obstacles. Preserve the 150 ms label-settle delay and complete pending occlusion checks.</li>
 <li><strong>Keep visual effects by default.</strong> AO is the largest postprocessing cost here. Bloom, depth blur and SMAA are comparatively small; any quality reduction should be justified with visual comparisons and a slower-device profile.</li>
@@ -86,9 +99,18 @@ $env:VIEWS='default'
 $env:VARIANTS='baseline,frozen-shadows'
 $env:ROUNDS='2'
 node tools/profile.mjs ../artifacts/profiling/overview-shadows.json</code></pre>
+<pre><code># Check shadow invalidation and image parity, from web/
+node tools/check-shadows.mjs
+
+# Compare the implementation with automatic redraws
+$env:VIEWS='civic,bunkerhill,default'
+$env:VARIANTS='baseline,always-shadows'
+$env:ROUNDS='2'
+node tools/profile.mjs ../artifacts/profiling/shadow-optimization.json</code></pre>
 <p>Other overrides: <code>URL</code>, <code>CHROME</code>, <code>HOUR</code>, <code>SAMPLE_MS</code>. The harness exposes instances by modifying the served Vite module response and wraps methods in the test page only. It does not modify viewer source or shipping defaults. It depends on the current internal instance/pass structure.</p>
 <p>After loading, the harness waits five seconds, warms each variant for 1.5 seconds and samples for six seconds. CPU method timings include submission overhead; GPU passes use asynchronous <code>EXT_disjoint_timer_query_webgl2</code> queries. CPU and GPU timings overlap and must not be added together. GPU queries marked disjoint are discarded. Sub-millisecond CPU values have limited timer precision. Per-pass differences are not strictly additive because the GPU workload changes.</p>
 <p>The raw <code>shadowDrawCalls</code> and <code>shadowSubmitCpuMs</code> counters are per shadow-render invocation, including no-op invocations from supporting passes. To obtain a per-frame mean, multiply their mean by their sample count and divide by <code>composerCpuMs.n</code>. Passes 0–4 correspond to the GPU table above.</p>
 <p><a href="../web/tools/profile.mjs">Profiler source</a> · <a href="../artifacts/profiling/baseline.json">Two-view repeated comparisons</a> · <a href="../artifacts/profiling/overview-motion.json">Overview/motion</a> · <a href="../artifacts/profiling/night-motion.json">Night/motion</a> · <a href="../artifacts/profiling/overview-shadows.json">Overview/shadows</a> · <a href="../artifacts/profiling/smoke.json">Initial smoke run</a></p>
-<p class="muted">Validation: TypeScript and production build passed. Browser runs reported no page errors or HTTP failures. No rendering changes, commits, publishing or deployment were performed.</p>
+<p><a href="../web/tools/check-shadows.mjs">Shadow integration check</a> · <a href="../artifacts/profiling/shadow-check.json">Shadow correctness results</a> · <a href="../artifacts/profiling/shadow-optimization.json">Implementation performance results</a></p>
+<p class="muted">Validation: TypeScript and production build passed. Shadow correctness and performance results are recorded separately from the original profile. Shadow resolution, bias, postprocessing, labels and streaming policy retain their existing settings.</p>
 </html>

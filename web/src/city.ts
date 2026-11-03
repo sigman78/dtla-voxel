@@ -12,7 +12,7 @@ const T = 128;
 //   2. the tiles, those in view first, then nearest to the focus; each one shows (and the terrain under it goes)
 //      as soon as it is meshed
 //   3. at 1 m, trees and grass, their own tiles (tiles/1f); coarser levels already hold them
-export async function installCity({ streamer: S, uniforms, meta, scene, focus, camera, caption, level }: {
+export async function installCity({ streamer: S, uniforms, meta, scene, focus, camera, caption, level, onCastersChanged }: {
   streamer: TileStreamer;
   uniforms: VoxelUniforms;
   meta: Meta;
@@ -21,6 +21,7 @@ export async function installCity({ streamer: S, uniforms, meta, scene, focus, c
   camera: THREE.Camera;
   caption: Caption;
   level: number;
+  onCastersChanged: () => void;
 }) {
   const d = S.dims[level], d1 = S.dims[1], total = d.nx * d.ny, L = T * level, index = (tx: number, ty: number) => ty * d.nx + tx;
   const foliage = level === 1, steps = foliage ? 2 * total : total;
@@ -56,15 +57,17 @@ export async function installCity({ streamer: S, uniforms, meta, scene, focus, c
     const f = focus();
     look();
     S.reprioritize((n) => prio(index(n.tx, n.ty), f));
-    let fresh = false;
+    let fresh = false, castersChanged = false;
     for (const n of S.nodes.values()) {
       if (n.state !== 'ready' || counted.has(n.key)) continue;
       counted.add(n.key);
-      if (n.mesh) n.mesh.visible = true;
+      if (n.mesh) { n.mesh.visible = true; castersChanged = true; }
       if (n.foliage) { folIn++; if (n.mesh) n.mesh.material = folMat; continue; }
       inTile[index(n.tx, n.ty)] = 1; tilesIn++; fresh = true;
     }
     if (fresh) terrain?.dropUnder(covered);
+    // Foliage has no retained column data: invalidate on mesh visibility, not streamer.version.
+    if (castersChanged) onCastersChanged();
     if (stage === 1 && tilesIn === total) {
       terrain?.dispose();
       stage = foliage ? 2 : 3;

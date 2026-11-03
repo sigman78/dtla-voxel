@@ -41,6 +41,7 @@ async function workerHeaps() {
 }
 const report = { date: new Date().toISOString(), browser: browser.version(), viewport: { width: 1600, height: 1000 },
   revision: execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim(), cpu: os.cpus()[0]?.model,
+  worktreeDirty: !!execFileSync('git', ['status', '--porcelain'], { encoding: 'utf8' }).trim(),
   hour: +(process.env.HOUR || 13), sampleMs: +(process.env.SAMPLE_MS || 6000), rounds: +(process.env.ROUNDS || 2), runs: [] };
 const save = () => { fs.mkdirSync(path.dirname(path.resolve(out)), { recursive: true }); fs.writeFileSync(out, JSON.stringify(report, null, 2)); };
 try {
@@ -95,6 +96,7 @@ try {
       const { renderer, post, daylight, controls } = window.__three;
       const { streamer, labels } = window.__profileTargets;
       controls.saveState();
+      const shadowAutoUpdate = renderer.shadowMap.autoUpdate;
       const gl = renderer.getContext(), ext = gl.getExtension('EXT_disjoint_timer_query_webgl2');
       const p = window.__prof = { data: {}, active: false, pending: [], epoch: 0, last: 0, effects: [...post.composer.passes.at(-1).effects] };
       const record = (key, value) => { if (p.active) (p.data[key] ??= []).push(value); };
@@ -148,8 +150,9 @@ try {
       p.configure = variant => {
         p.active = false;
         controls.autoRotate = false; controls.reset();
-        renderer.shadowMap.autoUpdate = variant !== 'frozen-shadows';
+        renderer.shadowMap.autoUpdate = variant === 'always-shadows' ? true : variant === 'frozen-shadows' ? false : shadowAutoUpdate;
         renderer.shadowMap.needsUpdate = true;
+        daylight.sun.shadow.needsUpdate = true;
         post.n8.enabled = variant !== 'no-ao';
         post.composer.passes[2].enabled = variant !== 'no-bloom';
         p.noLabels = variant === 'no-labels';
