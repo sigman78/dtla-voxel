@@ -28,12 +28,3 @@ export function versionData(directory) {
   fs.writeFileSync(metaFile, JSON.stringify({ ...meta, assets }) + '\n');
   return assets;
 }
-
-export function versionedData() {
-  let output;
-  return {
-    name: 'versioned-data', apply: 'build',
-    configResolved(config) { output = path.resolve(config.root, config.build.outDir, 'data'); },
-    closeBundle() { versionData(output); },
-  };
-}

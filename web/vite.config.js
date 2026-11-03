@@ -1,7 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { defineConfig } from 'vite';
-import { versionedData } from './tools/version-data.mjs';
 
 // Dev only: test data sets kept outside public/ (so they never land in dist), e.g. web/data-warsaw, a junction to
 // warsaw-vibe-voxel's web/public/data. Served raw at /data-<name>/...; open the viewer with ?data=data-<name>.
@@ -24,7 +23,7 @@ function testData() {
 
 export default defineConfig({
   base: './',
-  plugins: [testData(), versionedData()],
+  plugins: [testData()],
   worker: { format: 'es' },
   build: { chunkSizeWarningLimit: 2000 },
 });

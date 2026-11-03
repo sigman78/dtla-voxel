@@ -6,7 +6,9 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "build:cf": "npm run build && node tools/cloudflare-output.mjs",
+    "build:cf:no-cache": "npm run build && node tools/cloudflare-output.mjs --no-immutable-cache",
     "deploy:cf": "npm run build:cf && cf deploy --prebuilt",
+    "deploy:cf:no-cache": "npm run build:cf:no-cache && cf deploy --prebuilt",
     "preview": "vite preview",
     "check": "tsc --noEmit",
     "shot": "node tools/shot.mjs"

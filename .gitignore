@@ -6,3 +6,4 @@ web/dist/
 # Generated measurements, screenshots, reports and local backups.
 /artifacts/
 /web/.cloudflare/
+/.cloudflare/

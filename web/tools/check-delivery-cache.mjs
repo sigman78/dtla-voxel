@@ -1,4 +1,4 @@
-// npm run build && node tools/check-delivery-cache.mjs
+// npm run build:cf && node tools/check-delivery-cache.mjs
 // URL=https://dtla.ioupg.com/ IMMUTABLE_HEADERS=1 checks a deployed build instead.
 // Local server deliberately requires revalidation, like a host without _headers support.
 import assert from 'node:assert/strict';
@@ -11,7 +11,7 @@ import { chromium } from 'playwright-core';
 const hash=bytes=>crypto.createHash('sha256').update(bytes).digest('hex').slice(0,32);
 let server,base=process.env.URL;
 if(!base){
-  const dist=path.resolve('dist');
+  const dist=path.resolve('.cloudflare/output/v0/workers/default/assets');
   server=http.createServer((req,res)=>{
     const pathname=decodeURIComponent(new URL(req.url,'http://localhost').pathname);
     const file=path.resolve(dist,'.'+(pathname==='/'?'/index.html':pathname));

@@ -30,6 +30,12 @@ cd web && npm install && npm run dev     # http://localhost:5173
 URL parameters: `view=` (default, bunkerhill, civic, littletokyo, viaduct, lalive, historic), `hour=19.5`,
 `date=MM-DD`, `tilt=0`, `ui=0`, `lod=1|2|4|8`, `cam=x,y,z,tx,ty,tz`.
 
+`npm run build` produces a portable static site in `web/dist`; local development and ordinary deployments
+use the original data URLs and normal browser caching. `npm run build:cf` enables content-addressed data
+files and immutable cache headers by default in the Cloudflare package only; `npm run deploy:cf` deploys it.
+Use `npm run build:cf:no-cache` or `npm run deploy:cf:no-cache` to disable that optimization.
+Cloudflare packaging leaves `dist` and source data untouched.
+
 [Rendering profile](docs/rendering-profile.html): measured shadows, postprocessing, tile/worker memory and stationary labels,
 including the shadow-cache implementation, correctness checks, summarized results and instructions for the local profiling harness.
 Generated measurements, screenshots and validation reports in `artifacts/` are local, disposable outputs;
