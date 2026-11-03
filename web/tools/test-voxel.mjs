@@ -71,9 +71,15 @@ for (const level of [1, 2, 4, 8]) {
     tiles++;
   }
 }
-const samples = JSON.parse(
-  fs.readFileSync(new URL('../../artifacts/profiling/voxel-data-audit.json', import.meta.url)),
-).samples;
+// Fixed regression selection: median-size, largest and tallest tiles per level
+// from the original data audit. Keep tests independent of generated reports.
+const samples = Object.entries({
+  '1': ['22_2.bin', '15_5.bin', '12_3.bin'],
+  '1f': ['11_23.bin', '22_8.bin', '32_0.bin'],
+  '2': ['2_8.bin', '7_2.bin', '6_1.bin'],
+  '4': ['1_3.bin', '3_1.bin', '3_0.bin'],
+  '8': ['0_1.bin', '3_0.bin', '1_0.bin'],
+}).flatMap(([level, files]) => files.map(file => ({ level, file })));
 let quads = 0;
 for (const sample of samples) {
   const { level, file } = sample,

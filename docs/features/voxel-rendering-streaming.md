@@ -56,11 +56,11 @@ Review rejected a blanket AABB-culling replacement: research did not establish a
 ### Correctness evidence
 
 - `node tools/test-voxel.mjs`: all 1,304 base files, 21,307,069 compact intervals, 344,010 sampled quads, 20,000 ground/top/solid query points and 100 raycasts passed. Eight predefined views passed selector partition and budget checks. Differential references use repository revision `c043114ea9a266e383f61f7ae45611ca365e3919`, which must exist in local Git history.
-- [Browser validation](../../artifacts/profiling/voxel-validation.json): fixed-1 m packed/expanded images matched exactly at day and night, both raw scene and postprocessed, with forced shadows. Navigation, injected HTTP failure/retry, rapid changes, cancellation, eviction and context restoration passed without page/WebGL errors.
+- Browser validation (local generated report): fixed-1 m packed/expanded images matched exactly at day and night, both raw scene and postprocessed, with forced shadows. Navigation, injected HTTP failure/retry, rapid changes, cancellation, eviction and context restoration passed without page/WebGL errors.
 - 438 transition coverage samples found no uncovered or overlapping base-tile regions. Peak retained geometry/query/pending payload was 170.7 MiB during that 1200 × 800 route. The route exercised 1,287 evictions and nine cancelled/stale jobs; counts can vary with timing.
-- [Shadow checks](../../artifacts/profiling/voxel-shadow-check.json): no missed invalidation across 223 base and 222 foliage loading batches. Settled frames submitted no shadow draws; pan, zoom, orbit, hour/date, night and resize matched forced redraws within the existing tolerance.
+- Shadow checks (local generated report): no missed invalidation across 223 base and 222 foliage loading batches. Settled frames submitted no shadow draws; pan, zoom, orbit, hour/date, night and resize matched forced redraws within the existing tolerance.
 - The context-loss test exposed invalid disposal of old GPU handles after restoration; cleanup now occurs while the context is lost. Eviction after restoration is also checked.
-- `npm run build` passed. [Production smoke checks](../../artifacts/profiling/voxel-production-smoke.json) passed for desktop and an emulated 390 × 844 touch screen at DPR 2: desktop Civic selected all four levels; touch selected only 4/8 m. This validates policy and bundle integration, not physical mobile-GPU speed.
+- `npm run build` passed. Production smoke checks (local generated report) passed for desktop and an emulated 390 × 844 touch screen at DPR 2: desktop Civic selected all four levels; touch selected only 4/8 m. This validates policy and bundle integration, not physical mobile-GPU speed.
 
 ### Performance and re-evaluation
 
@@ -81,7 +81,7 @@ The overview improves approximately **73% in frame time** and **82% in scene GPU
 
 Slow auto-orbit averaged 6.76 ms (p95 7.50 ms) in the adaptive overview and 13.20 ms (p95 15.45 ms) in Civic Center. These motion samples include shadow redraws and evolving selection; they are descriptive paths, not exact paired trajectories against the old renderer. The approximately 6.06 ms presentation floor limits stationary comparisons. Local adaptive full-view readiness was 4.1 s / 9.6 s for overview/Civic, versus the earlier fixed 1 m observations of 25.9 s / 22.2 s; these are single load observations with no WAN throttling.
 
-Evidence: [original fixed baseline](../../artifacts/profiling/research-lod1.json), [adaptive](../../artifacts/profiling/implemented-adaptive.json), [fixed packed, integer decode](../../artifacts/profiling/implemented-packed-integer1.json), [fixed expanded](../../artifacts/profiling/implemented-expanded1.json), [integer shader image validation](../../artifacts/profiling/voxel-integer-validation.json).
+Evidence: original fixed baseline (local generated report), adaptive (local generated report), fixed packed, integer decode (local generated report), fixed expanded (local generated report), integer shader image validation (local generated report).
 
 **Decision:** keep adaptive compact rendering as the default for its large overview/residency benefit, retaining `?lod=1&geometry=expanded` for exact-detail speed comparisons. The 16-byte quad format is a confirmed storage win, but its four-vertex instanced draw path is **not a throughput win on this GPU**. At fixed 1 m it is about 43% slower in frame time than the new expanded diagnostic. Replacing float field extraction with integer bit operations preserved identical pixels but did not materially change that result. The close-view regression is explicit, not hidden by the overview average.
 

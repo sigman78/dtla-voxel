@@ -31,7 +31,9 @@ URL parameters: `view=` (default, bunkerhill, civic, littletokyo, viaduct, laliv
 `date=MM-DD`, `tilt=0`, `ui=0`, `lod=1|2|4|8`, `cam=x,y,z,tx,ty,tz`.
 
 [Rendering profile](docs/rendering-profile.html): measured shadows, postprocessing, tile/worker memory and stationary labels,
-including the shadow-cache implementation, correctness checks, raw results and instructions for the local profiling harness.
+including the shadow-cache implementation, correctness checks, summarized results and instructions for the local profiling harness.
+Generated measurements, screenshots and validation reports in `artifacts/` are local, disposable outputs;
+they are ignored by Git and are not required to build or run the viewer. Keep durable conclusions in `docs/`.
 
 ## Data and pipeline (scripts/)
 

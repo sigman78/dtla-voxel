@@ -35,7 +35,7 @@
 </table></div>
 
 <h3>Current exported dataset: exhaustive byte inventory</h3>
-<p><a href="../artifacts/profiling/voxel-data-audit.json">Raw inventory and sample results</a> come from <a href="../web/tools/audit-voxel-data.mjs">audit-voxel-data.mjs</a>. All 2,261 tile files were decompressed and counted. Dimensions are 4,200 × 3,600 × 364 m; N = 128. MiB means 2²⁰ bytes.</p>
+<p>Raw inventory and sample results (local generated report) come from <a href="../web/tools/audit-voxel-data.mjs">audit-voxel-data.mjs</a>. All 2,261 tile files were decompressed and counted. Dimensions are 4,200 × 3,600 × 364 m; N = 128. MiB means 2²⁰ bytes.</p>
 <div class="table"><table>
 <tr><th>Level</th><th>Files</th><th>Gzip MiB</th><th>Retained query MiB, current layout</th><th>Occupancy-only MiB</th></tr>
 <tr><td>1 m base</td><td>957</td><td>5.02</td><td>354.42</td><td>137.70</td></tr>
@@ -59,7 +59,7 @@
 </table></div>
 <p>Values are means of the two sample means. Calls/triangles include all composer passes; geometry payload counts unique shared indices and all tile attributes, including geometry not uploaded in the current view. They are not measured GPU allocations. CPU and GPU times overlap and cannot be added. All completed runs reported no page/HTTP errors.</p>
 <p>The AABB experiment reduced Civic Center's calls from 266 to 233 and triangles from 5.02 M to 4.38 M (12.7%), but scene GPU time changed only 4.81 → 4.75 ms, inside the run-to-run spread, while CPU submission rose 3.29 → 3.34 ms. In the overview it removed only three calls and changed frame time 22.48 → 22.46 ms, with CPU submission 7.91 → 8.09 ms. <strong>No convincing net performance win is established for swapping all spheres to boxes.</strong> Keep tight bounds for selection/LOD; test selective use before changing production culling.</p>
-<p>Raw measurements: <a href="../artifacts/profiling/research-lod1.json">1 m and AABB experiment</a>, <a href="../artifacts/profiling/research-lod4.json">4 m</a>, <a href="../artifacts/profiling/research-lod8.json">8 m</a>. Local full-city completion took 25.9/22.2 s for the 1 m overview/Civic loads, 4.2/2.1 s at 4 m and 3.6/1.5 s at 8 m; these are single descriptive load observations, not controlled cold-network benchmarks.</p>
+<p>Raw measurements: 1 m and AABB experiment (local generated report), 4 m (local generated report), 8 m (local generated report). Local full-city completion took 25.9/22.2 s for the 1 m overview/Civic loads, 4.2/2.1 s at 4 m and 3.6/1.5 s at 8 m; these are single descriptive load observations, not controlled cold-network benchmarks.</p>
 <p class="note">Fixed 4/8 m is a diagnostic comparison, not a recommendation to lower close-up quality. Coarse samples hit an approximately 6.06 ms presentation floor on this setup; use scene GPU timings as well as frame intervals. Local-server completion times include meshing, instrumentation and polling and are not network-load forecasts. Runs are sequential, not a randomized cross-device trial. No mobile GPU, Safari/Firefox performance, WAN trace or mixed-LOD implementation has been measured.</p>
 <p>The <a href="rendering-profile.html">previous profile</a> remains useful context: shadow caching already saved roughly 20% in the overview. Its earlier data and timings must not be presented as measurements of the current vegetation exports. Core Web Vitals and accessibility were not the target of this rendering audit; no LCP/INP/CLS claim is made.</p>
 
@@ -149,6 +149,6 @@ $env:LOD='1'
 node tools/profile.mjs ../artifacts/profiling/research-lod1.json
 # Repeat LOD=4 and LOD=8 with VARIANTS=baseline, distinct output files.
 npm run check</pre>
-<p>The profiler injects hooks into the served module and changes only the experiment page. No production renderer modifications were made. Existing user changes were preserved. <a href="../web/tools/profile.mjs">Profiler source</a> · <a href="../web/tools/audit-voxel-data.mjs">Inventory source</a> · <a href="../artifacts/profiling/voxel-data-audit.json">Dataset fingerprint and raw sample data</a>.</p>
+<p>The profiler injects hooks into the served module and changes only the experiment page. No production renderer modifications were made. Existing user changes were preserved. <a href="../web/tools/profile.mjs">Profiler source</a> · <a href="../web/tools/audit-voxel-data.mjs">Inventory source</a> · Dataset fingerprint and raw sample data (local generated report).</p>
 <p>Validation completed: exhaustive file inventory, fifteen-tile mesh/quad round-trip experiment, eight 1 m paired measurement samples and eight coarse-level samples, and <code>npm run check</code>. Runtime rendering changes and their visual regression tests remain future work.</p>
 </html>

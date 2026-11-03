@@ -3,6 +3,6 @@ __pycache__/
 /data/
 web/node_modules/
 web/dist/
-# Local profiling captures and validation screenshots/reports.
-/artifacts/profiling/
+# Generated measurements, screenshots, reports and local backups.
+/artifacts/
 /web/.cloudflare/
