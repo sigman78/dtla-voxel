@@ -1,0 +1,19 @@
+{
+  "baseline": "98283fe",
+  "iterations": 1000,
+  "samplingInterval": 4096,
+  "note": "Node/V8 component microbenchmark. Includes collected allocations. Descriptor-pool construction excluded from hot-loop measurement; no FPS claim.",
+  "descriptorBound": 1304,
+  "results": [
+    {
+      "before": true,
+      "msPerSelection": 0.6470218,
+      "sampledBytesPerSelection": 124948.056
+    },
+    {
+      "before": false,
+      "msPerSelection": 0.5505196,
+      "sampledBytesPerSelection": 37885.104
+    }
+  ]
+}

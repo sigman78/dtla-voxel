@@ -302,7 +302,7 @@ renderer.setAnimationLoop((now) => {
   if (city) obstructionLights?.update((now - t0) / 1000, daylight.night, renderer.getPixelRatio(), city.gate, city.levelAt);
   post.composer.render();
   barRect ??= bar.rect;
-  labels?.update(camera, world, barRect, hud?.rects ?? []);
+  labels?.update(camera, world, barRect, hud?.rects ?? [], (streamer?.revision ?? 0) + (city?.visibilityVersion ?? 0));
   stats.update(now, streamer, camera);
 });
 

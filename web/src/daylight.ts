@@ -27,7 +27,9 @@ export class Daylight {
   private readonly lightDir = new THREE.Vector3(0, 1, 0);
   private env: THREE.WebGLRenderTarget | null = null;
   private envKey = '';
-  private shadowKey = '';
+  private shadowX = NaN;
+  private shadowZ = NaN;
+  private shadowRadius = NaN;
   private readonly shadowView = new THREE.Matrix4();
   private readonly shadowProjection = new THREE.Matrix4();
   private readonly shadowCenter = new THREE.Vector3();
@@ -98,7 +100,7 @@ export class Daylight {
     hemi.intensity = lerp(0.14 * skyRel, lerp(0.95, 0.5, deep), night);
     this.sky.set({ elDeg, sunDir: trueSun, trueSun, golden, night, deep });
     this.lightDir.copy(dir);
-    this.shadowKey = '';
+    this.shadowRadius = NaN; // Light-direction changes invalidate the numeric fit cache.
     if (this.uniforms) {
       this.uniforms.uNight.value = night;
       this.uniforms.uLit.value = litShare(hour, night);
@@ -139,9 +141,9 @@ export class Daylight {
     const dist = viewDist + Math.max(0, camera.position.y - (map.min.y + 80));
     const R = clamp(dist * 1.15, 300, Math.max(map.max.x, map.max.z) * 0.75), texel = (2 * R) / sun.shadow.mapSize.x;
     const L = this.lightDir;
-    const key = `${Math.round(f.x / (texel * 8))},${Math.round(f.z / (texel * 8))},${R.toFixed(0)},${L.x.toFixed(4)},${L.y.toFixed(4)}`;
-    if (key === this.shadowKey) return;
-    this.shadowKey = key;
+    const sx = Math.round(f.x / (texel * 8)), sz = Math.round(f.z / (texel * 8)), radius = Math.round(R);
+    if (sx === this.shadowX && sz === this.shadowZ && radius === this.shadowRadius) return;
+    this.shadowX = sx; this.shadowZ = sz; this.shadowRadius = radius;
     const c = this.shadowCenter.set(f.x, 0, f.z);
     sun.target.position.copy(c);
     sun.position.copy(c).addScaledVector(L, 2500);

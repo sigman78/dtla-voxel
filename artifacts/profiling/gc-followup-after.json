@@ -1,0 +1,1576 @@
+{
+  "date": "2026-11-03T10:56:00.198Z",
+  "browser": "156.0.8078.4",
+  "samplingInterval": 16384,
+  "note": "Sampled main-thread bytes include collected objects; not peak or retained heap. Frame times include profiler overhead. Worker heaps excluded.",
+  "samples": [
+    {
+      "view": "default",
+      "mode": "stationary",
+      "lod": 0,
+      "sceneBefore": {
+        "tiles": 70,
+        "triangles": 3159660
+      },
+      "sceneAfter": {
+        "tiles": 70,
+        "triangles": 3159660
+      },
+      "frames": 630,
+      "duration": 6009.800000000001,
+      "meanMs": 9.539365079365082,
+      "p95Ms": 12.200000000000728,
+      "sampledBytes": 19227244,
+      "bytesPerFrame": 30519.43492063492,
+      "bytesPerSecond": 3199315.118639555,
+      "gcEvents": [
+        {
+          "name": "MinorGC",
+          "us": 311
+        },
+        {
+          "name": "MinorGC",
+          "us": 305
+        },
+        {
+          "name": "MinorGC",
+          "us": 196
+        },
+        {
+          "name": "MinorGC",
+          "us": 200
+        },
+        {
+          "name": "MinorGC",
+          "us": 201
+        },
+        {
+          "name": "MinorGC",
+          "us": 157
+        },
+        {
+          "name": "MinorGC",
+          "us": 168
+        },
+        {
+          "name": "MinorGC",
+          "us": 149
+        },
+        {
+          "name": "MinorGC",
+          "us": 155
+        },
+        {
+          "name": "MinorGC",
+          "us": 180
+        },
+        {
+          "name": "MinorGC",
+          "us": 147
+        },
+        {
+          "name": "MajorGC",
+          "us": 4141
+        }
+      ],
+      "gcMs": 6.31,
+      "sites": [
+        {
+          "site": "copyArray http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:44904",
+          "caller": "setValueM4 http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:45002",
+          "bytes": 6539616
+        },
+        {
+          "site": "painterSortStable http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:46504",
+          "caller": "sort :0",
+          "bytes": 2720736
+        },
+        {
+          "site": "set :0",
+          "caller": "(anonymous) http://localhost:5176/node_modules/.vite/deps/n8ao.js?v=1e5532d0:1757",
+          "bytes": 2024372
+        },
+        {
+          "site": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "caller": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "bytes": 870352
+        },
+        {
+          "site": "sort :0",
+          "caller": "WebGLRenderer.render http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:51995",
+          "bytes": 781892
+        },
+        {
+          "site": "render http://localhost:5176/node_modules/.vite/deps/n8ao.js?v=1e5532d0:1922",
+          "caller": "render http://localhost:5176/node_modules/.vite/deps/postprocessing.js?v=1e5532d0:1157",
+          "bytes": 722248
+        },
+        {
+          "site": "setProgram http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52327",
+          "caller": "WebGLRenderer.renderBufferDirect http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:51785",
+          "bytes": 606432
+        },
+        {
+          "site": "setValueV2f http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:44922",
+          "caller": "setProgram http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52327",
+          "bytes": 360576
+        },
+        {
+          "site": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "caller": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "bytes": 330660
+        },
+        {
+          "site": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "caller": "WebGLRenderer.render http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:51995",
+          "bytes": 312056
+        },
+        {
+          "site": "WebGLRenderer.renderBufferDirect http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:51785",
+          "caller": "renderObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52209",
+          "bytes": 311412
+        },
+        {
+          "site": "toArray http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:4903",
+          "caller": "flatten http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:44881",
+          "bytes": 295020
+        },
+        {
+          "site": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "caller": "WebGLRenderer.render http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:51995",
+          "bytes": 197068
+        },
+        {
+          "site": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "caller": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "bytes": 197068
+        },
+        {
+          "site": "render http://localhost:5176/node_modules/.vite/deps/postprocessing.js?v=1e5532d0:14065",
+          "caller": "render http://localhost:5176/node_modules/.vite/deps/postprocessing.js?v=1e5532d0:1157",
+          "bytes": 180352
+        },
+        {
+          "site": "setValueV3f http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:44936",
+          "caller": "setProgram http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52327",
+          "bytes": 180288
+        },
+        {
+          "site": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "caller": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "bytes": 147820
+        },
+        {
+          "site": "get memory http://localhost:5176/src/stream.ts?t=1793703359426:319",
+          "caller": "S.update http://localhost:5176/src/city.ts?t=1793703035100:75",
+          "bytes": 147540
+        },
+        {
+          "site": "copyArray http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:44904",
+          "caller": "setValueM4 http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:45002",
+          "bytes": 147516
+        },
+        {
+          "site": "onAnimationFrame http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:42006",
+          "caller": "(root) :0",
+          "bytes": 144188
+        },
+        {
+          "site": "render http://localhost:5176/node_modules/.vite/deps/postprocessing.js?v=1e5532d0:1157",
+          "caller": "(anonymous) http://localhost:5176/src/main.ts?t=1793703359426:381",
+          "bytes": 131144
+        },
+        {
+          "site": "set :0",
+          "caller": "(anonymous) http://localhost:5176/node_modules/.vite/deps/n8ao.js?v=1e5532d0:1757",
+          "bytes": 115104
+        },
+        {
+          "site": "next :0",
+          "caller": "S.update http://localhost:5176/src/city.ts?t=1793703035100:75",
+          "bytes": 114760
+        },
+        {
+          "site": "pushShadow http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:47044",
+          "caller": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "bytes": 98496
+        },
+        {
+          "site": "WebGLRenderer.renderBufferDirect http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:51785",
+          "caller": "renderObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52209",
+          "bytes": 98340
+        },
+        {
+          "site": "pushLight http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:47041",
+          "caller": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "bytes": 82080
+        },
+        {
+          "site": "fitShadow http://localhost:5176/src/daylight.ts?t=1793702940725:144",
+          "caller": "(anonymous) http://localhost:5176/src/main.ts?t=1793703359426:381",
+          "bytes": 81948
+        },
+        {
+          "site": "WebGLRenderer.renderBufferDirect http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:51785",
+          "caller": "renderObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52209",
+          "bytes": 81948
+        },
+        {
+          "site": "WebGLRenderer.renderBufferDirect http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:51785",
+          "caller": "renderObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52209",
+          "bytes": 81948
+        },
+        {
+          "site": "sort :0",
+          "caller": "setup http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:46774",
+          "bytes": 65624
+        },
+        {
+          "site": "renderTransparency http://localhost:5176/node_modules/.vite/deps/n8ao.js?v=1e5532d0:1751",
+          "caller": "render http://localhost:5176/node_modules/.vite/deps/n8ao.js?v=1e5532d0:1922",
+          "bytes": 65612
+        },
+        {
+          "site": "trim http://localhost:5176/src/stream.ts?t=1793703359426:280",
+          "caller": "S.update http://localhost:5176/src/city.ts?t=1793703035100:75",
+          "bytes": 65580
+        },
+        {
+          "site": "(IDLE_EXTERNAL) :0",
+          "caller": "(root) :0",
+          "bytes": 50692
+        },
+        {
+          "site": "pushLight http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:47041",
+          "caller": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "bytes": 49248
+        },
+        {
+          "site": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "caller": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "bytes": 49248
+        },
+        {
+          "site": "get memory http://localhost:5176/src/stream.ts?t=1793703359426:319",
+          "caller": "trim http://localhost:5176/src/stream.ts?t=1793703359426:280",
+          "bytes": 49180
+        },
+        {
+          "site": "flatten http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:44881",
+          "caller": "setValueM4Array http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:45221",
+          "bytes": 49176
+        },
+        {
+          "site": "setValueV3f http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:44936",
+          "caller": "setValue http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:45356",
+          "bytes": 49176
+        },
+        {
+          "site": "WebGLRenderer.renderBufferDirect http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:51785",
+          "caller": "renderObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52209",
+          "bytes": 49176
+        },
+        {
+          "site": "(V8 API) :0",
+          "caller": "(root) :0",
+          "bytes": 32952
+        }
+      ],
+      "errors": []
+    },
+    {
+      "view": "default",
+      "mode": "moving",
+      "lod": 0,
+      "sceneBefore": {
+        "tiles": 70,
+        "triangles": 3159660
+      },
+      "sceneAfter": {
+        "tiles": 71,
+        "triangles": 3177638
+      },
+      "frames": 374,
+      "duration": 6003.700000000001,
+      "meanMs": 16.052673796791446,
+      "p95Ms": 18.30000000000109,
+      "sampledBytes": 25588276,
+      "bytesPerFrame": 68417.85026737968,
+      "bytesPerSecond": 4262084.381298198,
+      "gcEvents": [
+        {
+          "name": "MinorGC",
+          "us": 386
+        },
+        {
+          "name": "MinorGC",
+          "us": 331
+        },
+        {
+          "name": "MinorGC",
+          "us": 213
+        },
+        {
+          "name": "MinorGC",
+          "us": 252
+        },
+        {
+          "name": "MinorGC",
+          "us": 214
+        },
+        {
+          "name": "MinorGC",
+          "us": 285
+        },
+        {
+          "name": "MinorGC",
+          "us": 232
+        },
+        {
+          "name": "MinorGC",
+          "us": 184
+        },
+        {
+          "name": "MinorGC",
+          "us": 202
+        },
+        {
+          "name": "MinorGC",
+          "us": 244
+        },
+        {
+          "name": "MinorGC",
+          "us": 263
+        },
+        {
+          "name": "MinorGC",
+          "us": 169
+        },
+        {
+          "name": "MinorGC",
+          "us": 165
+        },
+        {
+          "name": "MinorGC",
+          "us": 158
+        },
+        {
+          "name": "MinorGC",
+          "us": 160
+        },
+        {
+          "name": "MinorGC",
+          "us": 223
+        },
+        {
+          "name": "MinorGC",
+          "us": 177
+        },
+        {
+          "name": "MinorGC",
+          "us": 184
+        },
+        {
+          "name": "MajorGC",
+          "us": 1032
+        },
+        {
+          "name": "MinorGC",
+          "us": 234
+        },
+        {
+          "name": "MinorGC",
+          "us": 209
+        },
+        {
+          "name": "MinorGC",
+          "us": 187
+        },
+        {
+          "name": "MinorGC",
+          "us": 147
+        },
+        {
+          "name": "MinorGC",
+          "us": 202
+        },
+        {
+          "name": "MinorGC",
+          "us": 183
+        },
+        {
+          "name": "MinorGC",
+          "us": 153
+        },
+        {
+          "name": "MinorGC",
+          "us": 208
+        },
+        {
+          "name": "MinorGC",
+          "us": 130
+        },
+        {
+          "name": "MinorGC",
+          "us": 224
+        },
+        {
+          "name": "MinorGC",
+          "us": 186
+        },
+        {
+          "name": "MinorGC",
+          "us": 144
+        },
+        {
+          "name": "MinorGC",
+          "us": 176
+        },
+        {
+          "name": "MinorGC",
+          "us": 164
+        },
+        {
+          "name": "MajorGC",
+          "us": 3492
+        }
+      ],
+      "gcMs": 11.113,
+      "sites": [
+        {
+          "site": "update http://localhost:5176/src/labels.ts?t=1793703324505:110",
+          "caller": "(anonymous) http://localhost:5176/src/main.ts?t=1793703359426:381",
+          "bytes": 5065748
+        },
+        {
+          "site": "copyArray http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:44904",
+          "caller": "setValueM4 http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:45002",
+          "bytes": 4408908
+        },
+        {
+          "site": "copyArray http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:44904",
+          "caller": "setValueM4 http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:45002",
+          "bytes": 3835260
+        },
+        {
+          "site": "selectTiles http://localhost:5176/src/tileSelection.ts?t=1793703035097:81",
+          "caller": "(anonymous) http://localhost:5176/src/tileSelection.ts?t=1793703035097:51",
+          "bytes": 1721384
+        },
+        {
+          "site": "painterSortStable http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:46504",
+          "caller": "sort :0",
+          "bytes": 1376760
+        },
+        {
+          "site": "set :0",
+          "caller": "(anonymous) http://localhost:5176/node_modules/.vite/deps/n8ao.js?v=1e5532d0:1757",
+          "bytes": 1091260
+        },
+        {
+          "site": "S.update http://localhost:5176/src/city.ts?t=1793703035100:75",
+          "caller": "(anonymous) http://localhost:5176/src/main.ts?t=1793703359426:381",
+          "bytes": 409860
+        },
+        {
+          "site": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "caller": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "bytes": 377720
+        },
+        {
+          "site": "render http://localhost:5176/node_modules/.vite/deps/n8ao.js?v=1e5532d0:1922",
+          "caller": "render http://localhost:5176/node_modules/.vite/deps/postprocessing.js?v=1e5532d0:1157",
+          "bytes": 328344
+        },
+        {
+          "site": "sort :0",
+          "caller": "WebGLRenderer.render http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:51995",
+          "bytes": 282176
+        },
+        {
+          "site": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "caller": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "bytes": 281244
+        },
+        {
+          "site": "next :0",
+          "caller": "S.update http://localhost:5176/src/city.ts?t=1793703035100:75",
+          "bytes": 278700
+        },
+        {
+          "site": "flatten http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:44881",
+          "caller": "setValueV3fArray http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:45205",
+          "bytes": 278628
+        },
+        {
+          "site": "add :0",
+          "caller": "S.update http://localhost:5176/src/city.ts?t=1793703035100:75",
+          "bytes": 269640
+        },
+        {
+          "site": "request http://localhost:5176/src/city.ts?t=1793703035100:69",
+          "caller": "request http://localhost:5176/src/city.ts?t=1793703035100:69",
+          "bytes": 245924
+        },
+        {
+          "site": "setProgram http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52327",
+          "caller": "WebGLRenderer.renderBufferDirect http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:51785",
+          "bytes": 245856
+        },
+        {
+          "site": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "caller": "WebGLRenderer.render http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:51995",
+          "bytes": 229900
+        },
+        {
+          "site": "setValueV3f http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:44936",
+          "caller": "setProgram http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52327",
+          "bytes": 229464
+        },
+        {
+          "site": "setValueV2f http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:44922",
+          "caller": "setProgram http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52327",
+          "bytes": 229464
+        },
+        {
+          "site": "add :0",
+          "caller": "choose http://localhost:5176/src/city.ts?t=1793703035100:57",
+          "bytes": 203360
+        },
+        {
+          "site": "onAnimationFrame http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:42006",
+          "caller": "(root) :0",
+          "bytes": 200268
+        },
+        {
+          "site": "mark http://localhost:5176/src/city.ts?t=1793703035100:64",
+          "caller": "S.update http://localhost:5176/src/city.ts?t=1793703035100:75",
+          "bytes": 163960
+        },
+        {
+          "site": "next :0",
+          "caller": "selectTiles http://localhost:5176/src/tileSelection.ts?t=1793703035097:81",
+          "bytes": 163940
+        },
+        {
+          "site": "choose http://localhost:5176/src/city.ts?t=1793703035100:57",
+          "caller": "S.update http://localhost:5176/src/city.ts?t=1793703035100:75",
+          "bytes": 147544
+        },
+        {
+          "site": "get memory http://localhost:5176/src/stream.ts?t=1793703359426:319",
+          "caller": "trim http://localhost:5176/src/stream.ts?t=1793703359426:280",
+          "bytes": 147540
+        },
+        {
+          "site": "update http://localhost:5176/node_modules/.vite/deps/three_examples_jsm_controls_OrbitControls__js.js?v=1e5532d0:550",
+          "caller": "tick :5",
+          "bytes": 147516
+        },
+        {
+          "site": "mark http://localhost:5176/src/city.ts?t=1793703035100:64",
+          "caller": "mark http://localhost:5176/src/city.ts?t=1793703035100:64",
+          "bytes": 131172
+        },
+        {
+          "site": "fitShadow http://localhost:5176/src/daylight.ts?t=1793702940725:144",
+          "caller": "(anonymous) http://localhost:5176/src/main.ts?t=1793703359426:381",
+          "bytes": 131124
+        },
+        {
+          "site": "WebGLRenderer.renderBufferDirect http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:51785",
+          "caller": "renderObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52209",
+          "bytes": 131124
+        },
+        {
+          "site": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "caller": "WebGLRenderer.render http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:51995",
+          "bytes": 114988
+        },
+        {
+          "site": "request http://localhost:5176/src/city.ts?t=1793703035100:69",
+          "caller": "S.update http://localhost:5176/src/city.ts?t=1793703035100:75",
+          "bytes": 114764
+        },
+        {
+          "site": "enqueue http://localhost:5176/src/stream.ts?t=1793703359426:102",
+          "caller": "request http://localhost:5176/src/city.ts?t=1793703035100:69",
+          "bytes": 114752
+        },
+        {
+          "site": "score http://localhost:5176/src/tileSelection.ts?t=1793703035097:89",
+          "caller": "selectTiles http://localhost:5176/src/tileSelection.ts?t=1793703035097:81",
+          "bytes": 98340
+        },
+        {
+          "site": "copyArray http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:44904",
+          "caller": "setValueM3 http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:44988",
+          "bytes": 98340
+        },
+        {
+          "site": "raycast http://localhost:5176/src/world.ts?t=1793703258437:79",
+          "caller": "checkOcclusion http://localhost:5176/src/labels.ts?t=1793703324505:240",
+          "bytes": 90284
+        },
+        {
+          "site": "add :0",
+          "caller": "mark http://localhost:5176/src/city.ts?t=1793703035100:64",
+          "bytes": 85800
+        },
+        {
+          "site": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "caller": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "bytes": 82080
+        },
+        {
+          "site": "trim http://localhost:5176/src/stream.ts?t=1793703359426:280",
+          "caller": "S.update http://localhost:5176/src/city.ts?t=1793703035100:75",
+          "bytes": 81980
+        },
+        {
+          "site": "WebGLRenderer.renderBufferDirect http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:51785",
+          "caller": "renderObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52209",
+          "bytes": 81948
+        },
+        {
+          "site": "WebGLRenderer.renderBufferDirect http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:51785",
+          "caller": "renderObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:47371",
+          "bytes": 81948
+        }
+      ],
+      "errors": []
+    },
+    {
+      "view": "civic",
+      "mode": "stationary",
+      "lod": 0,
+      "sceneBefore": {
+        "tiles": 499,
+        "triangles": 10268908
+      },
+      "sceneAfter": {
+        "tiles": 499,
+        "triangles": 10268908
+      },
+      "frames": 476,
+      "duration": 6003.9000000000015,
+      "meanMs": 12.61323529411765,
+      "p95Ms": 24.299999999999272,
+      "sampledBytes": 48153624,
+      "bytesPerFrame": 101163.0756302521,
+      "bytesPerSecond": 8020390.746015088,
+      "gcEvents": [
+        {
+          "name": "MinorGC",
+          "us": 334
+        },
+        {
+          "name": "MinorGC",
+          "us": 266
+        },
+        {
+          "name": "MinorGC",
+          "us": 147
+        },
+        {
+          "name": "MinorGC",
+          "us": 157
+        },
+        {
+          "name": "MinorGC",
+          "us": 226
+        },
+        {
+          "name": "MinorGC",
+          "us": 229
+        },
+        {
+          "name": "MinorGC",
+          "us": 143
+        },
+        {
+          "name": "MinorGC",
+          "us": 221
+        },
+        {
+          "name": "MinorGC",
+          "us": 169
+        },
+        {
+          "name": "MinorGC",
+          "us": 155
+        },
+        {
+          "name": "MinorGC",
+          "us": 150
+        },
+        {
+          "name": "MinorGC",
+          "us": 161
+        },
+        {
+          "name": "MinorGC",
+          "us": 158
+        },
+        {
+          "name": "MinorGC",
+          "us": 158
+        },
+        {
+          "name": "MinorGC",
+          "us": 210
+        },
+        {
+          "name": "MinorGC",
+          "us": 165
+        },
+        {
+          "name": "MinorGC",
+          "us": 187
+        },
+        {
+          "name": "MinorGC",
+          "us": 183
+        },
+        {
+          "name": "MinorGC",
+          "us": 215
+        },
+        {
+          "name": "MinorGC",
+          "us": 172
+        },
+        {
+          "name": "MinorGC",
+          "us": 165
+        },
+        {
+          "name": "MinorGC",
+          "us": 124
+        },
+        {
+          "name": "MinorGC",
+          "us": 146
+        },
+        {
+          "name": "MinorGC",
+          "us": 152
+        },
+        {
+          "name": "MinorGC",
+          "us": 142
+        },
+        {
+          "name": "MinorGC",
+          "us": 190
+        },
+        {
+          "name": "MinorGC",
+          "us": 143
+        },
+        {
+          "name": "MajorGC",
+          "us": 4067
+        }
+      ],
+      "gcMs": 8.935,
+      "sites": [
+        {
+          "site": "copyArray http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:44904",
+          "caller": "setValueM4 http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:45002",
+          "bytes": 17340624
+        },
+        {
+          "site": "set :0",
+          "caller": "(anonymous) http://localhost:5176/node_modules/.vite/deps/n8ao.js?v=1e5532d0:1757",
+          "bytes": 14251880
+        },
+        {
+          "site": "painterSortStable http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:46504",
+          "caller": "sort :0",
+          "bytes": 6457656
+        },
+        {
+          "site": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "caller": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "bytes": 1685436
+        },
+        {
+          "site": "setProgram http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52327",
+          "caller": "WebGLRenderer.renderBufferDirect http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:51785",
+          "bytes": 1409544
+        },
+        {
+          "site": "sort :0",
+          "caller": "WebGLRenderer.render http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:51995",
+          "bytes": 1086084
+        },
+        {
+          "site": "trim http://localhost:5176/src/stream.ts?t=1793703359426:280",
+          "caller": "S.update http://localhost:5176/src/city.ts?t=1793703035100:75",
+          "bytes": 655760
+        },
+        {
+          "site": "render http://localhost:5176/node_modules/.vite/deps/n8ao.js?v=1e5532d0:1922",
+          "caller": "render http://localhost:5176/node_modules/.vite/deps/postprocessing.js?v=1e5532d0:1157",
+          "bytes": 459544
+        },
+        {
+          "site": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "caller": "WebGLRenderer.render http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:51995",
+          "bytes": 426968
+        },
+        {
+          "site": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "caller": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "bytes": 426968
+        },
+        {
+          "site": "S.update http://localhost:5176/src/city.ts?t=1793703035100:75",
+          "caller": "(anonymous) http://localhost:5176/src/main.ts?t=1793703359426:381",
+          "bytes": 426240
+        },
+        {
+          "site": "flatten http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:44881",
+          "caller": "setValueV3fArray http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:45205",
+          "bytes": 327804
+        },
+        {
+          "site": "onAnimationFrame http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:42006",
+          "caller": "(root) :0",
+          "bytes": 309148
+        },
+        {
+          "site": "setValueV2f http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:44922",
+          "caller": "setProgram http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52327",
+          "bytes": 245856
+        },
+        {
+          "site": "(IDLE_EXTERNAL) :0",
+          "caller": "(root) :0",
+          "bytes": 211708
+        },
+        {
+          "site": "WebGLRenderer.renderBufferDirect http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:51785",
+          "caller": "renderObjects http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52199",
+          "bytes": 196680
+        },
+        {
+          "site": "renderTransparency http://localhost:5176/node_modules/.vite/deps/n8ao.js?v=1e5532d0:1751",
+          "caller": "render http://localhost:5176/node_modules/.vite/deps/n8ao.js?v=1e5532d0:1922",
+          "bytes": 180400
+        },
+        {
+          "site": "next :0",
+          "caller": "S.update http://localhost:5176/src/city.ts?t=1793703035100:75",
+          "bytes": 163940
+        },
+        {
+          "site": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "caller": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "bytes": 147820
+        },
+        {
+          "site": "WebGLRenderer.renderBufferDirect http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:51785",
+          "caller": "renderObjects http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52199",
+          "bytes": 147516
+        },
+        {
+          "site": "setValueV3f http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:44936",
+          "caller": "setProgram http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52327",
+          "bytes": 147516
+        },
+        {
+          "site": "render http://localhost:5176/node_modules/.vite/deps/postprocessing.js?v=1e5532d0:14065",
+          "caller": "render http://localhost:5176/node_modules/.vite/deps/postprocessing.js?v=1e5532d0:1157",
+          "bytes": 131156
+        },
+        {
+          "site": "fitShadow http://localhost:5176/src/daylight.ts?t=1793702940725:144",
+          "caller": "(anonymous) http://localhost:5176/src/main.ts?t=1793703359426:381",
+          "bytes": 114732
+        },
+        {
+          "site": "pushLight http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:47041",
+          "caller": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "bytes": 82080
+        },
+        {
+          "site": "pushShadow http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:47044",
+          "caller": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "bytes": 82080
+        },
+        {
+          "site": "render http://localhost:5176/node_modules/.vite/deps/postprocessing.js?v=1e5532d0:1157",
+          "caller": "(anonymous) http://localhost:5176/src/main.ts?t=1793703359426:381",
+          "bytes": 81956
+        },
+        {
+          "site": "innerSerialize :214",
+          "caller": "serialize :203",
+          "bytes": 66984
+        },
+        {
+          "site": "set :0",
+          "caller": "(anonymous) http://localhost:5176/node_modules/.vite/deps/n8ao.js?v=1e5532d0:1757",
+          "bytes": 65736
+        },
+        {
+          "site": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "caller": "WebGLRenderer.render http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:51995",
+          "bytes": 65664
+        },
+        {
+          "site": "(anonymous) http://localhost:5176/src/main.ts?t=1793703359426:381",
+          "caller": "onAnimationFrame http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:42006",
+          "bytes": 65556
+        },
+        {
+          "site": "setValueV3f http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:44936",
+          "caller": "setValue http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:45356",
+          "bytes": 65556
+        },
+        {
+          "site": "pushShadow http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:47044",
+          "caller": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "bytes": 49248
+        },
+        {
+          "site": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "caller": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "bytes": 49248
+        },
+        {
+          "site": "sort :0",
+          "caller": "setup http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:46774",
+          "bytes": 49216
+        },
+        {
+          "site": "sort :0",
+          "caller": "setup http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:46774",
+          "bytes": 49216
+        },
+        {
+          "site": "(V8 API) :0",
+          "caller": "(root) :0",
+          "bytes": 49200
+        },
+        {
+          "site": "WebGLRenderer.renderBufferDirect http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:51785",
+          "caller": "renderObjects http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52199",
+          "bytes": 49176
+        },
+        {
+          "site": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "caller": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "bytes": 32832
+        },
+        {
+          "site": "push :0",
+          "caller": "innerSerialize :214",
+          "bytes": 17760
+        },
+        {
+          "site": "traverse http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:9986",
+          "caller": "traverse http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:9986",
+          "bytes": 17520
+        }
+      ],
+      "errors": []
+    },
+    {
+      "view": "civic",
+      "mode": "moving",
+      "lod": 0,
+      "sceneBefore": {
+        "tiles": 499,
+        "triangles": 10268908
+      },
+      "sceneAfter": {
+        "tiles": 489,
+        "triangles": 10168260
+      },
+      "frames": 405,
+      "duration": 6009.799999999999,
+      "meanMs": 14.839012345679011,
+      "p95Ms": 18.299999999999272,
+      "sampledBytes": 85606656,
+      "bytesPerFrame": 211374.45925925925,
+      "bytesPerSecond": 14244509.967053814,
+      "gcEvents": [
+        {
+          "name": "MinorGC",
+          "us": 512
+        },
+        {
+          "name": "MinorGC",
+          "us": 236
+        },
+        {
+          "name": "MinorGC",
+          "us": 297
+        },
+        {
+          "name": "MinorGC",
+          "us": 224
+        },
+        {
+          "name": "MinorGC",
+          "us": 227
+        },
+        {
+          "name": "MinorGC",
+          "us": 209
+        },
+        {
+          "name": "MinorGC",
+          "us": 197
+        },
+        {
+          "name": "MinorGC",
+          "us": 218
+        },
+        {
+          "name": "MinorGC",
+          "us": 182
+        },
+        {
+          "name": "MinorGC",
+          "us": 188
+        },
+        {
+          "name": "MinorGC",
+          "us": 242
+        },
+        {
+          "name": "MinorGC",
+          "us": 254
+        },
+        {
+          "name": "MinorGC",
+          "us": 253
+        },
+        {
+          "name": "MinorGC",
+          "us": 590
+        },
+        {
+          "name": "MajorGC",
+          "us": 1063
+        },
+        {
+          "name": "MinorGC",
+          "us": 185
+        },
+        {
+          "name": "MinorGC",
+          "us": 193
+        },
+        {
+          "name": "MinorGC",
+          "us": 226
+        },
+        {
+          "name": "MinorGC",
+          "us": 317
+        },
+        {
+          "name": "MinorGC",
+          "us": 304
+        },
+        {
+          "name": "MinorGC",
+          "us": 234
+        },
+        {
+          "name": "MinorGC",
+          "us": 254
+        },
+        {
+          "name": "MinorGC",
+          "us": 375
+        },
+        {
+          "name": "MinorGC",
+          "us": 222
+        },
+        {
+          "name": "MinorGC",
+          "us": 208
+        },
+        {
+          "name": "MinorGC",
+          "us": 220
+        },
+        {
+          "name": "MinorGC",
+          "us": 471
+        },
+        {
+          "name": "MinorGC",
+          "us": 208
+        },
+        {
+          "name": "MinorGC",
+          "us": 188
+        },
+        {
+          "name": "MinorGC",
+          "us": 159
+        },
+        {
+          "name": "MinorGC",
+          "us": 186
+        },
+        {
+          "name": "MinorGC",
+          "us": 181
+        },
+        {
+          "name": "MinorGC",
+          "us": 225
+        },
+        {
+          "name": "MinorGC",
+          "us": 207
+        },
+        {
+          "name": "MinorGC",
+          "us": 199
+        },
+        {
+          "name": "MinorGC",
+          "us": 242
+        },
+        {
+          "name": "MinorGC",
+          "us": 203
+        },
+        {
+          "name": "MinorGC",
+          "us": 243
+        },
+        {
+          "name": "MinorGC",
+          "us": 212
+        },
+        {
+          "name": "MinorGC",
+          "us": 180
+        },
+        {
+          "name": "MinorGC",
+          "us": 201
+        },
+        {
+          "name": "MinorGC",
+          "us": 254
+        },
+        {
+          "name": "MinorGC",
+          "us": 167
+        },
+        {
+          "name": "MinorGC",
+          "us": 157
+        },
+        {
+          "name": "MinorGC",
+          "us": 177
+        },
+        {
+          "name": "MinorGC",
+          "us": 178
+        },
+        {
+          "name": "MinorGC",
+          "us": 163
+        },
+        {
+          "name": "MinorGC",
+          "us": 167
+        },
+        {
+          "name": "MinorGC",
+          "us": 213
+        },
+        {
+          "name": "MinorGC",
+          "us": 172
+        },
+        {
+          "name": "MinorGC",
+          "us": 240
+        },
+        {
+          "name": "MinorGC",
+          "us": 200
+        },
+        {
+          "name": "MinorGC",
+          "us": 199
+        },
+        {
+          "name": "MinorGC",
+          "us": 166
+        },
+        {
+          "name": "MinorGC",
+          "us": 192
+        },
+        {
+          "name": "MinorGC",
+          "us": 170
+        },
+        {
+          "name": "MinorGC",
+          "us": 155
+        },
+        {
+          "name": "MinorGC",
+          "us": 147
+        },
+        {
+          "name": "MinorGC",
+          "us": 163
+        },
+        {
+          "name": "MinorGC",
+          "us": 154
+        },
+        {
+          "name": "MinorGC",
+          "us": 193
+        },
+        {
+          "name": "MinorGC",
+          "us": 206
+        },
+        {
+          "name": "MinorGC",
+          "us": 204
+        },
+        {
+          "name": "MinorGC",
+          "us": 195
+        },
+        {
+          "name": "MinorGC",
+          "us": 206
+        },
+        {
+          "name": "MinorGC",
+          "us": 191
+        },
+        {
+          "name": "MinorGC",
+          "us": 147
+        },
+        {
+          "name": "MinorGC",
+          "us": 139
+        },
+        {
+          "name": "MinorGC",
+          "us": 239
+        },
+        {
+          "name": "MinorGC",
+          "us": 240
+        },
+        {
+          "name": "MinorGC",
+          "us": 251
+        },
+        {
+          "name": "MinorGC",
+          "us": 205
+        },
+        {
+          "name": "MinorGC",
+          "us": 181
+        },
+        {
+          "name": "MinorGC",
+          "us": 211
+        },
+        {
+          "name": "MinorGC",
+          "us": 222
+        },
+        {
+          "name": "MinorGC",
+          "us": 192
+        },
+        {
+          "name": "MinorGC",
+          "us": 221
+        },
+        {
+          "name": "MinorGC",
+          "us": 249
+        },
+        {
+          "name": "MinorGC",
+          "us": 217
+        },
+        {
+          "name": "MinorGC",
+          "us": 181
+        },
+        {
+          "name": "MinorGC",
+          "us": 330
+        },
+        {
+          "name": "MinorGC",
+          "us": 177
+        },
+        {
+          "name": "MajorGC",
+          "us": 1912
+        },
+        {
+          "name": "MinorGC",
+          "us": 281
+        },
+        {
+          "name": "MinorGC",
+          "us": 191
+        },
+        {
+          "name": "MinorGC",
+          "us": 199
+        },
+        {
+          "name": "MinorGC",
+          "us": 166
+        },
+        {
+          "name": "MinorGC",
+          "us": 214
+        },
+        {
+          "name": "MinorGC",
+          "us": 249
+        },
+        {
+          "name": "MinorGC",
+          "us": 198
+        },
+        {
+          "name": "MinorGC",
+          "us": 314
+        },
+        {
+          "name": "MajorGC",
+          "us": 5442
+        }
+      ],
+      "gcMs": 28.132,
+      "sites": [
+        {
+          "site": "copyArray http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:44904",
+          "caller": "setValueM4 http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:45002",
+          "bytes": 27830220
+        },
+        {
+          "site": "copyArray http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:44904",
+          "caller": "setValueM4 http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:45002",
+          "bytes": 12965504
+        },
+        {
+          "site": "set :0",
+          "caller": "(anonymous) http://localhost:5176/node_modules/.vite/deps/n8ao.js?v=1e5532d0:1757",
+          "bytes": 11242012
+        },
+        {
+          "site": "painterSortStable http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:46504",
+          "caller": "sort :0",
+          "bytes": 5195628
+        },
+        {
+          "site": "update http://localhost:5176/src/labels.ts?t=1793703324505:110",
+          "caller": "(anonymous) http://localhost:5176/src/main.ts?t=1793703359426:381",
+          "bytes": 4803236
+        },
+        {
+          "site": "selectTiles http://localhost:5176/src/tileSelection.ts?t=1793703035097:81",
+          "caller": "(anonymous) http://localhost:5176/src/tileSelection.ts?t=1793703035097:51",
+          "bytes": 3262488
+        },
+        {
+          "site": "S.update http://localhost:5176/src/city.ts?t=1793703035100:75",
+          "caller": "(anonymous) http://localhost:5176/src/main.ts?t=1793703359426:381",
+          "bytes": 2803372
+        },
+        {
+          "site": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "caller": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "bytes": 1651452
+        },
+        {
+          "site": "add :0",
+          "caller": "mark http://localhost:5176/src/city.ts?t=1793703035100:64",
+          "bytes": 1239880
+        },
+        {
+          "site": "add :0",
+          "caller": "S.update http://localhost:5176/src/city.ts?t=1793703035100:75",
+          "bytes": 1097640
+        },
+        {
+          "site": "setProgram http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52327",
+          "caller": "WebGLRenderer.renderBufferDirect http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:51785",
+          "bytes": 1081740
+        },
+        {
+          "site": "sort :0",
+          "caller": "WebGLRenderer.render http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:51995",
+          "bytes": 871768
+        },
+        {
+          "site": "request http://localhost:5176/src/city.ts?t=1793703035100:69",
+          "caller": "request http://localhost:5176/src/city.ts?t=1793703035100:69",
+          "bytes": 803188
+        },
+        {
+          "site": "onAnimationFrame http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:42006",
+          "caller": "(root) :0",
+          "bytes": 648140
+        },
+        {
+          "site": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "caller": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "bytes": 476216
+        },
+        {
+          "site": "next :0",
+          "caller": "update http://localhost:5176/src/labels.ts?t=1793703324505:110",
+          "bytes": 459040
+        },
+        {
+          "site": "render http://localhost:5176/node_modules/.vite/deps/n8ao.js?v=1e5532d0:1922",
+          "caller": "render http://localhost:5176/node_modules/.vite/deps/postprocessing.js?v=1e5532d0:1157",
+          "bytes": 443352
+        },
+        {
+          "site": "trim http://localhost:5176/src/stream.ts?t=1793703359426:280",
+          "caller": "S.update http://localhost:5176/src/city.ts?t=1793703035100:75",
+          "bytes": 409860
+        },
+        {
+          "site": "mark http://localhost:5176/src/city.ts?t=1793703035100:64",
+          "caller": "mark http://localhost:5176/src/city.ts?t=1793703035100:64",
+          "bytes": 377076
+        },
+        {
+          "site": "score http://localhost:5176/src/tileSelection.ts?t=1793703035097:89",
+          "caller": "selectTiles http://localhost:5176/src/tileSelection.ts?t=1793703035097:81",
+          "bytes": 360576
+        },
+        {
+          "site": "WebGLRenderer.renderBufferDirect http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:51785",
+          "caller": "renderObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:47371",
+          "bytes": 360576
+        },
+        {
+          "site": "next :0",
+          "caller": "S.update http://localhost:5176/src/city.ts?t=1793703035100:75",
+          "bytes": 327880
+        },
+        {
+          "site": "enqueue http://localhost:5176/src/stream.ts?t=1793703359426:102",
+          "caller": "requestFoliage http://localhost:5176/src/stream.ts?t=1793703359426:99",
+          "bytes": 327860
+        },
+        {
+          "site": "add :0",
+          "caller": "choose http://localhost:5176/src/city.ts?t=1793703035100:57",
+          "bytes": 323820
+        },
+        {
+          "site": "request http://localhost:5176/src/city.ts?t=1793703035100:69",
+          "caller": "request http://localhost:5176/src/city.ts?t=1793703035100:69",
+          "bytes": 295072
+        },
+        {
+          "site": "push :0",
+          "caller": "selectTiles http://localhost:5176/src/tileSelection.ts?t=1793703035097:81",
+          "bytes": 287008
+        },
+        {
+          "site": "add :0",
+          "caller": "choose http://localhost:5176/src/city.ts?t=1793703035100:57",
+          "bytes": 280380
+        },
+        {
+          "site": "mark http://localhost:5176/src/city.ts?t=1793703035100:64",
+          "caller": "mark http://localhost:5176/src/city.ts?t=1793703035100:64",
+          "bytes": 278692
+        },
+        {
+          "site": "WebGLRenderer.renderBufferDirect http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:51785",
+          "caller": "renderObjects http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52199",
+          "bytes": 278628
+        },
+        {
+          "site": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "caller": "WebGLRenderer.render http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:51995",
+          "bytes": 262732
+        },
+        {
+          "site": "flatten http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:44881",
+          "caller": "setValueV3fArray http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:45205",
+          "bytes": 245856
+        },
+        {
+          "site": "setValueV2f http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:44922",
+          "caller": "setProgram http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52327",
+          "bytes": 229464
+        },
+        {
+          "site": "distanceToSquared http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:4737",
+          "caller": "score http://localhost:5176/src/tileSelection.ts?t=1793703035097:89",
+          "bytes": 213072
+        },
+        {
+          "site": "pushCandidate http://localhost:5176/src/tileSelection.ts?t=1793703035097:54",
+          "caller": "selectTiles http://localhost:5176/src/tileSelection.ts?t=1793703035097:81",
+          "bytes": 198692
+        },
+        {
+          "site": "hypot :0",
+          "caller": "request http://localhost:5176/src/city.ts?t=1793703035100:69",
+          "bytes": 163896
+        },
+        {
+          "site": "render http://localhost:5176/node_modules/.vite/deps/postprocessing.js?v=1e5532d0:14065",
+          "caller": "render http://localhost:5176/node_modules/.vite/deps/postprocessing.js?v=1e5532d0:1157",
+          "bytes": 147572
+        },
+        {
+          "site": "raycast http://localhost:5176/src/world.ts?t=1793703258437:79",
+          "caller": "checkOcclusion http://localhost:5176/src/labels.ts?t=1793703324505:240",
+          "bytes": 139468
+        },
+        {
+          "site": "pushLight http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:47041",
+          "caller": "projectObject http://localhost:5176/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=1e5532d0:52079",
+          "bytes": 131404
+        },
+        {
+          "site": "fitShadow http://localhost:5176/src/daylight.ts?t=1793702940725:144",
+          "caller": "(anonymous) http://localhost:5176/src/main.ts?t=1793703359426:381",
+          "bytes": 131124
+        },
+        {
+          "site": "renderTransparency http://localhost:5176/node_modules/.vite/deps/n8ao.js?v=1e5532d0:1751",
+          "caller": "render http://localhost:5176/node_modules/.vite/deps/n8ao.js?v=1e5532d0:1922",
+          "bytes": 114780
+        }
+      ],
+      "errors": []
+    }
+  ]
+}

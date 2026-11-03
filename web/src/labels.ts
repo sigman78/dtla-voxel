@@ -32,9 +32,9 @@ const STEM = 20, TOP = 8, MAX = 12, SETTLE = 150;
 const overlap = (r: Rect, q: Rect) => r.x0 < q.x1 + 6 && r.x1 + 6 > q.x0 && r.y0 < q.y1 + 2 && r.y1 + 2 > q.y0;
 const rect = (): Rect => ({ x0: 0, x1: 0, y0: 0, y1: 0 });
 const SIDES = ['r', 'l', 's'] as const;
-function free(r: Rect, placed: Rect[]) {
+function free(r: Rect, placed: Rect[], count: number) {
   if (r.x0 < 4 || r.x1 > innerWidth - 4 || r.y0 < 4 || r.y1 > innerHeight - 4) return false;
-  for (let i = 0; i < placed.length; i++) if (overlap(r, placed[i])) return false;
+  for (let i = 0; i < count; i++) if (overlap(r, placed[i])) return false;
   return true;
 }
 
@@ -54,6 +54,19 @@ export class Labels {
   private readonly barRect = rect();
   private readonly candidates = { r: rect(), l: rect(), s: rect() };
   private readonly accepted = Array.from({ length: MAX }, rect);
+  private readonly cameraWorld = new THREE.Matrix4();
+  private readonly cameraProjection = new THREE.Matrix4();
+  private lastWorld: World | null = null;
+  private worldVersion = -1;
+  private visibilityVersion = -1;
+  private lastBar: DOMRect | null = null;
+  private lastObstacles: Rect[] | null = null;
+  private lastGate = this.gate;
+  private width = 0;
+  private height = 0;
+  private dirty = true;
+  private settling = false;
+  private occlusionRemaining = 0;
 
   constructor(labels: Label[], onClick: (l: Label) => void) {
     labels.forEach((l) => {
@@ -62,7 +75,7 @@ export class Labels {
       pin.txt.addEventListener('click', () => onClick(l));
       this.pins.push(pin);
     });
-    document.fonts?.ready.then(() => { for (const p of this.pins) p.dims = []; });
+    document.fonts?.ready.then(() => { for (const p of this.pins) p.dims = []; this.dirty = true; });
   }
 
   private add(cls: string, f: Facts, p: THREE.Vector3, base: THREE.Vector3, R: number): Pin {
@@ -73,29 +86,51 @@ export class Labels {
 
   // a temporary label on a searched place
   pin(p: Placed | null) {
+    this.dirty = true;
     if (this.picked) { this.picked.el.remove(); this.pins.splice(this.pins.indexOf(this.picked), 1); this.picked = null; }
     if (!p) return;
     this.picked = this.add('label pick', { ...p, far: 1e9 }, new THREE.Vector3(p.x + 0.5, p.z + 1, p.y + 0.5), new THREE.Vector3(p.x + 0.5, p.z, p.y + 0.5), 40);
     this.pins.unshift(this.picked);
   }
 
-  update(camera: THREE.Camera, world: World | null, bar: DOMRect, obstacles: Rect[]) {
-    if (world) this.checkOcclusion(camera, world);
+  update(camera: THREE.Camera, world: World | null, bar: DOMRect, obstacles: Rect[], visibilityVersion = 0) {
+    const version = world?.version ?? 0;
+    const changed = this.dirty || !this.cameraWorld.equals(camera.matrixWorld) || !this.cameraProjection.equals(camera.projectionMatrix)
+      || world !== this.lastWorld || version !== this.worldVersion || visibilityVersion !== this.visibilityVersion
+      || bar !== this.lastBar || obstacles !== this.lastObstacles || this.gate !== this.lastGate
+      || innerWidth !== this.width || innerHeight !== this.height;
+    if (changed) {
+      this.cameraWorld.copy(camera.matrixWorld); this.cameraProjection.copy(camera.projectionMatrix);
+      this.lastWorld = world; this.worldVersion = version; this.visibilityVersion = visibilityVersion;
+      this.lastBar = bar; this.lastObstacles = obstacles; this.lastGate = this.gate;
+      this.width = innerWidth; this.height = innerHeight; this.dirty = false;
+      this.occlusionRemaining = world ? this.pins.length : 0;
+    } else if (!this.settling && this.occlusionRemaining === 0) {
+      // Preserve round-robin phase without repeating identical ray queries.
+      if (world && this.pins.length) this.frame += 4;
+      return;
+    }
+    this.settling = false;
+    if (world && this.occlusionRemaining > 0) {
+      this.checkOcclusion(camera, world);
+      this.occlusionRemaining = Math.max(0, this.occlusionRemaining - 4);
+    } else if (world && this.pins.length) this.frame += 4;
     const placed = this.placed;
-    placed.length = 0;
+    let placedCount = 0;
     if (bar.width) {
       const r = this.barRect;
       r.x0 = bar.left - 8; r.x1 = bar.right; r.y0 = bar.top; r.y1 = bar.bottom + 8;
-      placed.push(r);
+      placed[placedCount++] = r;
     }
-    for (const r of obstacles) placed.push(r);
+    for (const r of obstacles) placed[placedCount++] = r;
     const v = this.projected, now = performance.now();
     let shown = 0;
     // Four stable priority buckets, captured before visibility changes during placement.
-    this.ordered.length = 0;
+    let orderedCount = 0;
     for (let rank = 0; rank < 4; rank++) for (const p of this.pins) {
-      if ((p.far >= 9000 ? 0 : 2) + (p.on ? 0 : 1) === rank) this.ordered.push(p);
+      if ((p.far >= 9000 ? 0 : 2) + (p.on ? 0 : 1) === rank) this.ordered[orderedCount++] = p;
     }
+    this.ordered.length = orderedCount;
     for (const L of this.ordered) {
       v.copy(L.p).project(camera);
       const inFront = v.z < 1, d = camera.position.distanceTo(L.p);
@@ -125,19 +160,20 @@ export class Labels {
           let pick: Pin['side'] | undefined;
           for (let i = L.on ? -1 : 0; i < SIDES.length; i++) {
             const k = i < 0 ? L.side : SIDES[i];
-            if ((k !== 's' || L.w < innerWidth - 8) && free(rects[k], placed)) { pick = k; break; }
+            if ((k !== 's' || L.w < innerWidth - 8) && free(rects[k], placed, placedCount)) { pick = k; break; }
           }
           if (pick) {
             fits = true; side = pick;
             const r = this.accepted[shown], candidate = rects[pick];
             r.x0 = candidate.x0; r.x1 = candidate.x1; r.y0 = y0; r.y1 = y1;
-            placed.push(r);
+            placed[placedCount++] = r;
             if (pick === 's') L.shift = sx - x;
           }
         }
       }
       if (fits) { shown++; if (L.since < 0) L.since = now; } else L.since = -1;
       const vis = fits && (L.on || now - L.since >= SETTLE);
+      if ((fits && !vis) || vis !== L.on) this.settling = true;
       if (vis) { L.side = side; L.el.classList.toggle('left', side === 'l'); L.el.classList.toggle('pinned', pinned); L.txt.style.left = side === 's' ? `${L.shift.toFixed(0)}px` : ''; }
       L.on = vis;
       L.el.classList.toggle('off', !vis);

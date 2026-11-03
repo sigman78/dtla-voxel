@@ -50,6 +50,8 @@ export class TileStreamer implements ColumnSource {
   private debugFoliageMaterial: THREE.Material | null = null;
   private nextId = 1;
   private readonly trimCandidates: TileNode[] = [];
+  private readonly tileKeys: Record<number, string[]> = {};
+  private readonly foliageKeys: string[] = [];
   private readonly maxWorkers = Math.min(Math.max(1, (navigator.hardwareConcurrency || 4) - 2), 4);
   private readonly pool: Pooled[] = [];
   private replies: MeshReply[] = [];
@@ -68,6 +70,7 @@ export class TileStreamer implements ColumnSource {
     this.N = meta.tiles.N;
     this.levels = meta.tiles.levels.map((l) => l.s).sort((a, b) => b - a);
     this.dims = Object.fromEntries(meta.tiles.levels.map((l) => [l.s, l]));
+    for (const d of meta.tiles.levels) this.tileKeys[d.s] = [];
     scene.add(this.group);
     this.world = new World(this, meta);
   }
@@ -98,7 +101,16 @@ export class TileStreamer implements ColumnSource {
     }
   }
   key(s: number, tx: number, ty: number) {
+    const d = this.dims[s];
+    if (d && tx >= 0 && ty >= 0 && tx < d.nx && ty < d.ny)
+      return this.tileKeys[s][ty * d.nx + tx] ??= `${s}/${tx}_${ty}`;
     return `${s}/${tx}_${ty}`;
+  }
+  foliageKey(tx: number, ty: number) {
+    const d = this.dims[1];
+    if (d && tx >= 0 && ty >= 0 && tx < d.nx && ty < d.ny)
+      return this.foliageKeys[ty * d.nx + tx] ??= `f/${tx}_${ty}`;
+    return `f/${tx}_${ty}`;
   }
   bounds(s: number, tx: number, ty: number) {
     const L = this.N * s;
@@ -108,7 +120,7 @@ export class TileStreamer implements ColumnSource {
     return this.enqueue(this.key(s, tx, ty), s, tx, ty, false, prio);
   }
   requestFoliage(tx: number, ty: number, prio: number) {
-    return this.enqueue(`f/${tx}_${ty}`, 1, tx, ty, true, prio);
+    return this.enqueue(this.foliageKey(tx, ty), 1, tx, ty, true, prio);
   }
   private enqueue(key: string, s: number, tx: number, ty: number, foliage: boolean, prio: number) {
     let n = this.nodes.get(key);
@@ -150,11 +162,13 @@ export class TileStreamer implements ColumnSource {
   }
   retire() {
     const now = performance.now();
-    for (const p of [...this.pool])
+    for (let i=0;i<this.pool.length;) {
+      const p=this.pool[i];
       if (!p.busy && now - p.idle > 4000 && this.pool.length > 1) {
         p.worker.terminate();
-        this.pool.splice(this.pool.indexOf(p), 1);
-      }
+        this.pool.splice(i, 1);
+      } else i++;
+    }
   }
   private spawn() {
     const worker = new Worker(new URL('./mesher.worker.ts', import.meta.url), { type: 'module' });

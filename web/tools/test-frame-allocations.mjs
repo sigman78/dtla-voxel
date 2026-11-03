@@ -19,6 +19,7 @@ function load(file, name, old, globals = {}) {
 }
 const meta = JSON.parse(fs.readFileSync('public/data/meta.json','utf8'));
 const selector = [true,false].map(old=>load('tileSelection.ts','selectTiles',old).Class);
+const pooled = load('tileSelection.ts','createTileSelector',false).Class(meta);
 const camera = new THREE.PerspectiveCamera(28,1.6,.5,30000);
 let previous = new Set();
 for (const view of Object.values(meta.views)) for (const maxLeaves of [64,200,384]) {
@@ -27,6 +28,21 @@ for (const view of Object.values(meta.views)) for (const maxLeaves of [64,200,38
   const [a,b] = selector.map(select=>select(...args));
   const snapshot = s=>JSON.stringify({leaves:s.leaves.map(n=>n.key),split:[...s.split],bytes:s.estimatedBytes});
   assert.equal(snapshot(a),snapshot(b));previous=b.split;
+}
+let pooledPrevious = new Set();
+const identities = new Map();
+for(let pass=0;pass<4;pass++) for(const view of Object.values(meta.views)) {
+  camera.position.fromArray(view.pos); camera.lookAt(new THREE.Vector3(...view.target)); camera.updateMatrixWorld();
+  const args=[camera,900,new THREE.Vector3(.5,1,.5).normalize(),pooledPrevious,(_key,s)=>s===1?600000:350000,pass%2?80:384,64*1024**2];
+  const expected=selector[0](meta,...args), actual=pooled(...args);
+  const snapshot=s=>JSON.stringify({leaves:s.leaves.map(n=>n.key),split:[...s.split],bytes:s.estimatedBytes});
+  assert.equal(snapshot(actual),snapshot(expected),'reused selector must preserve tree/hysteresis/budgets');
+  function visit(n) {
+    if(identities.has(n.key))assert.equal(n,identities.get(n.key),'descriptor identity must be reused');
+    else identities.set(n.key,n);
+    n.children.forEach(visit);
+  }actual.roots.forEach(visit);
+  pooledPrevious=actual.split;
 }
 
 function element(cls='') {
@@ -57,6 +73,28 @@ for (let i=0;i<240;i++) {
     transform:p.el.style.transform,left:p.txt.style.left,classes:[...p.el.classes].sort()})));
   assert.equal(snapshot(labelRuns[0].labels),snapshot(labelRuns[1].labels),`labels frame ${i}`);
 }
+const rays=[0,0];
+let unobstructed=false;
+const worlds=rays.map((_,i)=>({version:0,raycast:(p,d,dist)=>{rays[i]++;return !unobstructed && d.x>.2?dist*.4:Infinity;}}));
+const labelSnapshot=labels=>JSON.stringify(labels.pins.map(p=>({on:p.on,side:p.side,since:p.since,occluded:p.occluded,transform:p.el.style.transform,classes:[...p.el.classes].sort()})));
+let visibilityVersion=0;
+function staticFrames(count, controlBar=bar) {
+  for(let i=0;i<count;i++) {
+    clock+=20;
+    labelRuns.forEach((run,j)=>run.labels.update(camera,worlds[j],controlBar,obstacles,visibilityVersion));
+    assert.equal(labelSnapshot(labelRuns[0].labels),labelSnapshot(labelRuns[1].labels),'settled labels and invalidation');
+  }
+}
+staticFrames(150);
+const settledRays=rays[1];
+staticFrames(50);
+assert.equal(rays[1],settledRays,'settled labels must stop raycasting');
+assert(rays[0]>rays[1]);
+unobstructed=true;worlds.forEach(w=>w.version++);staticFrames(100);
+assert(rays[1]>settledRays,'new query data must restart occlusion checks');
+labelRuns.forEach(run=>{run.labels.gate=()=>false;});visibilityVersion++;staticFrames(30);
+labelRuns.forEach(run=>{run.labels.gate=()=>true;});visibilityVersion++;staticFrames(100);
+staticFrames(100,{...bar,bottom:200});
 
 const navRuns=[true,false].map(old=>{
   const {Class}=load('nav.ts','Nav',old,{addEventListener(){},document:{},clamp:(x,a,b)=>Math.min(b,Math.max(a,x))});
@@ -75,4 +113,4 @@ for(let i=0;i<120;i++) {
   assert.deepEqual(navRuns[0].camera.position.toArray(),navRuns[1].camera.position.toArray());
   assert.deepEqual(navRuns[0].controls.target.toArray(),navRuns[1].controls.target.toArray());
 }
-console.log('Passed: exact selector order/budgets, 240 label frames, 120 navigation frames');
+console.log('Passed: exact selector order/budgets, 32 pooled-selector transitions, 770 label frames including settled/invalidation, 120 navigation frames');

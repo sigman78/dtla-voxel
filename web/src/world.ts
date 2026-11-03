@@ -33,6 +33,7 @@ export class World {
   }
 
   inside(x: number, r: number) { return x >= 0 && r >= 0 && x < this.W && r < this.D; }
+  get version() { return this.src.version; }
 
   private node(x: number, r: number): ColumnData | null {
     const { src } = this;

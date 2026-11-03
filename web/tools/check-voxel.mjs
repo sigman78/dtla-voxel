@@ -46,6 +46,7 @@ const settle = async () => {
   await page.waitForTimeout(1000);
 };
 try {
+  if (process.env.NAVIGATION_ONLY !== '1') {
   await page.goto(base + '?view=civic&date=11-02&hour=13&lod=1');
   await settle();
   report.comparisons = await page.evaluate(async () => {
@@ -131,6 +132,7 @@ try {
     assert(c.fractionOver8 < 0.002, JSON.stringify(c));
   }
   console.log('Packed/expanded comparisons', JSON.stringify(report.comparisons));
+  }
 
   if (process.env.GEOMETRY_ONLY !== '1') {
   let failed = false;
