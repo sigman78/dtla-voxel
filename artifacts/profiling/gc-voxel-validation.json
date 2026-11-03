@@ -1,0 +1,310 @@
+{
+  "date": "2026-11-03T10:29:58.563Z",
+  "browser": "156.0.8078.4",
+  "errors": [],
+  "comparisons": [
+    {
+      "hour": 13,
+      "raw": true,
+      "mean": 0,
+      "fractionOver8": 0,
+      "max": 0
+    },
+    {
+      "hour": 13,
+      "raw": false,
+      "mean": 0,
+      "fractionOver8": 0,
+      "max": 0
+    },
+    {
+      "hour": 19.5,
+      "raw": true,
+      "mean": 0,
+      "fractionOver8": 0,
+      "max": 0
+    },
+    {
+      "hour": 19.5,
+      "raw": false,
+      "mean": 0,
+      "fractionOver8": 0,
+      "max": 0
+    }
+  ],
+  "navigation": [
+    {
+      "camera": [
+        -2978.199999999999,
+        3927.0000000000005,
+        3450
+      ],
+      "memory": {
+        "geometry": 20646272,
+        "query": 9050468,
+        "pending": 0,
+        "total": 29696740
+      },
+      "stats": {
+        "cancelled": 0,
+        "stale": 0,
+        "evicted": 0,
+        "failed": 1,
+        "admittedBytes": 20646272
+      },
+      "nodes": 64,
+      "leaves": 53,
+      "queue": 0,
+      "inflight": 0,
+      "workers": 4,
+      "uncovered": 0,
+      "overlap": 0,
+      "complete": true,
+      "glError": 0
+    },
+    {
+      "view": "civic",
+      "camera": [
+        2459.099999999999,
+        523,
+        1917.9
+      ],
+      "memory": {
+        "geometry": 100792560,
+        "query": 46433360,
+        "pending": 0,
+        "total": 147225920
+      },
+      "stats": {
+        "cancelled": 0,
+        "stale": 0,
+        "evicted": 32,
+        "failed": 1,
+        "admittedBytes": 111359696
+      },
+      "nodes": 484,
+      "leaves": 232,
+      "queue": 0,
+      "inflight": 0,
+      "workers": 4,
+      "uncovered": 0,
+      "overlap": 0,
+      "complete": true,
+      "glError": 0
+    },
+    {
+      "view": "bunkerhill",
+      "camera": [
+        988.7,
+        568,
+        797.0999999999999
+      ],
+      "memory": {
+        "geometry": 122425232,
+        "query": 56580272,
+        "pending": 0,
+        "total": 179005504
+      },
+      "stats": {
+        "cancelled": 0,
+        "stale": 0,
+        "evicted": 176,
+        "failed": 1,
+        "admittedBytes": 155048016
+      },
+      "nodes": 584,
+      "leaves": 281,
+      "queue": 0,
+      "inflight": 0,
+      "workers": 4,
+      "uncovered": 0,
+      "overlap": 0,
+      "complete": true,
+      "glError": 0
+    },
+    {
+      "view": "viaduct",
+      "camera": [
+        2518.5000000000164,
+        263,
+        2787.0999999999894
+      ],
+      "memory": {
+        "geometry": 31616176,
+        "query": 22910664,
+        "pending": 0,
+        "total": 54526840
+      },
+      "stats": {
+        "cancelled": 0,
+        "stale": 0,
+        "evicted": 740,
+        "failed": 1,
+        "admittedBytes": 181936624
+      },
+      "nodes": 250,
+      "leaves": 121,
+      "queue": 0,
+      "inflight": 0,
+      "workers": 4,
+      "uncovered": 0,
+      "overlap": 0,
+      "complete": true,
+      "glError": 0
+    },
+    {
+      "view": "historic",
+      "camera": [
+        1395.3,
+        290.0000000000001,
+        1273.7
+      ],
+      "memory": {
+        "geometry": 55699120,
+        "query": 27310620,
+        "pending": 0,
+        "total": 83009740
+      },
+      "stats": {
+        "cancelled": 0,
+        "stale": 0,
+        "evicted": 964,
+        "failed": 1,
+        "admittedBytes": 232908176
+      },
+      "nodes": 284,
+      "leaves": 140,
+      "queue": 0,
+      "inflight": 0,
+      "workers": 4,
+      "uncovered": 0,
+      "overlap": 0,
+      "complete": true,
+      "glError": 0
+    },
+    {
+      "view": "default",
+      "camera": [
+        -2978.199999999999,
+        3927.0000000000005,
+        3450
+      ],
+      "memory": {
+        "geometry": 22954208,
+        "query": 9681824,
+        "pending": 0,
+        "total": 32636032
+      },
+      "stats": {
+        "cancelled": 0,
+        "stale": 0,
+        "evicted": 1208,
+        "failed": 1,
+        "admittedBytes": 241168768
+      },
+      "nodes": 68,
+      "leaves": 56,
+      "queue": 0,
+      "inflight": 0,
+      "workers": 4,
+      "uncovered": 0,
+      "overlap": 0,
+      "complete": true,
+      "glError": 0
+    },
+    {
+      "view": "rapid-turns",
+      "camera": [
+        1395.3,
+        290.0000000000001,
+        1273.7
+      ],
+      "memory": {
+        "geometry": 55699120,
+        "query": 27310620,
+        "pending": 0,
+        "total": 83009740
+      },
+      "stats": {
+        "cancelled": 9,
+        "stale": 9,
+        "evicted": 1303,
+        "failed": 1,
+        "admittedBytes": 302594964
+      },
+      "nodes": 284,
+      "leaves": 140,
+      "queue": 0,
+      "inflight": 0,
+      "workers": 4,
+      "uncovered": 0,
+      "overlap": 0,
+      "complete": true,
+      "glError": 0
+    }
+  ],
+  "injectedFailure": true,
+  "coverage": {
+    "samples": 434,
+    "failures": [],
+    "peakBytes": 179005504
+  },
+  "contextRestored": {
+    "camera": [
+      1395.3,
+      290.0000000000001,
+      1273.7
+    ],
+    "memory": {
+      "geometry": 55699120,
+      "query": 27310620,
+      "pending": 0,
+      "total": 83009740
+    },
+    "stats": {
+      "cancelled": 9,
+      "stale": 9,
+      "evicted": 1303,
+      "failed": 1,
+      "admittedBytes": 302594964
+    },
+    "nodes": 284,
+    "leaves": 140,
+    "queue": 0,
+    "inflight": 0,
+    "workers": 1,
+    "uncovered": 0,
+    "overlap": 0,
+    "complete": true,
+    "glError": 0
+  },
+  "afterRestoreEviction": {
+    "camera": [
+      -2978.199999999999,
+      3927.0000000000005,
+      3450
+    ],
+    "memory": {
+      "geometry": 22954208,
+      "query": 9681824,
+      "pending": 0,
+      "total": 32636032
+    },
+    "stats": {
+      "cancelled": 9,
+      "stale": 9,
+      "evicted": 1547,
+      "failed": 1,
+      "admittedBytes": 310855556
+    },
+    "nodes": 68,
+    "leaves": 56,
+    "queue": 0,
+    "inflight": 0,
+    "workers": 4,
+    "uncovered": 0,
+    "overlap": 0,
+    "complete": true,
+    "glError": 0
+  }
+}

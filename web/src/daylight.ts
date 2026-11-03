@@ -30,6 +30,11 @@ export class Daylight {
   private shadowKey = '';
   private readonly shadowView = new THREE.Matrix4();
   private readonly shadowProjection = new THREE.Matrix4();
+  private readonly shadowCenter = new THREE.Vector3();
+  private readonly shadowUp = new THREE.Vector3(0, 1, 0);
+  private readonly shadowInverse = new THREE.Matrix4();
+  private readonly shadowCorner = new THREE.Vector3();
+  private readonly shadowBounds = new THREE.Box3();
   private northTheta = 0;
   private sunY = 1;
 
@@ -48,6 +53,7 @@ export class Daylight {
   // Both gates must be opened: the renderer skips the shadow pass while the scene is unchanged.
   invalidateShadow() { this.renderer.shadowMap.needsUpdate = this.sun.shadow.needsUpdate = true; }
   get direction() { return this.lightDir.clone(); }
+  copyDirection(target: THREE.Vector3) { return target.copy(this.lightDir); }
   contextLost() {
     // Dispose old-context listeners/handles while the context is lost, not after restoration.
     this.pmrem.dispose();
@@ -136,15 +142,19 @@ export class Daylight {
     const key = `${Math.round(f.x / (texel * 8))},${Math.round(f.z / (texel * 8))},${R.toFixed(0)},${L.x.toFixed(4)},${L.y.toFixed(4)}`;
     if (key === this.shadowKey) return;
     this.shadowKey = key;
-    const c = new THREE.Vector3(f.x, 0, f.z);
+    const c = this.shadowCenter.set(f.x, 0, f.z);
     sun.target.position.copy(c);
     sun.position.copy(c).addScaledVector(L, 2500);
     sun.updateMatrixWorld(); sun.target.updateMatrixWorld();
-    const inv = new THREE.Matrix4().lookAt(sun.position, c, new THREE.Vector3(0, 1, 0)).invert(), pts = [];
-    for (const x of [f.x - R, f.x + R]) for (const z of [f.z - R, f.z + R]) for (const y of [0, map.max.y]) pts.push(new THREE.Vector3(x, y, z).sub(sun.position).applyMatrix4(inv));
-    const b = new THREE.Box3().setFromPoints(pts), snap = (v: number) => Math.floor(v / texel) * texel, cam = sun.shadow.camera;
-    cam.left = snap(b.min.x); cam.right = cam.left + Math.ceil((b.max.x - b.min.x) / texel) * texel;
-    cam.bottom = snap(b.min.y); cam.top = cam.bottom + Math.ceil((b.max.y - b.min.y) / texel) * texel;
+    const inv = this.shadowInverse.lookAt(sun.position, c, this.shadowUp).invert();
+    const b = this.shadowBounds.makeEmpty(), corner = this.shadowCorner;
+    for (let ix = -1; ix <= 1; ix += 2) for (let iz = -1; iz <= 1; iz += 2) for (let iy = 0; iy <= 1; iy++) {
+      corner.set(f.x + ix * R, iy * map.max.y, f.z + iz * R).sub(sun.position).applyMatrix4(inv);
+      b.expandByPoint(corner);
+    }
+    const cam = sun.shadow.camera;
+    cam.left = Math.floor(b.min.x / texel) * texel; cam.right = cam.left + Math.ceil((b.max.x - b.min.x) / texel) * texel;
+    cam.bottom = Math.floor(b.min.y / texel) * texel; cam.top = cam.bottom + Math.ceil((b.max.y - b.min.y) / texel) * texel;
     cam.near = Math.max(1, -b.max.z - 700); // towers outside the square still cast into it
     cam.far = -b.min.z + 10;
     cam.updateProjectionMatrix();

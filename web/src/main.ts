@@ -37,13 +37,13 @@ const post = makePost(renderer, scene, camera);
 const uploadScene = new THREE.Scene();
 const uploadMaterial = new THREE.MeshBasicMaterial({colorWrite:false,depthWrite:false});
 function prepareTile(mesh:THREE.Mesh) {
-  const material=mesh.material, range={...mesh.geometry.drawRange}, autoClear=renderer.autoClear, shadows=renderer.shadowMap.enabled;
+  const material=mesh.material, start=mesh.geometry.drawRange.start, count=mesh.geometry.drawRange.count, autoClear=renderer.autoClear, shadows=renderer.shadowMap.enabled;
   mesh.geometry.setDrawRange(0,0);mesh.material=uploadMaterial;mesh.visible=true;mesh.frustumCulled=false;
   renderer.autoClear=false;renderer.shadowMap.enabled=false;uploadScene.add(mesh);
   try { renderer.render(uploadScene,camera); }
   finally {
     uploadScene.remove(mesh);mesh.material=material;mesh.visible=false;mesh.frustumCulled=true;
-    mesh.geometry.setDrawRange(range.start,range.count);renderer.autoClear=autoClear;renderer.shadowMap.enabled=shadows;
+    mesh.geometry.setDrawRange(start,count);renderer.autoClear=autoClear;renderer.shadowMap.enabled=shadows;
   }
 }
 const daylight = new Daylight(renderer, scene);
@@ -58,6 +58,7 @@ const nav = new Nav(camera, controls, renderer.domElement, (v) => flyTo(v));
 const bar = new Bar({ days: DAYS, onDay: (d) => { setDay(d); share(); }, onHour: (h) => { setHour(h); share(); } });
 const stats = new Stats();
 const map = new THREE.Box3();
+const selectionLight = new THREE.Vector3();
 const tiltShift = qs.get('tilt') !== '0' && (innerWidth >= 600 || qs.get('tilt') === '1');
 let labels: Labels | null = null, hud: Hud | null = null;
 let world: TileStreamer['world'] | null = null, streamer: TileStreamer | null = null;
@@ -233,7 +234,7 @@ function keepInside() {
   if (map.isEmpty() || nav.turning) return;
   const t = controls.target, p = camera.position, m = 60, M = roam;
   const cx = THREE.MathUtils.clamp(t.x, map.min.x + m, map.max.x - m), cz = THREE.MathUtils.clamp(t.z, map.min.z + m, map.max.z - m);
-  if (cx !== t.x || cz !== t.z) { const d = new THREE.Vector3(cx - t.x, 0, cz - t.z); t.add(d); p.add(d); }
+  if (cx !== t.x || cz !== t.z) { p.x += cx - t.x; p.z += cz - t.z; t.x = cx; t.z = cz; }
   p.x = THREE.MathUtils.clamp(p.x, map.min.x - M, map.max.x + M);
   p.z = THREE.MathUtils.clamp(p.z, map.min.z - M, map.max.z + M);
 }
@@ -269,7 +270,7 @@ async function boot() {
     ? streamer.levels.find(s=>s<=4) ?? 1 : 1;
   city = await installCity({ streamer, uniforms, meta, scene, focus: () => controls.target, camera, caption: new Caption(bar.el), level,
     onCastersChanged: () => daylight.invalidateShadow(),
-    light: () => daylight.direction, height: () => renderer.domElement.height, minimumLevel });
+    light: () => daylight.copyDirection(selectionLight), height: () => renderer.domElement.height, minimumLevel });
   obstructionLights = new ObstructionLights(scene, meta, level || 1);
   labels = new Labels(meta.labels ?? [], onLabel);
   labels.gate = city.gate;

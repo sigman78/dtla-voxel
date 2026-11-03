@@ -17,43 +17,58 @@ export class World {
   readonly D: number;
   hitAxis = 0;
   private readonly ceil: number;
-  private cache: ColumnData | null = null;
+  private readonly cache: (ColumnData | null | undefined)[];
+  private readonly cacheSize: number;
+  private readonly cacheWidth: number;
+  private columnIndex = 0;
   private cacheVersion = -1;
 
   constructor(private readonly src: ColumnSource, meta: Meta) {
     this.W = meta.W;
     this.D = meta.D;
     this.ceil = meta.H + 1; // nothing solid above the volume's height
+    this.cacheSize = src.N * src.levels[src.levels.length - 1];
+    this.cacheWidth = Math.ceil(meta.W / this.cacheSize);
+    this.cache = new Array(this.cacheWidth * Math.ceil(meta.D / this.cacheSize));
   }
 
   inside(x: number, r: number) { return x >= 0 && r >= 0 && x < this.W && r < this.D; }
 
   private node(x: number, r: number): ColumnData | null {
-    const { src } = this, c = this.cache;
-    // A cached coarse tile may contain a finer resident tile at the next query point.
-    if (c && c.s === src.levels.at(-1) && this.cacheVersion === src.version && x >= c.x0 && r >= c.y0 && x < c.x0 + src.N * c.s && r < c.y0 + src.N * c.s) return c;
+    const { src } = this;
+    if (this.cacheVersion !== src.version) {
+      this.cache.fill(undefined);
+      this.cacheVersion = src.version;
+    }
+    // Cache by the finest tile footprint, so coarse results cannot mask a neighboring
+    // fine tile. Version changes invalidate missing tiles as well as resident data.
+    const index = Math.floor(x / this.cacheSize) + this.cacheWidth * Math.floor(r / this.cacheSize);
+    const cached = this.cache[index];
+    if (cached !== undefined) return cached;
     for (let i = src.levels.length - 1; i >= 0; i--) {
       const s = src.levels[i], L = src.N * s, d = src.columns(`${s}/${Math.floor(x / L)}_${Math.floor(r / L)}`);
-      if (d) { this.cache = d; this.cacheVersion = src.version; return d; }
+      if (d) { this.cache[index] = d; return d; }
     }
+    this.cache[index] = null;
     return null;
   }
 
-  private column(x: number, r: number): [ColumnData, number] | null {
+  private column(x: number, r: number): ColumnData | null {
     if (!this.inside(x, r)) return null;
     const n = this.node(x, r);
-    return n && [n, Math.floor((x - n.x0) / n.s) + 1 + n.S * (Math.floor((r - n.y0) / n.s) + 1)];
+    if (n) this.columnIndex = Math.floor((x - n.x0) / n.s) + 1 + n.S * (Math.floor((r - n.y0) / n.s) + 1);
+    return n;
   }
 
   groundAt(x: number, r: number) {
     const c = this.column(x, r);
-    return c ? c[0].ground[c[1]] : 0;
+    return c ? c.ground[this.columnIndex] : 0;
   }
 
   solid(x: number, r: number, z: number) {
     const c = this.column(x, r);
     if (!c) return z < 0;
-    const [n, i] = c, zc = Math.floor(z / n.s), R = n.runs;
+    const n = c, i = this.columnIndex, zc = Math.floor(z / n.s), R = n.runs;
     if (zc < 0) return true;
     for (let k = n.off[i], e = n.off[i + 1]; k < e; k++) {
       const z0 = R[k * 2];
@@ -66,7 +81,7 @@ export class World {
   top(x: number, r: number) {
     const c = this.column(x, r);
     if (!c) return 0;
-    const [n, i] = c, k = n.off[i + 1] - 1;
+    const n = c, i = this.columnIndex, k = n.off[i + 1] - 1;
     return k < n.off[i] ? n.ground[i] : (n.runs[k * 2] + n.runs[k * 2 + 1]) * n.s;
   }
 

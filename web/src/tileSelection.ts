@@ -16,6 +16,32 @@ export interface Selection {
   split: Set<string>;
   estimatedBytes: number;
 }
+type Candidate = SelectedTile & { order: number };
+const higher = (a: Candidate, b: Candidate) => a.score > b.score || (a.score === b.score && a.order < b.order);
+function pushCandidate(heap: Candidate[], node: Candidate) {
+  let i = heap.length;
+  heap.push(node);
+  while (i > 0) {
+    const parent = (i - 1) >> 1;
+    if (!higher(node, heap[parent])) break;
+    heap[i] = heap[parent]; i = parent;
+  }
+  heap[i] = node;
+}
+function popCandidate(heap: Candidate[]) {
+  const first = heap[0], last = heap.pop()!;
+  if (heap.length) {
+    let i = 0;
+    while (i * 2 + 1 < heap.length) {
+      let child = i * 2 + 1;
+      if (child + 1 < heap.length && higher(heap[child + 1], heap[child])) child++;
+      if (!higher(heap[child], last)) break;
+      heap[i] = heap[child]; i = child;
+    }
+    heap[i] = last;
+  }
+  return first;
+}
 
 // This is a projected voxel-size heuristic, not a certified geometric-error bound.
 export function selectTiles(
@@ -40,16 +66,18 @@ export function selectTiles(
     shadowBox = new THREE.Box3(),
     nearest = new THREE.Vector3();
   const focal = height / (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2));
-  const node = (s: number, tx: number, ty: number): SelectedTile => ({
+  let order = 0;
+  const node = (s: number, tx: number, ty: number): Candidate => ({
     s,
     tx,
     ty,
     key: tileKey(s, tx, ty),
     children: [],
     score: 0,
+    order: order++,
   });
   const rootLevel = dims.get(levels[0])!,
-    roots: SelectedTile[] = [];
+    roots: Candidate[] = [];
   for (let ty = 0; ty < rootLevel.ny; ty++)
     for (let tx = 0; tx < rootLevel.nx; tx++) roots.push(node(levels[0], tx, ty));
   const score = (n: SelectedTile) => {
@@ -78,19 +106,19 @@ export function selectTiles(
     // Shadow footprint can be closer than the caster; keep refinement conservative.
     return (n.s * focal) / Math.max(1, Math.min(distance, shadowDistance));
   };
-  let leaves = [...roots],
-    bytes = leaves.reduce((sum, n) => sum + cost(n.key, n.s), 0);
+  const leaves = [...roots];
+  let bytes = leaves.reduce((sum, n) => sum + cost(n.key, n.s), 0);
   const split = new Set<string>(),
-    candidates = [...roots];
-  for (const n of candidates) n.score = score(n);
+    candidates: Candidate[] = [];
+  for (const n of roots) { n.score = score(n); pushCandidate(candidates, n); }
   while (candidates.length) {
-    candidates.sort((a, b) => b.score - a.score);
-    const n = candidates.shift()!,
+    // The heap preserves insertion order for ties without repeated sort scratch arrays.
+    const n = popCandidate(candidates),
       next = levels[levels.indexOf(n.s) + 1];
     if (!next || n.score <= (previous.has(n.key) ? 1.5 : 2)) continue;
     const d = dims.get(next)!,
       ratio = n.s / next,
-      children: SelectedTile[] = [];
+      children: Candidate[] = [];
     for (let y = 0; y < ratio; y++)
       for (let x = 0; x < ratio; x++) {
         const tx = n.tx * ratio + x,
@@ -103,9 +131,11 @@ export function selectTiles(
     n.children = children;
     split.add(n.key);
     bytes += delta;
-    leaves = leaves.filter((l) => l !== n);
+    const index = leaves.indexOf(n);
+    for (let i = index + 1; i < leaves.length; i++) leaves[i - 1] = leaves[i];
+    leaves.length--;
     leaves.push(...children);
-    candidates.push(...children);
+    for (const child of children) pushCandidate(candidates, child);
   }
   return { roots, leaves, split, estimatedBytes: bytes };
 }

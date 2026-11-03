@@ -49,6 +49,7 @@ export class TileStreamer implements ColumnSource {
   private foliageMaterial: THREE.Material | null = null;
   private debugFoliageMaterial: THREE.Material | null = null;
   private nextId = 1;
+  private readonly trimCandidates: TileNode[] = [];
   private readonly maxWorkers = Math.min(Math.max(1, (navigator.hardwareConcurrency || 4) - 2), 4);
   private readonly pool: Pooled[] = [];
   private replies: MeshReply[] = [];
@@ -277,12 +278,17 @@ export class TileStreamer implements ColumnSource {
   trim(keep: Set<string>, maxBytes = 256 * 1024 * 1024, graceMs = 2000) {
     const now = performance.now();
     let bytes = this.memory.total;
-    for (const n of [...this.nodes.values()].sort((a, b) => a.touched - b.touched)) {
-      if (keep.has(n.key)) continue;
+    const candidates = this.trimCandidates;
+    candidates.length = 0;
+    for (const n of this.nodes.values()) if (!keep.has(n.key) && !n.mesh?.visible) candidates.push(n);
+    candidates.sort((a, b) => a.touched - b.touched);
+    for (const n of candidates) {
       if (n.state === 'ready' && bytes <= maxBytes && now - n.touched < graceMs) continue;
       if (n.mesh?.visible) continue;
       this.nodes.delete(n.key);
-      this.queue = this.queue.filter((j) => j !== n);
+      let write = 0;
+      for (const job of this.queue) if (job !== n) this.queue[write++] = job;
+      this.queue.length = write;
       const p = this.pool.find((p) => p.busy === n.id);
       if (p) {
         p.worker.postMessage({ cancel: n.id });
@@ -299,8 +305,14 @@ export class TileStreamer implements ColumnSource {
       this.revision++;
     }
     // Do not let already-completed obsolete results hold large buffers until a later frame.
-    this.replies = this.replies.filter((m) => this.nodes.get(m.key)?.id === m.id);
-    this.replyBytes = this.replies.reduce((sum, m) => sum + this.bytesOf(m), 0);
+    candidates.length = 0; // Do not retain evicted tile data through scratch storage.
+    let write = 0;
+    this.replyBytes = 0;
+    for (const reply of this.replies) if (this.nodes.get(reply.key)?.id === reply.id) {
+      this.replies[write++] = reply;
+      this.replyBytes += this.bytesOf(reply);
+    }
+    this.replies.length = write;
   }
   get memory() {
     let geometry = 0,

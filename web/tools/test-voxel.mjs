@@ -152,6 +152,18 @@ assert.equal(w.groundAt(1921, 641), world.groundAt(1921, 641));
 mixed.version++;
 mixed.columns = (key) => (key === '8/1_0' ? coarse : undefined);
 assert.equal(w.groundAt(1921, 641), 250);
+// Repeated queries in a coarse or missing finest-cell footprint must not rebuild keys.
+let lookups = 0;
+const lookup = mixed.columns;
+mixed.columns = key => { lookups++; return lookup(key); };
+mixed.version++;
+w.groundAt(1100,100);w.groundAt(4100,3500);
+const warmed = lookups;
+for(let i=0;i<1000;i++){w.groundAt(1100,100);w.solid(4100,3500,30);}
+assert.equal(lookups,warmed);
+mixed.columns = key => key === '1/15_5' ? fine : undefined;
+mixed.version++;
+assert.equal(w.groundAt(1921,641),world.groundAt(1921,641));
 
 const selectorContext = vm.createContext({ THREE });
 vm.runInContext(clean(current('tileSelection.ts')) + '\nglobalThis.select=selectTiles;', selectorContext);

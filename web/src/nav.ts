@@ -20,6 +20,9 @@ export class Nav {
   private readonly keys = new Set<Action>();
   private shift = false;
   private turned = false;
+  private readonly direction = new THREE.Vector3();
+  private readonly orbitOffset = new THREE.Vector3();
+  private readonly orbitSphere = new THREE.Spherical();
 
   constructor(private readonly camera: THREE.PerspectiveCamera, private readonly controls: OrbitControls, private readonly dom: HTMLElement,
     private readonly flyTo: (v: Pick<View, 'pos' | 'target'>) => void) {
@@ -115,7 +118,7 @@ export class Nav {
     return { p: r.ray.origin.clone().addScaledVector(r.ray.direction, t), dir: r.ray.direction };
   }
 
-  private dir() { return new THREE.Vector3().subVectors(this.controls.target, this.camera.position); }
+  private dir() { return this.direction.subVectors(this.controls.target, this.camera.position); }
 
   // the nose moves, the camera stays (A/D, Q/E). Above level too: OrbitControls' tilt limit follows the keys, so it
   // never swings the camera to get the focus back below it; clamp() restores it once you look down again.
@@ -128,7 +131,7 @@ export class Nav {
   }
 
   private orbitBy(dyaw: number) {
-    const t = this.controls.target, off = this.camera.position.clone().sub(t), s = new THREE.Spherical().setFromVector3(off);
+    const t = this.controls.target, off = this.orbitOffset.subVectors(this.camera.position, t), s = this.orbitSphere.setFromVector3(off);
     s.theta += dyaw;
     s.phi = clamp(s.phi, 0.05, this.controls.maxPolarAngle);
     this.camera.position.copy(t).add(off.setFromSpherical(s));
@@ -138,8 +141,10 @@ export class Nav {
   private retarget() {
     const w = this.world;
     if (!w) return;
-    const c = this.camera.position, d = this.dir().normalize(), t = w.raycast(c, d, 3000);
-    let len = isFinite(t) ? Math.max(5, t) : Math.min(this.dir().length(), 800);
+    const c = this.camera.position, d = this.dir(), length = d.length();
+    d.normalize();
+    const t = w.raycast(c, d, 3000);
+    let len = isFinite(t) ? Math.max(5, t) : Math.min(length, 800);
     const onMap = (L: number) => { const x = c.x + d.x * L, z = c.z + d.z * L; return w.inside(x - 61, z - 61) && w.inside(x + 61, z + 61); };
     while (len > 5 && !onMap(len)) len *= 0.85;
     this.controls.target.copy(c).addScaledVector(d, len);
@@ -152,7 +157,8 @@ export class Nav {
     if (tr || tp) { this.turnInPlace(-tr * (this.shift ? 2.4 : 1.2) * dt, tp * 0.8 * dt); this.turned = true; }
     const go = this.axis('f', 'b'), w = this.world;
     if (!go || !w) return;
-    const cam = this.camera.position, len0 = this.dir().length(), look = this.dir().normalize();
+    const cam = this.camera.position, look = this.dir(), len0 = look.length();
+    look.normalize();
     const h = Math.max(3, cam.y - w.groundAt(cam.x, cam.z));
     let step = go * (this.shift ? 3 : 1) * Math.min(400, 8 + h * 0.9) * dt;
     const ahead = w.raycast(cam, look, 4000);
