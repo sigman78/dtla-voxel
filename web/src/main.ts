@@ -225,7 +225,8 @@ async function boot() {
   setHour(qs.get('hour') ? +qs.get('hour')! : timesOf(daylight.day)['golden hour']);
 
   const level = pickLevel(meta);
-  city = await installCity({ streamer, uniforms, meta, scene, focus: () => controls.target, camera, caption: new Caption(), level });
+  city = await installCity({ streamer, uniforms, meta, scene, focus: () => controls.target, camera, caption: new Caption(), level,
+    onCastersChanged: () => daylight.invalidateShadow() });
   obstructionLights = new ObstructionLights(scene, meta, level);
   labels = new Labels(meta.labels ?? [], onLabel);
   labels.gate = city.gate;

@@ -28,18 +28,25 @@ export class Daylight {
   private env: THREE.WebGLRenderTarget | null = null;
   private envKey = '';
   private shadowKey = '';
+  private readonly shadowView = new THREE.Matrix4();
+  private readonly shadowProjection = new THREE.Matrix4();
   private northTheta = 0;
   private sunY = 1;
 
-  constructor(renderer: THREE.WebGLRenderer, private readonly scene: THREE.Scene) {
+  constructor(private readonly renderer: THREE.WebGLRenderer, private readonly scene: THREE.Scene) {
     const sun = this.sun, size = Math.min(8192, renderer.capabilities.maxTextureSize);
     sun.castShadow = true;
+    renderer.shadowMap.autoUpdate = false;
+    this.invalidateShadow();
     sun.shadow.mapSize.set(size, size);
     sun.shadow.bias = -0.0004;
     sun.shadow.radius = 3;
     scene.add(sun, sun.target, this.hemi, this.sky.mesh);
     this.pmrem = new THREE.PMREMGenerator(renderer);
   }
+
+  // Both gates must be opened: the renderer skips the shadow pass while the scene is unchanged.
+  invalidateShadow() { this.renderer.shadowMap.needsUpdate = this.sun.shadow.needsUpdate = true; }
 
   // the grid is turned (meta.theta_deg): compass bearings turn by theta in the scene
   set theta(t: number) { this.northTheta = t; this.apply(this.hour); }
@@ -101,6 +108,13 @@ export class Daylight {
 
   fitShadow(focus: THREE.Vector3, camera: THREE.Camera, viewDist: number, map: THREE.Box3) {
     if (map.isEmpty()) return;
+    // Refresh during navigation even when the snapped light fit stays the same.
+    camera.updateMatrixWorld();
+    if (!this.shadowView.equals(camera.matrixWorld) || !this.shadowProjection.equals(camera.projectionMatrix)) {
+      this.shadowView.copy(camera.matrixWorld);
+      this.shadowProjection.copy(camera.projectionMatrix);
+      this.invalidateShadow();
+    }
     const sun = this.sun, f = focus;
     const dist = viewDist + Math.max(0, camera.position.y - (map.min.y + 80));
     const R = clamp(dist * 1.15, 300, Math.max(map.max.x, map.max.z) * 0.75), texel = (2 * R) / sun.shadow.mapSize.x;
@@ -125,6 +139,6 @@ export class Daylight {
     const slope = Math.sqrt(clamp(1 / Math.max(this.sunY, 0.1), 1, 6));
     sun.shadow.normalBias = clamp(texel * 1.2 * slope, 0.04, 2.5);
     sun.shadow.bias = -clamp(texel * 1.5 * slope, 0.03, 2) / (cam.far - cam.near);
-    sun.shadow.needsUpdate = true;
+    this.invalidateShadow();
   }
 }

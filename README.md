@@ -30,6 +30,9 @@ cd web && npm install && npm run dev     # http://localhost:5173
 URL parameters: `view=` (default, bunkerhill, civic, littletokyo, viaduct, lalive, historic), `hour=19.5`,
 `date=MM-DD`, `tilt=0`, `ui=0`, `lod=1|2|4|8`, `cam=x,y,z,tx,ty,tz`.
 
+[Rendering profile](docs/rendering-profile.html): measured shadows, postprocessing, tile/worker memory and stationary labels,
+including the shadow-cache implementation, correctness checks, raw results and instructions for the local profiling harness.
+
 ## Data and pipeline (scripts/)
 
 | Source | Used for |
