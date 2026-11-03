@@ -1,0 +1,3485 @@
+{
+  "date": "2026-11-03T09:35:40.171Z",
+  "browser": "156.0.8078.4",
+  "viewport": {
+    "width": 1600,
+    "height": 1000
+  },
+  "revision": "c043114ea9a266e383f61f7ae45611ca365e3919",
+  "cpu": "Intel(R) Core(TM) i7-9700K CPU @ 3.60GHz",
+  "worktreeDirty": true,
+  "geometry": "expanded",
+  "lod": 1,
+  "hour": 13,
+  "sampleMs": 6000,
+  "rounds": 2,
+  "runs": [
+    {
+      "view": "default",
+      "loadMs": 30403,
+      "loading": [
+        {
+          "at": 1370.6999998092651,
+          "ready": false,
+          "complete": false,
+          "workers": 0,
+          "queued": 0,
+          "inflight": 0,
+          "readyTiles": 0,
+          "heap": {
+            "used": 25281147,
+            "total": 28817559
+          }
+        },
+        {
+          "at": 2230.7999997138977,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 953,
+          "inflight": 4,
+          "readyTiles": 0,
+          "heap": {
+            "used": 98852969,
+            "total": 114976665
+          }
+        },
+        {
+          "at": 3377.2999997138977,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 945,
+          "inflight": 4,
+          "readyTiles": 12,
+          "heap": {
+            "used": 110744195,
+            "total": 125461683
+          }
+        },
+        {
+          "at": 3890.5,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 922,
+          "inflight": 4,
+          "readyTiles": 60,
+          "heap": {
+            "used": 121736161,
+            "total": 136726621
+          },
+          "workerHeaps": [
+            {
+              "targetId": "2C4A0DA7CBDCDF4B9C596D09CD8A6B16",
+              "id": 1,
+              "result": {
+                "usedSize": 1630612,
+                "totalSize": 4194304,
+                "embedderHeapUsedSize": 847760,
+                "backingStorageSize": 26136935
+              }
+            },
+            {
+              "targetId": "50F2B2166112C69EFA61A73822B2C9D4",
+              "id": 2,
+              "result": {
+                "usedSize": 1725072,
+                "totalSize": 4718592,
+                "embedderHeapUsedSize": 848616,
+                "backingStorageSize": 33233419
+              }
+            },
+            {
+              "targetId": "98E7319045A1A283897063298C0E236B",
+              "id": 3,
+              "result": {
+                "usedSize": 1972864,
+                "totalSize": 4456448,
+                "embedderHeapUsedSize": 848080,
+                "backingStorageSize": 32067209
+              }
+            },
+            {
+              "targetId": "7016F142C9A737DDE7EE7D4A6AE60E07",
+              "id": 4,
+              "result": {
+                "usedSize": 1429580,
+                "totalSize": 4718592,
+                "embedderHeapUsedSize": 846536,
+                "backingStorageSize": 26221141
+              }
+            }
+          ]
+        },
+        {
+          "at": 4405.799999713898,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 900,
+          "inflight": 4,
+          "readyTiles": 103,
+          "heap": {
+            "used": 135476218,
+            "total": 155741574
+          }
+        },
+        {
+          "at": 4939.799999713898,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 883,
+          "inflight": 4,
+          "readyTiles": 144,
+          "heap": {
+            "used": 158685901,
+            "total": 170641081
+          }
+        },
+        {
+          "at": 5462.89999961853,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 865,
+          "inflight": 4,
+          "readyTiles": 177,
+          "heap": {
+            "used": 168248361,
+            "total": 180026669
+          }
+        },
+        {
+          "at": 5970.5,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 857,
+          "inflight": 4,
+          "readyTiles": 195,
+          "heap": {
+            "used": 172831614,
+            "total": 192683622
+          },
+          "workerHeaps": [
+            {
+              "targetId": "2C4A0DA7CBDCDF4B9C596D09CD8A6B16",
+              "id": 5,
+              "result": {
+                "usedSize": 621536,
+                "totalSize": 3932160,
+                "embedderHeapUsedSize": 554176,
+                "backingStorageSize": 11203827
+              }
+            },
+            {
+              "targetId": "50F2B2166112C69EFA61A73822B2C9D4",
+              "id": 6,
+              "result": {
+                "usedSize": 1998764,
+                "totalSize": 6553600,
+                "embedderHeapUsedSize": 500128,
+                "backingStorageSize": 7675550
+              }
+            },
+            {
+              "targetId": "98E7319045A1A283897063298C0E236B",
+              "id": 7,
+              "result": {
+                "usedSize": 1063980,
+                "totalSize": 3407872,
+                "embedderHeapUsedSize": 581352,
+                "backingStorageSize": 3085456
+              }
+            },
+            {
+              "targetId": "7016F142C9A737DDE7EE7D4A6AE60E07",
+              "id": 8,
+              "result": {
+                "usedSize": 1013032,
+                "totalSize": 4194304,
+                "embedderHeapUsedSize": 504672,
+                "backingStorageSize": 9277200
+              }
+            }
+          ]
+        },
+        {
+          "at": 6571.099999904633,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 837,
+          "inflight": 4,
+          "readyTiles": 232,
+          "heap": {
+            "used": 189204361,
+            "total": 225311753
+          }
+        },
+        {
+          "at": 7084.599999904633,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 823,
+          "inflight": 4,
+          "readyTiles": 266,
+          "heap": {
+            "used": 219695096,
+            "total": 245298216
+          }
+        },
+        {
+          "at": 7597.89999961853,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 808,
+          "inflight": 4,
+          "readyTiles": 293,
+          "heap": {
+            "used": 228987030,
+            "total": 253173442
+          }
+        },
+        {
+          "at": 8109.599999904633,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 792,
+          "inflight": 4,
+          "readyTiles": 324,
+          "heap": {
+            "used": 244679665,
+            "total": 265318901
+          },
+          "workerHeaps": [
+            {
+              "targetId": "2C4A0DA7CBDCDF4B9C596D09CD8A6B16",
+              "id": 9,
+              "result": {
+                "usedSize": 2463484,
+                "totalSize": 5505024,
+                "embedderHeapUsedSize": 343056,
+                "backingStorageSize": 4893095
+              }
+            },
+            {
+              "targetId": "50F2B2166112C69EFA61A73822B2C9D4",
+              "id": 10,
+              "result": {
+                "usedSize": 1735680,
+                "totalSize": 9699328,
+                "embedderHeapUsedSize": 655048,
+                "backingStorageSize": 8277590
+              }
+            },
+            {
+              "targetId": "98E7319045A1A283897063298C0E236B",
+              "id": 11,
+              "result": {
+                "usedSize": 2173152,
+                "totalSize": 5767168,
+                "embedderHeapUsedSize": 674536,
+                "backingStorageSize": 8234885
+              }
+            },
+            {
+              "targetId": "7016F142C9A737DDE7EE7D4A6AE60E07",
+              "id": 12,
+              "result": {
+                "usedSize": 1933804,
+                "totalSize": 6029312,
+                "embedderHeapUsedSize": 651232,
+                "backingStorageSize": 10137355
+              }
+            }
+          ]
+        },
+        {
+          "at": 8629.5,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 774,
+          "inflight": 4,
+          "readyTiles": 361,
+          "heap": {
+            "used": 253547337,
+            "total": 285401369
+          }
+        },
+        {
+          "at": 9148.699999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 762,
+          "inflight": 4,
+          "readyTiles": 384,
+          "heap": {
+            "used": 270270477,
+            "total": 294052737
+          }
+        },
+        {
+          "at": 9665.39999961853,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 746,
+          "inflight": 4,
+          "readyTiles": 415,
+          "heap": {
+            "used": 286550945,
+            "total": 313552961
+          }
+        },
+        {
+          "at": 10187.799999713898,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 728,
+          "inflight": 4,
+          "readyTiles": 453,
+          "heap": {
+            "used": 289355888,
+            "total": 326929064
+          },
+          "workerHeaps": [
+            {
+              "targetId": "2C4A0DA7CBDCDF4B9C596D09CD8A6B16",
+              "id": 13,
+              "result": {
+                "usedSize": 1247504,
+                "totalSize": 5505024,
+                "embedderHeapUsedSize": 617992,
+                "backingStorageSize": 10490867
+              }
+            },
+            {
+              "targetId": "50F2B2166112C69EFA61A73822B2C9D4",
+              "id": 14,
+              "result": {
+                "usedSize": 4199760,
+                "totalSize": 10485760,
+                "embedderHeapUsedSize": 446200,
+                "backingStorageSize": 22064743
+              }
+            },
+            {
+              "targetId": "98E7319045A1A283897063298C0E236B",
+              "id": 15,
+              "result": {
+                "usedSize": 2719996,
+                "totalSize": 9699328,
+                "embedderHeapUsedSize": 710728,
+                "backingStorageSize": 9550193
+              }
+            },
+            {
+              "targetId": "7016F142C9A737DDE7EE7D4A6AE60E07",
+              "id": 16,
+              "result": {
+                "usedSize": 2341036,
+                "totalSize": 5767168,
+                "embedderHeapUsedSize": 621536,
+                "backingStorageSize": 8286346
+              }
+            }
+          ]
+        },
+        {
+          "at": 10714.699999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 718,
+          "inflight": 4,
+          "readyTiles": 476,
+          "heap": {
+            "used": 313406565,
+            "total": 344967833
+          }
+        },
+        {
+          "at": 11229.39999961853,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 707,
+          "inflight": 4,
+          "readyTiles": 499,
+          "heap": {
+            "used": 325652688,
+            "total": 351479056
+          }
+        },
+        {
+          "at": 11749.099999904633,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 688,
+          "inflight": 4,
+          "readyTiles": 536,
+          "heap": {
+            "used": 345686475,
+            "total": 372162003
+          }
+        },
+        {
+          "at": 12269.5,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 669,
+          "inflight": 4,
+          "readyTiles": 570,
+          "heap": {
+            "used": 363769243,
+            "total": 393632671
+          },
+          "workerHeaps": [
+            {
+              "targetId": "2C4A0DA7CBDCDF4B9C596D09CD8A6B16",
+              "id": 17,
+              "result": {
+                "usedSize": 1067268,
+                "totalSize": 5505024,
+                "embedderHeapUsedSize": 304144,
+                "backingStorageSize": 20755668
+              }
+            },
+            {
+              "targetId": "50F2B2166112C69EFA61A73822B2C9D4",
+              "id": 18,
+              "result": {
+                "usedSize": 577080,
+                "totalSize": 9961472,
+                "embedderHeapUsedSize": 611424,
+                "backingStorageSize": 6685831
+              }
+            },
+            {
+              "targetId": "98E7319045A1A283897063298C0E236B",
+              "id": 19,
+              "result": {
+                "usedSize": 1025316,
+                "totalSize": 9961472,
+                "embedderHeapUsedSize": 573968,
+                "backingStorageSize": 16813763
+              }
+            },
+            {
+              "targetId": "7016F142C9A737DDE7EE7D4A6AE60E07",
+              "id": 20,
+              "result": {
+                "usedSize": 2113396,
+                "totalSize": 6029312,
+                "embedderHeapUsedSize": 516688,
+                "backingStorageSize": 13452561
+              }
+            }
+          ]
+        },
+        {
+          "at": 12794,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 658,
+          "inflight": 4,
+          "readyTiles": 595,
+          "heap": {
+            "used": 364348269,
+            "total": 397047037
+          }
+        },
+        {
+          "at": 13318.599999904633,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 640,
+          "inflight": 4,
+          "readyTiles": 628,
+          "heap": {
+            "used": 393345863,
+            "total": 417146159
+          }
+        },
+        {
+          "at": 13836.299999713898,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 622,
+          "inflight": 4,
+          "readyTiles": 666,
+          "heap": {
+            "used": 399712963,
+            "total": 433078495
+          }
+        },
+        {
+          "at": 14357.5,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 604,
+          "inflight": 4,
+          "readyTiles": 702,
+          "heap": {
+            "used": 432167209,
+            "total": 453497029
+          },
+          "workerHeaps": [
+            {
+              "targetId": "2C4A0DA7CBDCDF4B9C596D09CD8A6B16",
+              "id": 21,
+              "result": {
+                "usedSize": 803604,
+                "totalSize": 10223616,
+                "embedderHeapUsedSize": 584384,
+                "backingStorageSize": 9844061
+              }
+            },
+            {
+              "targetId": "50F2B2166112C69EFA61A73822B2C9D4",
+              "id": 22,
+              "result": {
+                "usedSize": 1928400,
+                "totalSize": 9699328,
+                "embedderHeapUsedSize": 672064,
+                "backingStorageSize": 4508753
+              }
+            },
+            {
+              "targetId": "98E7319045A1A283897063298C0E236B",
+              "id": 23,
+              "result": {
+                "usedSize": 2821864,
+                "totalSize": 10485760,
+                "embedderHeapUsedSize": 756728,
+                "backingStorageSize": 18947732
+              }
+            },
+            {
+              "targetId": "7016F142C9A737DDE7EE7D4A6AE60E07",
+              "id": 24,
+              "result": {
+                "usedSize": 3912556,
+                "totalSize": 9961472,
+                "embedderHeapUsedSize": 682640,
+                "backingStorageSize": 11338638
+              }
+            }
+          ]
+        },
+        {
+          "at": 14885.799999713898,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 589,
+          "inflight": 4,
+          "readyTiles": 734,
+          "heap": {
+            "used": 435597049,
+            "total": 464963281
+          }
+        },
+        {
+          "at": 15390.599999904633,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 565,
+          "inflight": 4,
+          "readyTiles": 775,
+          "heap": {
+            "used": 455811526,
+            "total": 486734910
+          }
+        },
+        {
+          "at": 15908.199999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 551,
+          "inflight": 4,
+          "readyTiles": 802,
+          "heap": {
+            "used": 475755722,
+            "total": 501980858
+          }
+        },
+        {
+          "at": 16437,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 534,
+          "inflight": 4,
+          "readyTiles": 834,
+          "heap": {
+            "used": 479237221,
+            "total": 508089145
+          },
+          "workerHeaps": [
+            {
+              "targetId": "2C4A0DA7CBDCDF4B9C596D09CD8A6B16",
+              "id": 25,
+              "result": {
+                "usedSize": 3374340,
+                "totalSize": 10223616,
+                "embedderHeapUsedSize": 709152,
+                "backingStorageSize": 10065987
+              }
+            },
+            {
+              "targetId": "50F2B2166112C69EFA61A73822B2C9D4",
+              "id": 26,
+              "result": {
+                "usedSize": 3864448,
+                "totalSize": 10223616,
+                "embedderHeapUsedSize": 672024,
+                "backingStorageSize": 17805287
+              }
+            },
+            {
+              "targetId": "98E7319045A1A283897063298C0E236B",
+              "id": 27,
+              "result": {
+                "usedSize": 1066712,
+                "totalSize": 9699328,
+                "embedderHeapUsedSize": 650488,
+                "backingStorageSize": 5589388
+              }
+            },
+            {
+              "targetId": "7016F142C9A737DDE7EE7D4A6AE60E07",
+              "id": 28,
+              "result": {
+                "usedSize": 502408,
+                "totalSize": 9961472,
+                "embedderHeapUsedSize": 116864,
+                "backingStorageSize": 20597052
+              }
+            }
+          ]
+        },
+        {
+          "at": 16955,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 523,
+          "inflight": 4,
+          "readyTiles": 861,
+          "heap": {
+            "used": 503880393,
+            "total": 527311713
+          }
+        },
+        {
+          "at": 17464.599999904633,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 508,
+          "inflight": 4,
+          "readyTiles": 892,
+          "heap": {
+            "used": 511203878,
+            "total": 547142870
+          }
+        },
+        {
+          "at": 17980,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 488,
+          "inflight": 4,
+          "readyTiles": 928,
+          "heap": {
+            "used": 531375523,
+            "total": 553183771
+          }
+        },
+        {
+          "at": 18493.299999713898,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 473,
+          "inflight": 4,
+          "readyTiles": 963,
+          "heap": {
+            "used": 552657344,
+            "total": 575503536
+          },
+          "workerHeaps": [
+            {
+              "targetId": "2C4A0DA7CBDCDF4B9C596D09CD8A6B16",
+              "id": 29,
+              "result": {
+                "usedSize": 1939596,
+                "totalSize": 9961472,
+                "embedderHeapUsedSize": 667432,
+                "backingStorageSize": 5171973
+              }
+            },
+            {
+              "targetId": "50F2B2166112C69EFA61A73822B2C9D4",
+              "id": 30,
+              "result": {
+                "usedSize": 657392,
+                "totalSize": 9699328,
+                "embedderHeapUsedSize": 740256,
+                "backingStorageSize": 7413573
+              }
+            },
+            {
+              "targetId": "98E7319045A1A283897063298C0E236B",
+              "id": 31,
+              "result": {
+                "usedSize": 3098140,
+                "totalSize": 9699328,
+                "embedderHeapUsedSize": 772200,
+                "backingStorageSize": 5579815
+              }
+            },
+            {
+              "targetId": "7016F142C9A737DDE7EE7D4A6AE60E07",
+              "id": 32,
+              "result": {
+                "usedSize": 1223788,
+                "totalSize": 9961472,
+                "embedderHeapUsedSize": 418168,
+                "backingStorageSize": 11590747
+              }
+            }
+          ]
+        },
+        {
+          "at": 19013.5,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 451,
+          "inflight": 4,
+          "readyTiles": 1003,
+          "heap": {
+            "used": 561330223,
+            "total": 591828431
+          }
+        },
+        {
+          "at": 19529.89999961853,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 431,
+          "inflight": 4,
+          "readyTiles": 1044,
+          "heap": {
+            "used": 582740687,
+            "total": 617878843
+          }
+        },
+        {
+          "at": 20037.199999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 411,
+          "inflight": 4,
+          "readyTiles": 1084,
+          "heap": {
+            "used": 616423138,
+            "total": 639723626
+          }
+        },
+        {
+          "at": 20551.799999713898,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 391,
+          "inflight": 4,
+          "readyTiles": 1126,
+          "heap": {
+            "used": 627178434,
+            "total": 654565342
+          },
+          "workerHeaps": [
+            {
+              "targetId": "2C4A0DA7CBDCDF4B9C596D09CD8A6B16",
+              "id": 33,
+              "result": {
+                "usedSize": 3311080,
+                "totalSize": 10223616,
+                "embedderHeapUsedSize": 786952,
+                "backingStorageSize": 9073734
+              }
+            },
+            {
+              "targetId": "50F2B2166112C69EFA61A73822B2C9D4",
+              "id": 34,
+              "result": {
+                "usedSize": 2331976,
+                "totalSize": 9961472,
+                "embedderHeapUsedSize": 722648,
+                "backingStorageSize": 6277503
+              }
+            },
+            {
+              "targetId": "98E7319045A1A283897063298C0E236B",
+              "id": 35,
+              "result": {
+                "usedSize": 3856336,
+                "totalSize": 10223616,
+                "embedderHeapUsedSize": 678040,
+                "backingStorageSize": 4502836
+              }
+            },
+            {
+              "targetId": "7016F142C9A737DDE7EE7D4A6AE60E07",
+              "id": 36,
+              "result": {
+                "usedSize": 3108188,
+                "totalSize": 9699328,
+                "embedderHeapUsedSize": 668448,
+                "backingStorageSize": 10413504
+              }
+            }
+          ]
+        },
+        {
+          "at": 21073,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 371,
+          "inflight": 4,
+          "readyTiles": 1165,
+          "heap": {
+            "used": 648704300,
+            "total": 673339224
+          }
+        },
+        {
+          "at": 21599.299999713898,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 350,
+          "inflight": 4,
+          "readyTiles": 1208,
+          "heap": {
+            "used": 681866609,
+            "total": 726842117
+          }
+        },
+        {
+          "at": 22105.199999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 328,
+          "inflight": 4,
+          "readyTiles": 1249,
+          "heap": {
+            "used": 708912242,
+            "total": 751302382
+          }
+        },
+        {
+          "at": 22619.099999904633,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 304,
+          "inflight": 4,
+          "readyTiles": 1297,
+          "heap": {
+            "used": 710812646,
+            "total": 762303718
+          },
+          "workerHeaps": [
+            {
+              "targetId": "2C4A0DA7CBDCDF4B9C596D09CD8A6B16",
+              "id": 37,
+              "result": {
+                "usedSize": 2272352,
+                "totalSize": 9699328,
+                "embedderHeapUsedSize": 703256,
+                "backingStorageSize": 6065725
+              }
+            },
+            {
+              "targetId": "50F2B2166112C69EFA61A73822B2C9D4",
+              "id": 38,
+              "result": {
+                "usedSize": 6351616,
+                "totalSize": 11796480,
+                "embedderHeapUsedSize": 618888,
+                "backingStorageSize": 12597604
+              }
+            },
+            {
+              "targetId": "98E7319045A1A283897063298C0E236B",
+              "id": 39,
+              "result": {
+                "usedSize": 2675424,
+                "totalSize": 9961472,
+                "embedderHeapUsedSize": 743928,
+                "backingStorageSize": 9113711
+              }
+            },
+            {
+              "targetId": "7016F142C9A737DDE7EE7D4A6AE60E07",
+              "id": 40,
+              "result": {
+                "usedSize": 940980,
+                "totalSize": 9437184,
+                "embedderHeapUsedSize": 646752,
+                "backingStorageSize": 3561209
+              }
+            }
+          ]
+        },
+        {
+          "at": 23148.699999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 281,
+          "inflight": 4,
+          "readyTiles": 1347,
+          "heap": {
+            "used": 725974900,
+            "total": 786858772
+          }
+        },
+        {
+          "at": 23661.89999961853,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 254,
+          "inflight": 4,
+          "readyTiles": 1397,
+          "heap": {
+            "used": 768990796,
+            "total": 818993704
+          }
+        },
+        {
+          "at": 24163.599999904633,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 228,
+          "inflight": 4,
+          "readyTiles": 1446,
+          "heap": {
+            "used": 783414265,
+            "total": 829288553
+          }
+        },
+        {
+          "at": 24681.199999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 206,
+          "inflight": 4,
+          "readyTiles": 1493,
+          "heap": {
+            "used": 805161662,
+            "total": 854250934
+          },
+          "workerHeaps": [
+            {
+              "targetId": "2C4A0DA7CBDCDF4B9C596D09CD8A6B16",
+              "id": 41,
+              "result": {
+                "usedSize": 670304,
+                "totalSize": 9699328,
+                "embedderHeapUsedSize": 696256,
+                "backingStorageSize": 2964210
+              }
+            },
+            {
+              "targetId": "50F2B2166112C69EFA61A73822B2C9D4",
+              "id": 42,
+              "result": {
+                "usedSize": 2814236,
+                "totalSize": 18350080,
+                "embedderHeapUsedSize": 627208,
+                "backingStorageSize": 11580755
+              }
+            },
+            {
+              "targetId": "98E7319045A1A283897063298C0E236B",
+              "id": 43,
+              "result": {
+                "usedSize": 3417244,
+                "totalSize": 9699328,
+                "embedderHeapUsedSize": 756968,
+                "backingStorageSize": 9338391
+              }
+            },
+            {
+              "targetId": "7016F142C9A737DDE7EE7D4A6AE60E07",
+              "id": 44,
+              "result": {
+                "usedSize": 4154872,
+                "totalSize": 17039360,
+                "embedderHeapUsedSize": 839104,
+                "backingStorageSize": 7519468
+              }
+            }
+          ]
+        },
+        {
+          "at": 25195.799999713898,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 180,
+          "inflight": 4,
+          "readyTiles": 1549,
+          "heap": {
+            "used": 819448549,
+            "total": 888071537
+          }
+        },
+        {
+          "at": 25729.39999961853,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 160,
+          "inflight": 4,
+          "readyTiles": 1592,
+          "heap": {
+            "used": 826641151,
+            "total": 897131771
+          }
+        },
+        {
+          "at": 26240.39999961853,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 131,
+          "inflight": 4,
+          "readyTiles": 1641,
+          "heap": {
+            "used": 858721995,
+            "total": 920964207
+          }
+        },
+        {
+          "at": 26741.299999713898,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 113,
+          "inflight": 4,
+          "readyTiles": 1682,
+          "heap": {
+            "used": 878982053,
+            "total": 948836057
+          },
+          "workerHeaps": [
+            {
+              "targetId": "2C4A0DA7CBDCDF4B9C596D09CD8A6B16",
+              "id": 45,
+              "result": {
+                "usedSize": 524528,
+                "totalSize": 10223616,
+                "embedderHeapUsedSize": 795960,
+                "backingStorageSize": 1903203
+              }
+            },
+            {
+              "targetId": "50F2B2166112C69EFA61A73822B2C9D4",
+              "id": 46,
+              "result": {
+                "usedSize": 8531956,
+                "totalSize": 18350080,
+                "embedderHeapUsedSize": 646680,
+                "backingStorageSize": 14634873
+              }
+            },
+            {
+              "targetId": "98E7319045A1A283897063298C0E236B",
+              "id": 47,
+              "result": {
+                "usedSize": 525116,
+                "totalSize": 9961472,
+                "embedderHeapUsedSize": 689784,
+                "backingStorageSize": 3035135
+              }
+            },
+            {
+              "targetId": "7016F142C9A737DDE7EE7D4A6AE60E07",
+              "id": 48,
+              "result": {
+                "usedSize": 4017796,
+                "totalSize": 17039360,
+                "embedderHeapUsedSize": 876128,
+                "backingStorageSize": 10005220
+              }
+            }
+          ]
+        },
+        {
+          "at": 27259,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 87,
+          "inflight": 4,
+          "readyTiles": 1729,
+          "heap": {
+            "used": 896282646,
+            "total": 954346978
+          }
+        },
+        {
+          "at": 27760.5,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 68,
+          "inflight": 4,
+          "readyTiles": 1770,
+          "heap": {
+            "used": 910730818,
+            "total": 981547662
+          }
+        },
+        {
+          "at": 28262.699999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 49,
+          "inflight": 4,
+          "readyTiles": 1807,
+          "heap": {
+            "used": 950096545,
+            "total": 1004963053
+          }
+        },
+        {
+          "at": 28820.799999713898,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 38,
+          "inflight": 4,
+          "readyTiles": 1835,
+          "heap": {
+            "used": 962240239,
+            "total": 1021738447
+          },
+          "workerHeaps": [
+            {
+              "targetId": "2C4A0DA7CBDCDF4B9C596D09CD8A6B16",
+              "id": 49,
+              "result": {
+                "usedSize": 4509968,
+                "totalSize": 9699328,
+                "embedderHeapUsedSize": 663648,
+                "backingStorageSize": 10035470
+              }
+            },
+            {
+              "targetId": "50F2B2166112C69EFA61A73822B2C9D4",
+              "id": 50,
+              "result": {
+                "usedSize": 622288,
+                "totalSize": 18087936,
+                "embedderHeapUsedSize": 874512,
+                "backingStorageSize": 12746346
+              }
+            },
+            {
+              "targetId": "98E7319045A1A283897063298C0E236B",
+              "id": 51,
+              "result": {
+                "usedSize": 524516,
+                "totalSize": 9961472,
+                "embedderHeapUsedSize": 808632,
+                "backingStorageSize": 380291
+              }
+            },
+            {
+              "targetId": "7016F142C9A737DDE7EE7D4A6AE60E07",
+              "id": 52,
+              "result": {
+                "usedSize": 1359404,
+                "totalSize": 18087936,
+                "embedderHeapUsedSize": 710256,
+                "backingStorageSize": 6377901
+              }
+            }
+          ]
+        },
+        {
+          "at": 29355.699999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 22,
+          "inflight": 4,
+          "readyTiles": 1862,
+          "heap": {
+            "used": 957128334,
+            "total": 1018235482
+          }
+        },
+        {
+          "at": 29867.299999713898,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 5,
+          "inflight": 4,
+          "readyTiles": 1892,
+          "heap": {
+            "used": 964768719,
+            "total": 1036281315
+          }
+        },
+        {
+          "at": 30383.39999961853,
+          "ready": true,
+          "complete": true,
+          "workers": 4,
+          "queued": 0,
+          "inflight": 0,
+          "readyTiles": 1914,
+          "heap": {
+            "used": 982287845,
+            "total": 1049453781
+          }
+        }
+      ],
+      "errors": [],
+      "measurements": [
+        {
+          "variant": "baseline",
+          "round": 0,
+          "stats": {
+            "streamUpdateCpuMs": {
+              "n": 313,
+              "mean": 0.019808303053005814,
+              "p50": 0,
+              "p95": 0.10000038146972656
+            },
+            "shadowFitCpuMs": {
+              "n": 313,
+              "mean": 0.009265176023538121,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "shadowSubmitCpuMs": {
+              "n": 10329,
+              "mean": 0.0002323555131539773,
+              "p50": 0,
+              "p95": 0
+            },
+            "shadowDrawCalls": {
+              "n": 10329,
+              "mean": 0,
+              "p50": 0,
+              "p95": 0
+            },
+            "pass0CpuMs": {
+              "n": 313,
+              "mean": 7.329712470118611,
+              "p50": 7.199999809265137,
+              "p95": 8.199999809265137
+            },
+            "pass1CpuMs": {
+              "n": 313,
+              "mean": 1.1872204530734223,
+              "p50": 1.1999998092651367,
+              "p95": 1.4000000953674316
+            },
+            "pass2CpuMs": {
+              "n": 313,
+              "mean": 0.10159743708162643,
+              "p50": 0.09999990463256836,
+              "p95": 0.20000028610229492
+            },
+            "pass3CpuMs": {
+              "n": 313,
+              "mean": 0.008945684463452227,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "pass4CpuMs": {
+              "n": 313,
+              "mean": 0.03130990628617259,
+              "p50": 0,
+              "p95": 0.10000038146972656
+            },
+            "composerCpuMs": {
+              "n": 313,
+              "mean": 8.706709264566342,
+              "p50": 8.5,
+              "p95": 9.700000286102295
+            },
+            "drawCalls": {
+              "n": 313,
+              "mean": 1892,
+              "p50": 1892,
+              "p95": 1892
+            },
+            "triangles": {
+              "n": 313,
+              "mean": 26734386,
+              "p50": 26734386,
+              "p95": 26734386
+            },
+            "labelsCpuMs": {
+              "n": 313,
+              "mean": 0.4616613433764765,
+              "p50": 0.5,
+              "p95": 0.5999999046325684
+            },
+            "frameIntervalMs": {
+              "n": 312,
+              "mean": 19.221153846153847,
+              "p50": 19.199999809265137,
+              "p95": 20.199999809265137
+            },
+            "pass0GpuMs": {
+              "n": 307,
+              "mean": 18.200038983713345,
+              "p50": 18.173952,
+              "p95": 18.402304
+            },
+            "pass1GpuMs": {
+              "n": 307,
+              "mean": 0.426255218241043,
+              "p50": 0.421888,
+              "p95": 0.439296
+            },
+            "pass2GpuMs": {
+              "n": 307,
+              "mean": 0.15799577850162905,
+              "p50": 0.154176,
+              "p95": 0.167936
+            },
+            "pass3GpuMs": {
+              "n": 307,
+              "mean": 0.09529818892508128,
+              "p50": 0.094208,
+              "p95": 0.103584
+            },
+            "pass4GpuMs": {
+              "n": 307,
+              "mean": 0.19311801954397345,
+              "p50": 0.190464,
+              "p95": 0.203776
+            }
+          },
+          "memory": {
+            "columnBytes": 144385668,
+            "geometryBufferBytes": 776942928,
+            "geometries": 1911,
+            "textures": 43,
+            "workers": 1,
+            "nodes": 1914,
+            "meshes": 1897
+          },
+          "streaming": {
+            "cancelled": 0,
+            "stale": 0,
+            "evicted": 0,
+            "failed": 0,
+            "admittedBytes": 776942928,
+            "memory": {
+              "geometry": 776942928,
+              "query": 144385668,
+              "pending": 0,
+              "total": 921328596
+            },
+            "selection": {
+              "leaves": 957,
+              "active": 1914,
+              "levels": {
+                "1": 957
+              },
+              "estimatedBytes": 0,
+              "pressure": 1
+            }
+          },
+          "camera": [
+            -2978.199999999999,
+            3927.0000000000005,
+            3450
+          ]
+        },
+        {
+          "variant": "baseline",
+          "round": 1,
+          "stats": {
+            "streamUpdateCpuMs": {
+              "n": 307,
+              "mean": 0.021172635330051086,
+              "p50": 0,
+              "p95": 0.10000038146972656
+            },
+            "shadowFitCpuMs": {
+              "n": 307,
+              "mean": 0.006840385909189231,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "shadowSubmitCpuMs": {
+              "n": 10131,
+              "mean": 0.00021715520012121,
+              "p50": 0,
+              "p95": 0
+            },
+            "shadowDrawCalls": {
+              "n": 10131,
+              "mean": 0,
+              "p50": 0,
+              "p95": 0
+            },
+            "pass0CpuMs": {
+              "n": 307,
+              "mean": 7.606514655805954,
+              "p50": 7.400000095367432,
+              "p95": 8.599999904632568
+            },
+            "pass1CpuMs": {
+              "n": 307,
+              "mean": 1.2153094614755835,
+              "p50": 1.1999998092651367,
+              "p95": 1.5
+            },
+            "pass2CpuMs": {
+              "n": 307,
+              "mean": 0.0986970674719795,
+              "p50": 0.09999990463256836,
+              "p95": 0.20000028610229492
+            },
+            "pass3CpuMs": {
+              "n": 307,
+              "mean": 0.012377844571290653,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "pass4CpuMs": {
+              "n": 307,
+              "mean": 0.03289902249065983,
+              "p50": 0,
+              "p95": 0.10000038146972656
+            },
+            "composerCpuMs": {
+              "n": 307,
+              "mean": 9.010423459913522,
+              "p50": 8.799999713897705,
+              "p95": 10.199999809265137
+            },
+            "drawCalls": {
+              "n": 307,
+              "mean": 1892,
+              "p50": 1892,
+              "p95": 1892
+            },
+            "triangles": {
+              "n": 307,
+              "mean": 26734386,
+              "p50": 26734386,
+              "p95": 26734386
+            },
+            "labelsCpuMs": {
+              "n": 307,
+              "mean": 0.47068403442830137,
+              "p50": 0.5,
+              "p95": 0.5999999046325684
+            },
+            "frameIntervalMs": {
+              "n": 306,
+              "mean": 19.58071895518334,
+              "p50": 19.299999713897705,
+              "p95": 21.700000286102295
+            },
+            "pass0GpuMs": {
+              "n": 301,
+              "mean": 18.54713366112958,
+              "p50": 18.18624,
+              "p95": 20.465664
+            },
+            "pass1GpuMs": {
+              "n": 301,
+              "mean": 0.4286825249169436,
+              "p50": 0.421888,
+              "p95": 0.441344
+            },
+            "pass2GpuMs": {
+              "n": 301,
+              "mean": 0.15990633887043212,
+              "p50": 0.157696,
+              "p95": 0.16896
+            },
+            "pass3GpuMs": {
+              "n": 301,
+              "mean": 0.0961310830564783,
+              "p50": 0.095232,
+              "p95": 0.105472
+            },
+            "pass4GpuMs": {
+              "n": 301,
+              "mean": 0.1973888637873749,
+              "p50": 0.190464,
+              "p95": 0.203776
+            }
+          },
+          "memory": {
+            "columnBytes": 144385668,
+            "geometryBufferBytes": 776942928,
+            "geometries": 1911,
+            "textures": 43,
+            "workers": 1,
+            "nodes": 1914,
+            "meshes": 1897
+          },
+          "streaming": {
+            "cancelled": 0,
+            "stale": 0,
+            "evicted": 0,
+            "failed": 0,
+            "admittedBytes": 776942928,
+            "memory": {
+              "geometry": 776942928,
+              "query": 144385668,
+              "pending": 0,
+              "total": 921328596
+            },
+            "selection": {
+              "leaves": 957,
+              "active": 1914,
+              "levels": {
+                "1": 957
+              },
+              "estimatedBytes": 0,
+              "pressure": 1
+            }
+          },
+          "camera": [
+            -2978.199999999999,
+            3927.0000000000005,
+            3450
+          ]
+        }
+      ],
+      "environment": {
+        "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1080 Ti (0x00001B06) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "gpuTimers": true,
+        "hardwareConcurrency": 8,
+        "pixelRatio": 1,
+        "shadowSize": [
+          8192,
+          8192
+        ],
+        "passes": [
+          {
+            "name": "RenderPass"
+          },
+          {
+            "name": "Pass"
+          },
+          {
+            "name": "EffectPass",
+            "effects": [
+              "BloomEffect"
+            ]
+          },
+          {
+            "name": "EffectPass",
+            "effects": [
+              "DepthBlur"
+            ]
+          },
+          {
+            "name": "EffectPass",
+            "effects": [
+              "SMAAEffect",
+              "ToneMappingEffect",
+              "HueSaturationEffect",
+              "BrightnessContrastEffect",
+              "VignetteEffect"
+            ]
+          }
+        ],
+        "workersAfterIdle": 1
+      },
+      "idleWorkerHeaps": [
+        {
+          "targetId": "2C4A0DA7CBDCDF4B9C596D09CD8A6B16",
+          "id": 53,
+          "result": {
+            "usedSize": 596708,
+            "totalSize": 13893632,
+            "embedderHeapUsedSize": 861504,
+            "backingStorageSize": 17326836
+          }
+        }
+      ],
+      "pageHeap": {
+        "usedSize": 38050432,
+        "totalSize": 99962880,
+        "embedderHeapUsedSize": 4389536,
+        "backingStorageSize": 930739570
+      },
+      "performance": [
+        {
+          "name": "Timestamp",
+          "value": 3133427.189893
+        },
+        {
+          "name": "AudioHandlers",
+          "value": 0
+        },
+        {
+          "name": "AudioWorkletProcessors",
+          "value": 0
+        },
+        {
+          "name": "Documents",
+          "value": 2
+        },
+        {
+          "name": "Frames",
+          "value": 2
+        },
+        {
+          "name": "JSEventListeners",
+          "value": 82
+        },
+        {
+          "name": "LayoutObjects",
+          "value": 378
+        },
+        {
+          "name": "MediaKeySessions",
+          "value": 0
+        },
+        {
+          "name": "MediaKeys",
+          "value": 0
+        },
+        {
+          "name": "Nodes",
+          "value": 554
+        },
+        {
+          "name": "Resources",
+          "value": 16
+        },
+        {
+          "name": "ContextLifecycleStateObservers",
+          "value": 7
+        },
+        {
+          "name": "V8PerContextDatas",
+          "value": 2
+        },
+        {
+          "name": "WorkerGlobalScopes",
+          "value": 1
+        },
+        {
+          "name": "UACSSResources",
+          "value": 0
+        },
+        {
+          "name": "RTCPeerConnections",
+          "value": 0
+        },
+        {
+          "name": "ResourceFetchers",
+          "value": 3
+        },
+        {
+          "name": "AdSubframes",
+          "value": 0
+        },
+        {
+          "name": "DetachedScriptStates",
+          "value": 0
+        },
+        {
+          "name": "ArrayBufferContents",
+          "value": 10512
+        },
+        {
+          "name": "LayoutCount",
+          "value": 2311
+        },
+        {
+          "name": "RecalcStyleCount",
+          "value": 2405
+        },
+        {
+          "name": "LayoutDuration",
+          "value": 0.177381
+        },
+        {
+          "name": "RecalcStyleDuration",
+          "value": 0.125178
+        },
+        {
+          "name": "DevToolsCommandDuration",
+          "value": 0.07028
+        },
+        {
+          "name": "ScriptDuration",
+          "value": 36.531221
+        },
+        {
+          "name": "V8CompileDuration",
+          "value": 0
+        },
+        {
+          "name": "TaskDuration",
+          "value": 39.298829
+        },
+        {
+          "name": "TaskOtherDuration",
+          "value": 2.394769
+        },
+        {
+          "name": "ThreadTime",
+          "value": 35.730015
+        },
+        {
+          "name": "ProcessTime",
+          "value": 124.796922
+        },
+        {
+          "name": "JSHeapUsedSize",
+          "value": 38050432
+        },
+        {
+          "name": "JSHeapTotalSize",
+          "value": 99962880
+        },
+        {
+          "name": "FirstMeaningfulPaint",
+          "value": 3133378.841428
+        },
+        {
+          "name": "DomContentLoaded",
+          "value": 3133376.841651
+        },
+        {
+          "name": "NavigationStart",
+          "value": 3133376.605249
+        }
+      ]
+    },
+    {
+      "view": "civic",
+      "loadMs": 25746,
+      "loading": [
+        {
+          "at": 548.5999999046326,
+          "ready": false,
+          "complete": false,
+          "workers": 0,
+          "queued": 0,
+          "inflight": 0,
+          "readyTiles": 0,
+          "heap": {
+            "used": 37528235,
+            "total": 41343463
+          }
+        },
+        {
+          "at": 1099.2999997138977,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 953,
+          "inflight": 4,
+          "readyTiles": 0,
+          "heap": {
+            "used": 101986064,
+            "total": 107160408
+          }
+        },
+        {
+          "at": 1619.4000000953674,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 948,
+          "inflight": 4,
+          "readyTiles": 12,
+          "heap": {
+            "used": 99879668,
+            "total": 115899648
+          }
+        },
+        {
+          "at": 2126.0999999046326,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 931,
+          "inflight": 4,
+          "readyTiles": 42,
+          "heap": {
+            "used": 129724571,
+            "total": 143254123
+          },
+          "workerHeaps": [
+            {
+              "targetId": "58D41A25DF3B3ACD61AAA2B3A6FC0128",
+              "id": 54,
+              "result": {
+                "usedSize": 1755992,
+                "totalSize": 4718592,
+                "embedderHeapUsedSize": 773712,
+                "backingStorageSize": 46237367
+              }
+            },
+            {
+              "targetId": "BA57B3070FA87D2C36431241DE6F0817",
+              "id": 55,
+              "result": {
+                "usedSize": 1299304,
+                "totalSize": 4980736,
+                "embedderHeapUsedSize": 818584,
+                "backingStorageSize": 41123885
+              }
+            },
+            {
+              "targetId": "15FA0931B421917EFBB488DED9D71900",
+              "id": 56,
+              "result": {
+                "usedSize": 1964220,
+                "totalSize": 5242880,
+                "embedderHeapUsedSize": 796504,
+                "backingStorageSize": 46623722
+              }
+            },
+            {
+              "targetId": "615235DA1909DD84D02E8961C94195EB",
+              "id": 57,
+              "result": {
+                "usedSize": 1683860,
+                "totalSize": 4194304,
+                "embedderHeapUsedSize": 820320,
+                "backingStorageSize": 47419239
+              }
+            }
+          ]
+        },
+        {
+          "at": 2642.5,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 921,
+          "inflight": 4,
+          "readyTiles": 65,
+          "heap": {
+            "used": 147176855,
+            "total": 158342239
+          }
+        },
+        {
+          "at": 3156.199999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 910,
+          "inflight": 4,
+          "readyTiles": 90,
+          "heap": {
+            "used": 155265882,
+            "total": 167550002
+          }
+        },
+        {
+          "at": 3664.9000000953674,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 893,
+          "inflight": 4,
+          "readyTiles": 120,
+          "heap": {
+            "used": 168939537,
+            "total": 182284469
+          }
+        },
+        {
+          "at": 4169.199999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 877,
+          "inflight": 4,
+          "readyTiles": 151,
+          "heap": {
+            "used": 185280725,
+            "total": 199844569
+          },
+          "workerHeaps": [
+            {
+              "targetId": "58D41A25DF3B3ACD61AAA2B3A6FC0128",
+              "id": 58,
+              "result": {
+                "usedSize": 1206316,
+                "totalSize": 3145728,
+                "embedderHeapUsedSize": 568904,
+                "backingStorageSize": 6997733
+              }
+            },
+            {
+              "targetId": "BA57B3070FA87D2C36431241DE6F0817",
+              "id": 59,
+              "result": {
+                "usedSize": 747256,
+                "totalSize": 3932160,
+                "embedderHeapUsedSize": 548456,
+                "backingStorageSize": 7001541
+              }
+            },
+            {
+              "targetId": "15FA0931B421917EFBB488DED9D71900",
+              "id": 60,
+              "result": {
+                "usedSize": 2203968,
+                "totalSize": 5767168,
+                "embedderHeapUsedSize": 503328,
+                "backingStorageSize": 9620256
+              }
+            },
+            {
+              "targetId": "615235DA1909DD84D02E8961C94195EB",
+              "id": 61,
+              "result": {
+                "usedSize": 2314844,
+                "totalSize": 6029312,
+                "embedderHeapUsedSize": 259864,
+                "backingStorageSize": 3578138
+              }
+            }
+          ]
+        },
+        {
+          "at": 4678.599999904633,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 864,
+          "inflight": 4,
+          "readyTiles": 181,
+          "heap": {
+            "used": 212161170,
+            "total": 224427974
+          }
+        },
+        {
+          "at": 5185.5,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 848,
+          "inflight": 4,
+          "readyTiles": 210,
+          "heap": {
+            "used": 226573954,
+            "total": 240570278
+          }
+        },
+        {
+          "at": 5701.400000095367,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 839,
+          "inflight": 4,
+          "readyTiles": 233,
+          "heap": {
+            "used": 238153266,
+            "total": 257349614
+          }
+        },
+        {
+          "at": 6205.5,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 826,
+          "inflight": 4,
+          "readyTiles": 256,
+          "heap": {
+            "used": 249570382,
+            "total": 266918482
+          },
+          "workerHeaps": [
+            {
+              "targetId": "58D41A25DF3B3ACD61AAA2B3A6FC0128",
+              "id": 62,
+              "result": {
+                "usedSize": 1690204,
+                "totalSize": 5767168,
+                "embedderHeapUsedSize": 631760,
+                "backingStorageSize": 4891154
+              }
+            },
+            {
+              "targetId": "BA57B3070FA87D2C36431241DE6F0817",
+              "id": 63,
+              "result": {
+                "usedSize": 2079760,
+                "totalSize": 5767168,
+                "embedderHeapUsedSize": 575312,
+                "backingStorageSize": 15580667
+              }
+            },
+            {
+              "targetId": "15FA0931B421917EFBB488DED9D71900",
+              "id": 64,
+              "result": {
+                "usedSize": 932468,
+                "totalSize": 5767168,
+                "embedderHeapUsedSize": 628016,
+                "backingStorageSize": 6641307
+              }
+            },
+            {
+              "targetId": "615235DA1909DD84D02E8961C94195EB",
+              "id": 65,
+              "result": {
+                "usedSize": 3035460,
+                "totalSize": 9961472,
+                "embedderHeapUsedSize": 625864,
+                "backingStorageSize": 7346005
+              }
+            }
+          ]
+        },
+        {
+          "at": 6755.900000095367,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 816,
+          "inflight": 4,
+          "readyTiles": 274,
+          "heap": {
+            "used": 269323199,
+            "total": 285362839
+          }
+        },
+        {
+          "at": 7261.199999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 801,
+          "inflight": 4,
+          "readyTiles": 306,
+          "heap": {
+            "used": 283727474,
+            "total": 303482966
+          }
+        },
+        {
+          "at": 7764.900000095367,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 786,
+          "inflight": 4,
+          "readyTiles": 333,
+          "heap": {
+            "used": 301187486,
+            "total": 320374794
+          }
+        },
+        {
+          "at": 8272.400000095367,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 777,
+          "inflight": 4,
+          "readyTiles": 353,
+          "heap": {
+            "used": 311466880,
+            "total": 327331440
+          },
+          "workerHeaps": [
+            {
+              "targetId": "58D41A25DF3B3ACD61AAA2B3A6FC0128",
+              "id": 66,
+              "result": {
+                "usedSize": 1461592,
+                "totalSize": 9699328,
+                "embedderHeapUsedSize": 351056,
+                "backingStorageSize": 3075937
+              }
+            },
+            {
+              "targetId": "BA57B3070FA87D2C36431241DE6F0817",
+              "id": 67,
+              "result": {
+                "usedSize": 1363224,
+                "totalSize": 5767168,
+                "embedderHeapUsedSize": 531000,
+                "backingStorageSize": 11662638
+              }
+            },
+            {
+              "targetId": "15FA0931B421917EFBB488DED9D71900",
+              "id": 68,
+              "result": {
+                "usedSize": 729656,
+                "totalSize": 9699328,
+                "embedderHeapUsedSize": 637096,
+                "backingStorageSize": 3888529
+              }
+            },
+            {
+              "targetId": "615235DA1909DD84D02E8961C94195EB",
+              "id": 69,
+              "result": {
+                "usedSize": 2169088,
+                "totalSize": 10223616,
+                "embedderHeapUsedSize": 613784,
+                "backingStorageSize": 11157922
+              }
+            }
+          ]
+        },
+        {
+          "at": 8792.400000095367,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 762,
+          "inflight": 4,
+          "readyTiles": 383,
+          "heap": {
+            "used": 330929081,
+            "total": 343436757
+          }
+        },
+        {
+          "at": 9303.400000095367,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 749,
+          "inflight": 4,
+          "readyTiles": 411,
+          "heap": {
+            "used": 345490631,
+            "total": 363357371
+          }
+        },
+        {
+          "at": 9825.699999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 734,
+          "inflight": 4,
+          "readyTiles": 440,
+          "heap": {
+            "used": 365007666,
+            "total": 391195002
+          }
+        },
+        {
+          "at": 10341,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 719,
+          "inflight": 4,
+          "readyTiles": 466,
+          "heap": {
+            "used": 378088593,
+            "total": 410905537
+          },
+          "workerHeaps": [
+            {
+              "targetId": "58D41A25DF3B3ACD61AAA2B3A6FC0128",
+              "id": 70,
+              "result": {
+                "usedSize": 3922384,
+                "totalSize": 9961472,
+                "embedderHeapUsedSize": 764608,
+                "backingStorageSize": 18228879
+              }
+            },
+            {
+              "targetId": "BA57B3070FA87D2C36431241DE6F0817",
+              "id": 71,
+              "result": {
+                "usedSize": 3241728,
+                "totalSize": 6553600,
+                "embedderHeapUsedSize": 545232,
+                "backingStorageSize": 6485390
+              }
+            },
+            {
+              "targetId": "15FA0931B421917EFBB488DED9D71900",
+              "id": 72,
+              "result": {
+                "usedSize": 1732680,
+                "totalSize": 9699328,
+                "embedderHeapUsedSize": 708344,
+                "backingStorageSize": 2900427
+              }
+            },
+            {
+              "targetId": "615235DA1909DD84D02E8961C94195EB",
+              "id": 73,
+              "result": {
+                "usedSize": 770280,
+                "totalSize": 10223616,
+                "embedderHeapUsedSize": 671256,
+                "backingStorageSize": 4527241
+              }
+            }
+          ]
+        },
+        {
+          "at": 10858.699999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 702,
+          "inflight": 4,
+          "readyTiles": 506,
+          "heap": {
+            "used": 402650391,
+            "total": 427467851
+          }
+        },
+        {
+          "at": 11375.400000095367,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 683,
+          "inflight": 4,
+          "readyTiles": 540,
+          "heap": {
+            "used": 416684433,
+            "total": 448505897
+          }
+        },
+        {
+          "at": 11888.400000095367,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 673,
+          "inflight": 4,
+          "readyTiles": 566,
+          "heap": {
+            "used": 429959876,
+            "total": 455812448
+          }
+        },
+        {
+          "at": 12391.699999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 653,
+          "inflight": 4,
+          "readyTiles": 594,
+          "heap": {
+            "used": 453239408,
+            "total": 474926176
+          },
+          "workerHeaps": [
+            {
+              "targetId": "58D41A25DF3B3ACD61AAA2B3A6FC0128",
+              "id": 74,
+              "result": {
+                "usedSize": 2165416,
+                "totalSize": 9699328,
+                "embedderHeapUsedSize": 615216,
+                "backingStorageSize": 16785569
+              }
+            },
+            {
+              "targetId": "BA57B3070FA87D2C36431241DE6F0817",
+              "id": 75,
+              "result": {
+                "usedSize": 1333392,
+                "totalSize": 9961472,
+                "embedderHeapUsedSize": 660104,
+                "backingStorageSize": 8067172
+              }
+            },
+            {
+              "targetId": "15FA0931B421917EFBB488DED9D71900",
+              "id": 76,
+              "result": {
+                "usedSize": 3958440,
+                "totalSize": 9437184,
+                "embedderHeapUsedSize": 562472,
+                "backingStorageSize": 18227087
+              }
+            },
+            {
+              "targetId": "615235DA1909DD84D02E8961C94195EB",
+              "id": 77,
+              "result": {
+                "usedSize": 3648392,
+                "totalSize": 10223616,
+                "embedderHeapUsedSize": 662816,
+                "backingStorageSize": 9202391
+              }
+            }
+          ]
+        },
+        {
+          "at": 12900.900000095367,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 639,
+          "inflight": 4,
+          "readyTiles": 625,
+          "heap": {
+            "used": 471578834,
+            "total": 492461018
+          }
+        },
+        {
+          "at": 13407.599999904633,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 622,
+          "inflight": 4,
+          "readyTiles": 660,
+          "heap": {
+            "used": 484098063,
+            "total": 504319647
+          }
+        },
+        {
+          "at": 13914.199999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 606,
+          "inflight": 4,
+          "readyTiles": 689,
+          "heap": {
+            "used": 487029374,
+            "total": 521970170
+          }
+        },
+        {
+          "at": 14429.199999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 590,
+          "inflight": 4,
+          "readyTiles": 728,
+          "heap": {
+            "used": 507413344,
+            "total": 536685008
+          },
+          "workerHeaps": [
+            {
+              "targetId": "58D41A25DF3B3ACD61AAA2B3A6FC0128",
+              "id": 78,
+              "result": {
+                "usedSize": 3030828,
+                "totalSize": 9699328,
+                "embedderHeapUsedSize": 617192,
+                "backingStorageSize": 5852682
+              }
+            },
+            {
+              "targetId": "BA57B3070FA87D2C36431241DE6F0817",
+              "id": 79,
+              "result": {
+                "usedSize": 735588,
+                "totalSize": 9961472,
+                "embedderHeapUsedSize": 469704,
+                "backingStorageSize": 17967538
+              }
+            },
+            {
+              "targetId": "15FA0931B421917EFBB488DED9D71900",
+              "id": 80,
+              "result": {
+                "usedSize": 4692868,
+                "totalSize": 9961472,
+                "embedderHeapUsedSize": 633352,
+                "backingStorageSize": 20562509
+              }
+            },
+            {
+              "targetId": "615235DA1909DD84D02E8961C94195EB",
+              "id": 81,
+              "result": {
+                "usedSize": 1573916,
+                "totalSize": 10485760,
+                "embedderHeapUsedSize": 596256,
+                "backingStorageSize": 6040297
+              }
+            }
+          ]
+        },
+        {
+          "at": 14937.900000095367,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 567,
+          "inflight": 4,
+          "readyTiles": 768,
+          "heap": {
+            "used": 536129910,
+            "total": 558285774
+          }
+        },
+        {
+          "at": 15447.699999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 552,
+          "inflight": 4,
+          "readyTiles": 806,
+          "heap": {
+            "used": 546661568,
+            "total": 582328204
+          }
+        },
+        {
+          "at": 15950.099999904633,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 528,
+          "inflight": 4,
+          "readyTiles": 850,
+          "heap": {
+            "used": 556302189,
+            "total": 591615849
+          }
+        },
+        {
+          "at": 16453.299999713898,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 510,
+          "inflight": 4,
+          "readyTiles": 887,
+          "heap": {
+            "used": 579455942,
+            "total": 613860234
+          },
+          "workerHeaps": [
+            {
+              "targetId": "58D41A25DF3B3ACD61AAA2B3A6FC0128",
+              "id": 82,
+              "result": {
+                "usedSize": 2251656,
+                "totalSize": 9699328,
+                "embedderHeapUsedSize": 684640,
+                "backingStorageSize": 1926233
+              }
+            },
+            {
+              "targetId": "BA57B3070FA87D2C36431241DE6F0817",
+              "id": 83,
+              "result": {
+                "usedSize": 2107596,
+                "totalSize": 11010048,
+                "embedderHeapUsedSize": 615656,
+                "backingStorageSize": 7431413
+              }
+            },
+            {
+              "targetId": "15FA0931B421917EFBB488DED9D71900",
+              "id": 84,
+              "result": {
+                "usedSize": 905164,
+                "totalSize": 9699328,
+                "embedderHeapUsedSize": 573016,
+                "backingStorageSize": 11981692
+              }
+            },
+            {
+              "targetId": "615235DA1909DD84D02E8961C94195EB",
+              "id": 85,
+              "result": {
+                "usedSize": 2059600,
+                "totalSize": 10223616,
+                "embedderHeapUsedSize": 600944,
+                "backingStorageSize": 5696330
+              }
+            }
+          ]
+        },
+        {
+          "at": 16970.599999904633,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 488,
+          "inflight": 4,
+          "readyTiles": 932,
+          "heap": {
+            "used": 600094732,
+            "total": 629289044
+          }
+        },
+        {
+          "at": 17490.400000095367,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 468,
+          "inflight": 4,
+          "readyTiles": 973,
+          "heap": {
+            "used": 632215861,
+            "total": 655820509
+          }
+        },
+        {
+          "at": 17998.299999713898,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 448,
+          "inflight": 4,
+          "readyTiles": 1013,
+          "heap": {
+            "used": 646602025,
+            "total": 680604729
+          }
+        },
+        {
+          "at": 18507.799999713898,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 426,
+          "inflight": 4,
+          "readyTiles": 1058,
+          "heap": {
+            "used": 659437778,
+            "total": 690296426
+          },
+          "workerHeaps": [
+            {
+              "targetId": "58D41A25DF3B3ACD61AAA2B3A6FC0128",
+              "id": 86,
+              "result": {
+                "usedSize": 3989120,
+                "totalSize": 9699328,
+                "embedderHeapUsedSize": 711544,
+                "backingStorageSize": 14554154
+              }
+            },
+            {
+              "targetId": "BA57B3070FA87D2C36431241DE6F0817",
+              "id": 87,
+              "result": {
+                "usedSize": 510788,
+                "totalSize": 9961472,
+                "embedderHeapUsedSize": 682784,
+                "backingStorageSize": 207530
+              }
+            },
+            {
+              "targetId": "15FA0931B421917EFBB488DED9D71900",
+              "id": 88,
+              "result": {
+                "usedSize": 4671080,
+                "totalSize": 10747904,
+                "embedderHeapUsedSize": 765464,
+                "backingStorageSize": 18687045
+              }
+            },
+            {
+              "targetId": "615235DA1909DD84D02E8961C94195EB",
+              "id": 89,
+              "result": {
+                "usedSize": 861956,
+                "totalSize": 10223616,
+                "embedderHeapUsedSize": 838328,
+                "backingStorageSize": 9133827
+              }
+            }
+          ]
+        },
+        {
+          "at": 19022.099999904633,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 402,
+          "inflight": 4,
+          "readyTiles": 1104,
+          "heap": {
+            "used": 685003599,
+            "total": 716480783
+          }
+        },
+        {
+          "at": 19544.900000095367,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 377,
+          "inflight": 4,
+          "readyTiles": 1155,
+          "heap": {
+            "used": 709278404,
+            "total": 730555552
+          }
+        },
+        {
+          "at": 20061.099999904633,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 350,
+          "inflight": 4,
+          "readyTiles": 1209,
+          "heap": {
+            "used": 744675176,
+            "total": 765500568
+          }
+        },
+        {
+          "at": 20582.900000095367,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 320,
+          "inflight": 4,
+          "readyTiles": 1267,
+          "heap": {
+            "used": 749540228,
+            "total": 779908108
+          },
+          "workerHeaps": [
+            {
+              "targetId": "58D41A25DF3B3ACD61AAA2B3A6FC0128",
+              "id": 90,
+              "result": {
+                "usedSize": 2411976,
+                "totalSize": 9699328,
+                "embedderHeapUsedSize": 702248,
+                "backingStorageSize": 4625132
+              }
+            },
+            {
+              "targetId": "BA57B3070FA87D2C36431241DE6F0817",
+              "id": 91,
+              "result": {
+                "usedSize": 3981468,
+                "totalSize": 9961472,
+                "embedderHeapUsedSize": 741800,
+                "backingStorageSize": 7674587
+              }
+            },
+            {
+              "targetId": "15FA0931B421917EFBB488DED9D71900",
+              "id": 92,
+              "result": {
+                "usedSize": 2614424,
+                "totalSize": 9699328,
+                "embedderHeapUsedSize": 733544,
+                "backingStorageSize": 7724970
+              }
+            },
+            {
+              "targetId": "615235DA1909DD84D02E8961C94195EB",
+              "id": 93,
+              "result": {
+                "usedSize": 1762432,
+                "totalSize": 10485760,
+                "embedderHeapUsedSize": 748480,
+                "backingStorageSize": 8166597
+              }
+            }
+          ]
+        },
+        {
+          "at": 21089.5,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 292,
+          "inflight": 4,
+          "readyTiles": 1327,
+          "heap": {
+            "used": 784535213,
+            "total": 815510297
+          }
+        },
+        {
+          "at": 21614,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 262,
+          "inflight": 4,
+          "readyTiles": 1388,
+          "heap": {
+            "used": 815060411,
+            "total": 851368799
+          }
+        },
+        {
+          "at": 22126.599999904633,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 237,
+          "inflight": 4,
+          "readyTiles": 1435,
+          "heap": {
+            "used": 826699760,
+            "total": 859673328
+          }
+        },
+        {
+          "at": 22641.199999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 207,
+          "inflight": 4,
+          "readyTiles": 1497,
+          "heap": {
+            "used": 863212674,
+            "total": 885626854
+          },
+          "workerHeaps": [
+            {
+              "targetId": "58D41A25DF3B3ACD61AAA2B3A6FC0128",
+              "id": 94,
+              "result": {
+                "usedSize": 1784200,
+                "totalSize": 9699328,
+                "embedderHeapUsedSize": 706648,
+                "backingStorageSize": 2817922
+              }
+            },
+            {
+              "targetId": "BA57B3070FA87D2C36431241DE6F0817",
+              "id": 95,
+              "result": {
+                "usedSize": 1810120,
+                "totalSize": 9699328,
+                "embedderHeapUsedSize": 664992,
+                "backingStorageSize": 9321038
+              }
+            },
+            {
+              "targetId": "15FA0931B421917EFBB488DED9D71900",
+              "id": 96,
+              "result": {
+                "usedSize": 4411468,
+                "totalSize": 10223616,
+                "embedderHeapUsedSize": 846208,
+                "backingStorageSize": 13746273
+              }
+            },
+            {
+              "targetId": "615235DA1909DD84D02E8961C94195EB",
+              "id": 97,
+              "result": {
+                "usedSize": 2249548,
+                "totalSize": 18350080,
+                "embedderHeapUsedSize": 655888,
+                "backingStorageSize": 6321759
+              }
+            }
+          ]
+        },
+        {
+          "at": 23160.5,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 175,
+          "inflight": 4,
+          "readyTiles": 1561,
+          "heap": {
+            "used": 895416276,
+            "total": 914908276
+          }
+        },
+        {
+          "at": 23678.900000095367,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 143,
+          "inflight": 4,
+          "readyTiles": 1627,
+          "heap": {
+            "used": 895564542,
+            "total": 920466022
+          }
+        },
+        {
+          "at": 24193.099999904633,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 105,
+          "inflight": 4,
+          "readyTiles": 1703,
+          "heap": {
+            "used": 936120792,
+            "total": 974339064
+          }
+        },
+        {
+          "at": 24705.299999713898,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 63,
+          "inflight": 4,
+          "readyTiles": 1787,
+          "heap": {
+            "used": 961515169,
+            "total": 1014269481
+          },
+          "workerHeaps": [
+            {
+              "targetId": "58D41A25DF3B3ACD61AAA2B3A6FC0128",
+              "id": 98,
+              "result": {
+                "usedSize": 3238636,
+                "totalSize": 9699328,
+                "embedderHeapUsedSize": 687856,
+                "backingStorageSize": 7503155
+              }
+            },
+            {
+              "targetId": "BA57B3070FA87D2C36431241DE6F0817",
+              "id": 99,
+              "result": {
+                "usedSize": 645988,
+                "totalSize": 9961472,
+                "embedderHeapUsedSize": 848176,
+                "backingStorageSize": 1512301
+              }
+            },
+            {
+              "targetId": "15FA0931B421917EFBB488DED9D71900",
+              "id": 100,
+              "result": {
+                "usedSize": 2257896,
+                "totalSize": 9961472,
+                "embedderHeapUsedSize": 787968,
+                "backingStorageSize": 5886650
+              }
+            },
+            {
+              "targetId": "615235DA1909DD84D02E8961C94195EB",
+              "id": 101,
+              "result": {
+                "usedSize": 1681068,
+                "totalSize": 18087936,
+                "embedderHeapUsedSize": 736440,
+                "backingStorageSize": 4576977
+              }
+            }
+          ]
+        },
+        {
+          "at": 25223.299999713898,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 18,
+          "inflight": 4,
+          "readyTiles": 1876,
+          "heap": {
+            "used": 967732652,
+            "total": 1031668900
+          }
+        },
+        {
+          "at": 25732.699999809265,
+          "ready": true,
+          "complete": true,
+          "workers": 4,
+          "queued": 0,
+          "inflight": 0,
+          "readyTiles": 1914,
+          "heap": {
+            "used": 981617916,
+            "total": 1042957888
+          }
+        }
+      ],
+      "errors": [],
+      "measurements": [
+        {
+          "variant": "baseline",
+          "round": 0,
+          "stats": {
+            "streamUpdateCpuMs": {
+              "n": 990,
+              "mean": 0.007979797594475023,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "shadowFitCpuMs": {
+              "n": 990,
+              "mean": 0.005656565078581223,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "shadowSubmitCpuMs": {
+              "n": 32670,
+              "mean": 0.0002907867711875502,
+              "p50": 0,
+              "p95": 0
+            },
+            "shadowDrawCalls": {
+              "n": 32670,
+              "mean": 0,
+              "p50": 0,
+              "p95": 0
+            },
+            "pass0CpuMs": {
+              "n": 990,
+              "mean": 1.6687878767649333,
+              "p50": 1.6999998092651367,
+              "p95": 1.9000000953674316
+            },
+            "pass1CpuMs": {
+              "n": 990,
+              "mean": 1.1080808085624618,
+              "p50": 1.0999999046325684,
+              "p95": 1.3999996185302734
+            },
+            "pass2CpuMs": {
+              "n": 990,
+              "mean": 0.10343434931051851,
+              "p50": 0.09999990463256836,
+              "p95": 0.20000028610229492
+            },
+            "pass3CpuMs": {
+              "n": 990,
+              "mean": 0.01080808157872672,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "pass4CpuMs": {
+              "n": 990,
+              "mean": 0.0333333362232555,
+              "p50": 0,
+              "p95": 0.10000038146972656
+            },
+            "composerCpuMs": {
+              "n": 990,
+              "mean": 2.959899000688033,
+              "p50": 2.9000000953674316,
+              "p95": 3.5
+            },
+            "drawCalls": {
+              "n": 990,
+              "mean": 267,
+              "p50": 267,
+              "p95": 267
+            },
+            "triangles": {
+              "n": 990,
+              "mean": 5040374,
+              "p50": 5040374,
+              "p95": 5040374
+            },
+            "labelsCpuMs": {
+              "n": 990,
+              "mean": 0.42323231022767344,
+              "p50": 0.40000009536743164,
+              "p95": 0.6999998092651367
+            },
+            "frameIntervalMs": {
+              "n": 989,
+              "mean": 6.064307381096696,
+              "p50": 6.099999904632568,
+              "p95": 6.200000286102295
+            },
+            "pass0GpuMs": {
+              "n": 988,
+              "mean": 4.836334412955468,
+              "p50": 4.737024,
+              "p95": 5.315584
+            },
+            "pass1GpuMs": {
+              "n": 988,
+              "mean": 0.5837763562753048,
+              "p50": 0.582656,
+              "p95": 0.589824
+            },
+            "pass2GpuMs": {
+              "n": 988,
+              "mean": 0.17934095546558818,
+              "p50": 0.1792,
+              "p95": 0.181248
+            },
+            "pass3GpuMs": {
+              "n": 988,
+              "mean": 0.11219433198380524,
+              "p50": 0.11264,
+              "p95": 0.114688
+            },
+            "pass4GpuMs": {
+              "n": 988,
+              "mean": 0.20626759514170487,
+              "p50": 0.205824,
+              "p95": 0.207872
+            }
+          },
+          "memory": {
+            "columnBytes": 144385668,
+            "geometryBufferBytes": 776942928,
+            "geometries": 1911,
+            "textures": 43,
+            "workers": 1,
+            "nodes": 1914,
+            "meshes": 1897
+          },
+          "streaming": {
+            "cancelled": 0,
+            "stale": 0,
+            "evicted": 0,
+            "failed": 0,
+            "admittedBytes": 776942928,
+            "memory": {
+              "geometry": 776942928,
+              "query": 144385668,
+              "pending": 0,
+              "total": 921328596
+            },
+            "selection": {
+              "leaves": 957,
+              "active": 1914,
+              "levels": {
+                "1": 957
+              },
+              "estimatedBytes": 0,
+              "pressure": 1
+            }
+          },
+          "camera": [
+            2459.099999999999,
+            523,
+            1917.9
+          ]
+        },
+        {
+          "variant": "baseline",
+          "round": 1,
+          "stats": {
+            "streamUpdateCpuMs": {
+              "n": 992,
+              "mean": 0.007056450170855369,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "shadowFitCpuMs": {
+              "n": 992,
+              "mean": 0.006754031585108849,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "shadowSubmitCpuMs": {
+              "n": 32736,
+              "mean": 0.00026270771947191373,
+              "p50": 0,
+              "p95": 0
+            },
+            "shadowDrawCalls": {
+              "n": 32736,
+              "mean": 0,
+              "p50": 0,
+              "p95": 0
+            },
+            "pass0CpuMs": {
+              "n": 992,
+              "mean": 1.6912298423628653,
+              "p50": 1.6999998092651367,
+              "p95": 2
+            },
+            "pass1CpuMs": {
+              "n": 992,
+              "mean": 1.1114919382718302,
+              "p50": 1.0999999046325684,
+              "p95": 1.3000001907348633
+            },
+            "pass2CpuMs": {
+              "n": 992,
+              "mean": 0.10060484130536357,
+              "p50": 0.09999990463256836,
+              "p95": 0.20000028610229492
+            },
+            "pass3CpuMs": {
+              "n": 992,
+              "mean": 0.008064516129032258,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "pass4CpuMs": {
+              "n": 992,
+              "mean": 0.031854844381732327,
+              "p50": 0,
+              "p95": 0.10000038146972656
+            },
+            "composerCpuMs": {
+              "n": 992,
+              "mean": 2.9772177497225423,
+              "p50": 2.9000000953674316,
+              "p95": 3.5
+            },
+            "drawCalls": {
+              "n": 992,
+              "mean": 267,
+              "p50": 267,
+              "p95": 267
+            },
+            "triangles": {
+              "n": 992,
+              "mean": 5040374,
+              "p50": 5040374,
+              "p95": 5040374
+            },
+            "labelsCpuMs": {
+              "n": 992,
+              "mean": 0.42147176880990306,
+              "p50": 0.40000009536743164,
+              "p95": 0.7000002861022949
+            },
+            "frameIntervalMs": {
+              "n": 991,
+              "mean": 6.064379414443893,
+              "p50": 6.099999904632568,
+              "p95": 6.200000286102295
+            },
+            "pass0GpuMs": {
+              "n": 990,
+              "mean": 4.83668576969697,
+              "p50": 4.739072,
+              "p95": 5.311488
+            },
+            "pass1GpuMs": {
+              "n": 990,
+              "mean": 0.5835461818181839,
+              "p50": 0.582656,
+              "p95": 0.590848
+            },
+            "pass2GpuMs": {
+              "n": 990,
+              "mean": 0.17939031919192036,
+              "p50": 0.1792,
+              "p95": 0.181248
+            },
+            "pass3GpuMs": {
+              "n": 990,
+              "mean": 0.11234417777777743,
+              "p50": 0.11264,
+              "p95": 0.114688
+            },
+            "pass4GpuMs": {
+              "n": 990,
+              "mean": 0.2065087353535399,
+              "p50": 0.205824,
+              "p95": 0.207872
+            }
+          },
+          "memory": {
+            "columnBytes": 144385668,
+            "geometryBufferBytes": 776942928,
+            "geometries": 1911,
+            "textures": 43,
+            "workers": 1,
+            "nodes": 1914,
+            "meshes": 1897
+          },
+          "streaming": {
+            "cancelled": 0,
+            "stale": 0,
+            "evicted": 0,
+            "failed": 0,
+            "admittedBytes": 776942928,
+            "memory": {
+              "geometry": 776942928,
+              "query": 144385668,
+              "pending": 0,
+              "total": 921328596
+            },
+            "selection": {
+              "leaves": 957,
+              "active": 1914,
+              "levels": {
+                "1": 957
+              },
+              "estimatedBytes": 0,
+              "pressure": 1
+            }
+          },
+          "camera": [
+            2459.099999999999,
+            523,
+            1917.9
+          ]
+        }
+      ],
+      "environment": {
+        "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1080 Ti (0x00001B06) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "gpuTimers": true,
+        "hardwareConcurrency": 8,
+        "pixelRatio": 1,
+        "shadowSize": [
+          8192,
+          8192
+        ],
+        "passes": [
+          {
+            "name": "RenderPass"
+          },
+          {
+            "name": "Pass"
+          },
+          {
+            "name": "EffectPass",
+            "effects": [
+              "BloomEffect"
+            ]
+          },
+          {
+            "name": "EffectPass",
+            "effects": [
+              "DepthBlur"
+            ]
+          },
+          {
+            "name": "EffectPass",
+            "effects": [
+              "SMAAEffect",
+              "ToneMappingEffect",
+              "HueSaturationEffect",
+              "BrightnessContrastEffect",
+              "VignetteEffect"
+            ]
+          }
+        ],
+        "workersAfterIdle": 1
+      },
+      "idleWorkerHeaps": [
+        {
+          "targetId": "615235DA1909DD84D02E8961C94195EB",
+          "id": 102,
+          "result": {
+            "usedSize": 4539824,
+            "totalSize": 18087936,
+            "embedderHeapUsedSize": 783792,
+            "backingStorageSize": 11639344
+          }
+        }
+      ],
+      "pageHeap": {
+        "usedSize": 30771032,
+        "totalSize": 99905536,
+        "embedderHeapUsedSize": 11993320,
+        "backingStorageSize": 930738486
+      },
+      "performance": [
+        {
+          "name": "Timestamp",
+          "value": 3133473.299759
+        },
+        {
+          "name": "AudioHandlers",
+          "value": 0
+        },
+        {
+          "name": "AudioWorkletProcessors",
+          "value": 0
+        },
+        {
+          "name": "Documents",
+          "value": 2
+        },
+        {
+          "name": "Frames",
+          "value": 2
+        },
+        {
+          "name": "JSEventListeners",
+          "value": 82
+        },
+        {
+          "name": "LayoutObjects",
+          "value": 383
+        },
+        {
+          "name": "MediaKeySessions",
+          "value": 0
+        },
+        {
+          "name": "MediaKeys",
+          "value": 0
+        },
+        {
+          "name": "Nodes",
+          "value": 554
+        },
+        {
+          "name": "Resources",
+          "value": 16
+        },
+        {
+          "name": "ContextLifecycleStateObservers",
+          "value": 7
+        },
+        {
+          "name": "V8PerContextDatas",
+          "value": 2
+        },
+        {
+          "name": "WorkerGlobalScopes",
+          "value": 1
+        },
+        {
+          "name": "UACSSResources",
+          "value": 0
+        },
+        {
+          "name": "RTCPeerConnections",
+          "value": 0
+        },
+        {
+          "name": "ResourceFetchers",
+          "value": 3
+        },
+        {
+          "name": "AdSubframes",
+          "value": 0
+        },
+        {
+          "name": "DetachedScriptStates",
+          "value": 0
+        },
+        {
+          "name": "ArrayBufferContents",
+          "value": 10512
+        },
+        {
+          "name": "LayoutCount",
+          "value": 3597
+        },
+        {
+          "name": "RecalcStyleCount",
+          "value": 3830
+        },
+        {
+          "name": "LayoutDuration",
+          "value": 0.249621
+        },
+        {
+          "name": "RecalcStyleDuration",
+          "value": 0.175336
+        },
+        {
+          "name": "DevToolsCommandDuration",
+          "value": 0.045223
+        },
+        {
+          "name": "ScriptDuration",
+          "value": 31.569892
+        },
+        {
+          "name": "V8CompileDuration",
+          "value": 0
+        },
+        {
+          "name": "TaskDuration",
+          "value": 34.588347
+        },
+        {
+          "name": "TaskOtherDuration",
+          "value": 2.548275
+        },
+        {
+          "name": "ThreadTime",
+          "value": 33.420179
+        },
+        {
+          "name": "ProcessTime",
+          "value": 116.908309
+        },
+        {
+          "name": "JSHeapUsedSize",
+          "value": 30771032
+        },
+        {
+          "name": "JSHeapTotalSize",
+          "value": 99905536
+        },
+        {
+          "name": "FirstMeaningfulPaint",
+          "value": 3133428.550885
+        },
+        {
+          "name": "DomContentLoaded",
+          "value": 3133427.712246
+        },
+        {
+          "name": "NavigationStart",
+          "value": 3133427.450413
+        }
+      ]
+    }
+  ]
+}

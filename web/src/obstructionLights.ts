@@ -59,9 +59,18 @@ export class ObstructionLights {
     scene.add(this.points);
   }
 
-  update(seconds: number, night: number, pixelRatio: number, gate: (x: number, z: number) => boolean) {
+  update(seconds: number, night: number, pixelRatio: number, gate: (x: number, z: number) => boolean, levelAt?: (x:number,z:number)=>number) {
     this.points.visible = night > 0.001 && this.lights.length > 0;
     if (!this.points.visible) return;
+    if (levelAt) {
+      const positions = this.points.geometry.getAttribute('position');
+      let changed = false;
+      this.lights.forEach((light,i)=>{
+        const [x,y,z]=light.position, scale=levelAt(x,z)||1, top=Math.ceil(y/scale)*scale+0.35;
+        if(Math.abs(positions.getY(i)-top)>0.0001){positions.setY(i,top);changed=true;}
+      });
+      if(changed){positions.needsUpdate=true;this.points.geometry.computeBoundingSphere();}
+    }
     this.uniforms.uNight.value = night;
     this.uniforms.uTime.value = seconds;
     this.uniforms.uPixelRatio.value = pixelRatio;

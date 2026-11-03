@@ -31,7 +31,28 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(28, innerWidth / innerHeight, 0.5, 9000);
 const controls = makeControls();
 const post = makePost(renderer, scene, camera);
+// Zero-index draw: Three uploads attributes while preparing the render list, but draws no pixels.
+// This spreads hidden replacement uploads across frames before an atomic LOD switch.
+const uploadScene = new THREE.Scene();
+const uploadMaterial = new THREE.MeshBasicMaterial({colorWrite:false,depthWrite:false});
+function prepareTile(mesh:THREE.Mesh) {
+  const material=mesh.material, range={...mesh.geometry.drawRange}, autoClear=renderer.autoClear, shadows=renderer.shadowMap.enabled;
+  mesh.geometry.setDrawRange(0,0);mesh.material=uploadMaterial;mesh.visible=true;mesh.frustumCulled=false;
+  renderer.autoClear=false;renderer.shadowMap.enabled=false;uploadScene.add(mesh);
+  try { renderer.render(uploadScene,camera); }
+  finally {
+    uploadScene.remove(mesh);mesh.material=material;mesh.visible=false;mesh.frustumCulled=true;
+    mesh.geometry.setDrawRange(range.start,range.count);renderer.autoClear=autoClear;renderer.shadowMap.enabled=shadows;
+  }
+}
 const daylight = new Daylight(renderer, scene);
+renderer.domElement.addEventListener('webglcontextlost',()=>{
+  daylight.contextLost();
+  scene.traverse(object=>{
+    if(object instanceof THREE.Mesh || object instanceof THREE.Points) object.geometry.dispose();
+  });
+});
+renderer.domElement.addEventListener('webglcontextrestored',()=>{daylight.restore();});
 const nav = new Nav(camera, controls, renderer.domElement, (v) => flyTo(v));
 const bar = new Bar({ days: DAYS, onDay: (d) => { setDay(d); share(); }, onHour: (h) => { setHour(h); share(); } });
 const map = new THREE.Box3();
@@ -77,12 +98,11 @@ function makeControls() {
   return c;
 }
 
-// the tile level to show: 1 m, or coarser on phones (the whole city at 1 m needs ~1 GB of GPU memory); ?lod=1|2|4|8
+// Zero selects adaptive detail; ?lod=1|2|4|8 forces the diagnostic fixed-level path.
 function pickLevel(meta: Meta) {
   const have = meta.tiles.levels.map((l) => l.s), asked = Number(qs.get('lod'));
   if (have.includes(asked)) return asked;
-  const phone = coarsePointer() && Math.min(screen.width, screen.height) < 600;
-  return phone ? have.filter((s) => s <= 4).sort((a, b) => b - a)[0] ?? 1 : 1;
+  return 0; // adaptive by default; explicit lod retains the fixed-level diagnostic path
 }
 
 // a trackpad pinch arrives as Ctrl+wheel, which OrbitControls amplifies 10x: re-sent as a plain wheel at ~3x
@@ -203,7 +223,8 @@ function keepInside() {
 async function boot() {
   const meta = await fetchJson<Meta>(dataUrl('meta.json'));
   uniforms = makeUniforms(meta);
-  streamer = new TileStreamer(meta, makeVoxelMaterial(uniforms), scene);
+  const packed = qs.get('geometry') !== 'expanded';
+  streamer = new TileStreamer(meta, makeVoxelMaterial(uniforms, packed), scene, packed);
   world = nav.world = streamer.world;
   map.set(new THREE.Vector3(0, 0, 0), new THREE.Vector3(meta.W, meta.H, meta.D));
   daylight.uniforms = uniforms;
@@ -225,9 +246,12 @@ async function boot() {
   setHour(qs.get('hour') ? +qs.get('hour')! : timesOf(daylight.day)['golden hour']);
 
   const level = pickLevel(meta);
+  const minimumLevel = coarsePointer() && Math.min(screen.width, screen.height) < 600
+    ? streamer.levels.find(s=>s<=4) ?? 1 : 1;
   city = await installCity({ streamer, uniforms, meta, scene, focus: () => controls.target, camera, caption: new Caption(), level,
-    onCastersChanged: () => daylight.invalidateShadow() });
-  obstructionLights = new ObstructionLights(scene, meta, level);
+    onCastersChanged: () => daylight.invalidateShadow(),
+    light: () => daylight.direction, height: () => renderer.domElement.height, minimumLevel });
+  obstructionLights = new ObstructionLights(scene, meta, level || 1);
   labels = new Labels(meta.labels ?? [], onLabel);
   labels.gate = city.gate;
   hud = new Hud(renderer.domElement);
@@ -252,9 +276,10 @@ renderer.setAnimationLoop((now) => {
   if (uniforms) uniforms.uTime.value = (performance.now() - t0) / 1000;
   if (city?.complete) document.body.classList.remove('loading');
   daylight.sky.mesh.position.copy(camera.position);
+  streamer?.flush(2*1024*1024,prepareTile);
   streamer?.update(camera);
   daylight.fitShadow(controls.target, camera, viewDist, map);
-  if (city) obstructionLights?.update((now - t0) / 1000, daylight.night, renderer.getPixelRatio(), city.gate);
+  if (city) obstructionLights?.update((now - t0) / 1000, daylight.night, renderer.getPixelRatio(), city.gate, city.levelAt);
   post.composer.render();
   barRect ??= bar.rect;
   labels?.update(camera, world, barRect, hud?.rects ?? []);

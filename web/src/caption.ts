@@ -7,9 +7,11 @@ export class Caption {
   private readonly count = $('.n', this.box);
   private readonly fill = $('i', this.box);
   private finished = false;
+  private timer = 0;
 
   show(stage: string, done: number, total: number) {
-    if (this.finished) return;
+    this.finished = false;
+    clearTimeout(this.timer);
     this.stage.textContent = stage;
     this.count.textContent = `${done} / ${total} tiles`;
     this.fill.style.width = `${(100 * Math.min(1, done / Math.max(1, total))).toFixed(1)}%`;
@@ -20,6 +22,6 @@ export class Caption {
     if (this.finished) return;
     this.show(stage, total, total);
     this.finished = true;
-    setTimeout(() => this.box.classList.add('off'), 400);
+    this.timer = setTimeout(() => this.box.classList.add('off'), 400);
   }
 }

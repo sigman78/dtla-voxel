@@ -1,0 +1,36 @@
+{
+  "date": "2026-11-03T09:38:45.630Z",
+  "browser": "156.0.8078.4",
+  "errors": [],
+  "comparisons": [
+    {
+      "hour": 13,
+      "raw": true,
+      "mean": 0,
+      "fractionOver8": 0,
+      "max": 0
+    },
+    {
+      "hour": 13,
+      "raw": false,
+      "mean": 0,
+      "fractionOver8": 0,
+      "max": 0
+    },
+    {
+      "hour": 19.5,
+      "raw": true,
+      "mean": 0,
+      "fractionOver8": 0,
+      "max": 0
+    },
+    {
+      "hour": 19.5,
+      "raw": false,
+      "mean": 0,
+      "fractionOver8": 0,
+      "max": 0
+    }
+  ],
+  "navigation": []
+}
