@@ -1,0 +1,2297 @@
+{
+  "date": "2026-11-03T02:43:24.802Z",
+  "browser": "156.0.8078.4",
+  "viewport": {
+    "width": 1600,
+    "height": 1000
+  },
+  "sampleMs": 2000,
+  "rounds": 1,
+  "runs": [
+    {
+      "view": "civic",
+      "loadMs": 78046,
+      "loading": [
+        {
+          "at": 1389.9000000953674,
+          "ready": false,
+          "complete": false,
+          "workers": 1,
+          "queued": 0,
+          "inflight": 0,
+          "readyTiles": 0,
+          "heap": {
+            "used": 23770383,
+            "total": 27713771
+          }
+        },
+        {
+          "at": 2040.3000001907349,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 945,
+          "inflight": 12,
+          "readyTiles": 0,
+          "heap": {
+            "used": 98230864,
+            "total": 109155228
+          }
+        },
+        {
+          "at": 2883.0999999046326,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 942,
+          "inflight": 12,
+          "readyTiles": 3,
+          "heap": {
+            "used": 106716857,
+            "total": 119850705
+          }
+        },
+        {
+          "at": 3408.199999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 933,
+          "inflight": 12,
+          "readyTiles": 12,
+          "heap": {
+            "used": 94149992,
+            "total": 111824224
+          }
+        },
+        {
+          "at": 3910.5999999046326,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 919,
+          "inflight": 12,
+          "readyTiles": 26,
+          "heap": {
+            "used": 106854405,
+            "total": 122755701
+          }
+        },
+        {
+          "at": 4426.400000095367,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 906,
+          "inflight": 12,
+          "readyTiles": 39,
+          "heap": {
+            "used": 119979534,
+            "total": 132598686
+          }
+        },
+        {
+          "at": 4941.800000190735,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 894,
+          "inflight": 12,
+          "readyTiles": 51,
+          "heap": {
+            "used": 116123694,
+            "total": 128627898
+          }
+        },
+        {
+          "at": 5451.199999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 880,
+          "inflight": 12,
+          "readyTiles": 65,
+          "heap": {
+            "used": 118964698,
+            "total": 133077722
+          }
+        },
+        {
+          "at": 5966.800000190735,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 865,
+          "inflight": 12,
+          "readyTiles": 80,
+          "heap": {
+            "used": 120531723,
+            "total": 138153379
+          }
+        },
+        {
+          "at": 6469.699999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 853,
+          "inflight": 12,
+          "readyTiles": 92,
+          "heap": {
+            "used": 133359758,
+            "total": 150975726
+          }
+        },
+        {
+          "at": 6978.900000095367,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 841,
+          "inflight": 12,
+          "readyTiles": 104,
+          "heap": {
+            "used": 137155142,
+            "total": 151300978
+          }
+        },
+        {
+          "at": 7482.099999904633,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 828,
+          "inflight": 12,
+          "readyTiles": 117,
+          "heap": {
+            "used": 137854343,
+            "total": 150867723
+          }
+        },
+        {
+          "at": 7998.800000190735,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 817,
+          "inflight": 12,
+          "readyTiles": 128,
+          "heap": {
+            "used": 146101672,
+            "total": 159854940
+          }
+        },
+        {
+          "at": 8514.800000190735,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 804,
+          "inflight": 12,
+          "readyTiles": 141,
+          "heap": {
+            "used": 145061707,
+            "total": 160136571
+          }
+        },
+        {
+          "at": 9017.099999904633,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 790,
+          "inflight": 12,
+          "readyTiles": 155,
+          "heap": {
+            "used": 144305630,
+            "total": 162059662
+          }
+        },
+        {
+          "at": 9525.5,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 778,
+          "inflight": 12,
+          "readyTiles": 167,
+          "heap": {
+            "used": 153955134,
+            "total": 172135746
+          }
+        },
+        {
+          "at": 10041,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 766,
+          "inflight": 12,
+          "readyTiles": 179,
+          "heap": {
+            "used": 153075901,
+            "total": 170972557
+          }
+        },
+        {
+          "at": 10546.900000095367,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 752,
+          "inflight": 12,
+          "readyTiles": 193,
+          "heap": {
+            "used": 160383581,
+            "total": 173831865
+          }
+        },
+        {
+          "at": 11055,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 740,
+          "inflight": 12,
+          "readyTiles": 205,
+          "heap": {
+            "used": 170318220,
+            "total": 184061508
+          }
+        },
+        {
+          "at": 11571.400000095367,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 729,
+          "inflight": 12,
+          "readyTiles": 216,
+          "heap": {
+            "used": 169458134,
+            "total": 183474538
+          }
+        },
+        {
+          "at": 12084.800000190735,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 716,
+          "inflight": 12,
+          "readyTiles": 229,
+          "heap": {
+            "used": 175855380,
+            "total": 194659368
+          }
+        },
+        {
+          "at": 12589.199999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 703,
+          "inflight": 12,
+          "readyTiles": 242,
+          "heap": {
+            "used": 177519641,
+            "total": 194731721
+          }
+        },
+        {
+          "at": 13093,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 687,
+          "inflight": 12,
+          "readyTiles": 258,
+          "heap": {
+            "used": 191125793,
+            "total": 209030481
+          }
+        },
+        {
+          "at": 13595.400000095367,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 674,
+          "inflight": 12,
+          "readyTiles": 271,
+          "heap": {
+            "used": 193444986,
+            "total": 205475706
+          }
+        },
+        {
+          "at": 14099.199999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 663,
+          "inflight": 12,
+          "readyTiles": 282,
+          "heap": {
+            "used": 197570958,
+            "total": 214449518
+          }
+        },
+        {
+          "at": 14609.599999904633,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 651,
+          "inflight": 12,
+          "readyTiles": 294,
+          "heap": {
+            "used": 193647753,
+            "total": 212049389
+          }
+        },
+        {
+          "at": 15120.300000190735,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 638,
+          "inflight": 12,
+          "readyTiles": 307,
+          "heap": {
+            "used": 211076472,
+            "total": 223437392
+          }
+        },
+        {
+          "at": 15627.199999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 627,
+          "inflight": 12,
+          "readyTiles": 318,
+          "heap": {
+            "used": 206648640,
+            "total": 223489424
+          }
+        },
+        {
+          "at": 16142.699999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 614,
+          "inflight": 12,
+          "readyTiles": 331,
+          "heap": {
+            "used": 222197484,
+            "total": 233794764
+          }
+        },
+        {
+          "at": 16653.699999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 603,
+          "inflight": 12,
+          "readyTiles": 342,
+          "heap": {
+            "used": 214546393,
+            "total": 228087885
+          }
+        },
+        {
+          "at": 17173.400000095367,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 589,
+          "inflight": 12,
+          "readyTiles": 356,
+          "heap": {
+            "used": 222981186,
+            "total": 240083050
+          }
+        },
+        {
+          "at": 17685,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 578,
+          "inflight": 12,
+          "readyTiles": 367,
+          "heap": {
+            "used": 222182372,
+            "total": 238162656
+          }
+        },
+        {
+          "at": 18197.5,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 564,
+          "inflight": 12,
+          "readyTiles": 381,
+          "heap": {
+            "used": 235239644,
+            "total": 249077548
+          }
+        },
+        {
+          "at": 18701.400000095367,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 552,
+          "inflight": 12,
+          "readyTiles": 393,
+          "heap": {
+            "used": 230253532,
+            "total": 245288416
+          }
+        },
+        {
+          "at": 19206.400000095367,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 538,
+          "inflight": 12,
+          "readyTiles": 407,
+          "heap": {
+            "used": 242796701,
+            "total": 257346789
+          }
+        },
+        {
+          "at": 19721,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 527,
+          "inflight": 12,
+          "readyTiles": 418,
+          "heap": {
+            "used": 251764119,
+            "total": 267473311
+          }
+        },
+        {
+          "at": 20236,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 514,
+          "inflight": 12,
+          "readyTiles": 431,
+          "heap": {
+            "used": 242077383,
+            "total": 261969395
+          }
+        },
+        {
+          "at": 20751.099999904633,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 500,
+          "inflight": 12,
+          "readyTiles": 445,
+          "heap": {
+            "used": 255008695,
+            "total": 274639563
+          }
+        },
+        {
+          "at": 21256.199999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 489,
+          "inflight": 12,
+          "readyTiles": 456,
+          "heap": {
+            "used": 255151876,
+            "total": 268428328
+          }
+        },
+        {
+          "at": 21783,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 478,
+          "inflight": 12,
+          "readyTiles": 467,
+          "heap": {
+            "used": 265299834,
+            "total": 278016658
+          }
+        },
+        {
+          "at": 22298.400000095367,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 465,
+          "inflight": 12,
+          "readyTiles": 480,
+          "heap": {
+            "used": 257823985,
+            "total": 274169597
+          }
+        },
+        {
+          "at": 22806.599999904633,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 451,
+          "inflight": 12,
+          "readyTiles": 494,
+          "heap": {
+            "used": 269315161,
+            "total": 285786577
+          }
+        },
+        {
+          "at": 23312.400000095367,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 436,
+          "inflight": 12,
+          "readyTiles": 509,
+          "heap": {
+            "used": 279585040,
+            "total": 298757788
+          }
+        },
+        {
+          "at": 23827.699999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 422,
+          "inflight": 12,
+          "readyTiles": 523,
+          "heap": {
+            "used": 275251150,
+            "total": 294723814
+          }
+        },
+        {
+          "at": 24336.199999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 410,
+          "inflight": 12,
+          "readyTiles": 535,
+          "heap": {
+            "used": 278245951,
+            "total": 301569615
+          }
+        },
+        {
+          "at": 24845.199999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 398,
+          "inflight": 12,
+          "readyTiles": 547,
+          "heap": {
+            "used": 290264564,
+            "total": 316036948
+          }
+        },
+        {
+          "at": 25354,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 386,
+          "inflight": 12,
+          "readyTiles": 559,
+          "heap": {
+            "used": 302623849,
+            "total": 326128837
+          }
+        },
+        {
+          "at": 25858.900000095367,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 375,
+          "inflight": 12,
+          "readyTiles": 570,
+          "heap": {
+            "used": 294661077,
+            "total": 321063053
+          }
+        },
+        {
+          "at": 26375.300000190735,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 362,
+          "inflight": 12,
+          "readyTiles": 583,
+          "heap": {
+            "used": 305359200,
+            "total": 331693296
+          }
+        },
+        {
+          "at": 26889.5,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 351,
+          "inflight": 12,
+          "readyTiles": 594,
+          "heap": {
+            "used": 314650326,
+            "total": 341162302
+          }
+        },
+        {
+          "at": 27405.300000190735,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 337,
+          "inflight": 12,
+          "readyTiles": 608,
+          "heap": {
+            "used": 311011435,
+            "total": 338645139
+          }
+        },
+        {
+          "at": 27920.900000095367,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 325,
+          "inflight": 12,
+          "readyTiles": 620,
+          "heap": {
+            "used": 319082732,
+            "total": 347325852
+          }
+        },
+        {
+          "at": 28430.800000190735,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 311,
+          "inflight": 12,
+          "readyTiles": 634,
+          "heap": {
+            "used": 341154113,
+            "total": 359062741
+          }
+        },
+        {
+          "at": 28937.900000095367,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 299,
+          "inflight": 12,
+          "readyTiles": 646,
+          "heap": {
+            "used": 332569497,
+            "total": 357395065
+          }
+        },
+        {
+          "at": 29449.099999904633,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 286,
+          "inflight": 12,
+          "readyTiles": 659,
+          "heap": {
+            "used": 339720250,
+            "total": 368219490
+          }
+        },
+        {
+          "at": 29963.5,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 275,
+          "inflight": 12,
+          "readyTiles": 670,
+          "heap": {
+            "used": 358034395,
+            "total": 376924175
+          }
+        },
+        {
+          "at": 30473.599999904633,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 261,
+          "inflight": 12,
+          "readyTiles": 684,
+          "heap": {
+            "used": 352025449,
+            "total": 381345221
+          }
+        },
+        {
+          "at": 30976.699999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 251,
+          "inflight": 12,
+          "readyTiles": 694,
+          "heap": {
+            "used": 367800179,
+            "total": 389852195
+          }
+        },
+        {
+          "at": 31482.400000095367,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 241,
+          "inflight": 12,
+          "readyTiles": 704,
+          "heap": {
+            "used": 368024516,
+            "total": 398528024
+          }
+        },
+        {
+          "at": 31989.5,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 229,
+          "inflight": 12,
+          "readyTiles": 716,
+          "heap": {
+            "used": 385721470,
+            "total": 408729830
+          }
+        },
+        {
+          "at": 32493.400000095367,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 217,
+          "inflight": 12,
+          "readyTiles": 728,
+          "heap": {
+            "used": 379289681,
+            "total": 410031645
+          }
+        },
+        {
+          "at": 33014.300000190735,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 203,
+          "inflight": 12,
+          "readyTiles": 742,
+          "heap": {
+            "used": 394844956,
+            "total": 418012052
+          }
+        },
+        {
+          "at": 33523.09999990463,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 190,
+          "inflight": 12,
+          "readyTiles": 755,
+          "heap": {
+            "used": 396710504,
+            "total": 426570056
+          }
+        },
+        {
+          "at": 34033.59999990463,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 178,
+          "inflight": 12,
+          "readyTiles": 767,
+          "heap": {
+            "used": 411950308,
+            "total": 435333436
+          }
+        },
+        {
+          "at": 34543,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 169,
+          "inflight": 12,
+          "readyTiles": 776,
+          "heap": {
+            "used": 411612988,
+            "total": 435696920
+          }
+        },
+        {
+          "at": 35057.40000009537,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 154,
+          "inflight": 12,
+          "readyTiles": 791,
+          "heap": {
+            "used": 414191481,
+            "total": 445935781
+          }
+        },
+        {
+          "at": 35573.09999990463,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 140,
+          "inflight": 12,
+          "readyTiles": 805,
+          "heap": {
+            "used": 428110852,
+            "total": 455390592
+          }
+        },
+        {
+          "at": 36076.90000009537,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 127,
+          "inflight": 12,
+          "readyTiles": 818,
+          "heap": {
+            "used": 440684456,
+            "total": 463879876
+          }
+        },
+        {
+          "at": 36581.300000190735,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 115,
+          "inflight": 12,
+          "readyTiles": 830,
+          "heap": {
+            "used": 451554144,
+            "total": 471339668
+          }
+        },
+        {
+          "at": 37088.800000190735,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 100,
+          "inflight": 12,
+          "readyTiles": 845,
+          "heap": {
+            "used": 446402249,
+            "total": 476791621
+          }
+        },
+        {
+          "at": 37594.09999990463,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 89,
+          "inflight": 12,
+          "readyTiles": 856,
+          "heap": {
+            "used": 457464243,
+            "total": 483786015
+          }
+        },
+        {
+          "at": 38103.59999990463,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 76,
+          "inflight": 12,
+          "readyTiles": 869,
+          "heap": {
+            "used": 470278638,
+            "total": 492669486
+          }
+        },
+        {
+          "at": 38604.800000190735,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 64,
+          "inflight": 12,
+          "readyTiles": 881,
+          "heap": {
+            "used": 481488470,
+            "total": 500267822
+          }
+        },
+        {
+          "at": 39113.5,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 52,
+          "inflight": 12,
+          "readyTiles": 893,
+          "heap": {
+            "used": 476018879,
+            "total": 510345467
+          }
+        },
+        {
+          "at": 39627.90000009537,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 41,
+          "inflight": 12,
+          "readyTiles": 904,
+          "heap": {
+            "used": 483423268,
+            "total": 514076400
+          }
+        },
+        {
+          "at": 40137,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 28,
+          "inflight": 12,
+          "readyTiles": 917,
+          "heap": {
+            "used": 496020784,
+            "total": 523481036
+          }
+        },
+        {
+          "at": 40655.40000009537,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 16,
+          "inflight": 12,
+          "readyTiles": 929,
+          "heap": {
+            "used": 508241008,
+            "total": 531450032
+          }
+        },
+        {
+          "at": 41158.5,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 2,
+          "inflight": 12,
+          "readyTiles": 943,
+          "heap": {
+            "used": 520108950,
+            "total": 539706950
+          }
+        },
+        {
+          "at": 41667,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 0,
+          "inflight": 1,
+          "readyTiles": 956,
+          "heap": {
+            "used": 519999462,
+            "total": 548617050
+          }
+        },
+        {
+          "at": 42178.300000190735,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 937,
+          "inflight": 12,
+          "readyTiles": 965,
+          "heap": {
+            "used": 509301145,
+            "total": 537305077
+          }
+        },
+        {
+          "at": 42709.699999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 916,
+          "inflight": 12,
+          "readyTiles": 986,
+          "heap": {
+            "used": 524464656,
+            "total": 547172556
+          }
+        },
+        {
+          "at": 43213,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 904,
+          "inflight": 12,
+          "readyTiles": 998,
+          "heap": {
+            "used": 534139053,
+            "total": 553613393
+          }
+        },
+        {
+          "at": 43719.09999990463,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 890,
+          "inflight": 12,
+          "readyTiles": 1012,
+          "heap": {
+            "used": 528867597,
+            "total": 559256893
+          }
+        },
+        {
+          "at": 44226.09999990463,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 879,
+          "inflight": 12,
+          "readyTiles": 1023,
+          "heap": {
+            "used": 535118278,
+            "total": 563614354
+          }
+        },
+        {
+          "at": 44745.09999990463,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 866,
+          "inflight": 12,
+          "readyTiles": 1036,
+          "heap": {
+            "used": 547478962,
+            "total": 571803150
+          }
+        },
+        {
+          "at": 45258.40000009537,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 850,
+          "inflight": 12,
+          "readyTiles": 1052,
+          "heap": {
+            "used": 559575106,
+            "total": 579804254
+          }
+        },
+        {
+          "at": 45770.699999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 831,
+          "inflight": 12,
+          "readyTiles": 1071,
+          "heap": {
+            "used": 508129794,
+            "total": 539643638
+          }
+        },
+        {
+          "at": 46289.800000190735,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 819,
+          "inflight": 12,
+          "readyTiles": 1083,
+          "heap": {
+            "used": 515757118,
+            "total": 544084414
+          }
+        },
+        {
+          "at": 46795.300000190735,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 801,
+          "inflight": 12,
+          "readyTiles": 1101,
+          "heap": {
+            "used": 526930098,
+            "total": 552922834
+          }
+        },
+        {
+          "at": 47300.5,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 780,
+          "inflight": 12,
+          "readyTiles": 1122,
+          "heap": {
+            "used": 535208693,
+            "total": 558478045
+          }
+        },
+        {
+          "at": 47803.300000190735,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 765,
+          "inflight": 12,
+          "readyTiles": 1137,
+          "heap": {
+            "used": 542662287,
+            "total": 563037563
+          }
+        },
+        {
+          "at": 48310.300000190735,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 749,
+          "inflight": 12,
+          "readyTiles": 1153,
+          "heap": {
+            "used": 548278458,
+            "total": 566668774
+          }
+        },
+        {
+          "at": 48824.199999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 734,
+          "inflight": 12,
+          "readyTiles": 1168,
+          "heap": {
+            "used": 542113895,
+            "total": 572099875
+          }
+        },
+        {
+          "at": 49332.09999990463,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 720,
+          "inflight": 12,
+          "readyTiles": 1182,
+          "heap": {
+            "used": 548243068,
+            "total": 575806948
+          }
+        },
+        {
+          "at": 49845.800000190735,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 708,
+          "inflight": 12,
+          "readyTiles": 1194,
+          "heap": {
+            "used": 507984589,
+            "total": 535284769
+          }
+        },
+        {
+          "at": 50356.09999990463,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 697,
+          "inflight": 12,
+          "readyTiles": 1205,
+          "heap": {
+            "used": 512274792,
+            "total": 537716796
+          }
+        },
+        {
+          "at": 50858.90000009537,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 683,
+          "inflight": 12,
+          "readyTiles": 1219,
+          "heap": {
+            "used": 518140073,
+            "total": 541506637
+          }
+        },
+        {
+          "at": 51379.699999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 669,
+          "inflight": 12,
+          "readyTiles": 1233,
+          "heap": {
+            "used": 524743811,
+            "total": 544565579
+          }
+        },
+        {
+          "at": 51894.300000190735,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 655,
+          "inflight": 12,
+          "readyTiles": 1247,
+          "heap": {
+            "used": 518056040,
+            "total": 549017772
+          }
+        },
+        {
+          "at": 52397.59999990463,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 642,
+          "inflight": 12,
+          "readyTiles": 1260,
+          "heap": {
+            "used": 524094604,
+            "total": 553269040
+          }
+        },
+        {
+          "at": 52900.90000009537,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 627,
+          "inflight": 12,
+          "readyTiles": 1275,
+          "heap": {
+            "used": 527319367,
+            "total": 554525627
+          }
+        },
+        {
+          "at": 53417.300000190735,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 615,
+          "inflight": 12,
+          "readyTiles": 1287,
+          "heap": {
+            "used": 533261022,
+            "total": 557566578
+          }
+        },
+        {
+          "at": 53924.59999990463,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 601,
+          "inflight": 12,
+          "readyTiles": 1301,
+          "heap": {
+            "used": 539157863,
+            "total": 562164755
+          }
+        },
+        {
+          "at": 54435.90000009537,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 586,
+          "inflight": 12,
+          "readyTiles": 1316,
+          "heap": {
+            "used": 544223610,
+            "total": 566004718
+          }
+        },
+        {
+          "at": 54940.09999990463,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 572,
+          "inflight": 12,
+          "readyTiles": 1330,
+          "heap": {
+            "used": 548868991,
+            "total": 569497423
+          }
+        },
+        {
+          "at": 55441.90000009537,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 559,
+          "inflight": 12,
+          "readyTiles": 1343,
+          "heap": {
+            "used": 553794243,
+            "total": 573250211
+          }
+        },
+        {
+          "at": 55953.59999990463,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 547,
+          "inflight": 12,
+          "readyTiles": 1355,
+          "heap": {
+            "used": 505412720,
+            "total": 536645156
+          }
+        },
+        {
+          "at": 56457.09999990463,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 533,
+          "inflight": 12,
+          "readyTiles": 1369,
+          "heap": {
+            "used": 508874735,
+            "total": 539207975
+          }
+        },
+        {
+          "at": 56972.59999990463,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 516,
+          "inflight": 12,
+          "readyTiles": 1386,
+          "heap": {
+            "used": 513380557,
+            "total": 541698973
+          }
+        },
+        {
+          "at": 57477,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 500,
+          "inflight": 12,
+          "readyTiles": 1402,
+          "heap": {
+            "used": 518789813,
+            "total": 545248009
+          }
+        },
+        {
+          "at": 57986.699999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 481,
+          "inflight": 12,
+          "readyTiles": 1421,
+          "heap": {
+            "used": 523703891,
+            "total": 549101283
+          }
+        },
+        {
+          "at": 58498.699999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 465,
+          "inflight": 12,
+          "readyTiles": 1437,
+          "heap": {
+            "used": 527824105,
+            "total": 552891357
+          }
+        },
+        {
+          "at": 59016.09999990463,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 453,
+          "inflight": 12,
+          "readyTiles": 1449,
+          "heap": {
+            "used": 531794096,
+            "total": 554872084
+          }
+        },
+        {
+          "at": 59536.300000190735,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 439,
+          "inflight": 12,
+          "readyTiles": 1463,
+          "heap": {
+            "used": 537547161,
+            "total": 558317617
+          }
+        },
+        {
+          "at": 60041.40000009537,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 425,
+          "inflight": 12,
+          "readyTiles": 1477,
+          "heap": {
+            "used": 540466715,
+            "total": 559963487
+          }
+        },
+        {
+          "at": 60556,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 409,
+          "inflight": 12,
+          "readyTiles": 1493,
+          "heap": {
+            "used": 545477803,
+            "total": 563991015
+          }
+        },
+        {
+          "at": 61059.40000009537,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 391,
+          "inflight": 12,
+          "readyTiles": 1511,
+          "heap": {
+            "used": 550852318,
+            "total": 568636182
+          }
+        },
+        {
+          "at": 61578,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 373,
+          "inflight": 12,
+          "readyTiles": 1529,
+          "heap": {
+            "used": 544248143,
+            "total": 574197091
+          }
+        },
+        {
+          "at": 62086,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 355,
+          "inflight": 12,
+          "readyTiles": 1547,
+          "heap": {
+            "used": 506640972,
+            "total": 539556368
+          }
+        },
+        {
+          "at": 62599,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 342,
+          "inflight": 12,
+          "readyTiles": 1560,
+          "heap": {
+            "used": 511014925,
+            "total": 543062765
+          }
+        },
+        {
+          "at": 63101.40000009537,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 325,
+          "inflight": 12,
+          "readyTiles": 1577,
+          "heap": {
+            "used": 515071894,
+            "total": 545851598
+          }
+        },
+        {
+          "at": 63610.5,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 313,
+          "inflight": 12,
+          "readyTiles": 1589,
+          "heap": {
+            "used": 518583440,
+            "total": 549048692
+          }
+        },
+        {
+          "at": 64120.90000009537,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 298,
+          "inflight": 12,
+          "readyTiles": 1604,
+          "heap": {
+            "used": 521763964,
+            "total": 551581308
+          }
+        },
+        {
+          "at": 64641.199999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 285,
+          "inflight": 12,
+          "readyTiles": 1617,
+          "heap": {
+            "used": 523653246,
+            "total": 554820058
+          }
+        },
+        {
+          "at": 65159.40000009537,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 276,
+          "inflight": 12,
+          "readyTiles": 1626,
+          "heap": {
+            "used": 526198956,
+            "total": 556822968
+          }
+        },
+        {
+          "at": 65675.30000019073,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 266,
+          "inflight": 12,
+          "readyTiles": 1636,
+          "heap": {
+            "used": 528976078,
+            "total": 559094390
+          }
+        },
+        {
+          "at": 66188.40000009537,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 259,
+          "inflight": 12,
+          "readyTiles": 1643,
+          "heap": {
+            "used": 529436625,
+            "total": 560242861
+          }
+        },
+        {
+          "at": 66704.80000019073,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 247,
+          "inflight": 12,
+          "readyTiles": 1655,
+          "heap": {
+            "used": 532500605,
+            "total": 563257501
+          }
+        },
+        {
+          "at": 67221.69999980927,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 237,
+          "inflight": 12,
+          "readyTiles": 1665,
+          "heap": {
+            "used": 534875744,
+            "total": 565575128
+          }
+        },
+        {
+          "at": 67736.5,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 223,
+          "inflight": 12,
+          "readyTiles": 1679,
+          "heap": {
+            "used": 538818188,
+            "total": 568695044
+          }
+        },
+        {
+          "at": 68251.5,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 212,
+          "inflight": 12,
+          "readyTiles": 1690,
+          "heap": {
+            "used": 541796586,
+            "total": 570717022
+          }
+        },
+        {
+          "at": 68753.40000009537,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 200,
+          "inflight": 12,
+          "readyTiles": 1702,
+          "heap": {
+            "used": 534773036,
+            "total": 560234716
+          }
+        },
+        {
+          "at": 69264.30000019073,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 190,
+          "inflight": 12,
+          "readyTiles": 1712,
+          "heap": {
+            "used": 537515954,
+            "total": 562225382
+          }
+        },
+        {
+          "at": 69786.40000009537,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 181,
+          "inflight": 12,
+          "readyTiles": 1721,
+          "heap": {
+            "used": 539522147,
+            "total": 562998243
+          }
+        },
+        {
+          "at": 70338.69999980927,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 169,
+          "inflight": 12,
+          "readyTiles": 1733,
+          "heap": {
+            "used": 541341137,
+            "total": 563968517
+          }
+        },
+        {
+          "at": 70864.19999980927,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 158,
+          "inflight": 12,
+          "readyTiles": 1744,
+          "heap": {
+            "used": 542741216,
+            "total": 565240476
+          }
+        },
+        {
+          "at": 71376.59999990463,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 146,
+          "inflight": 12,
+          "readyTiles": 1756,
+          "heap": {
+            "used": 543614548,
+            "total": 566749832
+          }
+        },
+        {
+          "at": 71894.59999990463,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 134,
+          "inflight": 12,
+          "readyTiles": 1768,
+          "heap": {
+            "used": 545573294,
+            "total": 568141066
+          }
+        },
+        {
+          "at": 72409.09999990463,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 123,
+          "inflight": 12,
+          "readyTiles": 1779,
+          "heap": {
+            "used": 546836551,
+            "total": 569799519
+          }
+        },
+        {
+          "at": 72937.09999990463,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 112,
+          "inflight": 12,
+          "readyTiles": 1790,
+          "heap": {
+            "used": 548081487,
+            "total": 570627999
+          }
+        },
+        {
+          "at": 73451.30000019073,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 99,
+          "inflight": 12,
+          "readyTiles": 1803,
+          "heap": {
+            "used": 550909847,
+            "total": 572635371
+          }
+        },
+        {
+          "at": 73958.09999990463,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 87,
+          "inflight": 12,
+          "readyTiles": 1815,
+          "heap": {
+            "used": 554115485,
+            "total": 575256201
+          }
+        },
+        {
+          "at": 74463,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 73,
+          "inflight": 12,
+          "readyTiles": 1829,
+          "heap": {
+            "used": 557080584,
+            "total": 577742172
+          }
+        },
+        {
+          "at": 74974.40000009537,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 57,
+          "inflight": 12,
+          "readyTiles": 1845,
+          "heap": {
+            "used": 550940431,
+            "total": 577170935
+          }
+        },
+        {
+          "at": 75478.09999990463,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 45,
+          "inflight": 12,
+          "readyTiles": 1857,
+          "heap": {
+            "used": 553551260,
+            "total": 578441108
+          }
+        },
+        {
+          "at": 75980.59999990463,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 31,
+          "inflight": 12,
+          "readyTiles": 1871,
+          "heap": {
+            "used": 557087938,
+            "total": 581111002
+          }
+        },
+        {
+          "at": 76504.69999980927,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 19,
+          "inflight": 12,
+          "readyTiles": 1883,
+          "heap": {
+            "used": 559895834,
+            "total": 583698586
+          }
+        },
+        {
+          "at": 77013,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 2,
+          "inflight": 12,
+          "readyTiles": 1900,
+          "heap": {
+            "used": 562183426,
+            "total": 586040310
+          }
+        },
+        {
+          "at": 77522.90000009537,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 0,
+          "inflight": 2,
+          "readyTiles": 1912,
+          "heap": {
+            "used": 564186238,
+            "total": 586719118
+          }
+        },
+        {
+          "at": 78032.90000009537,
+          "ready": true,
+          "complete": true,
+          "workers": 6,
+          "queued": 0,
+          "inflight": 0,
+          "readyTiles": 1914,
+          "heap": {
+            "used": 563744105,
+            "total": 586811285
+          }
+        }
+      ],
+      "errors": [],
+      "measurements": [
+        {
+          "variant": "baseline",
+          "round": 0,
+          "stats": {
+            "streamUpdateCpuMs": {
+              "n": 224,
+              "mean": 0.005803574408803668,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "shadowFitCpuMs": {
+              "n": 224,
+              "mean": 0.00491071173122951,
+              "p50": 0,
+              "p95": 0
+            },
+            "shadowSubmitCpuMs": {
+              "n": 7392,
+              "mean": 0.07920725108225109,
+              "p50": 0,
+              "p95": 0
+            },
+            "shadowDrawCalls": {
+              "n": 7392,
+              "mean": 39.666666666666664,
+              "p50": 0,
+              "p95": 0
+            },
+            "pass0CpuMs": {
+              "n": 224,
+              "mean": 4.135267857994352,
+              "p50": 4.099999904632568,
+              "p95": 4.699999809265137
+            },
+            "pass1CpuMs": {
+              "n": 224,
+              "mean": 1.1397321330649512,
+              "p50": 1.0999999046325684,
+              "p95": 1.4000000953674316
+            },
+            "pass2CpuMs": {
+              "n": 224,
+              "mean": 0.09910714626312256,
+              "p50": 0.09999990463256836,
+              "p95": 0.19999980926513672
+            },
+            "pass3CpuMs": {
+              "n": 224,
+              "mean": 0.008035721523421151,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "pass4CpuMs": {
+              "n": 224,
+              "mean": 0.03258928656578064,
+              "p50": 0,
+              "p95": 0.10000038146972656
+            },
+            "composerCpuMs": {
+              "n": 224,
+              "mean": 5.4607142848627905,
+              "p50": 5.400000095367432,
+              "p95": 6.199999809265137
+            },
+            "drawCalls": {
+              "n": 224,
+              "mean": 1575,
+              "p50": 1575,
+              "p95": 1575
+            },
+            "triangles": {
+              "n": 224,
+              "mean": 24905894,
+              "p50": 24905894,
+              "p95": 24905894
+            },
+            "labelsCpuMs": {
+              "n": 224,
+              "mean": 0.4383928520338876,
+              "p50": 0.40000009536743164,
+              "p95": 0.7000002861022949
+            },
+            "frameIntervalMs": {
+              "n": 223,
+              "mean": 8.953363228271895,
+              "p50": 8.699999809265137,
+              "p95": 10.5
+            },
+            "pass0GpuMs": {
+              "n": 218,
+              "mean": 7.354870605504593,
+              "p50": 7.09632,
+              "p95": 8.379392
+            },
+            "pass1GpuMs": {
+              "n": 218,
+              "mean": 0.9351748990825681,
+              "p50": 0.919552,
+              "p95": 0.966656
+            },
+            "pass2GpuMs": {
+              "n": 218,
+              "mean": 0.16307405504587155,
+              "p50": 0.162816,
+              "p95": 0.165888
+            },
+            "pass3GpuMs": {
+              "n": 218,
+              "mean": 0.11026422018348626,
+              "p50": 0.109568,
+              "p95": 0.115712
+            },
+            "pass4GpuMs": {
+              "n": 218,
+              "mean": 0.22780946788990797,
+              "p50": 0.211968,
+              "p95": 0.25088
+            }
+          },
+          "memory": {
+            "columnBytes": 371626314,
+            "geometries": 1323,
+            "textures": 43,
+            "workers": 1,
+            "nodes": 1914,
+            "meshes": 1897
+          },
+          "camera": [
+            2459.099999999999,
+            523,
+            1917.9
+          ]
+        }
+      ],
+      "environment": {
+        "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1080 Ti (0x00001B06) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "gpuTimers": true,
+        "hardwareConcurrency": 8,
+        "pixelRatio": 1,
+        "shadowSize": [
+          8192,
+          8192
+        ],
+        "passes": [
+          {
+            "name": "RenderPass"
+          },
+          {
+            "name": "Pass"
+          },
+          {
+            "name": "EffectPass",
+            "effects": [
+              "BloomEffect"
+            ]
+          },
+          {
+            "name": "EffectPass",
+            "effects": [
+              "DepthBlur"
+            ]
+          },
+          {
+            "name": "EffectPass",
+            "effects": [
+              "SMAAEffect",
+              "ToneMappingEffect",
+              "HueSaturationEffect",
+              "BrightnessContrastEffect",
+              "VignetteEffect"
+            ]
+          }
+        ],
+        "workersAfterIdle": 1
+      },
+      "pageHeap": {
+        "usedSize": 28247472,
+        "totalSize": 58146816,
+        "embedderHeapUsedSize": 3160712,
+        "backingStorageSize": 529447897
+      },
+      "performance": [
+        {
+          "name": "Timestamp",
+          "value": 3108727.773158
+        },
+        {
+          "name": "AudioHandlers",
+          "value": 0
+        },
+        {
+          "name": "AudioWorkletProcessors",
+          "value": 0
+        },
+        {
+          "name": "Documents",
+          "value": 2
+        },
+        {
+          "name": "Frames",
+          "value": 2
+        },
+        {
+          "name": "JSEventListeners",
+          "value": 79
+        },
+        {
+          "name": "LayoutObjects",
+          "value": 383
+        },
+        {
+          "name": "MediaKeySessions",
+          "value": 0
+        },
+        {
+          "name": "MediaKeys",
+          "value": 0
+        },
+        {
+          "name": "Nodes",
+          "value": 554
+        },
+        {
+          "name": "Resources",
+          "value": 16
+        },
+        {
+          "name": "ContextLifecycleStateObservers",
+          "value": 7
+        },
+        {
+          "name": "V8PerContextDatas",
+          "value": 2
+        },
+        {
+          "name": "WorkerGlobalScopes",
+          "value": 1
+        },
+        {
+          "name": "UACSSResources",
+          "value": 0
+        },
+        {
+          "name": "RTCPeerConnections",
+          "value": 0
+        },
+        {
+          "name": "ResourceFetchers",
+          "value": 3
+        },
+        {
+          "name": "AdSubframes",
+          "value": 0
+        },
+        {
+          "name": "DetachedScriptStates",
+          "value": 0
+        },
+        {
+          "name": "ArrayBufferContents",
+          "value": 5648
+        },
+        {
+          "name": "LayoutCount",
+          "value": 10570
+        },
+        {
+          "name": "RecalcStyleCount",
+          "value": 10689
+        },
+        {
+          "name": "LayoutDuration",
+          "value": 0.64378
+        },
+        {
+          "name": "RecalcStyleDuration",
+          "value": 0.440445
+        },
+        {
+          "name": "DevToolsCommandDuration",
+          "value": 0.057957
+        },
+        {
+          "name": "ScriptDuration",
+          "value": 55.823547
+        },
+        {
+          "name": "V8CompileDuration",
+          "value": 0
+        },
+        {
+          "name": "TaskDuration",
+          "value": 61.515846
+        },
+        {
+          "name": "TaskOtherDuration",
+          "value": 4.550117
+        },
+        {
+          "name": "ThreadTime",
+          "value": 58.666286
+        },
+        {
+          "name": "ProcessTime",
+          "value": 154.918344
+        },
+        {
+          "name": "JSHeapUsedSize",
+          "value": 28250392
+        },
+        {
+          "name": "JSHeapTotalSize",
+          "value": 58146816
+        },
+        {
+          "name": "FirstMeaningfulPaint",
+          "value": 3108643.205383
+        },
+        {
+          "name": "DomContentLoaded",
+          "value": 3108641.431553
+        },
+        {
+          "name": "NavigationStart",
+          "value": 3108641.166496
+        }
+      ]
+    }
+  ]
+}

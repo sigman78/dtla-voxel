@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DTLA rendering profile — November 2, 2026</title>
+<style>
+  :root { color-scheme: light dark; font: 16px/1.55 system-ui, sans-serif; }
+  body { max-width: 1050px; margin: 40px auto; padding: 0 24px 60px; }
+  h1 { line-height: 1.15; } h2 { margin-top: 2em; }
+  table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
+  th,td { padding: 9px 12px; border-bottom: 1px solid #8886; text-align: right; }
+  th:first-child,td:first-child { text-align: left; }
+  .table { overflow-x: auto; } .lead { font-size: 1.15rem; }
+  .muted { opacity: .75; } pre { overflow-x:auto; padding:16px; background:#8882; }
+  a { color: light-dark(#1755ad,#8ab9ff); } code { font-size: .9em; }
+</style>
+<h1>DTLA rendering profile</h1>
+<p class="muted">November 2, 2026 · <code>feat/rendering-optimization</code> · viewer revision <code>91e7a53</code></p>
+<p class="lead"><strong>Shadow-map redraws are the clearest optimization target.</strong> Reusing a settled shadow map reduced stationary frame time by about one third in Civic Center and Bunker Hill. The wide overview is slower still. No viewer optimizations were implemented in this profiling pass.</p>
+
+<h2>Stationary frame times</h2>
+<p>Mean milliseconds per frame; lower is better. Each cell averages two six-second samples, with variant order reversed in the second round. These are headless frame intervals, not a guarantee of displayed FPS.</p>
+<div class="table"><table>
+<thead><tr><th>Runtime experiment</th><th>Civic Center</th><th>Bunker Hill</th></tr></thead>
+<tbody>
+<tr><td>Unchanged baseline</td><td>9.46</td><td>13.17</td></tr>
+<tr><td>Reuse existing shadow map</td><td><strong>6.08</strong></td><td><strong>8.79</strong></td></tr>
+<tr><td>Disable N8AO</td><td>8.49</td><td>12.55</td></tr>
+<tr><td>Disable bloom</td><td>9.36</td><td>12.87</td></tr>
+<tr><td>Disable depth blur</td><td>9.28</td><td>12.69</td></tr>
+<tr><td>Remove SMAA; retain grading</td><td>9.33</td><td>12.86</td></tr>
+<tr><td>Skip label updates</td><td>9.10</td><td>13.41</td></tr>
+</tbody></table></div>
+<p>Small differences are noisy: label removal did not consistently improve frame time, despite eliminating measurable CPU work. Baseline p95 frame intervals were 10.8–11.8 ms in Civic Center and 15.4–16.0 ms in Bunker Hill.</p>
+
+<h2>Where the time goes</h2>
+<div class="table"><table>
+<thead><tr><th>Baseline GPU pass, mean ms</th><th>Civic Center</th><th>Bunker Hill</th></tr></thead>
+<tbody>
+<tr><td>Scene rendering, including shadows</td><td>7.77</td><td>11.48</td></tr>
+<tr><td>N8AO, including its supporting renders</td><td>0.97</td><td>0.95</td></tr>
+<tr><td>Bloom</td><td>0.16</td><td>0.16</td></tr>
+<tr><td>Depth blur</td><td>0.11</td><td>0.14</td></tr>
+<tr><td>SMAA + tone mapping + grading + vignette</td><td>0.26</td><td>0.27</td></tr>
+</tbody></table></div>
+<ul>
+<li><strong>Shadows:</strong> 8192 × 8192 map. Civic Center submitted 1,575 draw calls/frame, dropping to 266 with the shadow map frozen. Bunker Hill dropped from 2,068 to 524. Thus 1,309 and 1,544 calls respectively were shadow redraws. These are total frame counts across composer passes, with renderer statistics reset once per composed frame.</li>
+<li><strong>Shadow fitting:</strong> about 0.005 ms CPU/frame while stationary. The existing cache works; fitting is not the expensive part. Renderer shadow auto-update remains enabled, so the cached fit still gets redrawn.</li>
+<li><strong>Labels:</strong> approximately 0.4–0.5 ms CPU/frame, including four occlusion raycasts, projection, sorting, placement and DOM writes. There is a CPU-saving opportunity, but this is not the primary frame-time bottleneck on this GPU.</li>
+<li><strong>Settled streaming updates:</strong> about 0.008–0.010 ms CPU/frame averaged over all frames. The 100 ms throttle already limits scanning; this figure does not describe meshing during loading.</li>
+<li><strong>Geometry:</strong> baseline totals were 24.9 million rendered triangles/frame in Civic Center and 31.3 million in Bunker Hill, including repeated geometry in shadows and supporting passes.</li>
+</ul>
+
+<h2>Overview, motion and night</h2>
+<p>The wide default overview measured <strong>24.19 ms stationary</strong> and <strong>24.32 ms during slow auto-orbit</strong> in six-second exploratory samples. Stationary p95 was 26.70 ms. It submitted 3,789 calls and 51.8 million triangles/frame; scene rendering including shadows took 22.68 ms on the GPU.</p>
+<p>Bunker Hill at 19:30 measured <strong>13.90 ms stationary</strong> and <strong>14.50 ms during slow auto-orbit</strong>. Motion samples move through different viewpoints and are descriptive, not exact paired camera-path comparisons.</p>
+<p>The repeated overview shadow comparison measured <strong>23.15 → 18.63 ms/frame</strong>, a 19.5% reduction. Draw calls fell from 3,789 to 1,892 and rendered triangles from 51.8 million to 25.8 million. The remaining scene GPU time was about 17.52 ms: shadow invalidation alone will not bring this overview reliably below a 16.7 ms frame budget. The earlier 24.19 ms sample also illustrates ordinary run-to-run variation.</p>
+
+<h2>Tile loading and memory</h2>
+<ul>
+<li>At 1 m detail the viewer loads the entire map: 1,914 tile nodes, including foliage, producing 1,897 meshes. View-frustum priority affects loading order, not eventual retention.</li>
+<li>Local instrumented loading took 20.4 s in Civic Center and 20.9 s in Bunker Hill after shader warm-up. The initial smoke run took 78 s. These are local Vite/browser startup observations, not production network benchmarks; shader cache, local disk and instrumentation affect them.</li>
+<li>Worker concurrency reached six on this eight-thread CPU, then returned to one after the existing idle-retirement delay. Sampled aggregate worker JS heap usage plus ArrayBuffer backing storage peaked at about 127 MiB in Civic Center and 227 MiB in Bunker Hill. Sampling every few seconds can miss transient peaks.</li>
+<li>The remaining idle worker retained about 15 MiB and 5 MiB respectively by the same measure. These are not whole-process RAM figures and exclude GPU memory.</li>
+<li><strong>354.4 MiB of tile-column buffers remain on the main thread</strong> for ground queries, raycasts and collision data. Across all loaded meshes, attribute/index payload is approximately 599.2 MiB; this is a logical buffer total, not measured GPU residency. Offscreen geometry may still reside on the CPU, and texture/render-target/driver allocations are additional.</li>
+</ul>
+
+<h2>Recommended implementation order</h2>
+<ol>
+<li><strong>Invalidate shadows when required.</strong> Keep the existing map for settled frames. Update it when the fitted light projection changes, sun direction changes, or tiles/casters become visible. Frozen shadows in this experiment are an upper-bound diagnostic, not a safe implementation for camera motion or tile loading.</li>
+<li><strong>Investigate view-dependent geometry and retention.</strong> The overview remains geometry-heavy, and all 1 m tiles stay resident. Measure distant detail reductions and buffer retention before choosing a larger streaming redesign.</li>
+<li><strong>Let stationary labels settle, then stop repeating work.</strong> Invalidate on camera/viewport changes, tile data, fonts, selected pins and UI obstacles. Preserve the 150 ms label-settle delay and complete pending occlusion checks.</li>
+<li><strong>Keep visual effects by default.</strong> AO is the largest postprocessing cost here. Bloom, depth blur and SMAA are comparatively small; any quality reduction should be justified with visual comparisons and a slower-device profile.</li>
+</ol>
+
+<h2>Reproduce and inspect</h2>
+<p>Hardware: Intel Core i7-9700K, NVIDIA GeForce GTX 1080 Ti, ANGLE/D3D11. Viewport 1600 × 1000, device pixel ratio 1, 1 m detail, November 2 at 13:00 unless specified. The profiler records the actual Chromium version and GPU identity in its JSON. Other desktop workloads are not controlled.</p>
+<pre><code># Terminal 1, from web/
+node node_modules/vite/bin/vite.js --host 127.0.0.1 --port 5175 --strictPort
+
+# Terminal 2, from web/
+node tools/profile.mjs ../artifacts/profiling/baseline.json
+
+# Optional PowerShell overrides
+$env:VIEWS='default'
+$env:VARIANTS='baseline,frozen-shadows'
+$env:ROUNDS='2'
+node tools/profile.mjs ../artifacts/profiling/overview-shadows.json</code></pre>
+<p>Other overrides: <code>URL</code>, <code>CHROME</code>, <code>HOUR</code>, <code>SAMPLE_MS</code>. The harness exposes instances by modifying the served Vite module response and wraps methods in the test page only. It does not modify viewer source or shipping defaults. It depends on the current internal instance/pass structure.</p>
+<p>After loading, the harness waits five seconds, warms each variant for 1.5 seconds and samples for six seconds. CPU method timings include submission overhead; GPU passes use asynchronous <code>EXT_disjoint_timer_query_webgl2</code> queries. CPU and GPU timings overlap and must not be added together. GPU queries marked disjoint are discarded. Sub-millisecond CPU values have limited timer precision. Per-pass differences are not strictly additive because the GPU workload changes.</p>
+<p>The raw <code>shadowDrawCalls</code> and <code>shadowSubmitCpuMs</code> counters are per shadow-render invocation, including no-op invocations from supporting passes. To obtain a per-frame mean, multiply their mean by their sample count and divide by <code>composerCpuMs.n</code>. Passes 0–4 correspond to the GPU table above.</p>
+<p><a href="../web/tools/profile.mjs">Profiler source</a> · <a href="../artifacts/profiling/baseline.json">Two-view repeated comparisons</a> · <a href="../artifacts/profiling/overview-motion.json">Overview/motion</a> · <a href="../artifacts/profiling/night-motion.json">Night/motion</a> · <a href="../artifacts/profiling/overview-shadows.json">Overview/shadows</a> · <a href="../artifacts/profiling/smoke.json">Initial smoke run</a></p>
+<p class="muted">Validation: TypeScript and production build passed. Browser runs reported no page errors or HTTP failures. No rendering changes, commits, publishing or deployment were performed.</p>
+</html>
