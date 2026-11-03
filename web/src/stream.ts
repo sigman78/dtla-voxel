@@ -1,8 +1,9 @@
 import * as THREE from 'three';
 import type { ColumnData, Meta, TileLevel } from './types';
-import type { MeshRequest, MeshReply, RawColumns } from './mesher.worker';
+import type { MeshRequest, MeshReply } from './mesher.worker';
 import { dataUrl } from './util';
 import { World, type ColumnSource } from './world';
+import { geometryBytes, makeQuadDepthMaterial, makeQuadGeometry } from './quadGeometry';
 
 export interface TileNode {
   key: string;
@@ -10,37 +11,27 @@ export interface TileNode {
   tx: number;
   ty: number;
   foliage: boolean;
-  state: 'queued' | 'loading' | 'ready';
-  keep: boolean;
+  state: 'queued' | 'loading' | 'ready' | 'failed';
   mesh?: THREE.Mesh;
   data?: ColumnData;
   empty?: boolean;
-  dataJob?: Job;
   ready: Promise<void>;
-  job: Job;
-}
-
-interface Job {
-  node: TileNode;
-  dataOnly: boolean;
-  state: 'queued' | 'loading';
-  prio: number;
-  done: Promise<void>;
   resolve: () => void;
+  id: number;
+  prio: number;
+  touched: number;
+  retryAt: number;
+  attempts: number;
+  meshBytes: number;
+  queryBytes: number;
+  voxels: number;
+}
+interface Pooled {
+  worker: Worker;
+  busy: number;
+  idle: number;
 }
 
-interface Pooled { worker: Worker; busy: number; idle: number }
-
-const releaseArray = function (this: THREE.BufferAttribute) { (this as { array: unknown }).array = null; };
-
-function makeJob(node: TileNode, dataOnly: boolean, prio: number): Job {
-  let resolve = () => {};
-  const done = new Promise<void>((r) => { resolve = r; });
-  return { node, dataOnly, state: 'queued', prio, done, resolve };
-}
-
-// Loads voxel tiles (the pipeline's tiles.py: N x N cells of s metres) and meshes them in a pool of workers. What to
-// load and show is up to city.ts, which sets update().
 export class TileStreamer implements ColumnSource {
   readonly N: number;
   readonly levels: number[];
@@ -48,169 +39,276 @@ export class TileStreamer implements ColumnSource {
   readonly nodes = new Map<string, TileNode>();
   readonly group = new THREE.Group();
   readonly world: World;
+  readonly packed: boolean;
   version = 0;
+  revision = 0;
   update: (camera: THREE.Camera) => void = () => {};
-  private queue: Job[] = [];
+  private queue: TileNode[] = [];
   private inflight = 0;
-  private readonly maxWorkers = Math.min(Math.max(2, (navigator.hardwareConcurrency || 4) - 2), 10);
+  private debugMaterials: Map<number, THREE.Material> | null = null;
+  private foliageMaterial: THREE.Material | null = null;
+  private debugFoliageMaterial: THREE.Material | null = null;
+  private nextId = 1;
+  private readonly maxWorkers = Math.min(Math.max(1, (navigator.hardwareConcurrency || 4) - 2), 4);
   private readonly pool: Pooled[] = [];
-  private quadIdx: THREE.BufferAttribute | null = null;
+  private replies: MeshReply[] = [];
+  private replyBytes = 0;
+  private readonly depth = makeQuadDepthMaterial();
+  private readonly distance = makeQuadDepthMaterial(true);
+  readonly stats = { cancelled: 0, stale: 0, evicted: 0, failed: 0, admittedBytes: 0 };
 
-  constructor(private readonly meta: Meta, private readonly material: THREE.Material, scene: THREE.Scene) {
+  constructor(
+    private readonly meta: Meta,
+    private readonly material: THREE.Material,
+    scene: THREE.Scene,
+    packed = true,
+  ) {
+    this.packed = packed;
     this.N = meta.tiles.N;
     this.levels = meta.tiles.levels.map((l) => l.s).sort((a, b) => b - a);
     this.dims = Object.fromEntries(meta.tiles.levels.map((l) => [l.s, l]));
     scene.add(this.group);
-    this.spawn();
     this.world = new World(this, meta);
   }
-
-  columns(key: string) { return this.nodes.get(key)?.data; }
-
-  key(s: number, tx: number, ty: number) { return `${s}/${tx}_${ty}`; }
-
+  columns(key: string) {
+    return this.nodes.get(key)?.data;
+  }
+  setDebugMaterials(materials: Map<number, THREE.Material> | null, foliage: THREE.Material | null = null) {
+    this.debugMaterials = materials;
+    this.debugFoliageMaterial = foliage;
+    this.refreshMaterials();
+  }
+  setFoliageMaterial(material: THREE.Material) {
+    this.foliageMaterial = material;
+    this.refreshMaterials();
+  }
+  private materialFor(node: TileNode) {
+    if (node.foliage) return this.debugFoliageMaterial ?? this.foliageMaterial ?? this.material;
+    return this.debugMaterials?.get(node.s) ?? this.material;
+  }
+  private refreshMaterials() {
+    if (this.debugFoliageMaterial && this.foliageMaterial) {
+      this.debugFoliageMaterial.polygonOffset = this.foliageMaterial.polygonOffset;
+      this.debugFoliageMaterial.polygonOffsetFactor = this.foliageMaterial.polygonOffsetFactor;
+      this.debugFoliageMaterial.polygonOffsetUnits = this.foliageMaterial.polygonOffsetUnits;
+    }
+    for (const node of this.nodes.values()) {
+      if (node.mesh) node.mesh.material = this.materialFor(node);
+    }
+  }
+  key(s: number, tx: number, ty: number) {
+    return `${s}/${tx}_${ty}`;
+  }
   bounds(s: number, tx: number, ty: number) {
     const L = this.N * s;
     return [tx * L, ty * L, Math.min((tx + 1) * L, this.meta.W), Math.min((ty + 1) * L, this.meta.D)];
   }
-
-  // keep: its column data stays here too, for collisions and ray casts
-  request(s: number, tx: number, ty: number, prio: number, keep = false): Promise<void> {
-    const key = this.key(s, tx, ty);
+  request(s: number, tx: number, ty: number, prio: number, _keep = true) {
+    return this.enqueue(this.key(s, tx, ty), s, tx, ty, false, prio);
+  }
+  requestFoliage(tx: number, ty: number, prio: number) {
+    return this.enqueue(`f/${tx}_${ty}`, 1, tx, ty, true, prio);
+  }
+  private enqueue(key: string, s: number, tx: number, ty: number, foliage: boolean, prio: number) {
     let n = this.nodes.get(key);
-    if (n && keep && n.state === 'ready' && !n.data && !n.empty) {
-      n.keep = true;
-      if (!n.dataJob) { n.dataJob = makeJob(n, true, prio); this.queue.push(n.dataJob); }
-      n.dataJob.prio = prio;
-      return n.dataJob.done;
+    if (n) {
+      n.prio = prio;
+      n.touched = performance.now();
+      if (n.state !== 'failed' || performance.now() < n.retryAt) return n.ready;
+      this.nodes.delete(key);
     }
-    n ??= this.addNode(key, s, tx, ty, false, keep);
-    n.job.prio = prio;
-    return n.ready;
-  }
-
-  // trees and grass of a 1 m tile (tiles/1f), meshed over its base tile
-  requestFoliage(tx: number, ty: number, prio: number): Promise<void> {
-    const key = `f/${tx}_${ty}`;
-    const n = this.nodes.get(key) ?? this.addNode(key, 1, tx, ty, true, false);
-    n.job.prio = prio;
-    return n.ready;
-  }
-
-  private addNode(key: string, s: number, tx: number, ty: number, foliage: boolean, keep: boolean) {
-    const n = { key, s, tx, ty, foliage, keep, state: 'queued' } as TileNode;
-    n.job = makeJob(n, false, 0);
-    n.ready = n.job.done;
+    let resolve = () => {};
+    const ready = new Promise<void>((r) => {
+      resolve = r;
+    });
+    n = {
+      key,
+      s,
+      tx,
+      ty,
+      foliage,
+      prio,
+      ready,
+      resolve,
+      id: this.nextId++,
+      state: 'queued',
+      touched: performance.now(),
+      retryAt: 0,
+      attempts: (n?.attempts ?? 0) + 1,
+      meshBytes: 0,
+      queryBytes: 0,
+      voxels: 0,
+    };
     this.nodes.set(key, n);
-    this.queue.push(n.job);
-    return n;
+    this.queue.push(n);
+    this.revision++;
+    return ready;
   }
-
   reprioritize(prio: (n: TileNode) => number) {
-    for (const j of this.queue) if (!j.dataOnly) j.prio = prio(j.node);
+    for (const n of this.queue) n.prio = prio(n);
   }
-
-  private spawn() {
-    const worker = new Worker(new URL('./mesher.worker.ts', import.meta.url), { type: 'module' });
-    const p: Pooled = { worker, busy: 0, idle: performance.now() };
-    worker.onmessage = (e: MessageEvent<MeshReply>) => this.onReply(e.data, p);
-    this.pool.push(p);
-  }
-
-  // workers past the first one leave after 4 s idle (each holds ~35 MB)
   retire() {
     const now = performance.now();
-    for (const p of [...this.pool]) {
-      if (this.pool.length > 1 && p.busy === 0 && now - p.idle > 4000) {
+    for (const p of [...this.pool])
+      if (!p.busy && now - p.idle > 4000 && this.pool.length > 1) {
         p.worker.terminate();
         this.pool.splice(this.pool.indexOf(p), 1);
       }
-    }
   }
-
+  private spawn() {
+    const worker = new Worker(new URL('./mesher.worker.ts', import.meta.url), { type: 'module' });
+    const p: Pooled = { worker, busy: 0, idle: performance.now() };
+    worker.onmessage = (e: MessageEvent<MeshReply>) => {
+      p.busy = 0;
+      this.inflight--;
+      p.idle = performance.now();
+      const m = e.data;
+      if (this.nodes.get(m.key)?.id !== m.id) this.stats.stale++;
+      else {
+        this.replies.push(m);
+        this.replyBytes += this.bytesOf(m);
+      }
+      this.pump();
+    };
+    worker.onerror = () => {
+      const n = [...this.nodes.values()].find((n) => n.id === p.busy);
+      if (n) {
+        n.state = 'failed';
+        n.retryAt = performance.now() + 3000;
+        n.resolve();
+        this.stats.failed++;
+        this.revision++;
+      }
+      if (p.busy) this.inflight--;
+      worker.terminate();
+      this.pool.splice(this.pool.indexOf(p), 1);
+      this.pump();
+    };
+    this.pool.push(p);
+  }
+  private bytesOf(m: MeshReply) {
+    return m.type === 'node'
+      ? m.records.byteLength + (m.data ? m.data.runs.byteLength + m.data.off.byteLength + m.data.ground.byteLength : 0)
+      : 0;
+  }
   pump() {
+    if (!this.queue.length || this.replyBytes > 4 * 1024 * 1024) return;
     this.queue.sort((a, b) => b.prio - a.prio);
-    while (this.queue.length > this.pool.length * 2 && this.pool.length < this.maxWorkers) this.spawn();
-    while (this.queue.length && this.inflight < this.pool.length * 2) {
-      const job = this.queue.shift()!;
-      if (job.state !== 'queued') continue;
-      const p = this.pool.reduce((a, b) => (a.busy <= b.busy ? a : b));
-      p.busy++; this.inflight++;
-      job.state = 'loading';
-      const { msg, transfer } = this.requestFor(job);
+    while (this.pool.length < Math.min(this.maxWorkers, this.queue.length + this.inflight)) this.spawn();
+    for (const p of this.pool) {
+      if (p.busy || !this.queue.length) continue;
+      const n = this.queue.shift()!;
+      if (this.nodes.get(n.key) !== n) continue;
+      n.state = 'loading';
+      p.busy = n.id;
+      this.inflight++;
+      const file = (key: string) => dataUrl(`tiles/${key}.bin`);
+      const msg: MeshRequest = {
+        id: n.id,
+        key: n.key,
+        N: this.N,
+        s: n.s,
+        url: file(n.foliage ? `1f/${n.tx}_${n.ty}` : n.key),
+        keep: !n.foliage,
+      };
+      const transfer: Transferable[] = [];
+      if (n.foliage) {
+        const data = this.nodes.get(this.key(1, n.tx, n.ty))?.data;
+        if (data) {
+          // Foliage uses occupancy only; no material-rich columns need to survive meshing.
+          msg.under = { off: data.off.slice(), runs: data.runs.slice(), ground: new Uint8Array() };
+          transfer.push(msg.under.off.buffer, msg.under.runs.buffer, msg.under.ground.buffer);
+        } else msg.under = file(`1/${n.tx}_${n.ty}`);
+      }
       p.worker.postMessage(msg, transfer);
     }
   }
-
-  private requestFor({ node: n, dataOnly }: Job): { msg: MeshRequest; transfer: Transferable[] } {
-    const [x0, y0] = this.bounds(n.s, n.tx, n.ty);
-    const file = (k: string) => dataUrl(`tiles/${k}.bin`);
-    const base = { key: n.key, N: this.N, s: n.s, x0, y0 };
-    if (n.foliage) {
-      // the base tile's column data is still here: hand over a copy instead of fetching it again
-      const b = this.nodes.get(this.key(1, n.tx, n.ty))?.data;
-      const under: RawColumns | string = b ? { counts: b.counts.slice(), runs: b.runs.slice() } : file(`1/${n.tx}_${n.ty}`);
-      return { msg: { ...base, url: file(`1f/${n.tx}_${n.ty}`), under, keep: false, dataOnly: false },
-        transfer: typeof under === 'string' ? [] : [under.counts.buffer, under.runs.buffer] };
-    }
-    return { msg: { ...base, url: file(n.key), keep: n.keep || n.s > 1, dataOnly }, transfer: [] };
-  }
-
-  private onReply(m: MeshReply, p: Pooled) {
-    p.busy--; this.inflight--; p.idle = performance.now();
-    const n = this.nodes.get(m.key);
-    if (n && m.dataOnly) {
-      const job = n.dataJob;
-      n.dataJob = undefined;
-      if (m.type === 'error') console.warn(m.error);
-      else if (m.data && !n.data) this.setData(n, m.data);
-      job?.resolve();
-    } else if (n && m.type === 'error') {
-      console.warn(m.error);
-      n.state = 'ready'; n.empty = true;
-      n.job.resolve();
-    } else if (n && m.type === 'node') {
-      if (m.quads) n.mesh = this.makeMesh(m.pos, m.attr, m.pal, m.quads);
-      if (m.data) this.setData(n, m.data);
-      n.state = 'ready';
-      n.job.resolve();
+  // Admit bounded output per frame. A single larger tile must still make progress.
+  flush(maxBytes = 2 * 1024 * 1024, prepare?: (mesh: THREE.Mesh) => void) {
+    let used = 0;
+    while (this.replies.length && used < maxBytes) {
+      const m = this.replies.shift()!,
+        bytes = this.bytesOf(m);
+      this.replyBytes -= bytes;
+      used += bytes;
+      const n = this.nodes.get(m.key);
+      if (!n || n.id !== m.id) {
+        this.stats.stale++;
+        continue;
+      }
+      if (m.type === 'error') {
+        n.state = 'failed';
+        n.retryAt = performance.now() + Math.min(30000, 1000 * 2 ** Math.min(n.attempts, 5));
+        this.stats.failed++;
+        console.warn(m.error);
+      } else {
+        n.voxels = m.voxels;
+        if (m.quads) {
+          const geo = makeQuadGeometry(m.records, m.bounds, this.packed);
+          const mesh = new THREE.Mesh(geo, this.materialFor(n));
+          mesh.position.set(n.tx * this.N * n.s, 0, n.ty * this.N * n.s);
+          mesh.updateMatrix();
+          mesh.matrixAutoUpdate = false;
+          mesh.visible = false;
+          mesh.castShadow = mesh.receiveShadow = true;
+          if (this.packed) {
+            mesh.customDepthMaterial = this.depth;
+            mesh.customDistanceMaterial = this.distance;
+          }
+          prepare?.(mesh);
+          this.group.add(mesh);
+          n.mesh = mesh;
+          n.meshBytes = geometryBytes(geo);
+          this.stats.admittedBytes += n.meshBytes;
+        }
+        if (m.data) {
+          n.data = { ...m.data, s: n.s, x0: n.tx * this.N * n.s, y0: n.ty * this.N * n.s, S: this.N + 2 };
+          n.queryBytes = m.data.runs.byteLength + m.data.off.byteLength + m.data.ground.byteLength;
+          this.version++;
+        }
+        n.empty = !m.quads;
+        n.state = 'ready';
+      }
+      n.resolve();
+      this.revision++;
     }
     this.pump();
   }
-
-  private makeMesh(pos: Int16Array, attr: Uint8Array, pal: Uint16Array, quads: number) {
-    const geo = new THREE.BufferGeometry();
-    geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-    geo.setAttribute('vattr', new THREE.BufferAttribute(attr, 4));
-    geo.setAttribute('vpal', new THREE.BufferAttribute(pal, 1));
-    geo.setIndex(this.quadIndex(quads));
-    geo.setDrawRange(0, quads * 6);
-    geo.computeBoundingBox(); geo.computeBoundingSphere();
-    for (const a of Object.values(geo.attributes)) (a as THREE.BufferAttribute).onUpload(releaseArray); // culling only needs the bounding sphere
-    const mesh = new THREE.Mesh(geo, this.material);
-    mesh.castShadow = mesh.receiveShadow = true;
-    mesh.visible = false;
-    mesh.matrixAutoUpdate = false;
-    this.group.add(mesh);
-    return mesh;
+  trim(keep: Set<string>, maxBytes = 256 * 1024 * 1024, graceMs = 2000) {
+    const now = performance.now();
+    let bytes = this.memory.total;
+    for (const n of [...this.nodes.values()].sort((a, b) => a.touched - b.touched)) {
+      if (keep.has(n.key)) continue;
+      if (n.state === 'ready' && bytes <= maxBytes && now - n.touched < graceMs) continue;
+      if (n.mesh?.visible) continue;
+      this.nodes.delete(n.key);
+      this.queue = this.queue.filter((j) => j !== n);
+      const p = this.pool.find((p) => p.busy === n.id);
+      if (p) {
+        p.worker.postMessage({ cancel: n.id });
+        this.stats.cancelled++;
+      }
+      if (n.mesh) {
+        this.group.remove(n.mesh);
+        n.mesh.geometry.dispose();
+        this.stats.evicted++;
+      }
+      if (n.data) this.version++;
+      bytes -= n.meshBytes + n.queryBytes;
+      n.resolve();
+      this.revision++;
+    }
+    // Do not let already-completed obsolete results hold large buffers until a later frame.
+    this.replies = this.replies.filter((m) => this.nodes.get(m.key)?.id === m.id);
+    this.replyBytes = this.replies.reduce((sum, m) => sum + this.bytesOf(m), 0);
   }
-
-  // one index buffer for every tile: 0 1 2, 0 2 3 quad after quad (the mesher orders each quad's corners to fit it)
-  private quadIndex(quads: number) {
-    if (this.quadIdx && this.quadIdx.count >= quads * 6) return this.quadIdx;
-    const n = Math.max(quads, 2 * (this.quadIdx ? this.quadIdx.count / 6 : 65536)), a = new Uint32Array(n * 6);
-    for (let q = 0, b = 0; q < n; q++, b += 4) a.set([b, b + 1, b + 2, b, b + 2, b + 3], q * 6);
-    const old = this.quadIdx;
-    this.quadIdx = new THREE.BufferAttribute(a, 1);
-    if (old) for (const v of this.nodes.values()) if (v.mesh?.geometry.index === old) v.mesh.geometry.setIndex(this.quadIdx);
-    return this.quadIdx;
-  }
-
-  private setData(n: TileNode, { counts, ground, runs }: { counts: Uint16Array; ground: Uint8Array; runs: Uint16Array }) {
-    const S = this.N + 2, off = new Uint32Array(S * S + 1);
-    for (let i = 0; i < S * S; i++) off[i + 1] = off[i] + counts[i];
-    const [x0, y0] = this.bounds(n.s, n.tx, n.ty);
-    n.data = { s: n.s, x0, y0, S, counts, ground, runs, off };
-    this.version++;
+  get memory() {
+    let geometry = 0,
+      query = 0;
+    for (const n of this.nodes.values()) {
+      geometry += n.meshBytes;
+      query += n.queryBytes;
+    }
+    return { geometry, query, pending: this.replyBytes, total: geometry + query + this.replyBytes };
   }
 }

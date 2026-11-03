@@ -23,7 +23,7 @@ export class Daylight {
   bloom: { intensity: number } | null = null;
   private readonly sun = new THREE.DirectionalLight(0xffffff, 3);
   private readonly hemi = new THREE.HemisphereLight(0xbfd6ff, 0x6b5a48, 0.6);
-  private readonly pmrem: THREE.PMREMGenerator;
+  private pmrem: THREE.PMREMGenerator;
   private readonly lightDir = new THREE.Vector3(0, 1, 0);
   private env: THREE.WebGLRenderTarget | null = null;
   private envKey = '';
@@ -47,6 +47,19 @@ export class Daylight {
 
   // Both gates must be opened: the renderer skips the shadow pass while the scene is unchanged.
   invalidateShadow() { this.renderer.shadowMap.needsUpdate = this.sun.shadow.needsUpdate = true; }
+  get direction() { return this.lightDir.clone(); }
+  contextLost() {
+    // Dispose old-context listeners/handles while the context is lost, not after restoration.
+    this.pmrem.dispose();
+    this.env?.dispose(); this.env = null; this.scene.environment = null;
+    this.sun.shadow.map?.dispose(); this.sun.shadow.map = null;
+  }
+  restore() {
+    this.pmrem = new THREE.PMREMGenerator(this.renderer);
+    this.envKey = '';
+    this.apply(this.hour);
+    this.invalidateShadow();
+  }
 
   // the grid is turned (meta.theta_deg): compass bearings turn by theta in the scene
   set theta(t: number) { this.northTheta = t; this.apply(this.hour); }

@@ -1,6 +1,6 @@
 // Local Vite profiling; runtime instrumentation only, no viewer source changes.
 // node tools/profile.mjs [output.json]
-// URL, CHROME, VIEWS (comma-separated), HOUR, SAMPLE_MS, ROUNDS, VARIANTS override defaults.
+// URL, CHROME, VIEWS (comma-separated), LOD, HOUR, SAMPLE_MS, ROUNDS, VARIANTS override defaults.
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -42,7 +42,7 @@ async function workerHeaps() {
 const report = { date: new Date().toISOString(), browser: browser.version(), viewport: { width: 1600, height: 1000 },
   revision: execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim(), cpu: os.cpus()[0]?.model,
   worktreeDirty: !!execFileSync('git', ['status', '--porcelain'], { encoding: 'utf8' }).trim(),
-  hour: +(process.env.HOUR || 13), sampleMs: +(process.env.SAMPLE_MS || 6000), rounds: +(process.env.ROUNDS || 2), runs: [] };
+  geometry: process.env.GEOMETRY || 'packed', lod: +(process.env.LOD ?? 1), hour: +(process.env.HOUR || 13), sampleMs: +(process.env.SAMPLE_MS || 6000), rounds: +(process.env.ROUNDS || 2), runs: [] };
 const save = () => { fs.mkdirSync(path.dirname(path.resolve(out)), { recursive: true }); fs.writeFileSync(out, JSON.stringify(report, null, 2)); };
 try {
   for (const view of (process.env.VIEWS || 'civic,bunkerhill').split(',')) {
@@ -60,8 +60,9 @@ try {
     const cdp = await context.newCDPSession(page);
     await cdp.send('Performance.enable');
     const started = Date.now();
-    await page.goto(`${process.env.URL || 'http://127.0.0.1:5175/'}?view=${view}&hour=${report.hour}&date=11-02&lod=1`);
+    await page.goto(`${process.env.URL || 'http://127.0.0.1:5175/'}?view=${view}&hour=${report.hour}&date=11-02&lod=${report.lod}&geometry=${report.geometry}`);
     const loading = [];
+    let navigationResets = 0;
     while (Date.now() - started < 300000) {
       const sample = await page.evaluate(() => {
         const s = window.__profileTargets?.streamer;
@@ -69,7 +70,13 @@ try {
           workers: s?.pool.length ?? 0, queued: s?.queue.length ?? 0, inflight: s?.inflight ?? 0,
           readyTiles: s ? [...s.nodes.values()].filter(n => n.state === 'ready').length : 0,
           heap: performance.memory ? { used: performance.memory.usedJSHeapSize, total: performance.memory.totalJSHeapSize } : null };
+      }).catch(async error => {
+        if (!String(error).includes('Execution context was destroyed')) throw error;
+        navigationResets++;
+        await page.waitForFunction(() => window.__ready, null, { timeout: 300000 });
+        return null;
       });
+      if (!sample) continue;
       loading.push(sample);
       if (loading.length % 4 === 0 && sample.workers) sample.workerHeaps = await workerHeaps();
       if (loading.length % 20 === 0) console.log(view, 'loading', sample.readyTiles, 'tiles;', sample.workers, 'workers;', sample.queued, 'queued');
@@ -77,7 +84,7 @@ try {
       await page.waitForTimeout(500);
     }
     if (!loading.at(-1)?.complete) throw new Error('Tile loading timed out');
-    const run = { view, loadMs: Date.now() - started, loading, errors, measurements: [] };
+    const run = { view, loadMs: Date.now() - started, navigationResets, loading, errors, measurements: [] };
     report.runs.push(run); save();
     console.log(view, 'loaded', run.loadMs, 'ms; peak workers', Math.max(...loading.map(s => s.workers)));
     await page.waitForTimeout(5000);
@@ -95,6 +102,7 @@ try {
     await page.evaluate(() => {
       const { renderer, post, daylight, controls } = window.__three;
       const { streamer, labels } = window.__profileTargets;
+      const frustumTests = new Map([...streamer.nodes.values()].filter(n => n.mesh).map(n => [n.mesh, n.mesh.intersectsFrustum]));
       controls.saveState();
       const shadowAutoUpdate = renderer.shadowMap.autoUpdate;
       const gl = renderer.getContext(), ext = gl.getExtension('EXT_disjoint_timer_query_webgl2');
@@ -149,6 +157,13 @@ try {
       };
       p.configure = variant => {
         p.active = false;
+        // Research-only conservative AABB experiment. Current tile vertices are world-space.
+        for (const [mesh, original] of frustumTests) {
+          const worldBox = mesh.geometry.boundingBox.clone().applyMatrix4(mesh.matrixWorld);
+          mesh.intersectsFrustum = variant === 'box-culling'
+            ? function (frustum) { return frustum.intersectsBox(worldBox); }
+            : original;
+        }
         controls.autoRotate = false; controls.reset();
         renderer.shadowMap.autoUpdate = variant === 'always-shadows' ? true : variant === 'frozen-shadows' ? false : shadowAutoUpdate;
         renderer.shadowMap.needsUpdate = true;
@@ -169,18 +184,23 @@ try {
           const a = [...values].sort((a,b) => a-b);
           stats[key] = { n: a.length, mean: a.reduce((s,v) => s+v,0)/a.length, p50: a[Math.floor(a.length*.5)], p95: a[Math.min(a.length-1,Math.floor(a.length*.95))] };
         }
-        const buffers = new Set(), indices = new Set(); let columnBytes = 0, geometryBufferBytes = 0;
+        const buffers = new Set(), geometryBuffers = new Set(); let columnBytes = 0, geometryBufferBytes = 0;
         for (const n of streamer.nodes.values()) {
           if (n.data) for (const a of Object.values(n.data)) if (ArrayBuffer.isView(a) && !buffers.has(a.buffer)) { buffers.add(a.buffer); columnBytes += a.buffer.byteLength; }
-          // Attribute arrays are released after upload; use the formats in stream.makeMesh.
           if (n.mesh) {
-            for (const [name, a] of Object.entries(n.mesh.geometry.attributes)) geometryBufferBytes += a.count * a.itemSize * (name === 'vattr' ? 1 : 2);
-            const index = n.mesh.geometry.index;
-            if (index && !indices.has(index)) { indices.add(index); geometryBufferBytes += index.count * 4; }
+            for (const a of [...Object.values(n.mesh.geometry.attributes), n.mesh.geometry.index].filter(Boolean)) {
+              const b = (a.isInterleavedBufferAttribute ? a.data.array : a.array).buffer;
+              if (!geometryBuffers.has(b)) { geometryBuffers.add(b); geometryBufferBytes += b.byteLength; }
+            }
           }
         }
+        const selection = window.__city.selection;
+        const levels = {};
+        for (const key of selection.leaves) { const level = key.split('/')[0]; levels[level] = (levels[level] ?? 0) + 1; }
         return { stats, memory: { columnBytes, geometryBufferBytes, geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures,
           workers: streamer.pool.length, nodes: streamer.nodes.size, meshes: [...streamer.nodes.values()].filter(n=>n.mesh).length },
+          streaming: { ...streamer.stats, memory: streamer.memory, selection: { leaves: selection.leaves.length,
+            active: selection.active.length, levels, estimatedBytes: selection.estimatedBytes, pressure: selection.pressure } },
           camera: window.__three.camera.position.toArray() };
       };
     });

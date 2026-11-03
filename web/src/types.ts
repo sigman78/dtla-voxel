@@ -58,7 +58,6 @@ export interface ColumnData {
   x0: number;
   y0: number;
   S: number;
-  counts: Uint16Array;
   ground: Uint8Array;
   runs: Uint16Array;
   off: Uint32Array;

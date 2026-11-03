@@ -30,7 +30,8 @@ export class World {
 
   private node(x: number, r: number): ColumnData | null {
     const { src } = this, c = this.cache;
-    if (c && this.cacheVersion === src.version && x >= c.x0 && r >= c.y0 && x < c.x0 + src.N * c.s && r < c.y0 + src.N * c.s) return c;
+    // A cached coarse tile may contain a finer resident tile at the next query point.
+    if (c && c.s === src.levels.at(-1) && this.cacheVersion === src.version && x >= c.x0 && r >= c.y0 && x < c.x0 + src.N * c.s && r < c.y0 + src.N * c.s) return c;
     for (let i = src.levels.length - 1; i >= 0; i--) {
       const s = src.levels[i], L = src.N * s, d = src.columns(`${s}/${Math.floor(x / L)}_${Math.floor(r / L)}`);
       if (d) { this.cache = d; this.cacheVersion = src.version; return d; }
@@ -55,9 +56,9 @@ export class World {
     const [n, i] = c, zc = Math.floor(z / n.s), R = n.runs;
     if (zc < 0) return true;
     for (let k = n.off[i], e = n.off[i + 1]; k < e; k++) {
-      const z0 = R[k * 3];
+      const z0 = R[k * 2];
       if (zc < z0) return false;
-      if (zc < z0 + R[k * 3 + 1]) return true;
+      if (zc < z0 + R[k * 2 + 1]) return true;
     }
     return false;
   }
@@ -66,7 +67,7 @@ export class World {
     const c = this.column(x, r);
     if (!c) return 0;
     const [n, i] = c, k = n.off[i + 1] - 1;
-    return k < n.off[i] ? n.ground[i] : (n.runs[k * 3] + n.runs[k * 3 + 1]) * n.s;
+    return k < n.off[i] ? n.ground[i] : (n.runs[k * 2] + n.runs[k * 2 + 1]) * n.s;
   }
 
   // distance along d (unit, three.js axes) to the first solid voxel; sets hitAxis

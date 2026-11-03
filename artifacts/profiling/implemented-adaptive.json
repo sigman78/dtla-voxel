@@ -1,0 +1,2231 @@
+{
+  "date": "2026-11-03T09:39:25.074Z",
+  "browser": "156.0.8078.4",
+  "viewport": {
+    "width": 1600,
+    "height": 1000
+  },
+  "revision": "c043114ea9a266e383f61f7ae45611ca365e3919",
+  "cpu": "Intel(R) Core(TM) i7-9700K CPU @ 3.60GHz",
+  "worktreeDirty": true,
+  "geometry": "packed",
+  "lod": 0,
+  "hour": 13,
+  "sampleMs": 6000,
+  "rounds": 2,
+  "runs": [
+    {
+      "view": "default",
+      "loadMs": 4071,
+      "navigationResets": 0,
+      "loading": [
+        {
+          "at": 1344.0999999046326,
+          "ready": false,
+          "complete": false,
+          "workers": 0,
+          "queued": 0,
+          "inflight": 0,
+          "readyTiles": 0,
+          "heap": {
+            "used": 23660704,
+            "total": 27506520
+          }
+        },
+        {
+          "at": 2129.199999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 84,
+          "inflight": 4,
+          "readyTiles": 0,
+          "heap": {
+            "used": 99768342,
+            "total": 109995606
+          }
+        },
+        {
+          "at": 3047.699999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 79,
+          "inflight": 4,
+          "readyTiles": 1,
+          "heap": {
+            "used": 108989385,
+            "total": 118775237
+          }
+        },
+        {
+          "at": 3549.5999999046326,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 16,
+          "inflight": 4,
+          "readyTiles": 67,
+          "heap": {
+            "used": 64823405,
+            "total": 77352205
+          },
+          "workerHeaps": [
+            {
+              "targetId": "52B78AC875A0D60AED0592E79B615649",
+              "id": 1,
+              "result": {
+                "usedSize": 2396092,
+                "totalSize": 7340032,
+                "embedderHeapUsedSize": 952176,
+                "backingStorageSize": 46405190
+              }
+            },
+            {
+              "targetId": "60B6EAA84AB5B605DFB55C8714D06D5B",
+              "id": 2,
+              "result": {
+                "usedSize": 2573144,
+                "totalSize": 6553600,
+                "embedderHeapUsedSize": 834912,
+                "backingStorageSize": 39616441
+              }
+            },
+            {
+              "targetId": "C099FDEF1877FEBEAB6694D1F45C5F47",
+              "id": 3,
+              "result": {
+                "usedSize": 2944104,
+                "totalSize": 7602176,
+                "embedderHeapUsedSize": 926928,
+                "backingStorageSize": 42115091
+              }
+            },
+            {
+              "targetId": "08AE6D04BB4D40B1AB6D50C3A40FBB90",
+              "id": 4,
+              "result": {
+                "usedSize": 3023624,
+                "totalSize": 7077888,
+                "embedderHeapUsedSize": 924672,
+                "backingStorageSize": 41419440
+              }
+            }
+          ]
+        },
+        {
+          "at": 4059,
+          "ready": true,
+          "complete": true,
+          "workers": 4,
+          "queued": 0,
+          "inflight": 0,
+          "readyTiles": 88,
+          "heap": {
+            "used": 67074256,
+            "total": 83958336
+          }
+        }
+      ],
+      "errors": [],
+      "measurements": [
+        {
+          "variant": "baseline",
+          "round": 0,
+          "stats": {
+            "streamUpdateCpuMs": {
+              "n": 991,
+              "mean": 0.005146316274263784,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "shadowFitCpuMs": {
+              "n": 991,
+              "mean": 0.010797175822176198,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "shadowSubmitCpuMs": {
+              "n": 32703,
+              "mean": 0.00025379938061979575,
+              "p50": 0,
+              "p95": 0
+            },
+            "shadowDrawCalls": {
+              "n": 32703,
+              "mean": 0,
+              "p50": 0,
+              "p95": 0
+            },
+            "pass0CpuMs": {
+              "n": 991,
+              "mean": 0.40898082234664596,
+              "p50": 0.40000009536743164,
+              "p95": 0.5999999046325684
+            },
+            "pass1CpuMs": {
+              "n": 991,
+              "mean": 0.18284561222665366,
+              "p50": 0.19999980926513672,
+              "p95": 0.3000001907348633
+            },
+            "pass2CpuMs": {
+              "n": 991,
+              "mean": 0.10867810321503764,
+              "p50": 0.09999990463256836,
+              "p95": 0.20000028610229492
+            },
+            "pass3CpuMs": {
+              "n": 991,
+              "mean": 0.009889002163884136,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "pass4CpuMs": {
+              "n": 991,
+              "mean": 0.039556007693201216,
+              "p50": 0,
+              "p95": 0.10000038146972656
+            },
+            "composerCpuMs": {
+              "n": 991,
+              "mean": 0.7884964692724942,
+              "p50": 0.7999997138977051,
+              "p95": 1
+            },
+            "drawCalls": {
+              "n": 991,
+              "mean": 101,
+              "p50": 101,
+              "p95": 101
+            },
+            "triangles": {
+              "n": 991,
+              "mean": 3161898,
+              "p50": 3161898,
+              "p95": 3161898
+            },
+            "labelsCpuMs": {
+              "n": 991,
+              "mean": 1.0826437976117331,
+              "p50": 1.0999999046325684,
+              "p95": 1.5
+            },
+            "frameIntervalMs": {
+              "n": 990,
+              "mean": 6.064141414141414,
+              "p50": 6.099999904632568,
+              "p95": 6.200000286102295
+            },
+            "pass0GpuMs": {
+              "n": 990,
+              "mean": 3.8833131313131273,
+              "p50": 3.647488,
+              "p95": 4.605952
+            },
+            "pass1GpuMs": {
+              "n": 990,
+              "mean": 0.5364054949494957,
+              "p50": 0.441344,
+              "p95": 1.120256
+            },
+            "pass2GpuMs": {
+              "n": 989,
+              "mean": 0.2673274175935268,
+              "p50": 0.16384,
+              "p95": 0.89088
+            },
+            "pass3GpuMs": {
+              "n": 989,
+              "mean": 0.09677951870576201,
+              "p50": 0.096256,
+              "p95": 0.09728
+            },
+            "pass4GpuMs": {
+              "n": 989,
+              "mean": 0.22048685945399127,
+              "p50": 0.192512,
+              "p95": 0.46592
+            }
+          },
+          "memory": {
+            "columnBytes": 12417124,
+            "geometryBufferBytes": 29935600,
+            "geometries": 102,
+            "textures": 43,
+            "workers": 1,
+            "nodes": 88,
+            "meshes": 88
+          },
+          "streaming": {
+            "cancelled": 0,
+            "stale": 0,
+            "evicted": 0,
+            "failed": 0,
+            "admittedBytes": 29935600,
+            "memory": {
+              "geometry": 29935600,
+              "query": 12417124,
+              "pending": 0,
+              "total": 42352724
+            },
+            "selection": {
+              "leaves": 70,
+              "active": 70,
+              "levels": {
+                "8": 2,
+                "4": 68
+              },
+              "estimatedBytes": 24500000,
+              "pressure": 1
+            }
+          },
+          "camera": [
+            -2978.199999999999,
+            3927.0000000000005,
+            3450
+          ]
+        },
+        {
+          "variant": "moving",
+          "round": 0,
+          "stats": {
+            "streamUpdateCpuMs": {
+              "n": 899,
+              "mean": 0.019799777742752905,
+              "p50": 0,
+              "p95": 0.20000028610229492
+            },
+            "shadowFitCpuMs": {
+              "n": 899,
+              "mean": 0.009343715345236297,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "shadowSubmitCpuMs": {
+              "n": 29671,
+              "mean": 0.0066125171056214335,
+              "p50": 0,
+              "p95": 0
+            },
+            "shadowDrawCalls": {
+              "n": 29671,
+              "mean": 2.1523372990462066,
+              "p50": 0,
+              "p95": 0
+            },
+            "pass0CpuMs": {
+              "n": 899,
+              "mean": 0.540600674833949,
+              "p50": 0.5,
+              "p95": 0.6999998092651367
+            },
+            "pass1CpuMs": {
+              "n": 899,
+              "mean": 0.16384871942182802,
+              "p50": 0.19999980926513672,
+              "p95": 0.2999997138977051
+            },
+            "pass2CpuMs": {
+              "n": 899,
+              "mean": 0.126585093700846,
+              "p50": 0.09999990463256836,
+              "p95": 0.20000028610229492
+            },
+            "pass3CpuMs": {
+              "n": 899,
+              "mean": 0.011345937599462185,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "pass4CpuMs": {
+              "n": 899,
+              "mean": 0.029699662370862103,
+              "p50": 0,
+              "p95": 0.10000038146972656
+            },
+            "composerCpuMs": {
+              "n": 899,
+              "mean": 0.9030033388445454,
+              "p50": 0.9000000953674316,
+              "p95": 1.0999999046325684
+            },
+            "drawCalls": {
+              "n": 899,
+              "mean": 173.0734149054505,
+              "p50": 175,
+              "p95": 175
+            },
+            "triangles": {
+              "n": 899,
+              "mean": 6359773.110122358,
+              "p50": 6395282,
+              "p95": 6395282
+            },
+            "labelsCpuMs": {
+              "n": 899,
+              "mean": 0.9764182474774964,
+              "p50": 1,
+              "p95": 1.5
+            },
+            "frameIntervalMs": {
+              "n": 898,
+              "mean": 6.683073496765442,
+              "p50": 6.599999904632568,
+              "p95": 7.399999618530273
+            },
+            "pass0GpuMs": {
+              "n": 893,
+              "mean": 5.618411646136613,
+              "p50": 5.537792,
+              "p95": 6.166528
+            },
+            "pass1GpuMs": {
+              "n": 893,
+              "mean": 0.42163644344904777,
+              "p50": 0.418816,
+              "p95": 0.43008
+            },
+            "pass2GpuMs": {
+              "n": 893,
+              "mean": 0.15667099664053735,
+              "p50": 0.151552,
+              "p95": 0.165888
+            },
+            "pass3GpuMs": {
+              "n": 893,
+              "mean": 0.09904616349384086,
+              "p50": 0.098304,
+              "p95": 0.10576
+            },
+            "pass4GpuMs": {
+              "n": 893,
+              "mean": 0.19939200000000076,
+              "p50": 0.191488,
+              "p95": 0.216064
+            }
+          },
+          "memory": {
+            "columnBytes": 12813092,
+            "geometryBufferBytes": 30304064,
+            "geometries": 106,
+            "textures": 43,
+            "workers": 4,
+            "nodes": 92,
+            "meshes": 92
+          },
+          "streaming": {
+            "cancelled": 0,
+            "stale": 0,
+            "evicted": 0,
+            "failed": 0,
+            "admittedBytes": 30304064,
+            "memory": {
+              "geometry": 30304064,
+              "query": 12813092,
+              "pending": 0,
+              "total": 43117156
+            },
+            "selection": {
+              "leaves": 72,
+              "active": 72,
+              "levels": {
+                "4": 72
+              },
+              "estimatedBytes": 35720104,
+              "pressure": 1
+            }
+          },
+          "camera": [
+            -2091.057158394946,
+            3927,
+            -1508.4218496235476
+          ]
+        },
+        {
+          "variant": "moving",
+          "round": 1,
+          "stats": {
+            "streamUpdateCpuMs": {
+              "n": 879,
+              "mean": 0.017747443961880178,
+              "p50": 0,
+              "p95": 0.19999980926513672
+            },
+            "shadowFitCpuMs": {
+              "n": 879,
+              "mean": 0.011604096431102905,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "shadowSubmitCpuMs": {
+              "n": 29007,
+              "mean": 0.0063950082165635915,
+              "p50": 0,
+              "p95": 0
+            },
+            "shadowDrawCalls": {
+              "n": 29007,
+              "mean": 2.1818181818181817,
+              "p50": 0,
+              "p95": 0
+            },
+            "pass0CpuMs": {
+              "n": 879,
+              "mean": 0.5309442513631879,
+              "p50": 0.5,
+              "p95": 0.6000003814697266
+            },
+            "pass1CpuMs": {
+              "n": 879,
+              "mean": 0.1608646249608375,
+              "p50": 0.19999980926513672,
+              "p95": 0.2999997138977051
+            },
+            "pass2CpuMs": {
+              "n": 879,
+              "mean": 0.12002275367103203,
+              "p50": 0.09999990463256836,
+              "p95": 0.20000028610229492
+            },
+            "pass3CpuMs": {
+              "n": 879,
+              "mean": 0.010352670671725572,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "pass4CpuMs": {
+              "n": 879,
+              "mean": 0.030147898590469794,
+              "p50": 0,
+              "p95": 0.10000038146972656
+            },
+            "composerCpuMs": {
+              "n": 879,
+              "mean": 0.8779294683393494,
+              "p50": 0.8999996185302734,
+              "p95": 1
+            },
+            "drawCalls": {
+              "n": 879,
+              "mean": 175,
+              "p50": 175,
+              "p95": 175
+            },
+            "triangles": {
+              "n": 879,
+              "mean": 6395282,
+              "p50": 6395282,
+              "p95": 6395282
+            },
+            "labelsCpuMs": {
+              "n": 879,
+              "mean": 0.9400455043041936,
+              "p50": 1,
+              "p95": 1.4000000953674316
+            },
+            "frameIntervalMs": {
+              "n": 878,
+              "mean": 6.833940774270234,
+              "p50": 6.699999809265137,
+              "p95": 7.599999904632568
+            },
+            "pass0GpuMs": {
+              "n": 873,
+              "mean": 5.747652508591062,
+              "p50": 5.578752,
+              "p95": 6.21568
+            },
+            "pass1GpuMs": {
+              "n": 873,
+              "mean": 0.4253078579610541,
+              "p50": 0.41984,
+              "p95": 0.433152
+            },
+            "pass2GpuMs": {
+              "n": 873,
+              "mean": 0.1599654707903775,
+              "p50": 0.151552,
+              "p95": 0.16896
+            },
+            "pass3GpuMs": {
+              "n": 873,
+              "mean": 0.09890976403207287,
+              "p50": 0.09728,
+              "p95": 0.102368
+            },
+            "pass4GpuMs": {
+              "n": 873,
+              "mean": 0.2035010859106538,
+              "p50": 0.191488,
+              "p95": 0.238592
+            }
+          },
+          "memory": {
+            "columnBytes": 12813092,
+            "geometryBufferBytes": 30304064,
+            "geometries": 106,
+            "textures": 43,
+            "workers": 1,
+            "nodes": 92,
+            "meshes": 92
+          },
+          "streaming": {
+            "cancelled": 0,
+            "stale": 0,
+            "evicted": 0,
+            "failed": 0,
+            "admittedBytes": 30304064,
+            "memory": {
+              "geometry": 30304064,
+              "query": 12813092,
+              "pending": 0,
+              "total": 43117156
+            },
+            "selection": {
+              "leaves": 72,
+              "active": 72,
+              "levels": {
+                "4": 72
+              },
+              "estimatedBytes": 35720104,
+              "pressure": 1
+            }
+          },
+          "camera": [
+            -2161.530873609462,
+            3927.000000000001,
+            -1417.1369030977476
+          ]
+        },
+        {
+          "variant": "baseline",
+          "round": 1,
+          "stats": {
+            "streamUpdateCpuMs": {
+              "n": 991,
+              "mean": 0.002219980588233555,
+              "p50": 0,
+              "p95": 0
+            },
+            "shadowFitCpuMs": {
+              "n": 991,
+              "mean": 0.007568114941825058,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "shadowSubmitCpuMs": {
+              "n": 32703,
+              "mean": 0.00027214624544708303,
+              "p50": 0,
+              "p95": 0
+            },
+            "shadowDrawCalls": {
+              "n": 32703,
+              "mean": 0,
+              "p50": 0,
+              "p95": 0
+            },
+            "pass0CpuMs": {
+              "n": 991,
+              "mean": 0.4054490391589799,
+              "p50": 0.40000009536743164,
+              "p95": 0.5999999046325684
+            },
+            "pass1CpuMs": {
+              "n": 991,
+              "mean": 0.18213926049703064,
+              "p50": 0.19999980926513672,
+              "p95": 0.3000001907348633
+            },
+            "pass2CpuMs": {
+              "n": 991,
+              "mean": 0.11039353764261656,
+              "p50": 0.09999990463256836,
+              "p95": 0.20000028610229492
+            },
+            "pass3CpuMs": {
+              "n": 991,
+              "mean": 0.011806259963635119,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "pass4CpuMs": {
+              "n": 991,
+              "mean": 0.03622603536734788,
+              "p50": 0,
+              "p95": 0.10000038146972656
+            },
+            "composerCpuMs": {
+              "n": 991,
+              "mean": 0.7815338080874846,
+              "p50": 0.7000002861022949,
+              "p95": 1.0999999046325684
+            },
+            "drawCalls": {
+              "n": 991,
+              "mean": 103,
+              "p50": 103,
+              "p95": 103
+            },
+            "triangles": {
+              "n": 991,
+              "mean": 3198760,
+              "p50": 3198760,
+              "p95": 3198760
+            },
+            "labelsCpuMs": {
+              "n": 991,
+              "mean": 1.1520686139973815,
+              "p50": 1.1999998092651367,
+              "p95": 2
+            },
+            "frameIntervalMs": {
+              "n": 990,
+              "mean": 6.064343434150773,
+              "p50": 6.099999904632568,
+              "p95": 6.200000286102295
+            },
+            "pass0GpuMs": {
+              "n": 990,
+              "mean": 3.9123775030303065,
+              "p50": 3.683328,
+              "p95": 4.964352
+            },
+            "pass1GpuMs": {
+              "n": 989,
+              "mean": 0.5515680485338736,
+              "p50": 0.441344,
+              "p95": 1.29536
+            },
+            "pass2GpuMs": {
+              "n": 989,
+              "mean": 0.2445070819009076,
+              "p50": 0.16384,
+              "p95": 0.832512
+            },
+            "pass3GpuMs": {
+              "n": 989,
+              "mean": 0.09959584226491203,
+              "p50": 0.096256,
+              "p95": 0.09728
+            },
+            "pass4GpuMs": {
+              "n": 989,
+              "mean": 0.22619991102123088,
+              "p50": 0.193536,
+              "p95": 0.571392
+            }
+          },
+          "memory": {
+            "columnBytes": 12813092,
+            "geometryBufferBytes": 30304064,
+            "geometries": 106,
+            "textures": 43,
+            "workers": 1,
+            "nodes": 92,
+            "meshes": 92
+          },
+          "streaming": {
+            "cancelled": 0,
+            "stale": 0,
+            "evicted": 0,
+            "failed": 0,
+            "admittedBytes": 30304064,
+            "memory": {
+              "geometry": 30304064,
+              "query": 12813092,
+              "pending": 0,
+              "total": 43117156
+            },
+            "selection": {
+              "leaves": 72,
+              "active": 72,
+              "levels": {
+                "4": 72
+              },
+              "estimatedBytes": 35720104,
+              "pressure": 1
+            }
+          },
+          "camera": [
+            -2985.7061351494676,
+            3927,
+            3426.7170457406173
+          ]
+        }
+      ],
+      "environment": {
+        "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1080 Ti (0x00001B06) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "gpuTimers": true,
+        "hardwareConcurrency": 8,
+        "pixelRatio": 1,
+        "shadowSize": [
+          8192,
+          8192
+        ],
+        "passes": [
+          {
+            "name": "RenderPass"
+          },
+          {
+            "name": "Pass"
+          },
+          {
+            "name": "EffectPass",
+            "effects": [
+              "BloomEffect"
+            ]
+          },
+          {
+            "name": "EffectPass",
+            "effects": [
+              "DepthBlur"
+            ]
+          },
+          {
+            "name": "EffectPass",
+            "effects": [
+              "SMAAEffect",
+              "ToneMappingEffect",
+              "HueSaturationEffect",
+              "BrightnessContrastEffect",
+              "VignetteEffect"
+            ]
+          }
+        ],
+        "workersAfterIdle": 1
+      },
+      "idleWorkerHeaps": [
+        {
+          "targetId": "52B78AC875A0D60AED0592E79B615649",
+          "id": 5,
+          "result": {
+            "usedSize": 2853324,
+            "totalSize": 7340032,
+            "embedderHeapUsedSize": 1157672,
+            "backingStorageSize": 50518728
+          }
+        }
+      ],
+      "pageHeap": {
+        "usedSize": 19152568,
+        "totalSize": 52109312,
+        "embedderHeapUsedSize": 8735896,
+        "backingStorageSize": 52527835
+      },
+      "performance": [
+        {
+          "name": "Timestamp",
+          "value": 3133640.654357
+        },
+        {
+          "name": "AudioHandlers",
+          "value": 0
+        },
+        {
+          "name": "AudioWorkletProcessors",
+          "value": 0
+        },
+        {
+          "name": "Documents",
+          "value": 2
+        },
+        {
+          "name": "Frames",
+          "value": 2
+        },
+        {
+          "name": "JSEventListeners",
+          "value": 82
+        },
+        {
+          "name": "LayoutObjects",
+          "value": 378
+        },
+        {
+          "name": "MediaKeySessions",
+          "value": 0
+        },
+        {
+          "name": "MediaKeys",
+          "value": 0
+        },
+        {
+          "name": "Nodes",
+          "value": 554
+        },
+        {
+          "name": "Resources",
+          "value": 19
+        },
+        {
+          "name": "ContextLifecycleStateObservers",
+          "value": 7
+        },
+        {
+          "name": "V8PerContextDatas",
+          "value": 2
+        },
+        {
+          "name": "WorkerGlobalScopes",
+          "value": 1
+        },
+        {
+          "name": "UACSSResources",
+          "value": 0
+        },
+        {
+          "name": "RTCPeerConnections",
+          "value": 0
+        },
+        {
+          "name": "ResourceFetchers",
+          "value": 4
+        },
+        {
+          "name": "AdSubframes",
+          "value": 0
+        },
+        {
+          "name": "DetachedScriptStates",
+          "value": 0
+        },
+        {
+          "name": "ArrayBufferContents",
+          "value": 617
+        },
+        {
+          "name": "LayoutCount",
+          "value": 207
+        },
+        {
+          "name": "RecalcStyleCount",
+          "value": 2666
+        },
+        {
+          "name": "LayoutDuration",
+          "value": 0.038734
+        },
+        {
+          "name": "RecalcStyleDuration",
+          "value": 0.453538
+        },
+        {
+          "name": "DevToolsCommandDuration",
+          "value": 0.035646
+        },
+        {
+          "name": "ScriptDuration",
+          "value": 13.348843
+        },
+        {
+          "name": "V8CompileDuration",
+          "value": 0
+        },
+        {
+          "name": "TaskDuration",
+          "value": 16.538454
+        },
+        {
+          "name": "TaskOtherDuration",
+          "value": 2.661693
+        },
+        {
+          "name": "ThreadTime",
+          "value": 14.532104
+        },
+        {
+          "name": "ProcessTime",
+          "value": 23.807211
+        },
+        {
+          "name": "JSHeapUsedSize",
+          "value": 20010276
+        },
+        {
+          "name": "JSHeapTotalSize",
+          "value": 52109312
+        },
+        {
+          "name": "FirstMeaningfulPaint",
+          "value": 3133603.592315
+        },
+        {
+          "name": "DomContentLoaded",
+          "value": 3133601.66004
+        },
+        {
+          "name": "NavigationStart",
+          "value": 3133601.459496
+        }
+      ]
+    },
+    {
+      "view": "civic",
+      "loadMs": 9627,
+      "navigationResets": 0,
+      "loading": [
+        {
+          "at": 270.09999990463257,
+          "ready": false,
+          "complete": false,
+          "workers": 0,
+          "queued": 0,
+          "inflight": 0,
+          "readyTiles": 0,
+          "heap": {
+            "used": 21955847,
+            "total": 26401923
+          }
+        },
+        {
+          "at": 945.3999996185303,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 350,
+          "inflight": 4,
+          "readyTiles": 0,
+          "heap": {
+            "used": 97117776,
+            "total": 108995096
+          }
+        },
+        {
+          "at": 1448.5999999046326,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 307,
+          "inflight": 4,
+          "readyTiles": 43,
+          "heap": {
+            "used": 84321058,
+            "total": 100313362
+          }
+        },
+        {
+          "at": 1951.5999999046326,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 264,
+          "inflight": 4,
+          "readyTiles": 86,
+          "heap": {
+            "used": 109186315,
+            "total": 122968255
+          },
+          "workerHeaps": [
+            {
+              "targetId": "F7D12E11533C18564A6D4E4452A2C41A",
+              "id": 6,
+              "result": {
+                "usedSize": 4862072,
+                "totalSize": 8126464,
+                "embedderHeapUsedSize": 769016,
+                "backingStorageSize": 64779053
+              }
+            },
+            {
+              "targetId": "D7EBD40AD78EB988523D150A486ED348",
+              "id": 7,
+              "result": {
+                "usedSize": 2047540,
+                "totalSize": 6553600,
+                "embedderHeapUsedSize": 833928,
+                "backingStorageSize": 62568739
+              }
+            },
+            {
+              "targetId": "8F3E0E8A45F0D7AC93BCCFEE7E0D8664",
+              "id": 8,
+              "result": {
+                "usedSize": 2652036,
+                "totalSize": 7340032,
+                "embedderHeapUsedSize": 828296,
+                "backingStorageSize": 62131431
+              }
+            },
+            {
+              "targetId": "D3E67B1DD4B6C2A119896A5CA9684796",
+              "id": 9,
+              "result": {
+                "usedSize": 6302828,
+                "totalSize": 9699328,
+                "embedderHeapUsedSize": 838096,
+                "backingStorageSize": 64818902
+              }
+            }
+          ]
+        },
+        {
+          "at": 2468.8999996185303,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 222,
+          "inflight": 4,
+          "readyTiles": 129,
+          "heap": {
+            "used": 88755085,
+            "total": 108840969
+          }
+        },
+        {
+          "at": 2978.0999999046326,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 208,
+          "inflight": 4,
+          "readyTiles": 161,
+          "heap": {
+            "used": 104755901,
+            "total": 117195729
+          }
+        },
+        {
+          "at": 3489.2999997138977,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 190,
+          "inflight": 4,
+          "readyTiles": 198,
+          "heap": {
+            "used": 110658701,
+            "total": 125018969
+          }
+        },
+        {
+          "at": 3997.0999999046326,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 171,
+          "inflight": 4,
+          "readyTiles": 234,
+          "heap": {
+            "used": 116316452,
+            "total": 133841328
+          },
+          "workerHeaps": [
+            {
+              "targetId": "F7D12E11533C18564A6D4E4452A2C41A",
+              "id": 10,
+              "result": {
+                "usedSize": 2635248,
+                "totalSize": 9961472,
+                "embedderHeapUsedSize": 592344,
+                "backingStorageSize": 14331495
+              }
+            },
+            {
+              "targetId": "D7EBD40AD78EB988523D150A486ED348",
+              "id": 11,
+              "result": {
+                "usedSize": 1535892,
+                "totalSize": 10223616,
+                "embedderHeapUsedSize": 501376,
+                "backingStorageSize": 2874298
+              }
+            },
+            {
+              "targetId": "8F3E0E8A45F0D7AC93BCCFEE7E0D8664",
+              "id": 12,
+              "result": {
+                "usedSize": 3409376,
+                "totalSize": 10485760,
+                "embedderHeapUsedSize": 616792,
+                "backingStorageSize": 6230848
+              }
+            },
+            {
+              "targetId": "D3E67B1DD4B6C2A119896A5CA9684796",
+              "id": 13,
+              "result": {
+                "usedSize": 2668628,
+                "totalSize": 9961472,
+                "embedderHeapUsedSize": 539400,
+                "backingStorageSize": 7345667
+              }
+            }
+          ]
+        },
+        {
+          "at": 4505.099999904633,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 151,
+          "inflight": 4,
+          "readyTiles": 274,
+          "heap": {
+            "used": 125111924,
+            "total": 143033428
+          }
+        },
+        {
+          "at": 5015.199999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 133,
+          "inflight": 4,
+          "readyTiles": 307,
+          "heap": {
+            "used": 132079939,
+            "total": 150408979
+          }
+        },
+        {
+          "at": 5518.199999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 121,
+          "inflight": 4,
+          "readyTiles": 337,
+          "heap": {
+            "used": 142176072,
+            "total": 157605160
+          }
+        },
+        {
+          "at": 6022.799999713898,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 108,
+          "inflight": 4,
+          "readyTiles": 366,
+          "heap": {
+            "used": 151806427,
+            "total": 164559959
+          },
+          "workerHeaps": [
+            {
+              "targetId": "F7D12E11533C18564A6D4E4452A2C41A",
+              "id": 14,
+              "result": {
+                "usedSize": 1882648,
+                "totalSize": 9961472,
+                "embedderHeapUsedSize": 620448,
+                "backingStorageSize": 4209804
+              }
+            },
+            {
+              "targetId": "D7EBD40AD78EB988523D150A486ED348",
+              "id": 15,
+              "result": {
+                "usedSize": 2511076,
+                "totalSize": 9437184,
+                "embedderHeapUsedSize": 744880,
+                "backingStorageSize": 15208223
+              }
+            },
+            {
+              "targetId": "8F3E0E8A45F0D7AC93BCCFEE7E0D8664",
+              "id": 16,
+              "result": {
+                "usedSize": 1706716,
+                "totalSize": 9699328,
+                "embedderHeapUsedSize": 307536,
+                "backingStorageSize": 10535239
+              }
+            },
+            {
+              "targetId": "D3E67B1DD4B6C2A119896A5CA9684796",
+              "id": 17,
+              "result": {
+                "usedSize": 2495400,
+                "totalSize": 9699328,
+                "embedderHeapUsedSize": 523160,
+                "backingStorageSize": 13548318
+              }
+            }
+          ]
+        },
+        {
+          "at": 6532.699999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 94,
+          "inflight": 4,
+          "readyTiles": 395,
+          "heap": {
+            "used": 156357095,
+            "total": 171874843
+          }
+        },
+        {
+          "at": 7052.599999904633,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 78,
+          "inflight": 4,
+          "readyTiles": 429,
+          "heap": {
+            "used": 164300538,
+            "total": 179806510
+          }
+        },
+        {
+          "at": 7556.39999961853,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 56,
+          "inflight": 4,
+          "readyTiles": 465,
+          "heap": {
+            "used": 170516715,
+            "total": 187363779
+          }
+        },
+        {
+          "at": 8073.5,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 31,
+          "inflight": 4,
+          "readyTiles": 510,
+          "heap": {
+            "used": 182804883,
+            "total": 197791675
+          },
+          "workerHeaps": [
+            {
+              "targetId": "F7D12E11533C18564A6D4E4452A2C41A",
+              "id": 18,
+              "result": {
+                "usedSize": 2205156,
+                "totalSize": 9961472,
+                "embedderHeapUsedSize": 696016,
+                "backingStorageSize": 4167484
+              }
+            },
+            {
+              "targetId": "D7EBD40AD78EB988523D150A486ED348",
+              "id": 19,
+              "result": {
+                "usedSize": 3209900,
+                "totalSize": 9699328,
+                "embedderHeapUsedSize": 628056,
+                "backingStorageSize": 8577813
+              }
+            },
+            {
+              "targetId": "8F3E0E8A45F0D7AC93BCCFEE7E0D8664",
+              "id": 20,
+              "result": {
+                "usedSize": 2877840,
+                "totalSize": 9437184,
+                "embedderHeapUsedSize": 591944,
+                "backingStorageSize": 7551044
+              }
+            },
+            {
+              "targetId": "D3E67B1DD4B6C2A119896A5CA9684796",
+              "id": 21,
+              "result": {
+                "usedSize": 680724,
+                "totalSize": 9961472,
+                "embedderHeapUsedSize": 677832,
+                "backingStorageSize": 11994697
+              }
+            }
+          ]
+        },
+        {
+          "at": 8584.39999961853,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 9,
+          "inflight": 4,
+          "readyTiles": 552,
+          "heap": {
+            "used": 194170475,
+            "total": 208472199
+          }
+        },
+        {
+          "at": 9093.199999809265,
+          "ready": true,
+          "complete": false,
+          "workers": 4,
+          "queued": 0,
+          "inflight": 0,
+          "readyTiles": 584,
+          "heap": {
+            "used": 198030599,
+            "total": 227886787
+          }
+        },
+        {
+          "at": 9607.799999713898,
+          "ready": true,
+          "complete": true,
+          "workers": 4,
+          "queued": 0,
+          "inflight": 0,
+          "readyTiles": 584,
+          "heap": {
+            "used": 198899922,
+            "total": 227886806
+          }
+        }
+      ],
+      "errors": [],
+      "measurements": [
+        {
+          "variant": "baseline",
+          "round": 0,
+          "stats": {
+            "streamUpdateCpuMs": {
+              "n": 918,
+              "mean": 0.008823529307878615,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "shadowFitCpuMs": {
+              "n": 918,
+              "mean": 0.006318084035304117,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "shadowSubmitCpuMs": {
+              "n": 30294,
+              "mean": 0.0002937875203569392,
+              "p50": 0,
+              "p95": 0
+            },
+            "shadowDrawCalls": {
+              "n": 30294,
+              "mean": 0,
+              "p50": 0,
+              "p95": 0
+            },
+            "pass0CpuMs": {
+              "n": 918,
+              "mean": 1.1279956323129159,
+              "p50": 1.0999999046325684,
+              "p95": 1.3000001907348633
+            },
+            "pass1CpuMs": {
+              "n": 918,
+              "mean": 0.3989106777706437,
+              "p50": 0.40000009536743164,
+              "p95": 0.5
+            },
+            "pass2CpuMs": {
+              "n": 918,
+              "mean": 0.1092592599864619,
+              "p50": 0.09999990463256836,
+              "p95": 0.20000028610229492
+            },
+            "pass3CpuMs": {
+              "n": 918,
+              "mean": 0.010021786284602546,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "pass4CpuMs": {
+              "n": 918,
+              "mean": 0.03180827450388657,
+              "p50": 0,
+              "p95": 0.10000038146972656
+            },
+            "composerCpuMs": {
+              "n": 918,
+              "mean": 1.710566436543184,
+              "p50": 1.6999998092651367,
+              "p95": 2
+            },
+            "drawCalls": {
+              "n": 918,
+              "mean": 267,
+              "p50": 267,
+              "p95": 267
+            },
+            "triangles": {
+              "n": 918,
+              "mean": 5160682,
+              "p50": 5160682,
+              "p95": 5160682
+            },
+            "labelsCpuMs": {
+              "n": 918,
+              "mean": 0.8417211368452749,
+              "p50": 0.5999999046325684,
+              "p95": 2.3000001907348633
+            },
+            "frameIntervalMs": {
+              "n": 917,
+              "mean": 6.544492911876483,
+              "p50": 6.5,
+              "p95": 7.099999904632568
+            },
+            "pass0GpuMs": {
+              "n": 912,
+              "mean": 5.369578666666677,
+              "p50": 5.3248,
+              "p95": 5.492736
+            },
+            "pass1GpuMs": {
+              "n": 912,
+              "mean": 0.5360165263157877,
+              "p50": 0.530432,
+              "p95": 0.549888
+            },
+            "pass2GpuMs": {
+              "n": 912,
+              "mean": 0.17122449122807196,
+              "p50": 0.173056,
+              "p95": 0.181248
+            },
+            "pass3GpuMs": {
+              "n": 912,
+              "mean": 0.11212726315789388,
+              "p50": 0.110592,
+              "p95": 0.120832
+            },
+            "pass4GpuMs": {
+              "n": 912,
+              "mean": 0.20341491228070374,
+              "p50": 0.200704,
+              "p95": 0.214016
+            }
+          },
+          "memory": {
+            "columnBytes": 54052360,
+            "geometryBufferBytes": 115665552,
+            "geometries": 598,
+            "textures": 43,
+            "workers": 1,
+            "nodes": 584,
+            "meshes": 584
+          },
+          "streaming": {
+            "cancelled": 0,
+            "stale": 0,
+            "evicted": 0,
+            "failed": 0,
+            "admittedBytes": 115665552,
+            "memory": {
+              "geometry": 115665552,
+              "query": 54052360,
+              "pending": 0,
+              "total": 169717912
+            },
+            "selection": {
+              "leaves": 269,
+              "active": 499,
+              "levels": {
+                "8": 13,
+                "1": 230,
+                "4": 6,
+                "2": 20
+              },
+              "estimatedBytes": 94150000,
+              "pressure": 1
+            }
+          },
+          "camera": [
+            2459.099999999999,
+            523,
+            1917.9
+          ]
+        },
+        {
+          "variant": "moving",
+          "round": 0,
+          "stats": {
+            "streamUpdateCpuMs": {
+              "n": 450,
+              "mean": 0.23377777841356065,
+              "p50": 0,
+              "p95": 1.8000001907348633
+            },
+            "shadowFitCpuMs": {
+              "n": 450,
+              "mean": 0.012666670481363933,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "shadowSubmitCpuMs": {
+              "n": 14918,
+              "mean": 0.04331009540437677,
+              "p50": 0,
+              "p95": 0
+            },
+            "shadowDrawCalls": {
+              "n": 14918,
+              "mean": 14.60410242659874,
+              "p50": 0,
+              "p95": 0
+            },
+            "pass0CpuMs": {
+              "n": 450,
+              "mean": 2.757333328458998,
+              "p50": 2.700000286102295,
+              "p95": 3.3000001907348633
+            },
+            "pass1CpuMs": {
+              "n": 450,
+              "mean": 0.5637777784135607,
+              "p50": 0.5999999046325684,
+              "p95": 0.7999997138977051
+            },
+            "pass2CpuMs": {
+              "n": 450,
+              "mean": 0.12466665691799587,
+              "p50": 0.09999990463256836,
+              "p95": 0.20000028610229492
+            },
+            "pass3CpuMs": {
+              "n": 450,
+              "mean": 0.011999999152289496,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "pass4CpuMs": {
+              "n": 450,
+              "mean": 0.0333333428700765,
+              "p50": 0,
+              "p95": 0.10000038146972656
+            },
+            "composerCpuMs": {
+              "n": 450,
+              "mean": 3.5379999934302435,
+              "p50": 3.5,
+              "p95": 4.199999809265137
+            },
+            "drawCalls": {
+              "n": 450,
+              "mean": 748.76,
+              "p50": 749,
+              "p95": 761
+            },
+            "triangles": {
+              "n": 450,
+              "mean": 14693812.964444444,
+              "p50": 14735728,
+              "p95": 15071172
+            },
+            "labelsCpuMs": {
+              "n": 450,
+              "mean": 0.8457777712080213,
+              "p50": 0.5,
+              "p95": 2.4000000953674316
+            },
+            "frameIntervalMs": {
+              "n": 449,
+              "mean": 13.35367483232494,
+              "p50": 13.100000381469727,
+              "p95": 15.900000095367432
+            },
+            "pass0GpuMs": {
+              "n": 443,
+              "mean": 12.165968325056427,
+              "p50": 11.9552,
+              "p95": 14.094336
+            },
+            "pass1GpuMs": {
+              "n": 443,
+              "mean": 0.5232325056433411,
+              "p50": 0.519168,
+              "p95": 0.543744
+            },
+            "pass2GpuMs": {
+              "n": 443,
+              "mean": 0.17211521444695285,
+              "p50": 0.164864,
+              "p95": 0.178176
+            },
+            "pass3GpuMs": {
+              "n": 443,
+              "mean": 0.11080249209932247,
+              "p50": 0.109568,
+              "p95": 0.118784
+            },
+            "pass4GpuMs": {
+              "n": 443,
+              "mean": 0.20974591422121924,
+              "p50": 0.200704,
+              "p95": 0.228352
+            }
+          },
+          "memory": {
+            "columnBytes": 52485868,
+            "geometryBufferBytes": 110453888,
+            "geometries": 586,
+            "textures": 43,
+            "workers": 4,
+            "nodes": 572,
+            "meshes": 572
+          },
+          "streaming": {
+            "cancelled": 0,
+            "stale": 0,
+            "evicted": 92,
+            "failed": 0,
+            "admittedBytes": 125784624,
+            "memory": {
+              "geometry": 110453888,
+              "query": 52485868,
+              "pending": 0,
+              "total": 162939756
+            },
+            "selection": {
+              "leaves": 249,
+              "active": 465,
+              "levels": {
+                "8": 14,
+                "1": 216,
+                "4": 4,
+                "2": 15
+              },
+              "estimatedBytes": 113105980,
+              "pressure": 1
+            }
+          },
+          "camera": [
+            2198.9145928717235,
+            522.9999999999997,
+            1649.724907089078
+          ]
+        },
+        {
+          "variant": "moving",
+          "round": 1,
+          "stats": {
+            "shadowSubmitCpuMs": {
+              "n": 15274,
+              "mean": 0.042974990248071346,
+              "p50": 0,
+              "p95": 0
+            },
+            "shadowDrawCalls": {
+              "n": 15274,
+              "mean": 14.580332591331675,
+              "p50": 0,
+              "p95": 0
+            },
+            "streamUpdateCpuMs": {
+              "n": 461,
+              "mean": 0.2277657277154819,
+              "p50": 0,
+              "p95": 1.8000001907348633
+            },
+            "shadowFitCpuMs": {
+              "n": 461,
+              "mean": 0.015401298208505627,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "pass0CpuMs": {
+              "n": 461,
+              "mean": 2.8082429592107743,
+              "p50": 2.700000286102295,
+              "p95": 3.5
+            },
+            "pass1CpuMs": {
+              "n": 461,
+              "mean": 0.604989153185532,
+              "p50": 0.5999999046325684,
+              "p95": 0.8000001907348633
+            },
+            "pass2CpuMs": {
+              "n": 461,
+              "mean": 0.105856833385542,
+              "p50": 0.09999990463256836,
+              "p95": 0.20000028610229492
+            },
+            "pass3CpuMs": {
+              "n": 461,
+              "mean": 0.011279829153528442,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "pass4CpuMs": {
+              "n": 461,
+              "mean": 0.03492407891858943,
+              "p50": 0,
+              "p95": 0.10000038146972656
+            },
+            "composerCpuMs": {
+              "n": 461,
+              "mean": 3.6091106346527564,
+              "p50": 3.5,
+              "p95": 4.400000095367432
+            },
+            "drawCalls": {
+              "n": 461,
+              "mean": 747.7266811279826,
+              "p50": 748,
+              "p95": 766
+            },
+            "triangles": {
+              "n": 461,
+              "mean": 14668758.529284164,
+              "p50": 14707372,
+              "p95": 15055566
+            },
+            "labelsCpuMs": {
+              "n": 461,
+              "mean": 0.8277657275086111,
+              "p50": 0.5,
+              "p95": 2.3000001907348633
+            },
+            "frameIntervalMs": {
+              "n": 460,
+              "mean": 13.049565216769343,
+              "p50": 12.900000095367432,
+              "p95": 15
+            },
+            "pass0GpuMs": {
+              "n": 454,
+              "mean": 11.85474199118943,
+              "p50": 11.851776,
+              "p95": 12.246016
+            },
+            "pass1GpuMs": {
+              "n": 454,
+              "mean": 0.5235030132158592,
+              "p50": 0.519168,
+              "p95": 0.543744
+            },
+            "pass2GpuMs": {
+              "n": 454,
+              "mean": 0.16829807929515464,
+              "p50": 0.164864,
+              "p95": 0.180224
+            },
+            "pass3GpuMs": {
+              "n": 454,
+              "mean": 0.11094442290748853,
+              "p50": 0.109568,
+              "p95": 0.12
+            },
+            "pass4GpuMs": {
+              "n": 454,
+              "mean": 0.20755080176211463,
+              "p50": 0.200704,
+              "p95": 0.227328
+            }
+          },
+          "memory": {
+            "columnBytes": 53107948,
+            "geometryBufferBytes": 111010208,
+            "geometries": 590,
+            "textures": 43,
+            "workers": 4,
+            "nodes": 580,
+            "meshes": 576
+          },
+          "streaming": {
+            "cancelled": 2,
+            "stale": 2,
+            "evicted": 224,
+            "failed": 0,
+            "admittedBytes": 147007728,
+            "memory": {
+              "geometry": 111010208,
+              "query": 53107948,
+              "pending": 0,
+              "total": 164118156
+            },
+            "selection": {
+              "leaves": 248,
+              "active": 455,
+              "levels": {
+                "8": 14,
+                "1": 214,
+                "4": 4,
+                "2": 16
+              },
+              "estimatedBytes": 112663108,
+              "pressure": 1
+            }
+          },
+          "camera": [
+            2191.083495017441,
+            523.000000000001,
+            1635.9864280627166
+          ]
+        },
+        {
+          "variant": "baseline",
+          "round": 1,
+          "stats": {
+            "streamUpdateCpuMs": {
+              "n": 848,
+              "mean": 0.02488207592154449,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "shadowFitCpuMs": {
+              "n": 848,
+              "mean": 0.01191038005756882,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "shadowSubmitCpuMs": {
+              "n": 27984,
+              "mean": 0.0027730132321618912,
+              "p50": 0,
+              "p95": 0
+            },
+            "shadowDrawCalls": {
+              "n": 27984,
+              "mean": 0.9253859348198971,
+              "p50": 0,
+              "p95": 0
+            },
+            "pass0CpuMs": {
+              "n": 848,
+              "mean": 1.2794811309508558,
+              "p50": 1.1000003814697266,
+              "p95": 2.4000000953674316
+            },
+            "pass1CpuMs": {
+              "n": 848,
+              "mean": 0.4258254704610357,
+              "p50": 0.40000009536743164,
+              "p95": 0.6000003814697266
+            },
+            "pass2CpuMs": {
+              "n": 848,
+              "mean": 0.10766509287762192,
+              "p50": 0.09999990463256836,
+              "p95": 0.20000028610229492
+            },
+            "pass3CpuMs": {
+              "n": 848,
+              "mean": 0.012382075471698114,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "pass4CpuMs": {
+              "n": 848,
+              "mean": 0.03219339813826219,
+              "p50": 0,
+              "p95": 0.10000038146972656
+            },
+            "composerCpuMs": {
+              "n": 848,
+              "mean": 1.8898584943897319,
+              "p50": 1.700000286102295,
+              "p95": 3.299999713897705
+            },
+            "drawCalls": {
+              "n": 848,
+              "mean": 296.5377358490566,
+              "p50": 266,
+              "p95": 764
+            },
+            "triangles": {
+              "n": 848,
+              "mean": 5769426.981132075,
+              "p50": 5139888,
+              "p95": 15406216
+            },
+            "labelsCpuMs": {
+              "n": 848,
+              "mean": 0.8975235780455032,
+              "p50": 0.5999999046325684,
+              "p95": 2.3999996185302734
+            },
+            "frameIntervalMs": {
+              "n": 847,
+              "mean": 7.073789846517119,
+              "p50": 6.5,
+              "p95": 13.200000286102295
+            },
+            "pass0GpuMs": {
+              "n": 842,
+              "mean": 5.828991087885986,
+              "p50": 5.311488,
+              "p95": 12.302336
+            },
+            "pass1GpuMs": {
+              "n": 842,
+              "mean": 0.5416558669833724,
+              "p50": 0.530432,
+              "p95": 0.550912
+            },
+            "pass2GpuMs": {
+              "n": 842,
+              "mean": 0.17479832779097668,
+              "p50": 0.173056,
+              "p95": 0.180224
+            },
+            "pass3GpuMs": {
+              "n": 842,
+              "mean": 0.1122139667458425,
+              "p50": 0.111616,
+              "p95": 0.121856
+            },
+            "pass4GpuMs": {
+              "n": 842,
+              "mean": 0.20835975296912349,
+              "p50": 0.19968,
+              "p95": 0.212992
+            }
+          },
+          "memory": {
+            "columnBytes": 54052360,
+            "geometryBufferBytes": 115665552,
+            "geometries": 598,
+            "textures": 43,
+            "workers": 1,
+            "nodes": 584,
+            "meshes": 584
+          },
+          "streaming": {
+            "cancelled": 2,
+            "stale": 2,
+            "evicted": 304,
+            "failed": 0,
+            "admittedBytes": 162033440,
+            "memory": {
+              "geometry": 115665552,
+              "query": 54052360,
+              "pending": 0,
+              "total": 169717912
+            },
+            "selection": {
+              "leaves": 269,
+              "active": 499,
+              "levels": {
+                "8": 13,
+                "1": 230,
+                "4": 6,
+                "2": 20
+              },
+              "estimatedBytes": 123000276,
+              "pressure": 1
+            }
+          },
+          "camera": [
+            2456.07598061239,
+            522.9999999999994,
+            1916.000914346644
+          ]
+        }
+      ],
+      "environment": {
+        "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1080 Ti (0x00001B06) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "gpuTimers": true,
+        "hardwareConcurrency": 8,
+        "pixelRatio": 1,
+        "shadowSize": [
+          8192,
+          8192
+        ],
+        "passes": [
+          {
+            "name": "RenderPass"
+          },
+          {
+            "name": "Pass"
+          },
+          {
+            "name": "EffectPass",
+            "effects": [
+              "BloomEffect"
+            ]
+          },
+          {
+            "name": "EffectPass",
+            "effects": [
+              "DepthBlur"
+            ]
+          },
+          {
+            "name": "EffectPass",
+            "effects": [
+              "SMAAEffect",
+              "ToneMappingEffect",
+              "HueSaturationEffect",
+              "BrightnessContrastEffect",
+              "VignetteEffect"
+            ]
+          }
+        ],
+        "workersAfterIdle": 1
+      },
+      "idleWorkerHeaps": [
+        {
+          "targetId": "D7EBD40AD78EB988523D150A486ED348",
+          "id": 22,
+          "result": {
+            "usedSize": 6814888,
+            "totalSize": 19398656,
+            "embedderHeapUsedSize": 651704,
+            "backingStorageSize": 15701322
+          }
+        }
+      ],
+      "pageHeap": {
+        "usedSize": 35147432,
+        "totalSize": 82632704,
+        "embedderHeapUsedSize": 5627064,
+        "backingStorageSize": 193963699
+      },
+      "performance": [
+        {
+          "name": "Timestamp",
+          "value": 3133685.96716
+        },
+        {
+          "name": "AudioHandlers",
+          "value": 0
+        },
+        {
+          "name": "AudioWorkletProcessors",
+          "value": 0
+        },
+        {
+          "name": "Documents",
+          "value": 2
+        },
+        {
+          "name": "Frames",
+          "value": 2
+        },
+        {
+          "name": "JSEventListeners",
+          "value": 88
+        },
+        {
+          "name": "LayoutObjects",
+          "value": 383
+        },
+        {
+          "name": "MediaKeySessions",
+          "value": 0
+        },
+        {
+          "name": "MediaKeys",
+          "value": 0
+        },
+        {
+          "name": "Nodes",
+          "value": 554
+        },
+        {
+          "name": "Resources",
+          "value": 16
+        },
+        {
+          "name": "ContextLifecycleStateObservers",
+          "value": 10
+        },
+        {
+          "name": "V8PerContextDatas",
+          "value": 2
+        },
+        {
+          "name": "WorkerGlobalScopes",
+          "value": 1
+        },
+        {
+          "name": "UACSSResources",
+          "value": 0
+        },
+        {
+          "name": "RTCPeerConnections",
+          "value": 0
+        },
+        {
+          "name": "ResourceFetchers",
+          "value": 3
+        },
+        {
+          "name": "AdSubframes",
+          "value": 0
+        },
+        {
+          "name": "DetachedScriptStates",
+          "value": 0
+        },
+        {
+          "name": "ArrayBufferContents",
+          "value": 3119
+        },
+        {
+          "name": "LayoutCount",
+          "value": 2250
+        },
+        {
+          "name": "RecalcStyleCount",
+          "value": 2931
+        },
+        {
+          "name": "LayoutDuration",
+          "value": 0.165949
+        },
+        {
+          "name": "RecalcStyleDuration",
+          "value": 0.305835
+        },
+        {
+          "name": "DevToolsCommandDuration",
+          "value": 0.04091
+        },
+        {
+          "name": "ScriptDuration",
+          "value": 17.800689
+        },
+        {
+          "name": "V8CompileDuration",
+          "value": 0
+        },
+        {
+          "name": "TaskDuration",
+          "value": 20.584901
+        },
+        {
+          "name": "TaskOtherDuration",
+          "value": 2.271518
+        },
+        {
+          "name": "ThreadTime",
+          "value": 20.37083
+        },
+        {
+          "name": "ProcessTime",
+          "value": 71.308633
+        },
+        {
+          "name": "JSHeapUsedSize",
+          "value": 35147432
+        },
+        {
+          "name": "JSHeapTotalSize",
+          "value": 82632704
+        },
+        {
+          "name": "FirstMeaningfulPaint",
+          "value": 3133642.173671
+        },
+        {
+          "name": "DomContentLoaded",
+          "value": 3133641.405013
+        },
+        {
+          "name": "NavigationStart",
+          "value": 3133641.21931
+        }
+      ]
+    }
+  ]
+}

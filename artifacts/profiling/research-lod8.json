@@ -1,0 +1,1134 @@
+{
+  "date": "2026-11-03T09:04:44.696Z",
+  "browser": "156.0.8078.4",
+  "viewport": {
+    "width": 1600,
+    "height": 1000
+  },
+  "revision": "c043114ea9a266e383f61f7ae45611ca365e3919",
+  "cpu": "Intel(R) Core(TM) i7-9700K CPU @ 3.60GHz",
+  "worktreeDirty": true,
+  "lod": 8,
+  "hour": 13,
+  "sampleMs": 6000,
+  "rounds": 2,
+  "runs": [
+    {
+      "view": "default",
+      "loadMs": 3632,
+      "loading": [
+        {
+          "at": 1440.6000003814697,
+          "ready": false,
+          "complete": false,
+          "workers": 1,
+          "queued": 0,
+          "inflight": 0,
+          "readyTiles": 0,
+          "heap": {
+            "used": 34988519,
+            "total": 41497911
+          }
+        },
+        {
+          "at": 2199.9000000953674,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 7,
+          "inflight": 12,
+          "readyTiles": 1,
+          "heap": {
+            "used": 103403952,
+            "total": 119537976
+          }
+        },
+        {
+          "at": 3107.800000190735,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 4,
+          "inflight": 12,
+          "readyTiles": 4,
+          "heap": {
+            "used": 111827224,
+            "total": 124036872
+          }
+        },
+        {
+          "at": 3611.7000002861023,
+          "ready": true,
+          "complete": true,
+          "workers": 6,
+          "queued": 0,
+          "inflight": 0,
+          "readyTiles": 20,
+          "heap": {
+            "used": 84476796,
+            "total": 102187700
+          },
+          "workerHeaps": [
+            {
+              "targetId": "60371A4AA2C3831314F8B35BB9D48671",
+              "id": 1,
+              "result": {
+                "usedSize": 922752,
+                "totalSize": 4718592,
+                "embedderHeapUsedSize": 773712,
+                "backingStorageSize": 7738602
+              }
+            },
+            {
+              "targetId": "8EB882F5A0913B2D1622574DAE132B64",
+              "id": 2,
+              "result": {
+                "usedSize": 1041844,
+                "totalSize": 4718592,
+                "embedderHeapUsedSize": 773712,
+                "backingStorageSize": 7161884
+              }
+            },
+            {
+              "targetId": "9929FEB11972D8CA8ADC5E8C584AFCF4",
+              "id": 3,
+              "result": {
+                "usedSize": 915740,
+                "totalSize": 4194304,
+                "embedderHeapUsedSize": 773712,
+                "backingStorageSize": 6616757
+              }
+            },
+            {
+              "targetId": "DF377616C6DF9DCA4E9596D1BC99377E",
+              "id": 4,
+              "result": {
+                "usedSize": 1295904,
+                "totalSize": 4456448,
+                "embedderHeapUsedSize": 773712,
+                "backingStorageSize": 9195198
+              }
+            },
+            {
+              "targetId": "26CFDEA94730AC1B7FBE89F2F7B00EC0",
+              "id": 5,
+              "result": {
+                "usedSize": 1618716,
+                "totalSize": 3932160,
+                "embedderHeapUsedSize": 773712,
+                "backingStorageSize": 9593637
+              }
+            },
+            {
+              "targetId": "72A6FF0D759576063DC58B806776E587",
+              "id": 6,
+              "result": {
+                "usedSize": 1161100,
+                "totalSize": 4980736,
+                "embedderHeapUsedSize": 686712,
+                "backingStorageSize": 20850518
+              }
+            }
+          ]
+        }
+      ],
+      "errors": [],
+      "measurements": [
+        {
+          "variant": "baseline",
+          "round": 0,
+          "stats": {
+            "streamUpdateCpuMs": {
+              "n": 991,
+              "mean": 0.0037336012669937644,
+              "p50": 0,
+              "p95": 0
+            },
+            "shadowFitCpuMs": {
+              "n": 991,
+              "mean": 0.01866801499598683,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "shadowSubmitCpuMs": {
+              "n": 32703,
+              "mean": 0.00028743537723429393,
+              "p50": 0,
+              "p95": 0
+            },
+            "shadowDrawCalls": {
+              "n": 32703,
+              "mean": 0,
+              "p50": 0,
+              "p95": 0
+            },
+            "pass0CpuMs": {
+              "n": 991,
+              "mean": 0.23784056056279587,
+              "p50": 0.20000028610229492,
+              "p95": 0.40000009536743164
+            },
+            "pass1CpuMs": {
+              "n": 991,
+              "mean": 0.1986881991327711,
+              "p50": 0.19999980926513672,
+              "p95": 0.3000001907348633
+            },
+            "pass2CpuMs": {
+              "n": 991,
+              "mean": 0.13440967833117687,
+              "p50": 0.09999990463256836,
+              "p95": 0.20000028610229492
+            },
+            "pass3CpuMs": {
+              "n": 991,
+              "mean": 0.0128153388122497,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "pass4CpuMs": {
+              "n": 991,
+              "mean": 0.040867811254969036,
+              "p50": 0,
+              "p95": 0.10000038146972656
+            },
+            "composerCpuMs": {
+              "n": 991,
+              "mean": 0.6772956583502314,
+              "p50": 0.6000003814697266,
+              "p95": 0.9000000953674316
+            },
+            "drawCalls": {
+              "n": 991,
+              "mean": 51,
+              "p50": 51,
+              "p95": 51
+            },
+            "triangles": {
+              "n": 991,
+              "mean": 593034,
+              "p50": 593034,
+              "p95": 593034
+            },
+            "labelsCpuMs": {
+              "n": 991,
+              "mean": 0.48859737427034966,
+              "p50": 0.5,
+              "p95": 0.6999998092651367
+            },
+            "frameIntervalMs": {
+              "n": 990,
+              "mean": 6.0642424241460935,
+              "p50": 6.099999904632568,
+              "p95": 6.299999713897705
+            },
+            "pass0GpuMs": {
+              "n": 990,
+              "mean": 1.2987061010100982,
+              "p50": 1.224704,
+              "p95": 1.78176
+            },
+            "pass1GpuMs": {
+              "n": 990,
+              "mean": 0.8129890262626278,
+              "p50": 0.436224,
+              "p95": 2.878464
+            },
+            "pass2GpuMs": {
+              "n": 990,
+              "mean": 0.3706642424242399,
+              "p50": 0.16384,
+              "p95": 1.870848
+            },
+            "pass3GpuMs": {
+              "n": 990,
+              "mean": 0.10164596363636279,
+              "p50": 0.094208,
+              "p95": 0.095232
+            },
+            "pass4GpuMs": {
+              "n": 990,
+              "mean": 0.2221296808080805,
+              "p50": 0.190464,
+              "p95": 0.192512
+            }
+          },
+          "memory": {
+            "columnBytes": 5740966,
+            "geometryBufferBytes": 17324832,
+            "geometries": 34,
+            "textures": 43,
+            "workers": 1,
+            "nodes": 20,
+            "meshes": 20
+          },
+          "camera": [
+            -2978.199999999999,
+            3927.0000000000005,
+            3450
+          ]
+        },
+        {
+          "variant": "baseline",
+          "round": 1,
+          "stats": {
+            "streamUpdateCpuMs": {
+              "n": 991,
+              "mean": 0.0026236133787153225,
+              "p50": 0,
+              "p95": 0
+            },
+            "shadowFitCpuMs": {
+              "n": 991,
+              "mean": 0.01372351439521243,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "shadowSubmitCpuMs": {
+              "n": 32703,
+              "mean": 0.0002782619302398119,
+              "p50": 0,
+              "p95": 0
+            },
+            "shadowDrawCalls": {
+              "n": 32703,
+              "mean": 0,
+              "p50": 0,
+              "p95": 0
+            },
+            "pass0CpuMs": {
+              "n": 991,
+              "mean": 0.22896063580402332,
+              "p50": 0.20000028610229492,
+              "p95": 0.39999961853027344
+            },
+            "pass1CpuMs": {
+              "n": 991,
+              "mean": 0.1873864872544613,
+              "p50": 0.19999980926513672,
+              "p95": 0.3000001907348633
+            },
+            "pass2CpuMs": {
+              "n": 991,
+              "mean": 0.12038345221433823,
+              "p50": 0.09999990463256836,
+              "p95": 0.20000028610229492
+            },
+            "pass3CpuMs": {
+              "n": 991,
+              "mean": 0.013017152561068415,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "pass4CpuMs": {
+              "n": 991,
+              "mean": 0.03874873248888434,
+              "p50": 0,
+              "p95": 0.10000038146972656
+            },
+            "composerCpuMs": {
+              "n": 991,
+              "mean": 0.6315842483166368,
+              "p50": 0.5999999046325684,
+              "p95": 0.8000001907348633
+            },
+            "drawCalls": {
+              "n": 991,
+              "mean": 51,
+              "p50": 51,
+              "p95": 51
+            },
+            "triangles": {
+              "n": 991,
+              "mean": 593034,
+              "p50": 593034,
+              "p95": 593034
+            },
+            "labelsCpuMs": {
+              "n": 991,
+              "mean": 0.45338042015745467,
+              "p50": 0.40000009536743164,
+              "p95": 0.5999999046325684
+            },
+            "frameIntervalMs": {
+              "n": 990,
+              "mean": 6.064444444637106,
+              "p50": 6.099999904632568,
+              "p95": 6.200000286102295
+            },
+            "pass0GpuMs": {
+              "n": 990,
+              "mean": 1.2642872888888856,
+              "p50": 1.191936,
+              "p95": 1.59232
+            },
+            "pass1GpuMs": {
+              "n": 990,
+              "mean": 0.7854097131313159,
+              "p50": 0.436224,
+              "p95": 2.820096
+            },
+            "pass2GpuMs": {
+              "n": 990,
+              "mean": 0.3156757979797951,
+              "p50": 0.16384,
+              "p95": 1.673216
+            },
+            "pass3GpuMs": {
+              "n": 990,
+              "mean": 0.10019148282828202,
+              "p50": 0.094208,
+              "p95": 0.095232
+            },
+            "pass4GpuMs": {
+              "n": 990,
+              "mean": 0.23580263434343396,
+              "p50": 0.190464,
+              "p95": 0.19456
+            }
+          },
+          "memory": {
+            "columnBytes": 5740966,
+            "geometryBufferBytes": 17324832,
+            "geometries": 34,
+            "textures": 43,
+            "workers": 1,
+            "nodes": 20,
+            "meshes": 20
+          },
+          "camera": [
+            -2978.199999999999,
+            3927.0000000000005,
+            3450
+          ]
+        }
+      ],
+      "environment": {
+        "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1080 Ti (0x00001B06) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "gpuTimers": true,
+        "hardwareConcurrency": 8,
+        "pixelRatio": 1,
+        "shadowSize": [
+          8192,
+          8192
+        ],
+        "passes": [
+          {
+            "name": "RenderPass"
+          },
+          {
+            "name": "Pass"
+          },
+          {
+            "name": "EffectPass",
+            "effects": [
+              "BloomEffect"
+            ]
+          },
+          {
+            "name": "EffectPass",
+            "effects": [
+              "DepthBlur"
+            ]
+          },
+          {
+            "name": "EffectPass",
+            "effects": [
+              "SMAAEffect",
+              "ToneMappingEffect",
+              "HueSaturationEffect",
+              "BrightnessContrastEffect",
+              "VignetteEffect"
+            ]
+          }
+        ],
+        "workersAfterIdle": 1
+      },
+      "idleWorkerHeaps": [
+        {
+          "targetId": "8EB882F5A0913B2D1622574DAE132B64",
+          "id": 7,
+          "result": {
+            "usedSize": 1041844,
+            "totalSize": 4718592,
+            "embedderHeapUsedSize": 773712,
+            "backingStorageSize": 7161884
+          }
+        }
+      ],
+      "pageHeap": {
+        "usedSize": 21054244,
+        "totalSize": 45588480,
+        "embedderHeapUsedSize": 5386968,
+        "backingStorageSize": 18244007
+      },
+      "performance": [
+        {
+          "name": "Timestamp",
+          "value": 3131544.830806
+        },
+        {
+          "name": "AudioHandlers",
+          "value": 0
+        },
+        {
+          "name": "AudioWorkletProcessors",
+          "value": 0
+        },
+        {
+          "name": "Documents",
+          "value": 2
+        },
+        {
+          "name": "Frames",
+          "value": 2
+        },
+        {
+          "name": "JSEventListeners",
+          "value": 79
+        },
+        {
+          "name": "LayoutObjects",
+          "value": 378
+        },
+        {
+          "name": "MediaKeySessions",
+          "value": 0
+        },
+        {
+          "name": "MediaKeys",
+          "value": 0
+        },
+        {
+          "name": "Nodes",
+          "value": 554
+        },
+        {
+          "name": "Resources",
+          "value": 19
+        },
+        {
+          "name": "ContextLifecycleStateObservers",
+          "value": 7
+        },
+        {
+          "name": "V8PerContextDatas",
+          "value": 2
+        },
+        {
+          "name": "WorkerGlobalScopes",
+          "value": 1
+        },
+        {
+          "name": "UACSSResources",
+          "value": 0
+        },
+        {
+          "name": "RTCPeerConnections",
+          "value": 0
+        },
+        {
+          "name": "ResourceFetchers",
+          "value": 4
+        },
+        {
+          "name": "AdSubframes",
+          "value": 0
+        },
+        {
+          "name": "DetachedScriptStates",
+          "value": 0
+        },
+        {
+          "name": "ArrayBufferContents",
+          "value": 173
+        },
+        {
+          "name": "LayoutCount",
+          "value": 119
+        },
+        {
+          "name": "RecalcStyleCount",
+          "value": 292
+        },
+        {
+          "name": "LayoutDuration",
+          "value": 0.050686
+        },
+        {
+          "name": "RecalcStyleDuration",
+          "value": 0.021139
+        },
+        {
+          "name": "DevToolsCommandDuration",
+          "value": 0.017283
+        },
+        {
+          "name": "ScriptDuration",
+          "value": 6.18176
+        },
+        {
+          "name": "V8CompileDuration",
+          "value": 0
+        },
+        {
+          "name": "TaskDuration",
+          "value": 8.084991
+        },
+        {
+          "name": "TaskOtherDuration",
+          "value": 1.814123
+        },
+        {
+          "name": "ThreadTime",
+          "value": 5.673519
+        },
+        {
+          "name": "ProcessTime",
+          "value": 9.455038
+        },
+        {
+          "name": "JSHeapUsedSize",
+          "value": 21054244
+        },
+        {
+          "name": "JSHeapTotalSize",
+          "value": 45588480
+        },
+        {
+          "name": "FirstMeaningfulPaint",
+          "value": 3131523.333491
+        },
+        {
+          "name": "DomContentLoaded",
+          "value": 3131521.376587
+        },
+        {
+          "name": "NavigationStart",
+          "value": 3131521.149734
+        }
+      ]
+    },
+    {
+      "view": "civic",
+      "loadMs": 1517,
+      "loading": [
+        {
+          "at": 297.90000009536743,
+          "ready": false,
+          "complete": false,
+          "workers": 0,
+          "queued": 0,
+          "inflight": 0,
+          "readyTiles": 0,
+          "heap": {
+            "used": 21994527,
+            "total": 26348563
+          }
+        },
+        {
+          "at": 996.9000000953674,
+          "ready": true,
+          "complete": false,
+          "workers": 6,
+          "queued": 8,
+          "inflight": 12,
+          "readyTiles": 0,
+          "heap": {
+            "used": 102269212,
+            "total": 107893504
+          }
+        },
+        {
+          "at": 1498.7999997138977,
+          "ready": true,
+          "complete": true,
+          "workers": 6,
+          "queued": 0,
+          "inflight": 0,
+          "readyTiles": 20,
+          "heap": {
+            "used": 94400900,
+            "total": 109148680
+          }
+        }
+      ],
+      "errors": [],
+      "measurements": [
+        {
+          "variant": "baseline",
+          "round": 0,
+          "stats": {
+            "streamUpdateCpuMs": {
+              "n": 992,
+              "mean": 0.0027217740012753394,
+              "p50": 0,
+              "p95": 0
+            },
+            "shadowFitCpuMs": {
+              "n": 992,
+              "mean": 0.013608870487059317,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "shadowSubmitCpuMs": {
+              "n": 32736,
+              "mean": 0.00029020039100684263,
+              "p50": 0,
+              "p95": 0
+            },
+            "shadowDrawCalls": {
+              "n": 32736,
+              "mean": 0,
+              "p50": 0,
+              "p95": 0
+            },
+            "pass0CpuMs": {
+              "n": 992,
+              "mean": 0.18487902754737484,
+              "p50": 0.19999980926513672,
+              "p95": 0.3000001907348633
+            },
+            "pass1CpuMs": {
+              "n": 992,
+              "mean": 0.19959677755832672,
+              "p50": 0.19999980926513672,
+              "p95": 0.3000001907348633
+            },
+            "pass2CpuMs": {
+              "n": 992,
+              "mean": 0.13397177573173277,
+              "p50": 0.09999990463256836,
+              "p95": 0.20000028610229492
+            },
+            "pass3CpuMs": {
+              "n": 992,
+              "mean": 0.015423389211777718,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "pass4CpuMs": {
+              "n": 992,
+              "mean": 0.048487900245574214,
+              "p50": 0,
+              "p95": 0.10000038146972656
+            },
+            "composerCpuMs": {
+              "n": 992,
+              "mean": 0.6304435537707421,
+              "p50": 0.5999999046325684,
+              "p95": 0.9000000953674316
+            },
+            "drawCalls": {
+              "n": 992,
+              "mean": 37,
+              "p50": 37,
+              "p95": 37
+            },
+            "triangles": {
+              "n": 992,
+              "mean": 230786,
+              "p50": 230786,
+              "p95": 230786
+            },
+            "labelsCpuMs": {
+              "n": 992,
+              "mean": 0.32268145536222764,
+              "p50": 0.3000001907348633,
+              "p95": 0.5
+            },
+            "frameIntervalMs": {
+              "n": 991,
+              "mean": 6.064278506847732,
+              "p50": 6.099999904632568,
+              "p95": 6.200000286102295
+            },
+            "pass0GpuMs": {
+              "n": 991,
+              "mean": 0.5486658002018162,
+              "p50": 0.548864,
+              "p95": 0.553984
+            },
+            "pass1GpuMs": {
+              "n": 991,
+              "mean": 2.3646105509586275,
+              "p50": 2.43712,
+              "p95": 3.803136
+            },
+            "pass2GpuMs": {
+              "n": 991,
+              "mean": 0.16227971745711495,
+              "p50": 0.162816,
+              "p95": 0.164864
+            },
+            "pass3GpuMs": {
+              "n": 991,
+              "mean": 0.1083895862764873,
+              "p50": 0.108544,
+              "p95": 0.110592
+            },
+            "pass4GpuMs": {
+              "n": 991,
+              "mean": 0.19672786276488263,
+              "p50": 0.18944,
+              "p95": 0.191488
+            }
+          },
+          "memory": {
+            "columnBytes": 5740966,
+            "geometryBufferBytes": 17324832,
+            "geometries": 33,
+            "textures": 43,
+            "workers": 1,
+            "nodes": 20,
+            "meshes": 20
+          },
+          "camera": [
+            2459.099999999999,
+            523,
+            1917.9
+          ]
+        },
+        {
+          "variant": "baseline",
+          "round": 1,
+          "stats": {
+            "streamUpdateCpuMs": {
+              "n": 990,
+              "mean": 0.002121213951496163,
+              "p50": 0,
+              "p95": 0
+            },
+            "shadowFitCpuMs": {
+              "n": 990,
+              "mean": 0.012020201634879064,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "shadowSubmitCpuMs": {
+              "n": 32670,
+              "mean": 0.00027854303208775283,
+              "p50": 0,
+              "p95": 0
+            },
+            "shadowDrawCalls": {
+              "n": 32670,
+              "mean": 0,
+              "p50": 0,
+              "p95": 0
+            },
+            "pass0CpuMs": {
+              "n": 990,
+              "mean": 0.18010100114225136,
+              "p50": 0.19999980926513672,
+              "p95": 0.3000001907348633
+            },
+            "pass1CpuMs": {
+              "n": 990,
+              "mean": 0.20252525782344316,
+              "p50": 0.19999980926513672,
+              "p95": 0.3000001907348633
+            },
+            "pass2CpuMs": {
+              "n": 990,
+              "mean": 0.14050504992706608,
+              "p50": 0.09999990463256836,
+              "p95": 0.3000001907348633
+            },
+            "pass3CpuMs": {
+              "n": 990,
+              "mean": 0.01454545512343898,
+              "p50": 0,
+              "p95": 0.09999990463256836
+            },
+            "pass4CpuMs": {
+              "n": 990,
+              "mean": 0.05252525204359883,
+              "p50": 0,
+              "p95": 0.10000038146972656
+            },
+            "composerCpuMs": {
+              "n": 990,
+              "mean": 0.6414141365976045,
+              "p50": 0.5999999046325684,
+              "p95": 0.9000000953674316
+            },
+            "drawCalls": {
+              "n": 990,
+              "mean": 37,
+              "p50": 37,
+              "p95": 37
+            },
+            "triangles": {
+              "n": 990,
+              "mean": 230786,
+              "p50": 230786,
+              "p95": 230786
+            },
+            "labelsCpuMs": {
+              "n": 990,
+              "mean": 0.32171717846032344,
+              "p50": 0.3000001907348633,
+              "p95": 0.5
+            },
+            "frameIntervalMs": {
+              "n": 989,
+              "mean": 6.064408493234849,
+              "p50": 6.099999904632568,
+              "p95": 6.200000286102295
+            },
+            "pass0GpuMs": {
+              "n": 989,
+              "mean": 0.5485843801820015,
+              "p50": 0.548864,
+              "p95": 0.55296
+            },
+            "pass1GpuMs": {
+              "n": 989,
+              "mean": 2.35620041253792,
+              "p50": 2.403328,
+              "p95": 3.771392
+            },
+            "pass2GpuMs": {
+              "n": 989,
+              "mean": 0.16885439029322635,
+              "p50": 0.162816,
+              "p95": 0.16384
+            },
+            "pass3GpuMs": {
+              "n": 989,
+              "mean": 0.10833795753286037,
+              "p50": 0.108544,
+              "p95": 0.110592
+            },
+            "pass4GpuMs": {
+              "n": 989,
+              "mean": 0.19305040242669225,
+              "p50": 0.18944,
+              "p95": 0.190464
+            }
+          },
+          "memory": {
+            "columnBytes": 5740966,
+            "geometryBufferBytes": 17324832,
+            "geometries": 33,
+            "textures": 43,
+            "workers": 1,
+            "nodes": 20,
+            "meshes": 20
+          },
+          "camera": [
+            2459.099999999999,
+            523,
+            1917.9
+          ]
+        }
+      ],
+      "environment": {
+        "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1080 Ti (0x00001B06) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "gpuTimers": true,
+        "hardwareConcurrency": 8,
+        "pixelRatio": 1,
+        "shadowSize": [
+          8192,
+          8192
+        ],
+        "passes": [
+          {
+            "name": "RenderPass"
+          },
+          {
+            "name": "Pass"
+          },
+          {
+            "name": "EffectPass",
+            "effects": [
+              "BloomEffect"
+            ]
+          },
+          {
+            "name": "EffectPass",
+            "effects": [
+              "DepthBlur"
+            ]
+          },
+          {
+            "name": "EffectPass",
+            "effects": [
+              "SMAAEffect",
+              "ToneMappingEffect",
+              "HueSaturationEffect",
+              "BrightnessContrastEffect",
+              "VignetteEffect"
+            ]
+          }
+        ],
+        "workersAfterIdle": 1
+      },
+      "idleWorkerHeaps": [
+        {
+          "targetId": "76977462151FF2DD90FD8667F310D924",
+          "id": 8,
+          "result": {
+            "usedSize": 1198268,
+            "totalSize": 4718592,
+            "embedderHeapUsedSize": 773712,
+            "backingStorageSize": 5966243
+          }
+        }
+      ],
+      "pageHeap": {
+        "usedSize": 25533928,
+        "totalSize": 39215104,
+        "embedderHeapUsedSize": 21382200,
+        "backingStorageSize": 74807965
+      },
+      "performance": [
+        {
+          "name": "Timestamp",
+          "value": 3131566.685521
+        },
+        {
+          "name": "AudioHandlers",
+          "value": 0
+        },
+        {
+          "name": "AudioWorkletProcessors",
+          "value": 0
+        },
+        {
+          "name": "Documents",
+          "value": 2
+        },
+        {
+          "name": "Frames",
+          "value": 2
+        },
+        {
+          "name": "JSEventListeners",
+          "value": 84
+        },
+        {
+          "name": "LayoutObjects",
+          "value": 389
+        },
+        {
+          "name": "MediaKeySessions",
+          "value": 0
+        },
+        {
+          "name": "MediaKeys",
+          "value": 0
+        },
+        {
+          "name": "Nodes",
+          "value": 560
+        },
+        {
+          "name": "Resources",
+          "value": 21
+        },
+        {
+          "name": "ContextLifecycleStateObservers",
+          "value": 12
+        },
+        {
+          "name": "V8PerContextDatas",
+          "value": 2
+        },
+        {
+          "name": "WorkerGlobalScopes",
+          "value": 1
+        },
+        {
+          "name": "UACSSResources",
+          "value": 0
+        },
+        {
+          "name": "RTCPeerConnections",
+          "value": 0
+        },
+        {
+          "name": "ResourceFetchers",
+          "value": 4
+        },
+        {
+          "name": "AdSubframes",
+          "value": 0
+        },
+        {
+          "name": "DetachedScriptStates",
+          "value": 0
+        },
+        {
+          "name": "ArrayBufferContents",
+          "value": 2973
+        },
+        {
+          "name": "LayoutCount",
+          "value": 153
+        },
+        {
+          "name": "RecalcStyleCount",
+          "value": 327
+        },
+        {
+          "name": "LayoutDuration",
+          "value": 0.042037
+        },
+        {
+          "name": "RecalcStyleDuration",
+          "value": 0.03096
+        },
+        {
+          "name": "DevToolsCommandDuration",
+          "value": 0.01582
+        },
+        {
+          "name": "ScriptDuration",
+          "value": 3.986694
+        },
+        {
+          "name": "V8CompileDuration",
+          "value": 0
+        },
+        {
+          "name": "TaskDuration",
+          "value": 5.346762
+        },
+        {
+          "name": "TaskOtherDuration",
+          "value": 1.271251
+        },
+        {
+          "name": "ThreadTime",
+          "value": 5.026434
+        },
+        {
+          "name": "ProcessTime",
+          "value": 8.672539
+        },
+        {
+          "name": "JSHeapUsedSize",
+          "value": 25533928
+        },
+        {
+          "name": "JSHeapTotalSize",
+          "value": 39215104
+        },
+        {
+          "name": "FirstMeaningfulPaint",
+          "value": 3131546.117229
+        },
+        {
+          "name": "DomContentLoaded",
+          "value": 3131545.3215
+        },
+        {
+          "name": "NavigationStart",
+          "value": 3131545.113403
+        }
+      ]
+    }
+  ]
+}

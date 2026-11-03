@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { QUAD_PARS } from './quadGeometry';
 import type { Meta } from './types';
 import { dataTexture } from './util';
 
@@ -390,23 +391,26 @@ const SURFACE = `
   diffuseColor.rgb = col * mix(0.62, 1.0, vAO);`;
 
 // MeshStandardMaterial with the voxel surface: colour, roughness, metalness and emission per material id
-export function makeVoxelMaterial(uniforms: VoxelUniforms) {
+export const LOD_DEBUG_COLORS = [[1, '#43d9b0'], [2, '#56a5ff'], [4, '#ffbd45'], [8, '#e877de']] as const;
+
+export function makeVoxelMaterial(uniforms: VoxelUniforms, packed = true, debugTint?: string) {
   const mat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.85, metalness: 0.0 });
   mat.onBeforeCompile = (shader) => {
     Object.assign(shader.uniforms, uniforms);
     shader.vertexShader = shader.vertexShader
       .replace('#include <common>', `#include <common>
-        attribute vec4 vattr; attribute float vpal;
+        ${packed ? QUAD_PARS : 'attribute vec3 vattr; attribute float vpal;'}
         varying vec3 vVox; varying vec3 vN; varying vec3 vFacadeN; varying float vAO; varying float vGz; flat varying int vPal;
         ${NORMAL_FROM_IDX}`)
       // vattr.x = face axis (0-5) + 8 x the wall's direction in plan (mesher.worker.ts): a staircase wall is lit as its plane
-      .replace('#include <beginnormal_vertex>', `float nAx = mod(vattr.x, 8.0), nAng = floor(vattr.x / 8.0 + 0.01);
+      .replace('#include <beginnormal_vertex>', `${packed ? `vec3 vattr = vec3(float(uint(qFlags.x)&255u),float((uint(qFlags.y)>>(uint(position.x)*2u))&3u),float(uint(qFlags.x)>>8u)); float vpal = qPal;` : ''}
+        float nAx = mod(vattr.x, 8.0), nAng = floor(vattr.x / 8.0 + 0.01);
         vec3 objectNormal = nAng > 0.5 ? vec3(cos((nAng - 1.0) * 0.261799), 0., sin((nAng - 1.0) * 0.261799)) : normalFromIdx(nAx);`)
       // and its 1 m steps don't shade each other: shadow lookups step out further along the wall's true direction
       .replace('#include <shadowmap_vertex>', THREE.ShaderChunk.shadowmap_vertex.replace(
         'directionalLightShadows[ i ].shadowNormalBias', '(directionalLightShadows[ i ].shadowNormalBias * (nAng > 0.5 ? 3.0 : 1.0))'))
-      .replace('#include <begin_vertex>', `#include <begin_vertex>
-        vVox = position; vN = normalFromIdx(nAx); vFacadeN = objectNormal; vAO = vattr.y / 3.0; vGz = vattr.z; vPal = int(vpal + 0.5);`);
+      .replace('#include <begin_vertex>', `vec3 transformed = ${packed ? 'quadPosition()' : 'position'};
+        vVox = (modelMatrix * vec4(transformed,1.0)).xyz; vN = normalFromIdx(nAx); vFacadeN = objectNormal; vAO = vattr.y / 3.0; vGz = vattr.z; vPal = int(vpal + 0.5);`);
     shader.fragmentShader = shader.fragmentShader
       .replace('#include <common>', `#include <common>\n${FRAG_PARS}`)
       .replace('#include <color_fragment>', SURFACE)
@@ -416,7 +420,12 @@ export function makeVoxelMaterial(uniforms: VoxelUniforms) {
       .replace('#include <aomap_fragment>', `#include <aomap_fragment>
         float aoF = mix(0.55, 1.0, vAO);
         reflectedLight.indirectDiffuse *= aoF; reflectedLight.indirectSpecular *= aoF;`);
+    if (debugTint) {
+      const color = new THREE.Color(debugTint).toArray().map(v => v.toFixed(6)).join(',');
+      shader.fragmentShader = shader.fragmentShader.replace('#include <opaque_fragment>',
+        `outgoingLight = mix(outgoingLight, vec3(${color}) * mix(0.65, 1.0, vAO), 0.7);\n#include <opaque_fragment>`);
+    }
   };
-  mat.customProgramCacheKey = () => 'voxel';
+  mat.customProgramCacheKey = () => `${packed ? 'voxel-quad-v1' : 'voxel-expanded-v1'}-${debugTint ?? 'normal'}`;
   return mat;
 }
