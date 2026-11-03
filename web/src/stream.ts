@@ -4,6 +4,7 @@ import type { MeshRequest, MeshReply } from './mesher.worker';
 import { dataUrl } from './util';
 import { World, type ColumnSource } from './world';
 import { geometryBytes, makeQuadDepthMaterial, makeQuadGeometry } from './quadGeometry';
+import { MAT } from './voxelMaterial';
 
 export interface TileNode {
   key: string;
@@ -25,6 +26,7 @@ export interface TileNode {
   meshBytes: number;
   queryBytes: number;
   voxels: number;
+  waterBounds?: THREE.Box3;
 }
 interface Pooled {
   worker: Worker;
@@ -258,10 +260,23 @@ export class TileStreamer implements ColumnSource {
         console.warn(m.error);
       } else {
         n.voxels = m.voxels;
+        // Inspect emitted faces once, before records are released. Only water uses time.
+        n.waterBounds = undefined;
+        for (let i = 0; i < m.records.length; i += 8) {
+          const r = m.records;
+          if (this.meta.palette[r[i + 5]]?.[3] !== MAT.WATER) continue;
+          const box = n.waterBounds ??= new THREE.Box3(), axis = (r[i + 6] & 7) >> 1;
+          const x = r[i], y = r[i + 1], z = r[i + 2], w = r[i + 3], h = r[i + 4];
+          box.min.x = Math.min(box.min.x, x); box.min.y = Math.min(box.min.y, y); box.min.z = Math.min(box.min.z, z);
+          box.max.x = Math.max(box.max.x, x + (axis === 0 ? 0 : axis === 1 ? h : w));
+          box.max.y = Math.max(box.max.y, y + (axis === 0 ? h : axis === 1 ? w : 0));
+          box.max.z = Math.max(box.max.z, z + (axis === 0 ? w : axis === 1 ? 0 : h));
+        }
         if (m.quads) {
           const geo = makeQuadGeometry(m.records, m.bounds, this.packed);
           const mesh = new THREE.Mesh(geo, this.materialFor(n));
           mesh.position.set(n.tx * this.N * n.s, 0, n.ty * this.N * n.s);
+          n.waterBounds?.translate(mesh.position);
           mesh.updateMatrix();
           mesh.matrixAutoUpdate = false;
           mesh.visible = false;

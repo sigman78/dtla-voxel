@@ -14,6 +14,7 @@ export function litShare(hour: number, night: number) {
 }
 
 export class Daylight {
+  get shadowDirty() { return this.sun.shadow.needsUpdate; }
   hour = 0;
   exposure = 1.15;
   day = 306;

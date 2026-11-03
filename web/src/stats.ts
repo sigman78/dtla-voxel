@@ -37,15 +37,15 @@ export class Stats {
     document.addEventListener('visibilitychange', () => { this.previous = 0; });
   }
 
-  update(now: number, streamer: TileStreamer | null, camera: THREE.Camera) {
+  update(now: number, streamer: TileStreamer | null, camera: THREE.Camera, rendered = true) {
     if (this.box.hidden) return;
-    if (this.previous) {
+    if (rendered && this.previous) {
       this.samples[this.cursor] = now - this.previous;
       this.cursor = (this.cursor + 1) % this.samples.length;
       this.count = Math.min(this.samples.length, this.count + 1);
     }
-    this.previous = now;
-    if (now - this.refreshed < 250 || !this.count) return;
+    this.previous = rendered ? now : 0;
+    if (now - this.refreshed < 250) return;
     this.refreshed = now;
     let elapsed = 0, peak = 120;
     for (let i = 0; i < this.count; i++) {
@@ -53,8 +53,9 @@ export class Stats {
       peak = Math.max(peak, 1000 / Math.max(.01, this.samples[i]));
     }
     const ceiling = Math.ceil(peak / 60) * 60;
-    const ms = elapsed / this.count;
-    this.title.textContent = `${(1000 / ms).toFixed(0)} FPS · ${ms.toFixed(1)} ms · F3 to hide`;
+    const ms = this.count ? elapsed / this.count : 0;
+    this.title.textContent = !rendered ? 'Idle · scene unchanged · F3 to hide'
+      : ms ? `${(1000 / ms).toFixed(0)} FPS · ${ms.toFixed(1)} ms · F3 to hide` : 'Rendering · F3 to hide';
     const ctx = this.context, w = this.canvas.width, h = this.canvas.height;
     ctx.clearRect(0, 0, w, h);
     ctx.strokeStyle = '#ffffff30';
