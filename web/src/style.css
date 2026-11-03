@@ -104,3 +104,10 @@ html, body { margin: 0; height: 100%; overflow: hidden; touch-action: none; /* p
 .perf-stats pre { margin: 10px 0; font: inherit; line-height: 1.7; white-space: pre-wrap; }
 .perf-note { color: #aab6c3; font-size: 10px; line-height: 1.4; }
 @media (max-width: 600px) { .perf-stats { right: 8px; top: auto; bottom: 74px; } }
+.lod-legend { position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%); z-index: 6;
+  display: flex; align-items: center; gap: 12px; padding: 9px 12px; border-radius: 8px;
+  background: rgba(16,17,20,.9); color: #e6eef5; font: 11px Inter, system-ui, sans-serif; pointer-events: none; white-space: nowrap; }
+.lod-legend[hidden] { display: none; }
+.lod-legend span { display: flex; align-items: center; gap: 5px; }
+.lod-legend i { width: 10px; height: 10px; border-radius: 2px; }
+@media (max-width: 900px) { .lod-legend { bottom: 96px; gap: 8px; } }

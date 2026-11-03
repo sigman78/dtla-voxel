@@ -15,7 +15,7 @@ import { Stats } from './stats';
 import { dateOf, dayOfYear, hourAt, solarNoon } from './sun';
 import type { Facts, Label, Meta, View } from './types';
 import { $, coarsePointer, dataUrl, ease, el, fetchJson } from './util';
-import { makeUniforms, makeVoxelMaterial } from './voxelMaterial';
+import { LOD_DEBUG_COLORS, makeUniforms, makeVoxelMaterial } from './voxelMaterial';
 import './style.css';
 
 declare global {
@@ -67,6 +67,17 @@ let uniforms: ReturnType<typeof makeUniforms> | null = null, views: Record<strin
 let fly: ((now: number) => void) | null = null;
 let barRect: DOMRect | null = null;
 let roam = 1500; // how far the camera may stray beyond the map's edge
+let debugLod = false;
+let lodMaterials: Map<number, THREE.Material> | null = null;
+let lodFoliageMaterial: THREE.Material | null = null;
+const lodLegend = el('aside', 'lod-legend', `<b>Tile LOD · F4 to hide</b>${LOD_DEBUG_COLORS.map(([s, color]) => `<span><i style="background:${color}"></i>${s} m</span>`).join('')}`);
+lodLegend.hidden = true;
+function applyDebugLod() {
+  if (!streamer || !uniforms) return;
+  if (debugLod) lodMaterials ??= new Map(LOD_DEBUG_COLORS.map(([s, color]) => [s, makeVoxelMaterial(uniforms!, streamer!.packed, color)]));
+  if (debugLod) lodFoliageMaterial ??= makeVoxelMaterial(uniforms, streamer.packed, LOD_DEBUG_COLORS[0][1]);
+  streamer.setDebugMaterials(debugLod ? lodMaterials : null, debugLod ? lodFoliageMaterial : null);
+}
 
 nav.cancelFly = () => { fly = null; };
 new ResizeObserver(() => { barRect = null; }).observe(bar.el);
@@ -75,6 +86,12 @@ el('div', '', `<div>Map data <a href="https://www.openstreetmap.org/copyright" t
 if (qs.get('ui') === '0') document.body.classList.add('noui');
 addEventListener('resize', onResize);
 addEventListener('keydown', (e) => {
+  if (e.code === 'F4' && !e.repeat && !(e.metaKey || e.ctrlKey || e.altKey || e.shiftKey)) {
+    e.preventDefault();
+    debugLod = !debugLod;
+    lodLegend.hidden = !debugLod;
+    applyDebugLod();
+  }
   if (e.key === '/' && !(e.metaKey || e.ctrlKey || e.altKey) && !(e.target as Element).closest?.('input')) { bar.search.input.focus(); e.preventDefault(); }
 });
 tamePinch(renderer.domElement);
@@ -226,6 +243,7 @@ async function boot() {
   uniforms = makeUniforms(meta);
   const packed = qs.get('geometry') !== 'expanded';
   streamer = new TileStreamer(meta, makeVoxelMaterial(uniforms, packed), scene, packed);
+  applyDebugLod();
   world = nav.world = streamer.world;
   map.set(new THREE.Vector3(0, 0, 0), new THREE.Vector3(meta.W, meta.H, meta.D));
   daylight.uniforms = uniforms;

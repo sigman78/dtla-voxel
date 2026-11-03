@@ -45,6 +45,9 @@ export class TileStreamer implements ColumnSource {
   update: (camera: THREE.Camera) => void = () => {};
   private queue: TileNode[] = [];
   private inflight = 0;
+  private debugMaterials: Map<number, THREE.Material> | null = null;
+  private foliageMaterial: THREE.Material | null = null;
+  private debugFoliageMaterial: THREE.Material | null = null;
   private nextId = 1;
   private readonly maxWorkers = Math.min(Math.max(1, (navigator.hardwareConcurrency || 4) - 2), 4);
   private readonly pool: Pooled[] = [];
@@ -69,6 +72,29 @@ export class TileStreamer implements ColumnSource {
   }
   columns(key: string) {
     return this.nodes.get(key)?.data;
+  }
+  setDebugMaterials(materials: Map<number, THREE.Material> | null, foliage: THREE.Material | null = null) {
+    this.debugMaterials = materials;
+    this.debugFoliageMaterial = foliage;
+    this.refreshMaterials();
+  }
+  setFoliageMaterial(material: THREE.Material) {
+    this.foliageMaterial = material;
+    this.refreshMaterials();
+  }
+  private materialFor(node: TileNode) {
+    if (node.foliage) return this.debugFoliageMaterial ?? this.foliageMaterial ?? this.material;
+    return this.debugMaterials?.get(node.s) ?? this.material;
+  }
+  private refreshMaterials() {
+    if (this.debugFoliageMaterial && this.foliageMaterial) {
+      this.debugFoliageMaterial.polygonOffset = this.foliageMaterial.polygonOffset;
+      this.debugFoliageMaterial.polygonOffsetFactor = this.foliageMaterial.polygonOffsetFactor;
+      this.debugFoliageMaterial.polygonOffsetUnits = this.foliageMaterial.polygonOffsetUnits;
+    }
+    for (const node of this.nodes.values()) {
+      if (node.mesh) node.mesh.material = this.materialFor(node);
+    }
   }
   key(s: number, tx: number, ty: number) {
     return `${s}/${tx}_${ty}`;
@@ -219,7 +245,7 @@ export class TileStreamer implements ColumnSource {
         n.voxels = m.voxels;
         if (m.quads) {
           const geo = makeQuadGeometry(m.records, m.bounds, this.packed);
-          const mesh = new THREE.Mesh(geo, this.material);
+          const mesh = new THREE.Mesh(geo, this.materialFor(n));
           mesh.position.set(n.tx * this.N * n.s, 0, n.ty * this.N * n.s);
           mesh.updateMatrix();
           mesh.matrixAutoUpdate = false;

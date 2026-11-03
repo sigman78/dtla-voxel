@@ -45,6 +45,7 @@ export async function installCity({
   foliageMaterial.polygonOffset = true;
   foliageMaterial.polygonOffsetFactor = -1;
   foliageMaterial.polygonOffsetUnits = -2;
+  S.setFoliageMaterial(foliageMaterial);
   let selection: Selection,
     previous = new Set<string>(),
     active = new Set<string>();
@@ -142,7 +143,6 @@ export async function installCity({
           n.mesh.visible = show;
           visibilityChanged = true;
         }
-        if (n.foliage) n.mesh.material = foliageMaterial;
       }
     active = next;
     if (visibilityChanged) onCastersChanged();

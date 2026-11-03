@@ -391,7 +391,9 @@ const SURFACE = `
   diffuseColor.rgb = col * mix(0.62, 1.0, vAO);`;
 
 // MeshStandardMaterial with the voxel surface: colour, roughness, metalness and emission per material id
-export function makeVoxelMaterial(uniforms: VoxelUniforms, packed = true) {
+export const LOD_DEBUG_COLORS = [[1, '#43d9b0'], [2, '#56a5ff'], [4, '#ffbd45'], [8, '#e877de']] as const;
+
+export function makeVoxelMaterial(uniforms: VoxelUniforms, packed = true, debugTint?: string) {
   const mat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.85, metalness: 0.0 });
   mat.onBeforeCompile = (shader) => {
     Object.assign(shader.uniforms, uniforms);
@@ -418,7 +420,12 @@ export function makeVoxelMaterial(uniforms: VoxelUniforms, packed = true) {
       .replace('#include <aomap_fragment>', `#include <aomap_fragment>
         float aoF = mix(0.55, 1.0, vAO);
         reflectedLight.indirectDiffuse *= aoF; reflectedLight.indirectSpecular *= aoF;`);
+    if (debugTint) {
+      const color = new THREE.Color(debugTint).toArray().map(v => v.toFixed(6)).join(',');
+      shader.fragmentShader = shader.fragmentShader.replace('#include <opaque_fragment>',
+        `outgoingLight = mix(outgoingLight, vec3(${color}) * mix(0.65, 1.0, vAO), 0.7);\n#include <opaque_fragment>`);
+    }
   };
-  mat.customProgramCacheKey = () => packed ? 'voxel-quad-v1' : 'voxel-expanded-v1';
+  mat.customProgramCacheKey = () => `${packed ? 'voxel-quad-v1' : 'voxel-expanded-v1'}-${debugTint ?? 'normal'}`;
   return mat;
 }
