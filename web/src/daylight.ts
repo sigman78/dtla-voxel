@@ -71,7 +71,7 @@ export class Daylight {
   }
 
   // True-north rotation includes the map's grid rotation and meridian convergence.
-  set theta(t: number) { this.northTheta = t; this.apply(this.hour); }
+  set theta(t: number) { this.northTheta = t; this.sky.north = t; this.apply(this.hour); }
 
   // a compass bearing (0 north, clockwise) and elevation as a direction in the scene
   skyDir(az: number, el: number) {

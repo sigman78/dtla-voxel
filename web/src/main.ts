@@ -68,6 +68,7 @@ let uniforms: ReturnType<typeof makeUniforms> | null = null, views: Record<strin
 let fly: ((now: number) => void) | null = null;
 let barRect: DOMRect | null = null;
 let roam = 1500; // how far the camera may stray beyond the map's edge
+let elevationBase = 0;
 let debugLod = false;
 let lodMaterials: Map<number, THREE.Material> | null = null;
 let lodFoliageMaterial: THREE.Material | null = null;
@@ -254,6 +255,8 @@ async function boot() {
   map.set(new THREE.Vector3(0, 0, 0), new THREE.Vector3(meta.W, meta.H, meta.D));
   daylight.uniforms = uniforms;
   daylight.bloom = post.bloom;
+  elevationBase = meta.base;
+  await daylight.sky.loadHorizon(qs.get('mountains') !== '0');
   daylight.theta = trueNorthRotation(meta.theta_deg || 0, meta.center, meta.crs);
 
   const overview = frameAll(meta), reach = new THREE.Vector3(...overview.pos).distanceTo(new THREE.Vector3(...overview.target));
@@ -325,6 +328,7 @@ renderer.setAnimationLoop((now) => {
     daylight.setFogFrom(viewDist);
     if (uniforms) uniforms.uTime.value = (now - t0) / 1000;
     daylight.sky.mesh.position.copy(camera.position);
+    daylight.sky.eyeElevation = camera.position.y + elevationBase;
     daylight.fitShadow(controls.target, camera, viewDist, map);
     if (city) obstructionLights?.update((now - t0) / 1000, daylight.night, renderer.getPixelRatio(), city.gate, city.levelAt);
     post.composer.render();
