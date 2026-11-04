@@ -162,11 +162,14 @@ export class Daylight {
     cam.near = Math.max(1, -b.max.z - 700); // towers outside the square still cast into it
     cam.far = -b.min.z + 10;
     cam.updateProjectionMatrix();
-    // biases as world distances of about a texel: fixed values (0.5-3 m normal offset, a 0.0004 depth bias over a
-    // ~2 km depth range) detached close-up shadows from their casters by most of a voxel
-    const slope = Math.sqrt(clamp(1 / Math.max(this.sunY, 0.1), 1, 6));
-    sun.shadow.normalBias = clamp(texel * 1.2 * slope, 0.04, 2.5);
-    sun.shadow.bias = -clamp(texel * 1.5 * slope, 0.03, 2) / (cam.far - cam.near);
+    // Bound contact error in world space, independently of the coarse caster
+    // grid. A vertical receiver offset projects onto the ground as offset /
+    // sin(elevation): increasing bias at low sun opened metre-wide light gaps.
+    // Scale both offsets down with elevation instead; retain a small floor for
+    // the horizon/night-fill transition. No extra geometry or shadow pass.
+    const elevation = clamp(this.sunY, 0.05, 1);
+    sun.shadow.normalBias = clamp(texel * 0.3, 0.02, 0.25) * elevation;
+    sun.shadow.bias = -clamp(texel * 0.25, 0.02, 0.15) * elevation / (cam.far - cam.near);
     this.invalidateShadow();
   }
 }

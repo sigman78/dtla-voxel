@@ -92,6 +92,28 @@ node tools/test-tile-culling.mjs
 node tools/check-shadow-lod.mjs
 ```
 
+### Golden-hour contact correction
+
+The preview exposed a second quality problem: shadow bias grew with the fitted
+texel size and increased again at low sun. In the November 4, 16:00 overview,
+the normal offset was 2.405 m and the light-depth offset was 2 m. Projecting those
+offsets at a low sun angle can separate a ground shadow by many metres, in
+addition to any actual coarse-mesh silhouette error.
+
+Bias now uses small world-space caps (0.25 m normal, 0.15 m light depth), scaled
+by sun elevation. That same overview uses 0.045 m normal and 0.027 m depth.
+The analytical combined bias displacement on a horizontal receiver is bounded
+by 0.4 m for sun elevations with sine >= 0.05. This is a bias bound, not a bound
+on coarse geometry error, PCF filtering, or angled-wall offsets. Keep the 4 m
+casters, nearby refinement, existing ambient occlusion and cached shadow fit;
+this correction adds no geometry, texture fetches or rendering passes.
+
+Validation: bounded-offset tests across 2K/4K/8K maps and five sun elevations;
+production build; shadow LOD/culling browser checks and nine cached/forced
+shadow comparisons. Inspected Civic and overview captures, including golden
+hour. Coarse silhouettes and missing thin geometry remain approximations; this
+does not replace the deferred offline-mesh work or establish a new FPS benchmark.
+
 ## Intended behavior
 
 The default viewer keeps a complete coarse city and refines useful regions using projected voxel size, with bounded requests and residency. Nearby foliage arrives with its base tile. Queries retain merged occupancy intervals instead of palette runs. Four vertices are reconstructed from one tile-local quad record in every geometry pass. Explicit `?lod=1|2|4|8` remains the fixed-detail diagnostic path.

@@ -28,4 +28,18 @@ fit.shadowRadius=NaN;update();assert.equal(redraws,3,'sun direction changes inva
 fit.sun.shadow.mapSize.set(4096,4096);update();assert.equal(redraws,4,'shadow resolution changes refit');
 camera.position.copy(focus).add(new THREE.Vector3(0,100,100));update();assert.equal(redraws,5,'substantial zoom restores shadow resolution');
 update();assert.equal(redraws,5);
+// Low sun must not amplify receiver bias into a detached ground shadow, even
+// with a wide fit or a smaller map on a constrained GPU.
+for(const size of [2048,4096,8192])for(const elevation of [.05,.1,.25,.8,1]){
+  fit.sun.shadow.mapSize.set(size,size);
+  fit.sunY=elevation;fit.lightDir.set(Math.sqrt(1-elevation*elevation),elevation,0);
+  camera.position.copy(focus).add(new THREE.Vector3(0,1800,1800));
+  fit.shadowRadius=NaN;update();
+  const sh=fit.sun.shadow;
+  const normalGap=sh.normalBias*Math.sqrt(1-elevation*elevation)/elevation;
+  const depthGap=Math.abs(sh.bias)*(sh.camera.far-sh.camera.near)/elevation;
+  assert(normalGap+depthGap<=.400001,'bias-induced ground gap must stay below 40 cm');
+  assert(sh.normalBias>0&&sh.bias<0,'retain acne protection');
+}
 console.log('Passed: 200 orbit/damping frames reuse shadows; coverage escape, sunlight, resolution and zoom still refit');
+console.log('Passed: bounded contact offset across sunlight elevations and 2K/4K/8K shadow maps');
