@@ -113,4 +113,28 @@ node tools/profile.mjs ../artifacts/profiling/shadow-optimization.json</code></p
 <p><a href="../web/tools/profile.mjs">Profiler source</a> · Two-view repeated comparisons (local generated report) · Overview/motion (local generated report) · Night/motion (local generated report) · Overview/shadows (local generated report) · Initial smoke run (local generated report)</p>
 <p><a href="../web/tools/check-shadows.mjs">Shadow integration check</a> · Shadow correctness results (local generated report) · Implementation performance results (local generated report)</p>
 <p class="muted">Validation: TypeScript and production build passed. Shadow correctness and performance results are recorded separately from the original profile. Shadow resolution, bias, postprocessing, labels and streaming policy retain their existing settings.</p>
+<h2>Distant mountain horizon — November 3, 2026</h2>
+<p>The distant-only backdrop adds a 64 KiB RGBA8 elevation atlas to the existing sky shader.
+Terrain within 20 km is excluded. Eight baked eye-height profiles avoid false peaks when the camera rises.
+The shader uses one filtered texture lookup in the horizon band, with no additional draw calls or geometry.</p>
+<p>Paired measurements on an NVIDIA GeForce GTX 1080 Ti (ANGLE/D3D11), 1600 × 1000 at device pixel ratio 1,
+compare the original sky fragment shader from <code>4a8f3b8</code> with mountains enabled in the same loaded scene.
+The complete postprocessing chain stays enabled. Four rounds alternate variant order, with a 700 ms warmup and
+two seconds of samples per variant. Frame pacing is uncapped; GPU time uses asynchronous disjoint timer queries.</p>
+<table>
+<thead><tr><th>View</th><th>GPU ms, original → mountains</th><th>Frame interval ms, original → mountains</th><th>Draw calls, both</th></tr></thead>
+<tbody>
+<tr><td>North, noon</td><td>7.082 → 7.027</td><td>6.971 → 6.839</td><td>314</td></tr>
+<tr><td>North, sunset</td><td>4.580 → 4.604</td><td>4.519 → 4.742</td><td>151</td></tr>
+<tr><td>Bunker Hill, night</td><td>8.998 → 9.025</td><td>8.839 → 8.886</td><td>357</td></tr>
+</tbody></table>
+<p>Values are equally weighted means of the four rounds. GPU differences are −0.055 to +0.027 ms/frame,
+smaller than round-to-round variation: no meaningful GPU regression was detected on this machine.
+The sunset frame interval increased by 0.223 ms in the aggregate, dominated by the first pair;
+the remaining three paired differences average +0.045 ms. These measurements do not establish zero overhead
+on every GPU or mobile device. Triangle counts were identical within each pair, and no browser errors occurred.</p>
+<p>Reproduce from <code>web/</code>, with Vite running on port 5175:
+<code>node tools/profile-horizon.mjs ../artifacts/horizon-performance.json</code>.
+The harness accepts <code>URL</code>, <code>BASE_REV</code>, <code>ROUNDS</code>, and <code>SAMPLE_MS</code>.
+Raw output stays in ignored <code>artifacts/</code>. Production build and data-cache checks passed.</p>
 </html>

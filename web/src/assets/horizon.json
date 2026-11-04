@@ -1,0 +1,45 @@
+{
+  "source": "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer",
+  "credit": "USGS 3DEP, public domain",
+  "export": {
+    "f": "json",
+    "bbox": "263811.3441634395,3647180.589906203,505811.3441634395,3889180.589906203",
+    "bboxSR": 32611,
+    "imageSR": 32611,
+    "size": "2420,2420",
+    "format": "tiff",
+    "pixelType": "F32",
+    "noData": -999999,
+    "interpolation": "RSP_BilinearInterpolation",
+    "renderingRule": "{\"rasterFunction\": \"None\"}"
+  },
+  "dem_sha256": "238fbb2c1dcd457161d298af54003b1d5cbc10c518fa38f7f26da97e43bfe156",
+  "center": [
+    34.048,
+    -118.248
+  ],
+  "samples": 2048,
+  "min_distance_m": 20000,
+  "max_distance_m": 120000,
+  "eye_elevations_m": [
+    0,
+    500,
+    1000,
+    1500,
+    2000,
+    2500,
+    3000,
+    3500
+  ],
+  "encoding": "RGBA8: RG = (slope + 0.25) / 0.4; BA = curvature-corrected elevation / 4095; uint16 big endian",
+  "maximum_angles_deg": [
+    4.011230120744015,
+    2.898440371497052,
+    1.7834580891687881,
+    1.1628967392873661,
+    0.6929133104670042,
+    0.22578581594759078,
+    -0.2413716959514838,
+    -0.7081660942978162
+  ]
+}

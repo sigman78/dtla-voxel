@@ -2,16 +2,19 @@
 
 **Live: https://sigman78.github.io/dtla-voxel/**
 
-[![City Hall and Grand Park, Civic Center](docs/img/hero-civic.jpg)](https://sigman78.github.io/dtla-voxel/?view=civic&hour=10.5)
+[![City Hall and Grand Park, Civic Center](docs/img/hero-civic.jpg)](https://sigman78.github.io/dtla-voxel/?view=civic&hour=10.5&date=11-03)
 
 | | |
 |---|---|
-| [![Bunker Hill at golden hour](docs/img/bunker-hill.jpg)](https://sigman78.github.io/dtla-voxel/?view=bunkerhill&hour=15.8) | [![The skyline at sunset, from the east](docs/img/skyline-sunset.jpg)](https://sigman78.github.io/dtla-voxel/?cam=4052,647,2285,2007,196,744&hour=16.4) |
+| [![Bunker Hill at golden hour](docs/img/bunker-hill.jpg)](https://sigman78.github.io/dtla-voxel/?view=bunkerhill&hour=15.8&date=11-03) | [![The skyline at sunset, from the east](docs/img/skyline-sunset.jpg)](https://sigman78.github.io/dtla-voxel/?cam=4052,647,2285,2007,196,744&hour=16.4&date=11-03) |
 | Bunker Hill at golden hour | The skyline at sunset, from the east |
-| [![Broadway and Pershing Square](docs/img/broadway.jpg)](https://sigman78.github.io/dtla-voxel/?view=historic&hour=13) | [![Bunker Hill at night](docs/img/night.jpg)](https://sigman78.github.io/dtla-voxel/?view=bunkerhill&hour=19.5) |
+| [![Broadway and Pershing Square](docs/img/broadway.jpg)](https://sigman78.github.io/dtla-voxel/?view=historic&hour=13&date=11-03) | [![Bunker Hill at night](docs/img/night.jpg)](https://sigman78.github.io/dtla-voxel/?view=bunkerhill&hour=19.5&date=11-03) |
 | Broadway and Pershing Square | Bunker Hill at night |
 
-Click a picture to open that view in the live viewer.
+[![Distant mountains through the sunset haze, looking north](docs/img/mountain-horizon.jpg)](https://sigman78.github.io/dtla-voxel/?cam=900,350,2500,2400,180,1400&hour=16.5&date=11-03&tilt=0)
+
+Distant mountains through the sunset haze, looking north. Click a picture to open that view in the live viewer.
+Screenshots use November 3 lighting; regenerate with `node tools/readme-shots.mjs` from `web/` while Vite is running.
 
 A 4.2 × 3.6 km diorama of downtown Los Angeles at 1 m voxels, with a southern-California palette:
 sun-bleached stucco, Beaux-Arts terracotta, teal glass towers, cool white roofs, palms, jacarandas, golden dry
@@ -29,6 +32,16 @@ cd web && npm install && npm run dev     # http://localhost:5173
 
 URL parameters: `view=` (default, bunkerhill, civic, littletokyo, viaduct, lalive, historic), `hour=19.5`,
 `date=MM-DD`, `tilt=0`, `ui=0`, `lod=1|2|4|8`, `cam=x,y,z,tx,ty,tz`.
+Use `mountains=0` to compare the sky without the distant mountain backdrop.
+
+The backdrop uses a 64 KiB, 2,048-bearing USGS 3DEP elevation atlas inside the existing sky pass,
+with day/night tint, a haze fade, and camera-height adjustment. Only terrain 20–120 km from downtown
+contributes; local hills are excluded. No extra scene draw calls or runtime elevation-service requests.
+Run `python scripts/build_horizon.py` in the project environment to regenerate it. The regional 100 m
+DEM export is cached in `$DTLA_CACHE/horizon`; the committed profile and source/hash manifest live in
+`web/src/assets/horizon.bin` and `horizon.json`. The profile is anchored at the map's geographic center:
+horizontal parallax is approximate. Eight altitude profiles interpolate between 0 and 3,500 m MSL;
+the backdrop fades out between 3,000 and 3,500 m rather than extrapolating above the sampled range.
 
 `npm run build` produces a portable static site in `web/dist`; local development and ordinary deployments
 use the original data URLs and normal browser caching. `npm run build:cf` enables content-addressed data
@@ -155,7 +168,7 @@ Follow-up work. Landmark facades are the current priority, with traffic next.
 - [ ] **Glass reflections**: towers mirroring the sky and each other.
 - [ ] **Water**: a moving surface in the LA River's low-flow channel.
 - [ ] **Palms swaying** in Santa Ana winds.
-- [ ] **Backdrop**: the San Gabriel Mountains and the Hollywood Hills as distant silhouettes, from the DEM.
+- [x] **Distant backdrop prototype**: DEM-derived mountain silhouette, excluding local hills, blended into the sky haze.
 
 **Coverage and data**
 - [ ] **A bigger map**: Echo Park and Dodger Stadium, Boyle Heights across the river, and Exposition Park.
