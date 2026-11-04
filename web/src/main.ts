@@ -11,6 +11,7 @@ import { ObstructionLights } from './obstructionLights';
 import { makePost } from './post';
 import type { SearchItem } from './search';
 import { TileStreamer } from './stream';
+import { ShadowTiles } from './shadowTiles';
 import { Stats } from './stats';
 import { dateOf, dayOfYear, hourAt, losAngelesDate, SOLAR_YEAR, solarNoon, trueNorthRotation } from './sun';
 import type { Facts, Label, Meta, View } from './types';
@@ -63,6 +64,7 @@ const tiltShift = qs.get('tilt') !== '0' && (innerWidth >= 600 || qs.get('tilt')
 let labels: Labels | null = null, hud: Hud | null = null;
 let world: TileStreamer['world'] | null = null, streamer: TileStreamer | null = null;
 let city: Awaited<ReturnType<typeof installCity>> | null = null;
+let shadowTiles: ShadowTiles | null = null;
 let obstructionLights: ObstructionLights | null = null;
 let uniforms: ReturnType<typeof makeUniforms> | null = null, views: Record<string, View> = {};
 let fly: ((now: number) => void) | null = null;
@@ -250,6 +252,9 @@ async function boot() {
   uniforms = makeUniforms(meta);
   const packed = qs.get('geometry') !== 'expanded';
   streamer = new TileStreamer(meta, makeVoxelMaterial(uniforms, packed), scene, packed);
+  // Diagnostic comparisons: 1 uses visible detail; 2/4/8 cap distant casters.
+  const shadowLevel = Number(qs.get('shadowlod'));
+  shadowTiles = new ShadowTiles(streamer, meta, renderer, scene, [1,2,4,8].includes(shadowLevel) ? shadowLevel : 4);
   applyDebugLod();
   world = nav.world = streamer.world;
   map.set(new THREE.Vector3(0, 0, 0), new THREE.Vector3(meta.W, meta.H, meta.D));
@@ -276,7 +281,7 @@ async function boot() {
   const level = pickLevel(meta);
   const minimumLevel = coarsePointer() && Math.min(screen.width, screen.height) < 600
     ? streamer.levels.find(s=>s<=4) ?? 1 : 1;
-  city = await installCity({ streamer, uniforms, meta, scene, focus: () => controls.target, camera, caption: new Caption(bar.el), level,
+  city = await installCity({ streamer, uniforms, meta, scene, shadowTiles, focus: () => controls.target, camera, caption: new Caption(bar.el), level,
     onCastersChanged: () => daylight.invalidateShadow(),
     light: () => daylight.copyDirection(selectionLight), height: () => renderer.domElement.height, minimumLevel });
   obstructionLights = new ObstructionLights(scene, meta, level || 1);

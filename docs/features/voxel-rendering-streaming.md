@@ -4,6 +4,94 @@ Status: implemented and reviewed; correctness and performance validation complet
 
 Scope: items 1–3 in the research summary: remove unused/duplicated data, demand-driven mixed LOD, and 16-byte quad rendering. Source: [research](../voxel-performance-proposal.html). Existing vegetation/data edits are outside this feature.
 
+## November 4 follow-up: measurements and chosen direction
+
+The current direction is to reuse coarser existing tiles for shadow LOD and tighten
+per-pass frustum culling. Offline shadow-only assets remain a deferred experiment;
+there is no new mesh asset format or build pipeline enabled.
+
+The offline experiment is reproducible with `node tools/bench-mesh-merging.mjs`
+from `web/`. Its [raw measurements](../measurements/mesh-merging-sample.json) are
+stored in the repository rather than only in ignored local artifacts. The samples
+are the two largest gzip files in each of levels 1, 1f and 2, not a representative
+whole-scene benchmark. Counts below are quads (each draws two triangles).
+
+| Tile | Existing | Ignore baked AO | Shadow-only merge |
+|---|---:|---:|---:|
+| 1/15_5 | 21,557 | 15,392 | 9,426 |
+| 1/20_6 | 31,313 | 23,004 | 14,058 |
+| 1f/22_8 | 32,083 | 25,231 | 18,138 |
+| 1f/17_7 | 26,120 | 20,141 | 14,599 |
+| 2/7_2 | 29,990 | 24,087 | 15,165 |
+| 2/15_0 | 32,041 | 25,482 | 15,036 |
+
+Ignoring AO in the greedy-merge key reduced sampled geometry by 20–29%, with a
+visible shading tradeoff. Ignoring all shading attributes for a shadow-only mesh
+reduced it by 43–56%. Canonical oriented surface coverage matched exactly for all
+six samples. This is not a measured FPS gain: a dedicated shadow mesh would add
+asset/buffer ownership and build work. Ordinary mesh concatenation reduces draw
+calls, not triangle counts; prebuilding the existing meshes only moves CPU work
+offline. Neither is sufficient evidence to replace the current compact format.
+
+Earlier local desktop measurements (GTX 1080 Ti, Chrome, 1600×1000, DPR 1) compared
+the civic view with forced shadow redraws: visible-detail casters submitted 713
+draw calls and 14.57 million triangles per full frame; a 2 m shadow cap submitted
+377 calls and 9.44 million triangles. Main-pass GPU time was approximately 13.8 ms
+and 9.0 ms respectively in separate runs. These are descriptive desktop samples,
+not M1/tablet results or controlled estimates of the shadow pass alone.
+
+Camera stabilization was also invalidating shadows on every matrix change. The
+fit now retains padded world-space coverage until the requested region escapes
+or a substantial zoom warrants a smaller fit. Sun/caster changes remain immediate.
+Forced-redraw image comparisons pass for small pans, orbit, zoom, sunlight and resize.
+
+### More aggressive existing LOD and tighter culling
+
+The default shadow cap is now 4 m. Near-camera nodes still refine below that cap,
+with 192 m entry / 256 m exit hysteresis; no separate mesh assets are generated.
+`?shadowlod=1|2|4|8` provides comparisons. Tile meshes and their shadow proxies use
+the worker's emitted-face bounding boxes instead of loose spheres. Bounds are
+transformed by each object's world matrix, and each render pass tests its own
+frustum. A caster outside the viewing camera remains eligible in the light frustum.
+
+The [paired capture](../measurements/shadow-culling-comparison.json) holds visible
+geometry fixed in one browser session, at 1600×1000, DPR 1 on the same GTX 1080 Ti.
+Shadow redraws are forced in each measured frame. Each sample lasts 3.5 seconds;
+2 m/sphere and 4 m/box were repeated at the end to check drift. Counts include all
+frame passes; GPU time below is the main render pass including shadows.
+
+| Shadow cap / culling | Draw calls | Triangles | Main GPU pass |
+|---|---:|---:|---:|
+| 2 m / sphere | 378 | 9,446,430 | 8.44 ms (two-sample mean) |
+| 4 m / sphere | 326 | 7,341,054 | 7.22 ms |
+| 4 m / box | 292 | 6,564,148 | 6.71 ms (two-sample mean) |
+| 8 m / box | 276 | 5,529,964 | 6.11 ms |
+
+Choose 4 m as the default: about 31% fewer triangles, 23% fewer draw calls and 20%
+less main-pass GPU time than 2 m/sphere in this view. Box culling alone reduced
+triangles about 11% at 4 m. The 8 m option is available for experiments, but that
+exported level omits thin-detail geometry and has coarser silhouettes. These are
+local desktop results, not promises of equivalent mobile gains. Coarser shadow
+shapes are a quality tradeoff; tight box culling is conservative and must preserve
+the image relative to sphere culling at the same LOD.
+
+Validation passed: production build; unit tests for boundary inclusion, transformed
+bounds, proxy cloning and independent camera/light frusta; browser checks for
+coverage, navigation, sun changes and WebGL context restoration. The same-LOD
+box/sphere image comparison stayed within the existing tight raster tolerance
+(mean channel difference 0.116/255; 0.044% of channels differed by more than 8/255).
+That scene also drew 37 off-camera shadow proxies, verifying that camera culling
+does not remove shadow contributors. Nine cached/forced-shadow scenarios passed.
+
+Reproduce from `web/` with Vite on port 5177:
+
+```powershell
+$env:VARIANTS = 'shadow-2-sphere,shadow-4-sphere,shadow-4-box,shadow-8-box,shadow-4-box,shadow-2-sphere'
+node tools/profile-streaming.mjs ../artifacts/profiling/shadow-culling-comparison.json
+node tools/test-tile-culling.mjs
+node tools/check-shadow-lod.mjs
+```
+
 ## Intended behavior
 
 The default viewer keeps a complete coarse city and refines useful regions using projected voxel size, with bounded requests and residency. Nearby foliage arrives with its base tile. Queries retain merged occupancy intervals instead of palette runs. Four vertices are reconstructed from one tile-local quad record in every geometry pass. Explicit `?lod=1|2|4|8` remains the fixed-detail diagnostic path.

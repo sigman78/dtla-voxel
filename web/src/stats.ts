@@ -80,7 +80,7 @@ export class Stats {
       if (!node.mesh.visible || !streamer.group.visible) continue;
       active++;
       activeVoxels += node.voxels;
-      if (node.mesh.frustumCulled && !this.frustum.intersectsObject(node.mesh)) continue;
+      if (node.mesh.frustumCulled && !node.mesh.intersectsFrustum(this.frustum)) continue;
       frustumVoxels += node.voxels;
       if (node.foliage) foliage++; else base++;
     }

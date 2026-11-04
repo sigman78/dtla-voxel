@@ -5,6 +5,7 @@ import { dataUrl } from './util';
 import { World, type ColumnSource } from './world';
 import { geometryBytes, makeQuadDepthMaterial, makeQuadGeometry } from './quadGeometry';
 import { MAT } from './voxelMaterial';
+import { TileMesh } from './tileMesh';
 
 export interface TileNode {
   key: string;
@@ -39,6 +40,7 @@ export class TileStreamer implements ColumnSource {
   readonly levels: number[];
   readonly dims: Record<number, TileLevel>;
   readonly nodes = new Map<string, TileNode>();
+  readonly shadowKeys = new Set<string>();
   readonly group = new THREE.Group();
   readonly world: World;
   readonly packed: boolean;
@@ -274,13 +276,16 @@ export class TileStreamer implements ColumnSource {
         }
         if (m.quads) {
           const geo = makeQuadGeometry(m.records, m.bounds, this.packed);
-          const mesh = new THREE.Mesh(geo, this.materialFor(n));
+          const mesh = new TileMesh(geo, this.materialFor(n));
           mesh.position.set(n.tx * this.N * n.s, 0, n.ty * this.N * n.s);
           n.waterBounds?.translate(mesh.position);
           mesh.updateMatrix();
           mesh.matrixAutoUpdate = false;
           mesh.visible = false;
-          mesh.castShadow = mesh.receiveShadow = true;
+          // City selection enables exact foliage only where proxies use 1 m
+          // base tiles. Coarser parent tiles already include their vegetation.
+          mesh.castShadow = false;
+          mesh.receiveShadow = true;
           if (this.packed) {
             mesh.customDepthMaterial = this.depth;
             mesh.customDistanceMaterial = this.distance;
@@ -304,12 +309,12 @@ export class TileStreamer implements ColumnSource {
     }
     this.pump();
   }
-  trim(keep: Set<string>, maxBytes = 256 * 1024 * 1024, graceMs = 2000) {
+  trim(keep: Set<string>, maxBytes = 256 * 1024 * 1024, graceMs = 30000) {
     const now = performance.now();
     let bytes = this.memory.total;
     const candidates = this.trimCandidates;
     candidates.length = 0;
-    for (const n of this.nodes.values()) if (!keep.has(n.key) && !n.mesh?.visible) candidates.push(n);
+    for (const n of this.nodes.values()) if (!keep.has(n.key) && !this.shadowKeys.has(n.key) && !n.mesh?.visible) candidates.push(n);
     candidates.sort((a, b) => a.touched - b.touched);
     for (const n of candidates) {
       if (n.state === 'ready' && bytes <= maxBytes && now - n.touched < graceMs) continue;

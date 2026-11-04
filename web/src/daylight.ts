@@ -31,8 +31,8 @@ export class Daylight {
   private shadowX = NaN;
   private shadowZ = NaN;
   private shadowRadius = NaN;
-  private readonly shadowView = new THREE.Matrix4();
-  private readonly shadowProjection = new THREE.Matrix4();
+  private shadowMapSize = 0;
+  private shadowHeight = NaN;
   private readonly shadowCenter = new THREE.Vector3();
   private readonly shadowUp = new THREE.Vector3(0, 1, 0);
   private readonly shadowInverse = new THREE.Matrix4();
@@ -131,28 +131,29 @@ export class Daylight {
 
   fitShadow(focus: THREE.Vector3, camera: THREE.Camera, viewDist: number, map: THREE.Box3) {
     if (map.isEmpty()) return;
-    // Refresh during navigation even when the snapped light fit stays the same.
-    camera.updateMatrixWorld();
-    if (!this.shadowView.equals(camera.matrixWorld) || !this.shadowProjection.equals(camera.projectionMatrix)) {
-      this.shadowView.copy(camera.matrixWorld);
-      this.shadowProjection.copy(camera.projectionMatrix);
-      this.invalidateShadow();
-    }
     const sun = this.sun, f = focus;
     const dist = viewDist + Math.max(0, camera.position.y - (map.min.y + 80));
-    const R = clamp(dist * 1.15, 300, Math.max(map.max.x, map.max.z) * 0.75), texel = (2 * R) / sun.shadow.mapSize.x;
+    const wanted = clamp(dist * 1.15, 300, Math.max(map.max.x, map.max.z) * 0.75);
+    // Shadows are world-space. Orbit/damping need not redraw an unchanged
+    // light-space volume. Keep a padded fit until the requested square escapes
+    // it, or zoom has shrunk enough to justify a higher-resolution fit.
+    const offset = Math.max(Math.abs(f.x - this.shadowX), Math.abs(f.z - this.shadowZ));
+    if (wanted + offset <= this.shadowRadius && wanted >= this.shadowRadius * 0.75
+      && this.shadowMapSize === sun.shadow.mapSize.x && this.shadowHeight === map.max.y) return;
+    const R = Math.ceil(wanted * 1.1 / 32) * 32, texel = (2 * R) / sun.shadow.mapSize.x;
     const L = this.lightDir;
-    const sx = Math.round(f.x / (texel * 8)), sz = Math.round(f.z / (texel * 8)), radius = Math.round(R);
-    if (sx === this.shadowX && sz === this.shadowZ && radius === this.shadowRadius) return;
-    this.shadowX = sx; this.shadowZ = sz; this.shadowRadius = radius;
-    const c = this.shadowCenter.set(f.x, 0, f.z);
+    this.shadowX = Math.round(f.x / (texel * 8)) * texel * 8;
+    this.shadowZ = Math.round(f.z / (texel * 8)) * texel * 8;
+    this.shadowRadius = R;
+    this.shadowMapSize = sun.shadow.mapSize.x; this.shadowHeight = map.max.y;
+    const c = this.shadowCenter.set(this.shadowX, 0, this.shadowZ);
     sun.target.position.copy(c);
     sun.position.copy(c).addScaledVector(L, 2500);
     sun.updateMatrixWorld(); sun.target.updateMatrixWorld();
     const inv = this.shadowInverse.lookAt(sun.position, c, this.shadowUp).invert();
     const b = this.shadowBounds.makeEmpty(), corner = this.shadowCorner;
     for (let ix = -1; ix <= 1; ix += 2) for (let iz = -1; iz <= 1; iz += 2) for (let iy = 0; iy <= 1; iy++) {
-      corner.set(f.x + ix * R, iy * map.max.y, f.z + iz * R).sub(sun.position).applyMatrix4(inv);
+      corner.set(c.x + ix * R, iy * map.max.y, c.z + iz * R).sub(sun.position).applyMatrix4(inv);
       b.expandByPoint(corner);
     }
     const cam = sun.shadow.camera;

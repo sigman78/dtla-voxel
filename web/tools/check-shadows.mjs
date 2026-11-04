@@ -19,7 +19,7 @@ try {
   await page.route('**/src/main.ts*', async route => {
     const response = await route.fetch();
     await route.fulfill({ response, body: (await response.text()) + `
-window.__shadowCheck = { frames: 0, draws: 0, baseBatches: 0, foliageBatches: 0, missed: [], previousBase: 0, previousFoliage: 0 };
+window.__shadowCheck = { frames: 0, draws: 0, baseBatches: 0, foliageBatches: 0, missed: [], previousBase: 0, previousFoliage: 0, previousCasters: '' };
 const check = window.__shadowCheck;
 const originalShadowRender = renderer.shadowMap.render;
 renderer.shadowMap.render = function (...args) {
@@ -33,7 +33,8 @@ post.composer.render = function (...args) {
   const nodes = streamer ? [...streamer.nodes.values()] : [];
   const base = nodes.filter(n => n.mesh?.visible && !n.foliage).length;
   const foliage = nodes.filter(n => n.mesh?.visible && n.foliage).length;
-  const changed = base > check.previousBase || foliage > check.previousFoliage;
+  const casters = [...(streamer?.shadowKeys ?? []), ...nodes.filter(n => n.foliage && n.mesh?.visible && n.mesh.castShadow).map(n => n.key)].sort().join(',');
+  const changed = casters !== check.previousCasters;
   if (base > check.previousBase) check.baseBatches++;
   if (foliage > check.previousFoliage) check.foliageBatches++;
   const dirty = daylight.sun.shadow.needsUpdate;
@@ -41,6 +42,7 @@ post.composer.render = function (...args) {
   const result = originalComposerRender.apply(this, args);
   if (changed && (!dirty || !check.draws)) check.missed.push({ base, foliage, dirty, draws: check.draws });
   check.previousBase = base; check.previousFoliage = foliage; check.frames++;
+  check.previousCasters = casters;
   return result;
 };` });
   });
@@ -100,18 +102,19 @@ post.composer.render = function (...args) {
         fractionOver8: over8/actual.length, firstFractionOver8: firstOver8/actual.length, rawFractionOver8: rawOver8/actual.length });
     }
     compare('settled', () => {}, false);
-    compare('pan', () => { camera.position.x += 180; controls.target.x += 180; }, true);
+    compare('pan inside padded coverage', () => { camera.position.x += 5; controls.target.x += 5; }, false);
+    compare('pan outside padded coverage', () => { camera.position.x += 600; controls.target.x += 600; }, true);
     compare('zoom', () => { camera.position.sub(controls.target).multiplyScalar(.65).add(controls.target); }, true);
     compare('orbit with unchanged shadow fit', () => {
       const x=camera.position.x-controls.target.x, z=camera.position.z-controls.target.z;
       camera.position.x=controls.target.x+z; camera.position.z=controls.target.z-x; camera.lookAt(controls.target);
-    }, true);
+    }, false);
     compare('hour', () => setHour(16), true);
     compare('date', () => setDay(172), true);
     compare('night', () => setHour(22), true);
     compare('resize', () => {
       renderer.setSize(1000,700); post.composer.setSize(1000,700); camera.aspect=1000/700; camera.updateProjectionMatrix();
-    }, true);
+    }, false);
     return results;
   });
   for (const c of report.cases) {
