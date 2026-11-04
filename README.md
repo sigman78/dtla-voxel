@@ -33,6 +33,21 @@ cd web && npm install && npm run dev     # http://localhost:5173
 URL parameters: `view=` (default, bunkerhill, civic, littletokyo, viaduct, lalive, historic), `hour=19.5`,
 `date=MM-DD`, `tilt=0`, `ui=0`, `lod=1|2|4|8`, `cam=x,y,z,tx,ty,tz`.
 Use `mountains=0` to compare the sky without the distant mountain backdrop.
+Viewer tuning lives in [`web/src/performanceProfile.ts`](web/src/performanceProfile.ts).
+Use `?performance=balanced` or `?performance=mobile` to select a preset on reload;
+without an override, small touch screens retain the mobile policy and other devices use balanced.
+The resolved settings are inspectable at `window.__three.performanceProfile`.
+See [profile tuning and units](docs/features/voxel-rendering-streaming.md#viewer-performance-profiles).
+
+Use `shadowlod=1|2|4|8` to compare shadow detail (1 follows the visible tiles). By default, shadow casting
+stops refinement at 4 m tiles, retaining finer casters within 192 m of a tile's bounds
+(256 m exit threshold). Coarse tiles include vegetation; separate fine foliage casts only
+in 1 m shadow regions. Shadow proxies share loaded parent geometry and never enter the
+color or AO passes. Fixed `lod=1` requests have no coarse parent tree and remain exact.
+Shadow coverage has a padded, stable world-space fit: small pans, orbit and camera damping
+reuse it. Escaping coverage, substantial zoom, changed casters or sunlight refresh it.
+Tile meshes use their emitted geometry's bounding boxes for each pass's frustum culling;
+shadow casters are tested against the light frustum, independently of the viewing camera.
 
 The backdrop uses a 64 KiB, 2,048-bearing USGS 3DEP elevation atlas inside the existing sky pass,
 with day/night tint, a haze fade, and camera-height adjustment. Only terrain 20–120 km from downtown
@@ -53,6 +68,9 @@ Cloudflare packaging leaves `dist` and source data untouched.
 including the shadow-cache implementation, correctness checks, summarized results and instructions for the local profiling harness.
 Generated measurements, screenshots and validation reports in `artifacts/` are local, disposable outputs;
 they are ignored by Git and are not required to build or run the viewer. Keep durable conclusions in `docs/`.
+Shadow LOD checks: from `web`, run `node tools/test-shadow-tiles.mjs`; with Vite on port 5177,
+run `node tools/check-shadow-lod.mjs`. The browser check covers shared buffers, gap-free
+coverage, navigation, sun changes, context restoration, and an exact/coarse draw comparison.
 
 ## Data and pipeline (scripts/)
 

@@ -1,6 +1,8 @@
+import { BALANCED_PROFILE, type ViewerPerformanceProfile } from './performanceProfile';
 import * as THREE from 'three';
 import type { Caption } from './caption';
 import type { TileStreamer } from './stream';
+import type { ShadowTiles } from './shadowTiles';
 import type { Meta } from './types';
 import { dataTexture, dataUrl, fetchGzip } from './util';
 import { makeVoxelMaterial, type VoxelUniforms } from './voxelMaterial';
@@ -20,6 +22,8 @@ export async function installCity({
   light,
   height,
   minimumLevel = 1,
+  shadowTiles,
+  profile = BALANCED_PROFILE,
 }: {
   streamer: TileStreamer;
   uniforms: VoxelUniforms;
@@ -33,6 +37,8 @@ export async function installCity({
   light: () => THREE.Vector3;
   height: () => number;
   minimumLevel?: number;
+  shadowTiles: ShadowTiles;
+  profile?: ViewerPerformanceProfile;
 }) {
   const d1 = S.dims[1];
   caption.show('Terrain', 0, 1);
@@ -41,7 +47,7 @@ export async function installCity({
     return null;
   });
   document.querySelector('#loading')?.classList.add('hidden');
-  const foliageMaterial = makeVoxelMaterial(uniforms, S.packed);
+  const foliageMaterial = makeVoxelMaterial(uniforms, S.packed, undefined, profile);
   foliageMaterial.polygonOffset = true;
   foliageMaterial.polygonOffsetFactor = -1;
   foliageMaterial.polygonOffsetUnits = -2;
@@ -53,6 +59,7 @@ export async function installCity({
     lastRevision = -1,
     complete = false,
     terrainGone = false;
+  let loadedOnce = false, pendingSince = 0, pressureSince = 0;
   const view = new THREE.Matrix4(),
     projection = new THREE.Matrix4();
   let lastHeight = 0,
@@ -65,7 +72,7 @@ export async function installCity({
     return n.meshBytes + n.queryBytes + (s === 1 ? (f?.meshBytes ?? 80000) : 0);
   };
   const desired = new Set<string>();
-  const select = level ? null : createTileSelector(meta, minimumLevel, (s,tx,ty)=>S.key(s,tx,ty));
+  const select = level ? null : createTileSelector(meta, minimumLevel, (s,tx,ty)=>S.key(s,tx,ty), profile.lod);
   const keep = new Set<string>();
   let nextActive = new Set<string>();
   let visibilityVersion = 0;
@@ -80,13 +87,34 @@ export async function installCity({
     for (let ty = 0; ty < d.ny; ty++)
       for (let tx = 0; tx < d.nx; tx++)
         roots.push({ s: level, tx, ty, key: S.key(level, tx, ty), children: [], score: 0 });
-    return { roots, leaves: roots, split: new Set<string>(), estimatedBytes: 0 };
+    return { roots, leaves: roots, split: new Set<string>(), estimatedBytes: 0, pendingRefinement: false };
   };
   const ready = (n: SelectedTile) =>
     S.nodes.get(n.key)?.state === 'ready' && (n.s !== 1 || S.nodes.get(S.foliageKey(n.tx,n.ty))?.state === 'ready');
   const covered = (n: SelectedTile): boolean => (n.children.length ? n.children.every(covered) || ready(n) : ready(n));
+  const retained: string[] = [];
+  const retainCoverage = (n: SelectedTile, out: Set<string>) => {
+    const [x0, z0, x1, z1] = S.bounds(n.s, n.tx, n.ty);
+    let area = 0;
+    retained.length = 0;
+    for (const key of active) {
+      const old = S.nodes.get(key);
+      if (!old || old.foliage || old.state !== 'ready') continue;
+      const [a, b, c, d] = S.bounds(old.s, old.tx, old.ty);
+      if (a < x0 || b < z0 || c > x1 || d > z1) continue;
+      area += (c - a) * (d - b);
+      retained.push(key);
+      if (old.s === 1) retained.push(S.foliageKey(old.tx, old.ty));
+    }
+    if (area !== (x1 - x0) * (z1 - z0)) return false;
+    for (const key of retained) out.add(key);
+    return true;
+  };
   const choose = (n: SelectedTile, out: Set<string>) => {
     if (n.children.length && n.children.every(covered)) for (const c of n.children) choose(c, out);
+    // A changed refinement tree can have unfinished siblings. Keep the old
+    // complete coverage until the new group is ready instead of flashing coarse.
+    else if (n.children.length && retainCoverage(n, out)) return;
     else if (ready(n)) {
       out.add(n.key);
       if (n.s === 1) out.add(S.foliageKey(n.tx,n.ty));
@@ -105,7 +133,7 @@ export async function installCity({
   };
   S.update = () => {
     const now = performance.now();
-    if (now - last < 100) return;
+    if (now - last < profile.streaming.selectionIntervalMs) return;
     last = now;
     S.retire();
     camera.updateMatrixWorld();
@@ -116,12 +144,19 @@ export async function installCity({
       !projection.equals(camera.projectionMatrix) ||
       h !== lastHeight ||
       direction.distanceToSquared(lastLight) > 1e-8;
-    const budget = (minimumLevel > 1 ? 96 : 192) * 1024 * 1024;
-    const overBudget = !level && S.memory.total > budget;
-    if (overBudget) pressure = Math.min(4, pressure * 1.15);
-    if (!selection || changed || overBudget) {
+    const budget = profile.streaming.residentBytes;
+    // Reclaim cached tiles before lowering visible detail. Temporary overlap
+    // while replacement tiles arrive should not ratchet quality downward.
+    if (!level) S.trim(desired, budget);
+    const memoryHigh = !level && S.memory.total > budget;
+    if (!memoryHigh) pressureSince = 0;
+    else if (!pressureSince) pressureSince = now;
+    const overBudget = memoryHigh && now - pressureSince >= profile.streaming.pressureDelayMs;
+    if (overBudget) pressure = Math.min(profile.streaming.maxPressure, pressure * profile.streaming.pressureMultiplier);
+    if (overBudget) pressureSince = now;
+    if (!selection || changed || overBudget || selection.pendingRefinement) {
       selection = level ? fixed() : select!(camera, h / pressure, direction, previous, cost,
-        minimumLevel > 1 ? 192 : 384, (minimumLevel > 1 ? 64 : 128) * 1024 * 1024);
+        profile.lod.maxLeaves, profile.lod.maxBytes, now);
       previous = selection.split;
       view.copy(camera.matrixWorld);
       projection.copy(camera.projectionMatrix);
@@ -138,7 +173,6 @@ export async function installCity({
       if (n?.state === 'failed' && now >= n.retryAt) { retry = true; break; }
     }
     if (lastRevision === S.revision && !changed && !retry && complete) {
-      if (!level) S.trim(desired);
       return;
     }
     const f = focus();
@@ -147,9 +181,12 @@ export async function installCity({
     next.clear();
     for (const root of selection.roots) choose(root, next);
     let visibilityChanged = false;
+    let castersChanged = shadowTiles.update(selection.roots, camera);
     for (const n of S.nodes.values())
       if (n.mesh) {
         const show = next.has(n.key);
+        const cast = n.foliage && show && S.shadowKeys.has(S.key(1, n.tx, n.ty));
+        if (n.mesh.castShadow !== cast) { n.mesh.castShadow = cast; castersChanged = true; }
         if (n.mesh.visible !== show) {
           n.mesh.visible = show;
           visibilityChanged = true;
@@ -164,7 +201,8 @@ export async function installCity({
       const span = n.s * S.N / cellSize, x0 = n.tx * span, y0 = n.ty * span;
       for (let y = y0; y < y0 + span; y++) activeLevels.fill(n.s, y * levelWidth + x0, y * levelWidth + x0 + span);
     }
-    if (visibilityChanged) { visibilityVersion++; onCastersChanged(); }
+    if (visibilityChanged) visibilityVersion++;
+    if (castersChanged) onCastersChanged();
     if (!terrainGone) {
       terrain?.dropUnder((tx, ty) => {
         for (const key of active) {
@@ -181,8 +219,15 @@ export async function installCity({
     complete = selection.leaves.every(ready);
     let done = 0;
     for (const leaf of selection.leaves) if (ready(leaf)) done++;
-    if (complete) caption.finish('Current view', selection.leaves.length);
-    else caption.show('City', done, selection.leaves.length);
+    if (complete) {
+      loadedOnce = true;
+      pendingSince = 0;
+      caption.finish('Current view', selection.leaves.length);
+    } else {
+      if (!pendingSince) pendingSince = now;
+      // Initial loading is immediate; short background refinements stay quiet.
+      if (!loadedOnce || now - pendingSince >= profile.streaming.loadingCaptionDelayMs) caption.show('City', done, selection.leaves.length);
+    }
     if (!level) {
       keep.clear();
       for (const key of desired) keep.add(key);
@@ -208,6 +253,7 @@ export async function installCity({
       return {
         leaves: selection.leaves.map((n) => n.key),
         active: [...active],
+        shadows: [...S.shadowKeys],
         estimatedBytes: selection.estimatedBytes,
         pressure,
       };

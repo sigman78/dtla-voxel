@@ -1,3 +1,4 @@
+import { resolvePerformanceProfile } from './performanceProfile';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { Bar } from './bar';
@@ -11,6 +12,7 @@ import { ObstructionLights } from './obstructionLights';
 import { makePost } from './post';
 import type { SearchItem } from './search';
 import { TileStreamer } from './stream';
+import { ShadowTiles } from './shadowTiles';
 import { Stats } from './stats';
 import { dateOf, dayOfYear, hourAt, losAngelesDate, SOLAR_YEAR, solarNoon, trueNorthRotation } from './sun';
 import type { Facts, Label, Meta, View } from './types';
@@ -27,6 +29,7 @@ const TODAY = dayOfYear(losAngelesDate());
 const DAYS = { midsummer: 172, midwinter: 355, today: TODAY };
 
 const qs = new URLSearchParams(location.search);
+const performanceProfile = resolvePerformanceProfile(qs, coarsePointer() && Math.min(screen.width, screen.height) < 600);
 const renderer = makeRenderer();
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(28, innerWidth / innerHeight, 0.5, 9000);
@@ -46,7 +49,7 @@ function prepareTile(mesh:THREE.Mesh) {
     mesh.geometry.setDrawRange(start,count);renderer.autoClear=autoClear;renderer.shadowMap.enabled=shadows;
   }
 }
-const daylight = new Daylight(renderer, scene);
+const daylight = new Daylight(renderer, scene, performanceProfile.shadows);
 renderer.domElement.addEventListener('webglcontextlost',()=>{
   daylight.contextLost();
   scene.traverse(object=>{
@@ -63,6 +66,7 @@ const tiltShift = qs.get('tilt') !== '0' && (innerWidth >= 600 || qs.get('tilt')
 let labels: Labels | null = null, hud: Hud | null = null;
 let world: TileStreamer['world'] | null = null, streamer: TileStreamer | null = null;
 let city: Awaited<ReturnType<typeof installCity>> | null = null;
+let shadowTiles: ShadowTiles | null = null;
 let obstructionLights: ObstructionLights | null = null;
 let uniforms: ReturnType<typeof makeUniforms> | null = null, views: Record<string, View> = {};
 let fly: ((now: number) => void) | null = null;
@@ -78,8 +82,8 @@ lodLegend.hidden = true;
 function applyDebugLod() {
   renderDirty = true;
   if (!streamer || !uniforms) return;
-  if (debugLod) lodMaterials ??= new Map(LOD_DEBUG_COLORS.map(([s, color]) => [s, makeVoxelMaterial(uniforms!, streamer!.packed, color)]));
-  if (debugLod) lodFoliageMaterial ??= makeVoxelMaterial(uniforms, streamer.packed, LOD_DEBUG_COLORS[0][1]);
+  if (debugLod) lodMaterials ??= new Map(LOD_DEBUG_COLORS.map(([s, color]) => [s, makeVoxelMaterial(uniforms!, streamer!.packed, color, performanceProfile)]));
+  if (debugLod) lodFoliageMaterial ??= makeVoxelMaterial(uniforms, streamer.packed, LOD_DEBUG_COLORS[0][1], performanceProfile);
   streamer.setDebugMaterials(debugLod ? lodMaterials : null, debugLod ? lodFoliageMaterial : null);
 }
 
@@ -103,7 +107,7 @@ boot().catch((e) => { $('#loading-text').textContent = `Could not load the map d
 
 function makeRenderer() {
   const r = new THREE.WebGLRenderer({ antialias: false, powerPreference: 'high-performance', preserveDrawingBuffer: true });
-  r.setPixelRatio(Math.min(devicePixelRatio, 2));
+  r.setPixelRatio(Math.min(devicePixelRatio, performanceProfile.rendering.maxPixelRatio));
   r.setSize(innerWidth, innerHeight);
   r.shadowMap.enabled = true;
   r.shadowMap.type = THREE.PCFShadowMap;
@@ -249,7 +253,9 @@ async function boot() {
   setDataAssets(meta.assets);
   uniforms = makeUniforms(meta);
   const packed = qs.get('geometry') !== 'expanded';
-  streamer = new TileStreamer(meta, makeVoxelMaterial(uniforms, packed), scene, packed);
+  streamer = new TileStreamer(meta, makeVoxelMaterial(uniforms, packed, undefined, performanceProfile), scene, packed, performanceProfile.streaming);
+  // Diagnostic comparisons: 1 uses visible detail; 2/4/8 cap distant casters.
+  shadowTiles = new ShadowTiles(streamer, meta, renderer, scene, performanceProfile.shadows.minimumLevel, performanceProfile.shadows);
   applyDebugLod();
   world = nav.world = streamer.world;
   map.set(new THREE.Vector3(0, 0, 0), new THREE.Vector3(meta.W, meta.H, meta.D));
@@ -274,11 +280,10 @@ async function boot() {
   setHour(qs.get('hour') ? +qs.get('hour')! : timesOf(daylight.day)['golden hour']);
 
   const level = pickLevel(meta);
-  const minimumLevel = coarsePointer() && Math.min(screen.width, screen.height) < 600
-    ? streamer.levels.find(s=>s<=4) ?? 1 : 1;
-  city = await installCity({ streamer, uniforms, meta, scene, focus: () => controls.target, camera, caption: new Caption(bar.el), level,
+  const minimumLevel = streamer.levels.find(s => s <= performanceProfile.lod.minimumLevel) ?? 1;
+  city = await installCity({ streamer, uniforms, meta, scene, shadowTiles, focus: () => controls.target, camera, caption: new Caption(bar.el), level,
     onCastersChanged: () => daylight.invalidateShadow(),
-    light: () => daylight.copyDirection(selectionLight), height: () => renderer.domElement.height, minimumLevel });
+    light: () => daylight.copyDirection(selectionLight), height: () => renderer.domElement.height, minimumLevel, profile: performanceProfile });
   obstructionLights = new ObstructionLights(scene, meta, level || 1);
   labels = new Labels(meta.labels ?? [], onLabel);
   labels.gate = city.gate;
@@ -305,7 +310,7 @@ renderer.setAnimationLoop((now) => {
   nav.update(dt);
   controls.update(); nav.clamp(); keepInside();
   if (city?.complete) document.body.classList.remove('loading');
-  streamer?.flush(2*1024*1024,prepareTile);
+  streamer?.flush(performanceProfile.streaming.uploadBytesPerFrame,prepareTile);
   streamer?.update(camera);
   camera.updateMatrixWorld();
   const visibility = city?.visibilityVersion ?? 0;
@@ -341,4 +346,4 @@ renderer.setAnimationLoop((now) => {
   stats.update(now, streamer, camera, rendered);
 });
 
-window.__three = { camera, controls, nav, bar, scene, renderer, flyTo, setHour, setDay, map, daylight, post, frameAll };
+window.__three = { performanceProfile, camera, controls, nav, bar, scene, renderer, flyTo, setHour, setDay, map, daylight, post, frameAll };

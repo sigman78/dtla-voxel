@@ -1,3 +1,4 @@
+import { BALANCED_PROFILE } from './performanceProfile';
 import * as THREE from 'three';
 import type { ColumnData, Meta, TileLevel } from './types';
 import type { MeshRequest, MeshReply } from './mesher.worker';
@@ -5,6 +6,7 @@ import { dataUrl } from './util';
 import { World, type ColumnSource } from './world';
 import { geometryBytes, makeQuadDepthMaterial, makeQuadGeometry } from './quadGeometry';
 import { MAT } from './voxelMaterial';
+import { TileMesh } from './tileMesh';
 
 export interface TileNode {
   key: string;
@@ -39,6 +41,7 @@ export class TileStreamer implements ColumnSource {
   readonly levels: number[];
   readonly dims: Record<number, TileLevel>;
   readonly nodes = new Map<string, TileNode>();
+  readonly shadowKeys = new Set<string>();
   readonly group = new THREE.Group();
   readonly world: World;
   readonly packed: boolean;
@@ -54,7 +57,7 @@ export class TileStreamer implements ColumnSource {
   private readonly trimCandidates: TileNode[] = [];
   private readonly tileKeys: Record<number, string[]> = {};
   private readonly foliageKeys: string[] = [];
-  private readonly maxWorkers = Math.min(Math.max(1, (navigator.hardwareConcurrency || 4) - 2), 4);
+  private readonly maxWorkers: number;
   private readonly pool: Pooled[] = [];
   private replies: MeshReply[] = [];
   private replyBytes = 0;
@@ -67,8 +70,10 @@ export class TileStreamer implements ColumnSource {
     private readonly material: THREE.Material,
     scene: THREE.Scene,
     packed = true,
+    private readonly profile = BALANCED_PROFILE.streaming,
   ) {
     this.packed = packed;
+    this.maxWorkers = Math.min(Math.max(1, (navigator.hardwareConcurrency || 4) - profile.reservedCores), profile.maxWorkers);
     this.N = meta.tiles.N;
     this.levels = meta.tiles.levels.map((l) => l.s).sort((a, b) => b - a);
     this.dims = Object.fromEntries(meta.tiles.levels.map((l) => [l.s, l]));
@@ -209,7 +214,7 @@ export class TileStreamer implements ColumnSource {
       : 0;
   }
   pump() {
-    if (!this.queue.length || this.replyBytes > 4 * 1024 * 1024) return;
+    if (!this.queue.length || this.replyBytes > this.profile.pendingReplyBytes) return;
     this.queue.sort((a, b) => b.prio - a.prio);
     while (this.pool.length < Math.min(this.maxWorkers, this.queue.length + this.inflight)) this.spawn();
     for (const p of this.pool) {
@@ -241,7 +246,7 @@ export class TileStreamer implements ColumnSource {
     }
   }
   // Admit bounded output per frame. A single larger tile must still make progress.
-  flush(maxBytes = 2 * 1024 * 1024, prepare?: (mesh: THREE.Mesh) => void) {
+  flush(maxBytes = this.profile.uploadBytesPerFrame, prepare?: (mesh: THREE.Mesh) => void) {
     let used = 0;
     while (this.replies.length && used < maxBytes) {
       const m = this.replies.shift()!,
@@ -274,13 +279,16 @@ export class TileStreamer implements ColumnSource {
         }
         if (m.quads) {
           const geo = makeQuadGeometry(m.records, m.bounds, this.packed);
-          const mesh = new THREE.Mesh(geo, this.materialFor(n));
+          const mesh = new TileMesh(geo, this.materialFor(n));
           mesh.position.set(n.tx * this.N * n.s, 0, n.ty * this.N * n.s);
           n.waterBounds?.translate(mesh.position);
           mesh.updateMatrix();
           mesh.matrixAutoUpdate = false;
           mesh.visible = false;
-          mesh.castShadow = mesh.receiveShadow = true;
+          // City selection enables exact foliage only where proxies use 1 m
+          // base tiles. Coarser parent tiles already include their vegetation.
+          mesh.castShadow = false;
+          mesh.receiveShadow = true;
           if (this.packed) {
             mesh.customDepthMaterial = this.depth;
             mesh.customDistanceMaterial = this.distance;
@@ -304,12 +312,12 @@ export class TileStreamer implements ColumnSource {
     }
     this.pump();
   }
-  trim(keep: Set<string>, maxBytes = 256 * 1024 * 1024, graceMs = 2000) {
+  trim(keep: Set<string>, maxBytes = this.profile.residentBytes, graceMs = this.profile.cacheGraceMs) {
     const now = performance.now();
     let bytes = this.memory.total;
     const candidates = this.trimCandidates;
     candidates.length = 0;
-    for (const n of this.nodes.values()) if (!keep.has(n.key) && !n.mesh?.visible) candidates.push(n);
+    for (const n of this.nodes.values()) if (!keep.has(n.key) && !this.shadowKeys.has(n.key) && !n.mesh?.visible) candidates.push(n);
     candidates.sort((a, b) => a.touched - b.touched);
     for (const n of candidates) {
       if (n.state === 'ready' && bytes <= maxBytes && now - n.touched < graceMs) continue;

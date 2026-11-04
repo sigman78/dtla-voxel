@@ -1,0 +1,119 @@
+{
+  "note": "Offline sample, not whole-scene/FPS estimates. noAO changes appearance; shadowOnly drops shading attributes but keeps occupied surfaces.",
+  "samples": [
+    {
+      "level": "1",
+      "file": "15_5.bin",
+      "original": {
+        "quads": 21557,
+        "ms": 431.8356,
+        "coverage": "4f4b6b274fec6e976d2978faa9722d1224ee720ab734dd1e2ef674418723c31e"
+      },
+      "noAO": {
+        "quads": 15392,
+        "ms": 439.72450000000003,
+        "coverage": "4f4b6b274fec6e976d2978faa9722d1224ee720ab734dd1e2ef674418723c31e"
+      },
+      "shadowOnly": {
+        "quads": 9426,
+        "ms": 448.91459999999984,
+        "coverage": "4f4b6b274fec6e976d2978faa9722d1224ee720ab734dd1e2ef674418723c31e"
+      }
+    },
+    {
+      "level": "1",
+      "file": "20_6.bin",
+      "original": {
+        "quads": 31313,
+        "ms": 221.98010000000022,
+        "coverage": "428306e5c16fda6d9a181ac3f5e5d75d7d41a8df494547d9064fefd79c59f373"
+      },
+      "noAO": {
+        "quads": 23004,
+        "ms": 204.8723,
+        "coverage": "428306e5c16fda6d9a181ac3f5e5d75d7d41a8df494547d9064fefd79c59f373"
+      },
+      "shadowOnly": {
+        "quads": 14058,
+        "ms": 169.2516999999998,
+        "coverage": "428306e5c16fda6d9a181ac3f5e5d75d7d41a8df494547d9064fefd79c59f373"
+      }
+    },
+    {
+      "level": "1f",
+      "file": "22_8.bin",
+      "original": {
+        "quads": 32083,
+        "ms": 143.96000000000004,
+        "coverage": "a771c162d9dd47e17b6d875b88796f84681f859703589406dd0fb6fb7d148852"
+      },
+      "noAO": {
+        "quads": 25231,
+        "ms": 128.7592999999997,
+        "coverage": "a771c162d9dd47e17b6d875b88796f84681f859703589406dd0fb6fb7d148852"
+      },
+      "shadowOnly": {
+        "quads": 18138,
+        "ms": 128.2239000000004,
+        "coverage": "a771c162d9dd47e17b6d875b88796f84681f859703589406dd0fb6fb7d148852"
+      }
+    },
+    {
+      "level": "1f",
+      "file": "17_7.bin",
+      "original": {
+        "quads": 26120,
+        "ms": 240.80189999999993,
+        "coverage": "62614cc33a7f19f3af663cec06161e1389a9d6c222eecc687d57089482a9a710"
+      },
+      "noAO": {
+        "quads": 20141,
+        "ms": 246.16879999999992,
+        "coverage": "62614cc33a7f19f3af663cec06161e1389a9d6c222eecc687d57089482a9a710"
+      },
+      "shadowOnly": {
+        "quads": 14599,
+        "ms": 204.6837999999998,
+        "coverage": "62614cc33a7f19f3af663cec06161e1389a9d6c222eecc687d57089482a9a710"
+      }
+    },
+    {
+      "level": "2",
+      "file": "7_2.bin",
+      "original": {
+        "quads": 29990,
+        "ms": 226.7457999999997,
+        "coverage": "1664bdf1003b7dc8f04f8d920e438edd68564ef542d2ea1fa6bd70a85a106d30"
+      },
+      "noAO": {
+        "quads": 24087,
+        "ms": 205.6368999999995,
+        "coverage": "1664bdf1003b7dc8f04f8d920e438edd68564ef542d2ea1fa6bd70a85a106d30"
+      },
+      "shadowOnly": {
+        "quads": 15165,
+        "ms": 164.89300000000003,
+        "coverage": "1664bdf1003b7dc8f04f8d920e438edd68564ef542d2ea1fa6bd70a85a106d30"
+      }
+    },
+    {
+      "level": "2",
+      "file": "15_0.bin",
+      "original": {
+        "quads": 32041,
+        "ms": 115.02289999999994,
+        "coverage": "a306b00529e3e4f33e500098529d2b1c041c81f5a1b5015981e60363529c5a83"
+      },
+      "noAO": {
+        "quads": 25482,
+        "ms": 104.5648000000001,
+        "coverage": "a306b00529e3e4f33e500098529d2b1c041c81f5a1b5015981e60363529c5a83"
+      },
+      "shadowOnly": {
+        "quads": 15036,
+        "ms": 98.35120000000006,
+        "coverage": "a306b00529e3e4f33e500098529d2b1c041c81f5a1b5015981e60363529c5a83"
+      }
+    }
+  ]
+}

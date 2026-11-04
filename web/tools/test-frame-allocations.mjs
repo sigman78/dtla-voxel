@@ -1,3 +1,4 @@
+import { BALANCED_PROFILE } from '../src/performanceProfile.ts';
 // Differential hot-path behavior against main before allocation work.
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -13,19 +14,21 @@ function load(file, name, old, globals = {}) {
     return `constructor(${params.replace(/private readonly /g,'')}) {${fields.map(f=>`this.${f}=${f};`).join('')}`;
   });
   const code = stripTypeScriptTypes(input).replace(/^import[\s\S]*?;\s*$/gm,'').replace(/^export /gm,'');
-  const context = vm.createContext({THREE,...globals});
+  const context = vm.createContext({THREE,BALANCED_PROFILE,...globals});
   vm.runInContext(`${code}\nglobalThis.result=${name};`,context);
   return {Class:context.result,context};
 }
 const meta = JSON.parse(fs.readFileSync('public/data/meta.json','utf8'));
-const selector = [true,false].map(old=>load('tileSelection.ts','selectTiles',old).Class);
+// LOD policy now includes budget hysteresis and bounded shadow priority. Compare
+// workspace reuse with a fresh current selector, not the historical LOD policy.
+const selector = load('tileSelection.ts','selectTiles',false).Class;
 const pooled = load('tileSelection.ts','createTileSelector',false).Class(meta);
 const camera = new THREE.PerspectiveCamera(28,1.6,.5,30000);
 let previous = new Set();
 for (const view of Object.values(meta.views)) for (const maxLeaves of [64,200,384]) {
   camera.position.fromArray(view.pos);camera.lookAt(new THREE.Vector3(...view.target));camera.updateMatrixWorld();
   const args = [meta,camera,1000,new THREE.Vector3(.5,1,.5).normalize(),previous,()=>350000,maxLeaves,128*1024**2];
-  const [a,b] = selector.map(select=>select(...args));
+  const a = selector(...args), b = pooled(...args.slice(1));
   const snapshot = s=>JSON.stringify({leaves:s.leaves.map(n=>n.key),split:[...s.split],bytes:s.estimatedBytes});
   assert.equal(snapshot(a),snapshot(b));previous=b.split;
 }
@@ -34,7 +37,7 @@ const identities = new Map();
 for(let pass=0;pass<4;pass++) for(const view of Object.values(meta.views)) {
   camera.position.fromArray(view.pos); camera.lookAt(new THREE.Vector3(...view.target)); camera.updateMatrixWorld();
   const args=[camera,900,new THREE.Vector3(.5,1,.5).normalize(),pooledPrevious,(_key,s)=>s===1?600000:350000,pass%2?80:384,64*1024**2];
-  const expected=selector[0](meta,...args), actual=pooled(...args);
+  const expected=selector(meta,...args), actual=pooled(...args);
   const snapshot=s=>JSON.stringify({leaves:s.leaves.map(n=>n.key),split:[...s.split],bytes:s.estimatedBytes});
   assert.equal(snapshot(actual),snapshot(expected),'reused selector must preserve tree/hysteresis/budgets');
   function visit(n) {

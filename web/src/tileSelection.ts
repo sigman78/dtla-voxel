@@ -1,3 +1,4 @@
+import { BALANCED_PROFILE } from './performanceProfile';
 import * as THREE from 'three';
 import type { Meta } from './types';
 
@@ -15,9 +16,11 @@ export interface Selection {
   leaves: SelectedTile[];
   split: Set<string>;
   estimatedBytes: number;
+  pendingRefinement: boolean;
 }
-type Candidate = SelectedTile & { order: number; options: Candidate[] };
+type Candidate = SelectedTile & { order: number; priority: number; options: Candidate[]; promotionSince: number | null; demanded: boolean };
 const NO_CHILDREN: SelectedTile[] = [];
+
 
 // Bounded by the metadata's tile count; descriptors never retain voxel/GPU payloads.
 function selectionWorkspace(meta: Meta, minimumLevel: number, makeKey = tileKey) {
@@ -27,7 +30,7 @@ function selectionWorkspace(meta: Meta, minimumLevel: number, makeKey = tileKey)
   for (const s of levels) {
     const d = dims.get(s)!, grid: Candidate[] = [];
     for (let ty=0;ty<d.ny;ty++) for (let tx=0;tx<d.nx;tx++) {
-      const n: Candidate = {s,tx,ty,key:makeKey(s,tx,ty),children:NO_CHILDREN,options:[],score:0,order:0};
+      const n: Candidate = {s,tx,ty,key:makeKey(s,tx,ty),children:NO_CHILDREN,options:[],score:0,priority:0,order:0,promotionSince:null,demanded:false};
       grid.push(n); nodes.push(n);
     }
     grids.set(s,grid);
@@ -39,19 +42,19 @@ function selectionWorkspace(meta: Meta, minimumLevel: number, makeKey = tileKey)
       if(tx<d.nx && ty<d.ny) n.options.push(grid[ty*d.nx+tx]);
     }
   }
-  return {levels,nodes,roots:grids.get(levels[0])!,leaves:[] as Candidate[],heap:[] as Candidate[],
+  return {initialized:false,levels,nodes,roots:grids.get(levels[0])!,leaves:[] as Candidate[],heap:[] as Candidate[],
     frustum:new THREE.Frustum(),matrix:new THREE.Matrix4(),box:new THREE.Box3(),shadowBox:new THREE.Box3(),nearest:new THREE.Vector3()};
 }
 
 // The returned selection/tree is borrowed until the next call. Split sets remain
 // independent so the preceding result can supply hysteresis without copying it.
-export function createTileSelector(meta: Meta, minimumLevel = 1, makeKey = tileKey) {
+export function createTileSelector(meta: Meta, minimumLevel = 1, makeKey = tileKey, profile = BALANCED_PROFILE.lod) {
   const workspace = selectionWorkspace(meta,minimumLevel,makeKey);
   return (camera: THREE.PerspectiveCamera, height: number, light: THREE.Vector3, previous: Set<string>,
-    cost: (key:string,s:number)=>number, maxLeaves=384, maxBytes=128*1024*1024) =>
-    selectTiles(meta,camera,height,light,previous,cost,maxLeaves,maxBytes,minimumLevel,workspace);
+    cost: (key:string,s:number)=>number, maxLeaves=profile.maxLeaves, maxBytes=profile.maxBytes, now=Infinity) =>
+    selectTiles(meta,camera,height,light,previous,cost,maxLeaves,maxBytes,minimumLevel,workspace,now,profile);
 }
-const higher = (a: Candidate, b: Candidate) => a.score > b.score || (a.score === b.score && a.order < b.order);
+const higher = (a: Candidate, b: Candidate) => a.priority > b.priority || (a.priority === b.priority && a.order < b.order);
 function pushCandidate(heap: Candidate[], node: Candidate) {
   let i = heap.length;
   heap.push(node);
@@ -85,13 +88,17 @@ export function selectTiles(
   light: THREE.Vector3,
   previous: Set<string>,
   cost: (key: string, s: number) => number,
-  maxLeaves = 384,
-  maxBytes = 128 * 1024 * 1024,
+  maxLeaves = BALANCED_PROFILE.lod.maxLeaves,
+  maxBytes = BALANCED_PROFILE.lod.maxBytes,
   minimumLevel = 1,
   workspace = selectionWorkspace(meta, minimumLevel),
+  // A monotonic frame timestamp enables dwell; Infinity selects immediately.
+  now = Infinity,
+  profile = BALANCED_PROFILE.lod,
 ): Selection {
   const {levels, roots, frustum, matrix, box, shadowBox, nearest} = workspace, N = meta.tiles.N;
-  for (const n of workspace.nodes) n.children = NO_CHILDREN;
+  for (const n of workspace.nodes) { n.children = NO_CHILDREN; n.demanded = false; }
+  let pendingRefinement = false;
   camera.updateMatrixWorld();
   frustum.setFromProjectionMatrix(matrix.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse));
   const focal = height / (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2));
@@ -103,9 +110,9 @@ export function selectTiles(
     box.max.set(Math.min((n.tx + 1) * L, meta.W), meta.H, Math.min((n.ty + 1) * L, meta.D));
     const distance = Math.max(1, box.clampPoint(camera.position, nearest).distanceTo(camera.position));
     // Keep exact data around the camera even when looking away from it.
-    if (distance < 192) return 1e6 / n.s;
-    let relevant = frustum.intersectsBox(box),
-      shadowDistance = Infinity;
+    if (distance < profile.nearDistance) return 1e6 / n.s;
+    const projected = (n.s * focal * profile.screenSpaceScale) / distance;
+    if (frustum.intersectsBox(box)) return projected;
     if (light.y > 0.02) {
       const dx = (-light.x / light.y) * meta.H,
         dz = (-light.z / light.y) * meta.H;
@@ -115,13 +122,12 @@ export function selectTiles(
       shadowBox.min.z += Math.min(0, dz);
       shadowBox.max.z += Math.max(0, dz);
       if (frustum.intersectsBox(shadowBox)) {
-        relevant = true;
-        shadowDistance = shadowBox.clampPoint(camera.position, nearest).distanceTo(camera.position);
+        // A long shadow crossing the camera is not a nearby building. Keep
+        // off-screen casters modest so changing the sun cannot crowd out detail.
+        return Math.min(profile.offscreenShadowMaxScore, projected * profile.offscreenShadowScale);
       }
     }
-    if (!relevant) return 0;
-    // Shadow footprint can be closer than the caster; keep refinement conservative.
-    return (n.s * focal) / Math.max(1, Math.min(distance, shadowDistance));
+    return 0;
   };
   const leaves = workspace.leaves;
   for (let i=0;i<roots.length;i++) leaves[i]=roots[i];
@@ -130,17 +136,32 @@ export function selectTiles(
   const split = new Set<string>(),
     candidates = workspace.heap;
   candidates.length=0;
-  for (const n of roots) { n.score = score(n); pushCandidate(candidates, n); }
+  const rank = (n: Candidate) => {
+    n.score = score(n);
+    // Hysteresis must apply to budget competition, not just the split threshold.
+    n.priority = n.score * (previous.has(n.key) ? profile.retainedPriority : 1);
+  };
+  for (const n of roots) { rank(n); pushCandidate(candidates, n); }
   while (candidates.length) {
     // The heap preserves insertion order for ties without repeated sort scratch arrays.
     const n = popCandidate(candidates),
       next = levels[levels.indexOf(n.s) + 1];
-    if (!next || n.score <= (previous.has(n.key) ? 1.5 : 2)) continue;
+    if (!next || n.score <= (previous.has(n.key) ? profile.retainPixels : profile.upgradePixels)) continue;
     const children = n.options;
     for (const c of children) c.order = order++;
     const delta = children.reduce((sum, c) => sum + cost(c.key, c.s), 0) - cost(n.key, n.s);
     if (leaves.length + children.length - 1 > maxLeaves || bytes + delta > maxBytes) continue;
-    for (const c of children) c.score = score(c);
+    // New detail requires sustained demand. Startup and nearby collision data
+    // remain immediate; existing splits keep their lower exit threshold.
+    if (workspace.initialized && Number.isFinite(now) && !previous.has(n.key) && n.score < 1e6 / n.s) {
+      n.demanded = true;
+      n.promotionSince ??= now;
+      if (now - n.promotionSince < profile.upgradeDelayMs) {
+        pendingRefinement = true;
+        continue;
+      }
+    }
+    for (const c of children) rank(c);
     n.children = children;
     split.add(n.key);
     bytes += delta;
@@ -150,5 +171,7 @@ export function selectTiles(
     leaves.push(...children);
     for (const child of children) pushCandidate(candidates, child);
   }
-  return { roots, leaves, split, estimatedBytes: bytes };
+  for (const n of workspace.nodes) if (!n.demanded || split.has(n.key)) n.promotionSince = null;
+  workspace.initialized = true;
+  return { roots, leaves, split, estimatedBytes: bytes, pendingRefinement };
 }

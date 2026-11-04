@@ -1,3 +1,4 @@
+import { BALANCED_PROFILE } from './performanceProfile';
 import * as THREE from 'three';
 import { Sky } from './sky';
 import { beam, sunAt } from './sun';
@@ -31,8 +32,8 @@ export class Daylight {
   private shadowX = NaN;
   private shadowZ = NaN;
   private shadowRadius = NaN;
-  private readonly shadowView = new THREE.Matrix4();
-  private readonly shadowProjection = new THREE.Matrix4();
+  private shadowMapSize = 0;
+  private shadowHeight = NaN;
   private readonly shadowCenter = new THREE.Vector3();
   private readonly shadowUp = new THREE.Vector3(0, 1, 0);
   private readonly shadowInverse = new THREE.Matrix4();
@@ -41,14 +42,15 @@ export class Daylight {
   private northTheta = 0;
   private sunY = 1;
 
-  constructor(private readonly renderer: THREE.WebGLRenderer, private readonly scene: THREE.Scene) {
-    const sun = this.sun, size = Math.min(8192, renderer.capabilities.maxTextureSize);
+  constructor(private readonly renderer: THREE.WebGLRenderer, private readonly scene: THREE.Scene,
+    private readonly profile = BALANCED_PROFILE.shadows) {
+    const sun = this.sun, size = Math.min(profile.mapSize, renderer.capabilities.maxTextureSize);
     sun.castShadow = true;
     renderer.shadowMap.autoUpdate = false;
     this.invalidateShadow();
     sun.shadow.mapSize.set(size, size);
     sun.shadow.bias = -0.0004;
-    sun.shadow.radius = 3;
+    sun.shadow.radius = profile.filterRadius;
     scene.add(sun, sun.target, this.hemi, this.sky.mesh);
     this.pmrem = new THREE.PMREMGenerator(renderer);
   }
@@ -131,28 +133,29 @@ export class Daylight {
 
   fitShadow(focus: THREE.Vector3, camera: THREE.Camera, viewDist: number, map: THREE.Box3) {
     if (map.isEmpty()) return;
-    // Refresh during navigation even when the snapped light fit stays the same.
-    camera.updateMatrixWorld();
-    if (!this.shadowView.equals(camera.matrixWorld) || !this.shadowProjection.equals(camera.projectionMatrix)) {
-      this.shadowView.copy(camera.matrixWorld);
-      this.shadowProjection.copy(camera.projectionMatrix);
-      this.invalidateShadow();
-    }
-    const sun = this.sun, f = focus;
+    const sun = this.sun, f = focus, p = this.profile;
     const dist = viewDist + Math.max(0, camera.position.y - (map.min.y + 80));
-    const R = clamp(dist * 1.15, 300, Math.max(map.max.x, map.max.z) * 0.75), texel = (2 * R) / sun.shadow.mapSize.x;
+    const wanted = clamp(dist * p.viewScale, p.minimumRadius, Math.max(map.max.x, map.max.z) * p.maximumMapFraction);
+    // Shadows are world-space. Orbit/damping need not redraw an unchanged
+    // light-space volume. Keep a padded fit until the requested square escapes
+    // it, or zoom has shrunk enough to justify a higher-resolution fit.
+    const offset = Math.max(Math.abs(f.x - this.shadowX), Math.abs(f.z - this.shadowZ));
+    if (wanted + offset <= this.shadowRadius && wanted >= this.shadowRadius * p.refitShrinkRatio
+      && this.shadowMapSize === sun.shadow.mapSize.x && this.shadowHeight === map.max.y) return;
+    const R = Math.ceil(wanted * p.coveragePadding / p.radiusQuantum) * p.radiusQuantum, texel = (2 * R) / sun.shadow.mapSize.x;
     const L = this.lightDir;
-    const sx = Math.round(f.x / (texel * 8)), sz = Math.round(f.z / (texel * 8)), radius = Math.round(R);
-    if (sx === this.shadowX && sz === this.shadowZ && radius === this.shadowRadius) return;
-    this.shadowX = sx; this.shadowZ = sz; this.shadowRadius = radius;
-    const c = this.shadowCenter.set(f.x, 0, f.z);
+    this.shadowX = Math.round(f.x / (texel * p.snapTexels)) * texel * p.snapTexels;
+    this.shadowZ = Math.round(f.z / (texel * p.snapTexels)) * texel * p.snapTexels;
+    this.shadowRadius = R;
+    this.shadowMapSize = sun.shadow.mapSize.x; this.shadowHeight = map.max.y;
+    const c = this.shadowCenter.set(this.shadowX, 0, this.shadowZ);
     sun.target.position.copy(c);
     sun.position.copy(c).addScaledVector(L, 2500);
     sun.updateMatrixWorld(); sun.target.updateMatrixWorld();
     const inv = this.shadowInverse.lookAt(sun.position, c, this.shadowUp).invert();
     const b = this.shadowBounds.makeEmpty(), corner = this.shadowCorner;
     for (let ix = -1; ix <= 1; ix += 2) for (let iz = -1; iz <= 1; iz += 2) for (let iy = 0; iy <= 1; iy++) {
-      corner.set(f.x + ix * R, iy * map.max.y, f.z + iz * R).sub(sun.position).applyMatrix4(inv);
+      corner.set(c.x + ix * R, iy * map.max.y, c.z + iz * R).sub(sun.position).applyMatrix4(inv);
       b.expandByPoint(corner);
     }
     const cam = sun.shadow.camera;
@@ -161,11 +164,14 @@ export class Daylight {
     cam.near = Math.max(1, -b.max.z - 700); // towers outside the square still cast into it
     cam.far = -b.min.z + 10;
     cam.updateProjectionMatrix();
-    // biases as world distances of about a texel: fixed values (0.5-3 m normal offset, a 0.0004 depth bias over a
-    // ~2 km depth range) detached close-up shadows from their casters by most of a voxel
-    const slope = Math.sqrt(clamp(1 / Math.max(this.sunY, 0.1), 1, 6));
-    sun.shadow.normalBias = clamp(texel * 1.2 * slope, 0.04, 2.5);
-    sun.shadow.bias = -clamp(texel * 1.5 * slope, 0.03, 2) / (cam.far - cam.near);
+    // Bound contact error in world space, independently of the coarse caster
+    // grid. A vertical receiver offset projects onto the ground as offset /
+    // sin(elevation): increasing bias at low sun opened metre-wide light gaps.
+    // Scale both offsets down with elevation instead; retain a small floor for
+    // the horizon/night-fill transition. No extra geometry or shadow pass.
+    const elevation = clamp(this.sunY, p.minimumSunElevation, 1);
+    sun.shadow.normalBias = clamp(texel * p.normalBiasTexelScale, p.normalBiasMin, p.normalBiasMax) * elevation;
+    sun.shadow.bias = -clamp(texel * p.depthBiasTexelScale, p.depthBiasMin, p.depthBiasMax) * elevation / (cam.far - cam.near);
     this.invalidateShadow();
   }
 }
