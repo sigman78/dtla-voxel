@@ -1,3 +1,4 @@
+import { BALANCED_PROFILE } from '../src/performanceProfile.ts';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
@@ -5,7 +6,7 @@ import { stripTypeScriptTypes } from 'node:module';
 import * as THREE from 'three';
 
 const source = fs.readFileSync('src/tileSelection.ts', 'utf8');
-const ctx = vm.createContext({ THREE });
+const ctx = vm.createContext({ THREE, BALANCED_PROFILE });
 vm.runInContext(stripTypeScriptTypes(source).replace(/^import[\s\S]*?;\s*$/gm, '').replace(/^export /gm, '') +
   '\nglobalThis.create = createTileSelector;', ctx);
 const meta = JSON.parse(fs.readFileSync('public/data/meta.json', 'utf8'));
@@ -63,3 +64,14 @@ step(800,2500);
 testCamera.position.z=300;
 assert.equal(step(1400,2600).leaves.length,4,'near-camera data is immediate');
 console.log('Passed: upgrade dwell, cancellation/reset, stationary completion, exit hysteresis, budget limits, startup and proximity');
+
+testCamera.position.z=1256;
+const tuned = ctx.create(small, 1, undefined, { ...BALANCED_PROFILE.lod, upgradeDelayMs: 900 });
+const tuneStep = (height, now) => tuned(testCamera,height,new THREE.Vector3(0,-1,0),new Set(),()=>100,4,1000,now);
+tuneStep(1000,0);
+assert.equal(tuneStep(1400,100).pendingRefinement,true);
+assert.equal(tuneStep(1400,500).leaves.length,1,'profile can extend upgrade dwell');
+assert.equal(tuneStep(1400,1000).leaves.length,4);
+const coarse = ctx.create(small,1,undefined,{ ...BALANCED_PROFILE.lod, screenSpaceScale: .5 });
+assert.equal(coarse(testCamera,1400,new THREE.Vector3(0,-1,0),new Set(),()=>100).leaves.length,1,'LOD scale reduces refinement demand');
+console.log('Passed: custom profile dwell and screen-space LOD scale affect selection');

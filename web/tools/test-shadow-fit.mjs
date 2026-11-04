@@ -1,3 +1,4 @@
+import { BALANCED_PROFILE } from '../src/performanceProfile.ts';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
@@ -8,7 +9,7 @@ const ctx=vm.createContext({THREE,clamp:(x,a,b)=>Math.min(b,Math.max(a,x))});
 vm.runInContext(stripTypeScriptTypes('class Fit {\n'+source.slice(source.indexOf('  fitShadow(')))+'\nglobalThis.Fit=Fit;',ctx);
 let redraws=0;
 const fit=new ctx.Fit();Object.assign(fit,{
-  sun:new THREE.DirectionalLight(),lightDir:new THREE.Vector3(.5,1,.5).normalize(),sunY:.8,
+  profile:BALANCED_PROFILE.shadows,sun:new THREE.DirectionalLight(),lightDir:new THREE.Vector3(.5,1,.5).normalize(),sunY:.8,
   shadowX:NaN,shadowZ:NaN,shadowRadius:NaN,shadowMapSize:0,shadowHeight:NaN,
   shadowCenter:new THREE.Vector3(),shadowUp:new THREE.Vector3(0,1,0),shadowInverse:new THREE.Matrix4(),
   shadowCorner:new THREE.Vector3(),shadowBounds:new THREE.Box3(),invalidateShadow:()=>redraws++,

@@ -1,3 +1,4 @@
+import { BALANCED_PROFILE } from '../src/performanceProfile.ts';
 // Differential hot-path behavior against main before allocation work.
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -13,7 +14,7 @@ function load(file, name, old, globals = {}) {
     return `constructor(${params.replace(/private readonly /g,'')}) {${fields.map(f=>`this.${f}=${f};`).join('')}`;
   });
   const code = stripTypeScriptTypes(input).replace(/^import[\s\S]*?;\s*$/gm,'').replace(/^export /gm,'');
-  const context = vm.createContext({THREE,...globals});
+  const context = vm.createContext({THREE,BALANCED_PROFILE,...globals});
   vm.runInContext(`${code}\nglobalThis.result=${name};`,context);
   return {Class:context.result,context};
 }

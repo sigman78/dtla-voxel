@@ -1,3 +1,4 @@
+import { BALANCED_PROFILE } from './performanceProfile';
 import * as THREE from 'three';
 import type { TileStreamer } from './stream';
 import type { SelectedTile } from './tileSelection';
@@ -20,7 +21,8 @@ export class ShadowTiles {
     private readonly meta: Meta,
     renderer: THREE.WebGLRenderer,
     scene: THREE.Scene,
-    readonly minimumLevel = 4,
+    readonly minimumLevel = BALANCED_PROFILE.shadows.minimumLevel,
+    private readonly profile = BALANCED_PROFILE.shadows,
   ) {
     this.group.name = 'Shadow tile proxies';
     this.group.visible = false;
@@ -51,7 +53,7 @@ export class ShadowTiles {
       const distance = this.box.clampPoint(camera.position, this.nearest).distanceTo(camera.position);
       // Keep exact nearby silhouettes; use a wider exit band to avoid toggling
       // shadow detail as the camera crosses the proximity boundary.
-      const near = distance < (this.refined.has(n.key) ? 256 : 192);
+      const near = distance < (this.refined.has(n.key) ? this.profile.nearExitDistance : this.profile.nearEnterDistance);
       const refine = n.s > this.minimumLevel || near;
       if (n.children.length && n.children.every(covered) && (refine || !ready(n))) {
         this.nextRefined.add(n.key);

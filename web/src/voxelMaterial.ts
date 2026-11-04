@@ -1,3 +1,4 @@
+import { BALANCED_PROFILE, type ViewerPerformanceProfile } from './performanceProfile';
 import * as THREE from 'three';
 import { QUAD_PARS } from './quadGeometry';
 import type { Meta } from './types';
@@ -393,7 +394,7 @@ const SURFACE = `
 // MeshStandardMaterial with the voxel surface: colour, roughness, metalness and emission per material id
 export const LOD_DEBUG_COLORS = [[1, '#43d9b0'], [2, '#56a5ff'], [4, '#ffbd45'], [8, '#e877de']] as const;
 
-export function makeVoxelMaterial(uniforms: VoxelUniforms, packed = true, debugTint?: string) {
+export function makeVoxelMaterial(uniforms: VoxelUniforms, packed = true, debugTint?: string, profile: ViewerPerformanceProfile = BALANCED_PROFILE) {
   const mat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.85, metalness: 0.0 });
   mat.onBeforeCompile = (shader) => {
     Object.assign(shader.uniforms, uniforms);
@@ -408,7 +409,7 @@ export function makeVoxelMaterial(uniforms: VoxelUniforms, packed = true, debugT
         vec3 objectNormal = nAng > 0.5 ? vec3(cos((nAng - 1.0) * 0.261799), 0., sin((nAng - 1.0) * 0.261799)) : normalFromIdx(nAx);`)
       // and its 1 m steps don't shade each other: shadow lookups step out further along the wall's true direction
       .replace('#include <shadowmap_vertex>', THREE.ShaderChunk.shadowmap_vertex.replace(
-        'directionalLightShadows[ i ].shadowNormalBias', '(directionalLightShadows[ i ].shadowNormalBias * (nAng > 0.5 ? 3.0 : 1.0))'))
+        'directionalLightShadows[ i ].shadowNormalBias', `(directionalLightShadows[ i ].shadowNormalBias * (nAng > 0.5 ? ${profile.shadows.angledWallBiasMultiplier.toFixed(6)} : 1.0))`))
       .replace('#include <begin_vertex>', `vec3 transformed = ${packed ? 'quadPosition()' : 'position'};
         vVox = (modelMatrix * vec4(transformed,1.0)).xyz; vN = normalFromIdx(nAx); vFacadeN = objectNormal; vAO = vattr.y / 3.0; vGz = vattr.z; vPal = int(vpal + 0.5);`);
     shader.fragmentShader = shader.fragmentShader
@@ -426,6 +427,6 @@ export function makeVoxelMaterial(uniforms: VoxelUniforms, packed = true, debugT
         `outgoingLight = mix(outgoingLight, vec3(${color}) * mix(0.65, 1.0, vAO), 0.7);\n#include <opaque_fragment>`);
     }
   };
-  mat.customProgramCacheKey = () => `${packed ? 'voxel-quad-v1' : 'voxel-expanded-v1'}-${debugTint ?? 'normal'}`;
+  mat.customProgramCacheKey = () => `${packed ? 'voxel-quad-v1' : 'voxel-expanded-v1'}-${debugTint ?? 'normal'}-${profile.shadows.angledWallBiasMultiplier}`;
   return mat;
 }

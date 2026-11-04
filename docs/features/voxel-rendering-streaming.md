@@ -114,6 +114,45 @@ shadow comparisons. Inspected Civic and overview captures, including golden
 hour. Coarse silhouettes and missing thin geometry remain approximations; this
 does not replace the deferred offline-mesh work or establish a new FPS benchmark.
 
+### Viewer performance profiles
+
+`web/src/performanceProfile.ts` is the central typed policy. It is resolved once
+before renderer construction and passed to selection, streaming, shadow fitting,
+shadow proxies and voxel materials. Both the profile and its sections are frozen;
+reload to switch, so a setting cannot silently bypass cached selection or shadows.
+`window.__three.performanceProfile` exposes the resolved policy for diagnostics.
+
+`?performance=balanced` preserves current desktop tuning. `?performance=mobile`
+preserves the existing small-touch-screen policy: finest level 4, 192 selected
+leaves, 64 MiB selection and 96 MiB residency target. With no recognized override,
+automatic selection uses the existing coarse-pointer / shortest screen dimension
+below 600 px rule. This is not GPU benchmarking or automatic FPS adaptation.
+Explicit profiles override detection; invalid names fall back to detection.
+`shadowlod=1|2|4|8` overrides the preset's shadow level. `lod=1|2|4|8` remains the
+fixed visible-detail diagnostic and bypasses adaptive selection and its budgets.
+
+| Section | Settings and tuning effects |
+|---|---|
+| `rendering` | Maximum device pixel ratio; lower values reduce pixel work and also projected LOD demand. |
+| `lod` | Minimum tile level, leaf/byte budgets, screen-space scale, entry/exit pixel thresholds, upgrade dwell in ms, retained priority, nearby distance in metres and offscreen shadow priority. Lower `screenSpaceScale` means coarser selection; longer dwell means slower upgrades. |
+| `streaming` | Selection/caption delays, cached-data grace, resident-byte target, pressure delay/multiplier/ceiling, upload bytes per frame, pending-reply backpressure and worker/core limits. |
+| `shadows` | Distant level, near entry/exit metres, map size, PCF radius, coverage/refit/snap settings and texel-scaled bias with world-metre caps, sun-elevation floor and angled-wall bias multiplier. |
+
+To tune, edit the central defaults or override a section when defining a preset,
+as `MOBILE_PROFILE` does. Keep `retainPixels < upgradePixels`, near entry below
+near exit, coverage padding above 1, and residency above the selection budget.
+Use positive scales, budgets and worker counts; shadow map sizes should be powers
+of two (the renderer also caps them to GPU capability). Memory and upload budgets
+are soft: required coverage and a single oversized tile may exceed them.
+Longer cache grace reduces repeat loading but does not bypass memory trimming.
+Conservative per-pass bounding-box culling stays enabled as a correctness-preserving
+optimization. No new quality tiers or postprocessing changes are implied.
+
+Validate edits with `test-performance-profile.mjs`, `test-tile-stability.mjs`,
+`test-shadow-fit.mjs`, `test-shadow-tiles.mjs` and the browser shadow checks.
+Profile tests cover automatic/explicit selection, diagnostic precedence and
+immutability; selector tests exercise custom dwell and LOD scale, not just defaults.
+
 ## Intended behavior
 
 The default viewer keeps a complete coarse city and refines useful regions using projected voxel size, with bounded requests and residency. Nearby foliage arrives with its base tile. Queries retain merged occupancy intervals instead of palette runs. Four vertices are reconstructed from one tile-local quad record in every geometry pass. Explicit `?lod=1|2|4|8` remains the fixed-detail diagnostic path.

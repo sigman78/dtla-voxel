@@ -1,3 +1,4 @@
+import { BALANCED_PROFILE } from './performanceProfile';
 import * as THREE from 'three';
 import { Sky } from './sky';
 import { beam, sunAt } from './sun';
@@ -41,14 +42,15 @@ export class Daylight {
   private northTheta = 0;
   private sunY = 1;
 
-  constructor(private readonly renderer: THREE.WebGLRenderer, private readonly scene: THREE.Scene) {
-    const sun = this.sun, size = Math.min(8192, renderer.capabilities.maxTextureSize);
+  constructor(private readonly renderer: THREE.WebGLRenderer, private readonly scene: THREE.Scene,
+    private readonly profile = BALANCED_PROFILE.shadows) {
+    const sun = this.sun, size = Math.min(profile.mapSize, renderer.capabilities.maxTextureSize);
     sun.castShadow = true;
     renderer.shadowMap.autoUpdate = false;
     this.invalidateShadow();
     sun.shadow.mapSize.set(size, size);
     sun.shadow.bias = -0.0004;
-    sun.shadow.radius = 3;
+    sun.shadow.radius = profile.filterRadius;
     scene.add(sun, sun.target, this.hemi, this.sky.mesh);
     this.pmrem = new THREE.PMREMGenerator(renderer);
   }
@@ -131,19 +133,19 @@ export class Daylight {
 
   fitShadow(focus: THREE.Vector3, camera: THREE.Camera, viewDist: number, map: THREE.Box3) {
     if (map.isEmpty()) return;
-    const sun = this.sun, f = focus;
+    const sun = this.sun, f = focus, p = this.profile;
     const dist = viewDist + Math.max(0, camera.position.y - (map.min.y + 80));
-    const wanted = clamp(dist * 1.15, 300, Math.max(map.max.x, map.max.z) * 0.75);
+    const wanted = clamp(dist * p.viewScale, p.minimumRadius, Math.max(map.max.x, map.max.z) * p.maximumMapFraction);
     // Shadows are world-space. Orbit/damping need not redraw an unchanged
     // light-space volume. Keep a padded fit until the requested square escapes
     // it, or zoom has shrunk enough to justify a higher-resolution fit.
     const offset = Math.max(Math.abs(f.x - this.shadowX), Math.abs(f.z - this.shadowZ));
-    if (wanted + offset <= this.shadowRadius && wanted >= this.shadowRadius * 0.75
+    if (wanted + offset <= this.shadowRadius && wanted >= this.shadowRadius * p.refitShrinkRatio
       && this.shadowMapSize === sun.shadow.mapSize.x && this.shadowHeight === map.max.y) return;
-    const R = Math.ceil(wanted * 1.1 / 32) * 32, texel = (2 * R) / sun.shadow.mapSize.x;
+    const R = Math.ceil(wanted * p.coveragePadding / p.radiusQuantum) * p.radiusQuantum, texel = (2 * R) / sun.shadow.mapSize.x;
     const L = this.lightDir;
-    this.shadowX = Math.round(f.x / (texel * 8)) * texel * 8;
-    this.shadowZ = Math.round(f.z / (texel * 8)) * texel * 8;
+    this.shadowX = Math.round(f.x / (texel * p.snapTexels)) * texel * p.snapTexels;
+    this.shadowZ = Math.round(f.z / (texel * p.snapTexels)) * texel * p.snapTexels;
     this.shadowRadius = R;
     this.shadowMapSize = sun.shadow.mapSize.x; this.shadowHeight = map.max.y;
     const c = this.shadowCenter.set(this.shadowX, 0, this.shadowZ);
@@ -167,9 +169,9 @@ export class Daylight {
     // sin(elevation): increasing bias at low sun opened metre-wide light gaps.
     // Scale both offsets down with elevation instead; retain a small floor for
     // the horizon/night-fill transition. No extra geometry or shadow pass.
-    const elevation = clamp(this.sunY, 0.05, 1);
-    sun.shadow.normalBias = clamp(texel * 0.3, 0.02, 0.25) * elevation;
-    sun.shadow.bias = -clamp(texel * 0.25, 0.02, 0.15) * elevation / (cam.far - cam.near);
+    const elevation = clamp(this.sunY, p.minimumSunElevation, 1);
+    sun.shadow.normalBias = clamp(texel * p.normalBiasTexelScale, p.normalBiasMin, p.normalBiasMax) * elevation;
+    sun.shadow.bias = -clamp(texel * p.depthBiasTexelScale, p.depthBiasMin, p.depthBiasMax) * elevation / (cam.far - cam.near);
     this.invalidateShadow();
   }
 }

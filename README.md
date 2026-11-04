@@ -33,6 +33,12 @@ cd web && npm install && npm run dev     # http://localhost:5173
 URL parameters: `view=` (default, bunkerhill, civic, littletokyo, viaduct, lalive, historic), `hour=19.5`,
 `date=MM-DD`, `tilt=0`, `ui=0`, `lod=1|2|4|8`, `cam=x,y,z,tx,ty,tz`.
 Use `mountains=0` to compare the sky without the distant mountain backdrop.
+Viewer tuning lives in [`web/src/performanceProfile.ts`](web/src/performanceProfile.ts).
+Use `?performance=balanced` or `?performance=mobile` to select a preset on reload;
+without an override, small touch screens retain the mobile policy and other devices use balanced.
+The resolved settings are inspectable at `window.__three.performanceProfile`.
+See [profile tuning and units](docs/features/voxel-rendering-streaming.md#viewer-performance-profiles).
+
 Use `shadowlod=1|2|4|8` to compare shadow detail (1 follows the visible tiles). By default, shadow casting
 stops refinement at 4 m tiles, retaining finer casters within 192 m of a tile's bounds
 (256 m exit threshold). Coarse tiles include vegetation; separate fine foliage casts only

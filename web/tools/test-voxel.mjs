@@ -1,3 +1,4 @@
+import { BALANCED_PROFILE } from '../src/performanceProfile.ts';
 // Differential correctness checks against the pre-feature mesher and query implementation.
 // Run from web/: node tools/test-voxel.mjs
 import assert from 'node:assert/strict';
@@ -171,7 +172,7 @@ mixed.columns = key => key === '1/15_5' ? fine : undefined;
 mixed.version++;
 assert.equal(w.groundAt(1921,641),world.groundAt(1921,641));
 
-const selectorContext = vm.createContext({ THREE });
+const selectorContext = vm.createContext({ THREE, BALANCED_PROFILE });
 vm.runInContext(clean(current('tileSelection.ts')) + '\nglobalThis.select=selectTiles;', selectorContext);
 const camera = new THREE.PerspectiveCamera(28, 1.6, 0.5, 30000);
 let previous = new Set();

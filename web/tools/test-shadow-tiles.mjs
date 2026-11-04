@@ -1,3 +1,4 @@
+import { BALANCED_PROFILE } from '../src/performanceProfile.ts';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
@@ -8,7 +9,7 @@ source=source.replace(/constructor\(([\s\S]*?)\) \{/g,(_,params)=>{
   const fields=[...params.matchAll(/(?:private )?readonly (\w+)/g)].map(m=>m[1]);
   return `constructor(${params.replace(/(?:private )?readonly /g,'')}) {${fields.map(f=>`this.${f}=${f};`).join('')}`;
 });
-const ctx=vm.createContext({THREE});
+const ctx=vm.createContext({THREE,BALANCED_PROFILE});
 vm.runInContext(stripTypeScriptTypes(source).replace(/^import[\s\S]*?;\s*$/gm,'').replace(/^export /gm,'')+'\nglobalThis.ShadowTiles=ShadowTiles;',ctx);
 const meta={H:100}, scene=new THREE.Scene(), camera=new THREE.PerspectiveCamera();
 const S={nodes:new Map(),shadowKeys:new Set(),group:new THREE.Group(),bounds:(s,x,z)=>[x*s*128,z*s*128,(x+1)*s*128,(z+1)*s*128]};

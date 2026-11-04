@@ -1,3 +1,4 @@
+import { BALANCED_PROFILE, type ViewerPerformanceProfile } from './performanceProfile';
 import * as THREE from 'three';
 import type { Caption } from './caption';
 import type { TileStreamer } from './stream';
@@ -22,6 +23,7 @@ export async function installCity({
   height,
   minimumLevel = 1,
   shadowTiles,
+  profile = BALANCED_PROFILE,
 }: {
   streamer: TileStreamer;
   uniforms: VoxelUniforms;
@@ -36,6 +38,7 @@ export async function installCity({
   height: () => number;
   minimumLevel?: number;
   shadowTiles: ShadowTiles;
+  profile?: ViewerPerformanceProfile;
 }) {
   const d1 = S.dims[1];
   caption.show('Terrain', 0, 1);
@@ -44,7 +47,7 @@ export async function installCity({
     return null;
   });
   document.querySelector('#loading')?.classList.add('hidden');
-  const foliageMaterial = makeVoxelMaterial(uniforms, S.packed);
+  const foliageMaterial = makeVoxelMaterial(uniforms, S.packed, undefined, profile);
   foliageMaterial.polygonOffset = true;
   foliageMaterial.polygonOffsetFactor = -1;
   foliageMaterial.polygonOffsetUnits = -2;
@@ -69,7 +72,7 @@ export async function installCity({
     return n.meshBytes + n.queryBytes + (s === 1 ? (f?.meshBytes ?? 80000) : 0);
   };
   const desired = new Set<string>();
-  const select = level ? null : createTileSelector(meta, minimumLevel, (s,tx,ty)=>S.key(s,tx,ty));
+  const select = level ? null : createTileSelector(meta, minimumLevel, (s,tx,ty)=>S.key(s,tx,ty), profile.lod);
   const keep = new Set<string>();
   let nextActive = new Set<string>();
   let visibilityVersion = 0;
@@ -130,7 +133,7 @@ export async function installCity({
   };
   S.update = () => {
     const now = performance.now();
-    if (now - last < 100) return;
+    if (now - last < profile.streaming.selectionIntervalMs) return;
     last = now;
     S.retire();
     camera.updateMatrixWorld();
@@ -141,19 +144,19 @@ export async function installCity({
       !projection.equals(camera.projectionMatrix) ||
       h !== lastHeight ||
       direction.distanceToSquared(lastLight) > 1e-8;
-    const budget = (minimumLevel > 1 ? 96 : 192) * 1024 * 1024;
+    const budget = profile.streaming.residentBytes;
     // Reclaim cached tiles before lowering visible detail. Temporary overlap
     // while replacement tiles arrive should not ratchet quality downward.
     if (!level) S.trim(desired, budget);
     const memoryHigh = !level && S.memory.total > budget;
     if (!memoryHigh) pressureSince = 0;
     else if (!pressureSince) pressureSince = now;
-    const overBudget = memoryHigh && now - pressureSince >= 2000;
-    if (overBudget) pressure = Math.min(4, pressure * 1.15);
+    const overBudget = memoryHigh && now - pressureSince >= profile.streaming.pressureDelayMs;
+    if (overBudget) pressure = Math.min(profile.streaming.maxPressure, pressure * profile.streaming.pressureMultiplier);
     if (overBudget) pressureSince = now;
     if (!selection || changed || overBudget || selection.pendingRefinement) {
       selection = level ? fixed() : select!(camera, h / pressure, direction, previous, cost,
-        minimumLevel > 1 ? 192 : 384, (minimumLevel > 1 ? 64 : 128) * 1024 * 1024, now);
+        profile.lod.maxLeaves, profile.lod.maxBytes, now);
       previous = selection.split;
       view.copy(camera.matrixWorld);
       projection.copy(camera.projectionMatrix);
@@ -223,7 +226,7 @@ export async function installCity({
     } else {
       if (!pendingSince) pendingSince = now;
       // Initial loading is immediate; short background refinements stay quiet.
-      if (!loadedOnce || now - pendingSince >= 800) caption.show('City', done, selection.leaves.length);
+      if (!loadedOnce || now - pendingSince >= profile.streaming.loadingCaptionDelayMs) caption.show('City', done, selection.leaves.length);
     }
     if (!level) {
       keep.clear();
