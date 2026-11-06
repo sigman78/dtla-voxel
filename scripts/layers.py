@@ -90,6 +90,27 @@ def wall_clean(dsm):
     return np.where(mixed, np.where(up, hi, lo), dsm)
 
 
+def trim_edge_slivers(topi, bmask, keep, rise=6, max_cells=50):
+    """Thin columns on a footprint's edge that stand far above any 3x3 m surface under them are LiDAR returns
+    off facades, cranes or poles beside a tower (Oceanwide Plaza's 200 m slivers), not the building: cut them
+    down to that surface, or drop them where it is street. The same goes for thin columns inside a footprint that
+    reach the height of a wide mass next to them. Masts rising above their whole roof and ``keep`` cells stay.
+    Edits ``topi`` and ``bmask`` in place; returns the number of trimmed cells."""
+    support = ndimage.grey_opening(np.where(bmask, topi, 0), size=(3, 3))
+    edge = ndimage.binary_dilation(~bmask, iterations=2)
+    fringe = ndimage.maximum_filter(support, 7) >= topi - rise  # as tall as the wide mass beside it: a ragged edge
+    # rising from a podium or the street, not crown detail on a tall roof (US Bank Tower's ring)
+    low_base = support < 0.5 * topi
+    sliver = bmask & (edge | fringe) & low_base & (topi > support + rise) & ~keep
+    lab, n = ndimage.label(sliver, structure=np.ones((3, 3)))
+    if n:
+        sizes = ndimage.sum(sliver, lab, np.arange(n + 1))
+        sliver &= sizes[lab] <= max_cells  # a long 2 m wide building is narrow, not a sliver
+    topi[sliver] = support[sliver]
+    bmask &= ~(sliver & (support < 2))
+    return int(sliver.sum())
+
+
 # ---------------------------------------------------------------- building styles
 OFFICE = {"office", "commercial", "hotel", "government", "civic", "public", "bank"}
 INDUSTRY = {"industrial", "warehouse", "manufacture", "storage_tank", "hangar", "factory"}
@@ -109,7 +130,7 @@ def wall_style(oid, t, h):
         return pal(soften(col, 0.18), m)
     if mat == "brick":
         return pal(pick(BRICK), M_WALL)
-    if mat in ("concrete", "reinforced_concrete") or kind == "parking":
+    if mat in ("concrete", "reinforced_concrete") or kind in ("parking", "construction"):  # bare shells
         return pal(pick(INDUSTRIAL), M_CONCRETE if kind == "parking" else M_WALL)
     if mat in ("stone", "limestone", "sandstone", "granite", "marble", "terracotta"):
         return pal(pick(CLASSIC), M_CLASSIC)
@@ -316,7 +337,9 @@ def build():
     # ------------------------------------------------ buildings (OSM footprints x LiDAR roofs)
     bld_id = np.zeros((D, W), np.uint32)
     blds = [(oid, t, geom) for oid, typ, t, geom in osm.areas
-            if t.get("building") not in (None, "no", "roof", "construction") and t.get("location") != "underground"
+            # building=construction stays: Oceanwide Plaza's topped-out shells stand in the 2023 LiDAR, and as
+            # "unmapped structures" their open floors read as foliage and broke into 200 m slivers
+            if t.get("building") not in (None, "no", "roof") and t.get("location") != "underground"
             and parse_len(t.get("layer", 0)) is not None and (parse_len(t.get("layer", 0)) or 0) >= 0]
     canopies = [(oid, t, geom) for oid, typ, t, geom in osm.areas if t.get("building") == "roof"]
     parts = [(oid, t, geom) for oid, typ, t, geom in osm.areas if "building:part" in t and t["building:part"] != "no"]
@@ -354,9 +377,11 @@ def build():
     for k, (oid, t, geom) in enumerate(blds, 1):
         h = parse_len(t.get("height")) or ((parse_len(t.get("building:levels")) or 0) * 3.6)
         osm_h[k] = h or 0
-        if h and h > hsorted_p90[k] + 8 and (hsorted_p90[k] < 0.35 * h) and cnt[k] > 20:
+        building_now = t.get("building") != "construction"  # a site's planned height isn't standing yet
+        if building_now and h and h > hsorted_p90[k] + 8 and (hsorted_p90[k] < 0.35 * h) and cnt[k] > 20:
             m = bld_id == k
             top[m] = h  # built after the flight
+    needles = np.zeros((D, W), bool)
     for oid, t, geom in parts:  # needle parts (Wilshire Grand's spire, masts) the LiDAR undersamples
         h = parse_len(t.get("height"))
         if not h or geom.area > 300:
@@ -366,6 +391,7 @@ def build():
         m = (m > 0) & in_bld
         if m.any() and h > np.percentile(top[m], 90) + 8:
             top[m] = np.maximum(top[m], h)
+            needles |= m
     # footprints without anything standing on them (courtyards mapped as building, misregistered edges)
     bmask = in_bld & (top >= 2.0)
     bmask = ndimage.binary_opening(bmask, iterations=1) | (bmask & (top > 12))
@@ -439,6 +465,7 @@ def build():
     struct_top = np.where(struct, np.round(nd_b), 0).astype(np.int32)
     topi = np.where(struct, struct_top, topi)
     bmask |= struct
+    log("building edge slivers trimmed:", sum(trim_edge_slivers(topi, bmask, keep=needles) for _ in range(2)))
 
     # roofs: OSM roof:colour, else NAIP (LA's cool white roofs, terracotta tiles); towers lean in NAIP, so default
     roofc = np.zeros((D, W), np.uint16)
